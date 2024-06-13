@@ -21,7 +21,7 @@ import org.springframework.beans.factory.Aware;
  * 应用名称注入，Spring Boot项目的中的 {@code spring.application.name}
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 11:00]
+ * @since 1.0.0
  */
 public interface ApplicationNameAware extends Aware {
 

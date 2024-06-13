@@ -19,7 +19,7 @@ package org.dblue.common.assertion;
  * 业务断言，对对象或字段的值进行判断，如果不满足条件，抛出异常
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 10:50]
+ * @since 1.0.0
  */
 public class ServiceAssert {
 }

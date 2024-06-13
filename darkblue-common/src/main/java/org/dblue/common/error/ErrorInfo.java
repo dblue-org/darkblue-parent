@@ -19,7 +19,7 @@ package org.dblue.common.error;
  * 错误信息
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 10:52]
+ * @since 1.0.0
  */
 public interface ErrorInfo {
 

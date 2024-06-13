@@ -19,7 +19,7 @@ package org.dblue.common.error;
  * 通用的错误信息，提供部分常见错误信息，大部分错误信息的编码与Http状态码一致。
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 10:53]
+ * @since 1.0.0
  */
 public enum CommonError implements ErrorInfo {
 

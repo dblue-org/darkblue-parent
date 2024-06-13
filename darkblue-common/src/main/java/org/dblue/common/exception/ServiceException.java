@@ -23,7 +23,7 @@ import org.dblue.common.error.ErrorInfo;
  * 业务异常
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 10:51]
+ * @since 1.0.0
  */
 @Getter
 public class ServiceException extends RuntimeException {
@@ -40,6 +40,11 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(String message) {
         super(message);
+        this.errorCode = CommonError.SERVICE_ERROR.getErrorCode();
+    }
+
+    public ServiceException(String message, Throwable cause) {
+        super(message, cause);
         this.errorCode = CommonError.SERVICE_ERROR.getErrorCode();
     }
 

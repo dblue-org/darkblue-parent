@@ -19,7 +19,7 @@ package org.dblue.common.id;
  * 雪花算法异常
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 10:57]
+ * @since 1.0.0
  */
 public class SnowflakeException extends RuntimeException {
 

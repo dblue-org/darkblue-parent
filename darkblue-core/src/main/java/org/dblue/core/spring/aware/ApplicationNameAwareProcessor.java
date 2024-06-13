@@ -39,7 +39,7 @@ import org.springframework.lang.NonNull;
  *
  * @author Wang Chengwei
  * @see ApplicationNameAware
- * @since 1.0.0 [2024/6/13 11:01]
+ * @since 1.0.0
  */
 public class ApplicationNameAwareProcessor implements BeanPostProcessor {
 

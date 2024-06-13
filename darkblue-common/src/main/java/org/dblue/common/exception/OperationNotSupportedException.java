@@ -19,7 +19,7 @@ package org.dblue.common.exception;
  * 操作不支持，暂未实现。用于新旧接口过渡，或预留未来要实现的接口
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 10:56]
+ * @since 1.0.0
  */
 public class OperationNotSupportedException extends RuntimeException {
 

@@ -23,7 +23,7 @@ import java.util.Random;
  * 雪花ID生成算法
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 10:58]
+ * @since 1.0.0
  */
 public class Snowflake {
     /**

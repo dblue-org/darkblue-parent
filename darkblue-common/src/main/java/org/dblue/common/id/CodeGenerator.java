@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
  * 生成一个 n 位编码，编码为纯数字。
  *
  * @author Wang Chengwei
- * @since 1.0.0 [2024/6/13 11:10]
+ * @since 1.0.0
  */
 public class CodeGenerator {
 
