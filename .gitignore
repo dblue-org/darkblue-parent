@@ -3,11 +3,14 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+!.idea/fileTemplates/
+!.idea/copyright/
 
 ### Eclipse ###
 .apt_generated
