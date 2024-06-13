@@ -1,3 +1,26 @@
+server:
+  port: 8087
 spring:
   application:
     name: darkblue-application
+  profiles:
+    active: @spring.profile@
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 150MB
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+springdoc:
+  group-configs:
+    - group: 全部
+      paths-to-match: "/api/**"
+  api-docs:
+    groups:
+      enabled: true

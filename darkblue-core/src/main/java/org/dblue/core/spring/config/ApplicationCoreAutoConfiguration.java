@@ -26,6 +26,7 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
@@ -36,10 +37,15 @@ import java.time.format.DateTimeFormatter;
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@Configuration
 @EnableConfigurationProperties({CoreConfigProperties.class})
-@Import({WebConfiguration.class, MyBatisPlusConfiguration.class, RedisAutoConfiguration.class})
+@Import({MyBatisPlusConfiguration.class, RedisAutoConfiguration.class})
 @Slf4j
 public class ApplicationCoreAutoConfiguration {
+
+    public ApplicationCoreAutoConfiguration() {
+        log.info("开始初始化项目基础配置");
+    }
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {

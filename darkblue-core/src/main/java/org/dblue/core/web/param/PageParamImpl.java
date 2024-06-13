@@ -35,12 +35,12 @@ public class PageParamImpl<T> implements PageParam {
     @PositiveNumber(message = "页码数只能是正数")
     @Parameter(description = "页码数")
     @Schema(title = "页码数", description = "页码数")
-    private long page = 1;
+    private Long page = 1L;
 
     @PositiveNumber(message = "每页行数只能是正数")
     @Parameter(description = "每页行数")
     @Schema(title = "每页行数", description = "每页行数")
-    private long pageSize = 15;
+    private Long pageSize = 15L;
 
     /**
      * 分页数据

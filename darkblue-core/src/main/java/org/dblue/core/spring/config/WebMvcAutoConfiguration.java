@@ -15,6 +15,7 @@
  */
 package org.dblue.core.spring.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.dblue.core.spring.config.properties.CoreConfigProperties;
 import org.dblue.core.spring.converter.StringToLocalDateConverter;
 import org.dblue.core.spring.converter.StringToLocalDateTimeConverter;
@@ -24,6 +25,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,9 +33,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@Configuration
 @ConditionalOnProperty(prefix = "app.core", name = "enable-web-config", matchIfMissing = true, havingValue = "true")
 @AutoConfigureBefore(ErrorMvcAutoConfiguration.class)
-public class WebConfiguration implements WebMvcConfigurer {
+@Slf4j
+public class WebMvcAutoConfiguration implements WebMvcConfigurer {
+
+    public WebMvcAutoConfiguration() {
+        log.info("开始初始化项目Web配置");
+    }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {

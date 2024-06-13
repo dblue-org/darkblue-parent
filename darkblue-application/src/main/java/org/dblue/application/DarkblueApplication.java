@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.core.web;
 
-/**
- * 分页参数
- *
- * @author Wang Chengwei
- * @since 1.0.0
- */
-public interface PageParam {
+package org.dblue.application;
 
-    /**
-     * 获取当前页码
-     *
-     * @return 当前页码
-     */
-    Long getPage();
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-    /**
-     * 获取每页记录数
-     *
-     * @return 每页记录数
-     */
-    Long getPageSize();
+@EnableAspectJAutoProxy
+@EnableTransactionManagement
+@SpringBootApplication
+@EnableAsync
+public class DarkblueApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DarkblueApplication.class, args);
+    }
+
 }

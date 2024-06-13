@@ -13,29 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.common.validation.annotation;
+package org.dblue.application.module;
 
-import jakarta.validation.Constraint;
-import jakarta.validation.Payload;
-import org.dblue.common.validation.validator.ChineseOnlyValidator;
-
-import java.lang.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.dblue.core.web.result.ResponseBean;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 仅仅只有中文验证
- *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Constraint(validatedBy = ChineseOnlyValidator.class)
-public @interface ChineseOnly {
+@Tag(name = "测试")
+@RestController
+public class TestController {
 
-    String message() default "{org.dblue.common.validation.annotation.ChineseOnly.message}";
-
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
+    @Operation(summary = "测试接口")
+    @GetMapping("/api/test")
+    public ResponseBean<Void> test() {
+        return ResponseBean.success();
+    }
 }
