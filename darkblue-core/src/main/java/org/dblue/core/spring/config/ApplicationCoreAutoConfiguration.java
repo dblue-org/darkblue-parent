@@ -19,10 +19,12 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
+import org.dblue.core.spring.aware.ApplicationNameAwareProcessor;
 import org.dblue.core.spring.config.properties.CoreConfigProperties;
 import org.dblue.utils.date.DatePattern;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
@@ -48,5 +50,10 @@ public class ApplicationCoreAutoConfiguration {
             jacksonObjectMapperBuilder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.DATE_TIME)));
             jacksonObjectMapperBuilder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.DATE_TIME)));
         };
+    }
+
+    @Bean
+    public ApplicationNameAwareProcessor applicationNameAwareProcessor(ApplicationContext applicationContext) {
+        return new ApplicationNameAwareProcessor(applicationContext);
     }
 }
