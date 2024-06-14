@@ -24,7 +24,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = {
+                "org.dblue.application",
+                "org.dblue.core",
+                "org.dblue.security"
+        }
+)
 @EnableAsync
 public class DarkblueApplication {
 

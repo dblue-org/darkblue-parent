@@ -34,8 +34,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @since 1.0.0
  */
 @Configuration
+@AutoConfigureBefore({ErrorMvcAutoConfiguration.class})
 @ConditionalOnProperty(prefix = "app.core", name = "enable-web-config", matchIfMissing = true, havingValue = "true")
-@AutoConfigureBefore(ErrorMvcAutoConfiguration.class)
 @Slf4j
 public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
