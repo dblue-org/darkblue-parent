@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.repository;
+package org.dblue.application.module.menu.infrastructure.repository;
 
-import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
 
-import java.util.Optional;
-
-public interface PermissionRepository extends JpaRepository<Permission, String> {
-
-    /**
-     * 根据授权标识查询授权标识是否已存在
-     * @param permissionCode 授权标识
-     * @return 授权信息
-     */
-    Optional<Permission> findByPermissionCode(@NonNull String permissionCode);
-
-
+public interface MenuRepository extends JpaRepository<Menu, String> {
 }

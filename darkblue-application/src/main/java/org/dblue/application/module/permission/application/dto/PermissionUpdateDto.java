@@ -14,22 +14,29 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.repository;
+package org.dblue.application.module.permission.application.dto;
 
-import org.dblue.application.module.permission.infrastructure.entiry.Permission;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.Optional;
-
-public interface PermissionRepository extends JpaRepository<Permission, String> {
+/**
+ * 权限更新
+ */
+@Schema(description = "权限更新")
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class PermissionUpdateDto extends PermissionBaseDto {
 
     /**
-     * 根据授权标识查询授权标识是否已存在
-     * @param permissionCode 授权标识
-     * @return 授权信息
+     * 权限ID
      */
-    Optional<Permission> findByPermissionCode(@NonNull String permissionCode);
+    @Schema(description = "权限ID")
+    @Size(max = 64)
+    @NotBlank(message = "权限ID不能为空")
+    private String permissionId;
 
 
 }

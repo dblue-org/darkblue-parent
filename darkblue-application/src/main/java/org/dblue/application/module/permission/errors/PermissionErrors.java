@@ -13,23 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.permission.errors;
 
-package org.dblue.application.module.permission.infrastructure.repository;
+import lombok.Getter;
+import org.dblue.common.error.ErrorInfo;
 
-import org.dblue.application.module.permission.infrastructure.entiry.Permission;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+/**
+ * 权限错误
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-06-14 15:29:11
+ */
+@Getter
+public enum PermissionErrors implements ErrorInfo {
 
-import java.util.Optional;
-
-public interface PermissionRepository extends JpaRepository<Permission, String> {
 
     /**
-     * 根据授权标识查询授权标识是否已存在
-     * @param permissionCode 授权标识
-     * @return 授权信息
+     *
      */
-    Optional<Permission> findByPermissionCode(@NonNull String permissionCode);
+    PERMISSION_EXITS("PERMISSION_0001", "授权标识已存在"),
+    PERMISSION_IS_NOT_FOUND("PERMISSION_0002", "权限信息不存在"),
+    ;
+    private final String errorCode;
+    private final String errorMessage;
 
-
+    PermissionErrors(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
 }

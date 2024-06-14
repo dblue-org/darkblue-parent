@@ -52,4 +52,13 @@ public class SecurityUtils {
         }
         return securityUser.getDeptId();
     }
+
+    public static SecurityUser getUserByAuditor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !isAnonymousUser(authentication)) {
+            return (SecurityUser) authentication.getPrincipal();
+        } else {
+           return null;
+        }
+    }
 }
