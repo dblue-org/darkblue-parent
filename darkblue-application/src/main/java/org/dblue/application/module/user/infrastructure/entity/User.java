@@ -94,7 +94,6 @@ public class User {
     @Column(name = "update_user", length = 64)
     private String updateUser;
 
-    @Transient
     @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY, targetEntity = UserRole.class)
     private List<UserRole> roles;
 

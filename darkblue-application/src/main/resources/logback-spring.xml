@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ /*
+  ~  * Copyright (c) 2021-2022. 通冠机械租赁股份有限公司 Inc. All Right Reserved.
+  ~  *
+  ~  * 公司拥有本软件版权，任何个人不得用于其他商业用户，公司保有所有权利
+  ~  */
+  -->
+
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>logback</contextName>
+
+    <springProperty scope="context" name="applicationName" source="spring.application.name"/>
+
+    <property name="LOG_PATH" value="logs"/>
+    <property name="LOG_FILE" value="darkblue"/>
+    <property name="LOG_FILE_NAME" value="darkblue"/>
+    <property name="LOG_FILE_MAX_HISTORY" value="30"/>
+    <property name="LOG_FILE_MAX_SIZE" value="20MB"/>
+    <property name="LOG_FILE_TOTAL_SIZE_CAP" value="10GB"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <logger name="com.suishoupai" level="DEBUG"/>
+    <logger name="springfox.documentation" level="WARN"/>
+    <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="net.ttddyy.dsproxy.listener" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <springProfile name="test | prod">
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+            <file>${LOG_PATH}/${LOG_FILE}.out</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <cleanHistoryOnStart>true</cleanHistoryOnStart>
+                <fileNamePattern>./${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+                <maxHistory>${LOG_FILE_MAX_HISTORY:-30}</maxHistory>
+                <totalSizeCap>${LOG_FILE_TOTAL_SIZE_CAP:-0}</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+</configuration>

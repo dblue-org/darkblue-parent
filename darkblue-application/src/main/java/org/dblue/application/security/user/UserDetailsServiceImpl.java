@@ -32,6 +32,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -56,6 +57,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -68,9 +70,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             securityUser.setAuthorities(Collections.emptyList());
             return securityUser;
         }
+        Collection<GrantedAuthority> authorities = new HashSet<>();
 
         Set<String> roleIdSet = user.getRoles().stream().map(UserRole::getRoleId).collect(Collectors.toSet());
         List<Role> roleList = this.roleRepository.findAllById(roleIdSet);
+        for (Role role : roleList) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleCode()));
+        }
 
         Set<String> permissionIdList = roleList.stream()
                 .filter(o -> CollectionUtils.isNotEmpty(o.getPermissions()))
@@ -79,7 +85,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .collect(Collectors.toSet());
         List<Permission> permissionList = this.permissionRepository.findAllById(permissionIdList);
 
-        Collection<GrantedAuthority> authorities = new HashSet<>();
+
         for (Permission permission : permissionList) {
             authorities.add(new SimpleGrantedAuthority(permission.getPermissionCode()));
         }

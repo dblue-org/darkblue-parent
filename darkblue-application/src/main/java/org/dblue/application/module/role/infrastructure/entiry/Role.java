@@ -66,11 +66,9 @@ public class Role {
     @Column(name = "update_user", length = 64)
     private String updateUser;
 
-    @Transient
     @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY, targetEntity = RoleMenu.class)
     private List<RoleMenu> menus;
 
-    @Transient
     @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY, targetEntity = RolePermission.class)
     private List<RolePermission> permissions;
 
