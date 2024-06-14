@@ -29,26 +29,16 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_sys_dictionary")
-public class Dictionary {
+@Table(name = "tb_sys_resource_group")
+public class ResourceGroup {
     @Id
     @Size(max = 64)
-    @Column(name = "dictionary_id", nullable = false, length = 64)
-    private String dictionaryId;
+    @Column(name = "resource_group_id", nullable = false, length = 64)
+    private String resourceGroupId;
 
     @Size(max = 64)
-    @Column(name = "dictionary_code", length = 64)
-    private String dictionaryCode;
-
-    @Size(max = 64)
-    @Column(name = "dictionary_name", length = 64)
-    private String dictionaryName;
-
-    @Column(name = "dictionary_type")
-    private Integer dictionaryType;
-
-    @Column(name = "is_delete")
-    private Boolean isDelete;
+    @Column(name = "group_name", length = 64)
+    private String groupName;
 
     @Column(name = "create_time")
     private Instant createTime;
@@ -60,8 +50,8 @@ public class Dictionary {
     @Column(name = "update_time")
     private Instant updateTime;
 
-    @Size(max = 100)
-    @Column(name = "update_user", length = 100)
+    @Size(max = 64)
+    @Column(name = "update_user", length = 64)
     private String updateUser;
 
 }

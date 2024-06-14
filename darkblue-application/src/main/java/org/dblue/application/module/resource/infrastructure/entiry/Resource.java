@@ -20,7 +20,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,16 +35,6 @@ public class Resource {
     @Size(max = 64)
     @Column(name = "resource_id", nullable = false, length = 64)
     private String resourceId;
-
-    @Size(max = 64)
-    @NotNull
-    @Column(name = "service_id", nullable = false, length = 64)
-    private String serviceId;
-
-    @Size(max = 64)
-    @NotNull
-    @Column(name = "menu_id", nullable = false, length = 64)
-    private String menuId;
 
     @Size(max = 100)
     @Column(name = "resource_name", length = 100)

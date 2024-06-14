@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.resource.infrastructure.entiry;
+package org.dblue.application.module.dictionary.infrastructure.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,57 +23,32 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_sys_dictionary_item")
-public class DictionaryItem {
+@Table(name = "tb_sys_dictionary")
+public class Dictionary {
     @Id
     @Size(max = 64)
-    @ColumnDefault("1")
-    @Column(name = "dictionary_item_id", nullable = false, length = 64)
-    private String dictionaryItemId;
-
-    @Size(max = 64)
-    @Column(name = "dictionary_item_code", length = 64)
-    private String dictionaryItemCode;
-
-    @Size(max = 64)
-    @Column(name = "dictionary_id", length = 64)
+    @Column(name = "dictionary_id", nullable = false, length = 64)
     private String dictionaryId;
 
-    @Column(name = "code")
-    private Integer code;
-
-    @Size(max = 500)
-    @Column(name = "name", length = 500)
-    private String name;
-
-    @Size(max = 500)
-    @Column(name = "extension", length = 500)
-    private String extension;
+    @Size(max = 64)
+    @Column(name = "dictionary_code", length = 64)
+    private String dictionaryCode;
 
     @Size(max = 64)
-    @Column(name = "parent_id", length = 64)
-    private String parentId;
+    @Column(name = "dictionary_name", length = 64)
+    private String dictionaryName;
 
-    @Column(name = "order_num")
-    private Integer orderNum;
+    @Column(name = "dictionary_type")
+    private Integer dictionaryType;
 
-    @Column(name = "item_level")
-    private Integer itemLevel;
-
-    @ColumnDefault("0")
     @Column(name = "is_delete")
     private Boolean isDelete;
-
-    @ColumnDefault("1")
-    @Column(name = "is_enabled")
-    private Boolean isEnabled;
 
     @Column(name = "create_time")
     private Instant createTime;
