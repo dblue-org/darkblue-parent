@@ -14,59 +14,54 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.entiry;
+package org.dblue.application.module.permission.application.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.dblue.core.jpa.AbstractAuditingEntity;
-
+import lombok.Data;
+import org.dblue.application.commons.enums.PlatformEnum;
+import org.dblue.common.validation.annotation.EnumValues;
 
 /**
  * 权限
  */
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_sys_permission")
-public class Permission extends AbstractAuditingEntity {
-    /**
-     * 权限ID
-     */
-    @Id
-    @Size(max = 64)
-    @Column(name = "permission_id", nullable = false, length = 64)
-    private String permissionId;
+@Schema(description = "权限")
+@Data
+public class PermissionBaseDto {
+
 
     /**
      * 菜单ID
      */
+    @Schema(description = "菜单ID")
     @Size(max = 64)
-    @Column(name = "menu_id", length = 64)
+    @NotBlank(message = "菜单ID不能为空")
     private String menuId;
 
     /**
      * 适用平台(1-PC；2-APP)从菜单代入
      */
-    @Column(name = "platform")
+    @Schema(description = "适用平台(1-PC；2-APP)从菜单代入")
+    @NotNull(message = "适用平台不能为空")
+    @EnumValues(message = "适用平台字段不正确",clazz = PlatformEnum.class)
     private Integer platform;
 
     /**
      * 权限名称
      */
+    @Schema(description = "权限名称")
     @Size(max = 100)
-    @Column(name = "permission_name", length = 100)
+    @NotBlank(message = "适用平台不能为空")
     private String permissionName;
 
     /**
      * 权限标识
      */
+    @Schema(description = "权限标识")
     @Size(max = 64)
-    @Column(name = "permission_code", length = 64)
+    @NotBlank(message = "适用平台不能为空")
     private String permissionCode;
 
 

@@ -14,45 +14,45 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.entiry;
+package org.dblue.core.jpa;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.dblue.core.jpa.AbstractCreateAuditingEntity;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 /**
- * 权限资源
+ * JPA审计字段-只有创建字段
+ *
+ * @author xie jin
+ * @since 1.0.0  2024/6/14 下午4:02
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "tb_sys_permission_resource")
-public class PermissionResource extends AbstractCreateAuditingEntity {
+@MappedSuperclass
+@EntityListeners({AuditingEntityListener.class})
+public abstract class AbstractCreateAuditingEntity {
     /**
-     * 权限资源id
+     * 创建时间
      */
-    @Id
-    @Size(max = 64)
-    @Column(name = "permission_resource_id", nullable = false, length = 64)
-    private String permissionResourceId;
+    @CreatedDate
+    @Column(name = "create_time")
+    private LocalDateTime createTime;
 
     /**
-     * 权限id
+     * 创建人
      */
+    @CreatedBy
     @Size(max = 64)
-    @Column(name = "permission_id", length = 64)
-    private String permissionId;
+    @Column(name = "create_user", length = 64)
+    private String createUser;
 
-    /**
-     * 资源id
-     */
-    @Size(max = 64)
-    @Column(name = "resource_id", length = 64)
-    private String resourceId;
 
 }

@@ -89,6 +89,7 @@ public class SecurityAutoConfiguration implements ApplicationContextAware {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/api/test").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/favicon.ico").permitAll()
                         .requestMatchers("/doc.html").permitAll()

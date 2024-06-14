@@ -14,22 +14,33 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.repository;
+package org.dblue.application.commons.enums;
 
-import org.dblue.application.module.permission.infrastructure.entiry.Permission;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+import lombok.Getter;
+import org.dblue.common.enums.EnumState;
 
-import java.util.Optional;
-
-public interface PermissionRepository extends JpaRepository<Permission, String> {
+/**
+ * 适用平台
+ *
+ * @author xie jin
+ * @since 1.0.0  2024/6/14 下午5:19
+ */
+@Getter
+public enum PlatformEnum implements EnumState {
 
     /**
-     * 根据授权标识查询授权标识是否已存在
-     * @param permissionCode 授权标识
-     * @return 授权信息
+     *
      */
-    Optional<Permission> findByPermissionCode(@NonNull String permissionCode);
+    PC(1,"PC"),
+    APP(2,"APP"),
+    ;
+
+    private final int value;
+    private final String name;
 
 
+    PlatformEnum(Integer value, String name) {
+        this.value = value;
+        this.name = name;
+    }
 }
