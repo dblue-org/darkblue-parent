@@ -17,7 +17,7 @@
 create database darkblue character set utf8mb4 collate utf8mb4_general_ci;
 
 
-create table tb_service_file
+create table darkblue.tb_service_file
 (
     file_service_id varchar(64)   not null comment '业务文件ID '
         primary key,
@@ -31,9 +31,9 @@ create table tb_service_file
     create_user     varchar(64)   null comment '创建人',
     create_time     datetime      null comment '创建时间'
 )
-    comment '业务文件信息' engine = InnoDB;
+    comment '业务文件信息';
 
-create table tb_sys_department
+create table darkblue.tb_sys_department
 (
     dept_id        varchar(64)          not null comment '部门ID'
         primary key,
@@ -47,9 +47,9 @@ create table tb_sys_department
     is_enable      tinyint(1) default 1 null comment '是否启用',
     is_del         tinyint(1) default 0 null comment '是否删除'
 )
-    comment '组织架构' engine = InnoDB;
+    comment '组织架构';
 
-create table tb_sys_dictionary
+create table darkblue.tb_sys_dictionary
 (
     dictionary_id   varchar(64)  not null comment '字典ID'
         primary key,
@@ -62,9 +62,9 @@ create table tb_sys_dictionary
     update_time     datetime     null comment '更新时间',
     update_user     varchar(100) null comment '更新人'
 )
-    comment '数据字典' engine = InnoDB;
+    comment '数据字典';
 
-create table tb_sys_dictionary_item
+create table darkblue.tb_sys_dictionary_item
 (
     dictionary_item_id   varchar(64) default '1' not null comment '字典项目ID'
         primary key,
@@ -83,9 +83,9 @@ create table tb_sys_dictionary_item
     update_time          datetime                null comment '更新时间',
     update_user          varchar(100)            null comment '更新人'
 )
-    comment '数据字典条目' engine = InnoDB;
+    comment '数据字典条目';
 
-create table tb_sys_menu
+create table darkblue.tb_sys_menu
 (
     menu_id               varchar(64)          not null comment '菜单ID'
         primary key,
@@ -107,9 +107,9 @@ create table tb_sys_menu
     is_visible            tinyint(1) default 1 not null comment '是否可见',
     is_production_visible tinyint(1) default 1 not null comment '是否生产环境可见'
 )
-    comment '菜单' engine = InnoDB;
+    comment '菜单';
 
-create table tb_sys_permission
+create table darkblue.tb_sys_permission
 (
     permission_id   varchar(64)  not null comment '权限ID'
         primary key,
@@ -122,9 +122,9 @@ create table tb_sys_permission
     update_time     datetime     null comment '更新时间',
     update_user     varchar(64)  null comment '更新人'
 )
-    comment '权限' engine = InnoDB;
+    comment '权限';
 
-create table tb_sys_permission_resource
+create table darkblue.tb_sys_permission_resource
 (
     permission_resource_id varchar(64) not null comment '权限资源id'
         primary key,
@@ -133,26 +133,37 @@ create table tb_sys_permission_resource
     create_time            datetime    null comment '创建时间',
     create_user            varchar(64) null comment '创建人'
 )
-    comment '权限资源' engine = InnoDB;
+    comment '权限资源';
 
-create table tb_sys_resource
+create table darkblue.tb_sys_resource
 (
-    resource_id      varchar(64)  not null comment '资源ID'
+    resource_id       varchar(64)  not null comment '资源ID'
         primary key,
-    service_id       varchar(64)  not null comment '服务ID',
-    menu_id          varchar(64)  not null comment '菜单ID',
-    resource_name    varchar(100) null comment '资源名称',
-    resource_url     varchar(256) null comment '资源地址',
-    is_authed_access tinyint(1)   null comment '是否登录即可访问',
-    sort_num         int          null comment '排序字段',
-    create_time      datetime     null comment '创建时间',
-    create_user      varchar(64)  null comment '创建人',
-    update_time      datetime     null comment '更新时间',
-    update_user      varchar(64)  null comment '更新人'
+    resource_group_id varchar(64)  null comment '资源组ID',
+    resource_name     varchar(100) null comment '资源名称',
+    resource_url      varchar(256) null comment '资源地址',
+    is_authed_access  tinyint(1)   null comment '是否登录即可访问',
+    sort_num          int          null comment '排序字段',
+    create_time       datetime     null comment '创建时间',
+    create_user       varchar(64)  null comment '创建人',
+    update_time       datetime     null comment '更新时间',
+    update_user       varchar(64)  null comment '更新人'
 )
-    comment '资源' engine = InnoDB;
+    comment '资源';
 
-create table tb_sys_role
+create table darkblue.tb_sys_resource_group
+(
+    resource_group_id varchar(64) not null comment '资源组ID'
+        primary key,
+    group_name        varchar(64) null comment '资源组名称',
+    create_time       datetime    null comment '创建时间',
+    create_user       varchar(64) null comment '创建人',
+    update_time       datetime    null comment '更新时间',
+    update_user       varchar(64) null comment '更新人'
+)
+    comment '资源组';
+
+create table darkblue.tb_sys_role
 (
     role_id     varchar(64)  not null comment '角色id'
         primary key,
@@ -166,9 +177,9 @@ create table tb_sys_role
     update_time datetime     null comment '更新时间',
     update_user varchar(64)  null comment '更新人'
 )
-    comment '角色' engine = InnoDB;
+    comment '角色';
 
-create table tb_sys_role_menu
+create table darkblue.tb_sys_role_menu
 (
     role_menu_id varchar(64) not null comment '角色菜单id'
         primary key,
@@ -177,9 +188,9 @@ create table tb_sys_role_menu
     create_time  datetime    null comment '创建时间',
     create_user  varchar(64) null comment '创建人'
 )
-    comment '角色菜单' engine = InnoDB;
+    comment '角色菜单';
 
-create table tb_sys_role_permission
+create table darkblue.tb_sys_role_permission
 (
     role_permission_id varchar(64) not null comment '角色权限ID'
         primary key,
@@ -188,9 +199,9 @@ create table tb_sys_role_permission
     create_time        datetime    null comment '创建时间',
     create_user        varchar(64) null comment '创建人'
 )
-    comment '角色权限' engine = InnoDB;
+    comment '角色权限';
 
-create table tb_sys_user
+create table darkblue.tb_sys_user
 (
     user_id              varchar(64)  not null comment '用户ID'
         primary key,
@@ -212,9 +223,9 @@ create table tb_sys_user
     update_time          datetime     null comment '更新时间',
     update_user          varchar(64)  null comment '更新人'
 )
-    comment '用户' engine = InnoDB;
+    comment '用户';
 
-create table tb_sys_user_role
+create table darkblue.tb_sys_user_role
 (
     user_role_id varchar(64) not null comment '用户角色ID'
         primary key,
@@ -223,5 +234,6 @@ create table tb_sys_user_role
     create_time  datetime    null comment '创建时间',
     create_user  varchar(64) null comment '创建人'
 )
-    comment '用户角色' engine = InnoDB;
+    comment '用户角色';
+
 
