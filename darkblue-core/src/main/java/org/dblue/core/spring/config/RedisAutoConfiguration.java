@@ -16,8 +16,7 @@
 package org.dblue.core.spring.config;
 
 import org.dblue.utils.json.JacksonUtils;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -28,8 +27,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@ConditionalOnBean(RedisTemplate.class)
-@AutoConfigureAfter(org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration.class)
+@Configuration
 public class RedisAutoConfiguration {
 
     public RedisAutoConfiguration(RedisTemplate<Object, Object> redisTemplate) {

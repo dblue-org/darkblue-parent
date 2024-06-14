@@ -28,11 +28,13 @@ import org.dblue.core.spring.config.properties.CoreConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@Configuration
 @ConditionalOnClass(MybatisConfiguration.class)
 public class MyBatisPlusConfiguration {
 

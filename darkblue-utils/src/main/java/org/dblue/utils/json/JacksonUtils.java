@@ -41,6 +41,10 @@ public class JacksonUtils {
 
     private static final ObjectMapper DEFAULT_OBJECT_MAPPER = createObjectMapper();
 
+    static {
+        DEFAULT_OBJECT_MAPPER.deactivateDefaultTyping();
+    }
+
     private JacksonUtils() {
 
     }
@@ -75,6 +79,4 @@ public class JacksonUtils {
             throw new ServiceException("JSON序列化异常", e);
         }
     }
-
-
 }

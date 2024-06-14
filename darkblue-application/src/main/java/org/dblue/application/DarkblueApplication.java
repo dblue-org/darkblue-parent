@@ -19,6 +19,7 @@ package org.dblue.application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -32,6 +33,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         }
 )
 @EnableAsync
+@EnableJpaRepositories(basePackages = "org.dblue.application.module.*.infrastructure.repository")
 public class DarkblueApplication {
 
     public static void main(String[] args) {

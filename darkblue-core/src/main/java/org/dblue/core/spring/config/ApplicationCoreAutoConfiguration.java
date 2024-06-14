@@ -27,7 +27,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,7 +38,6 @@ import java.time.format.DateTimeFormatter;
  */
 @Configuration
 @EnableConfigurationProperties({CoreConfigProperties.class})
-@Import({MyBatisPlusConfiguration.class, RedisAutoConfiguration.class})
 @Slf4j
 public class ApplicationCoreAutoConfiguration {
 
