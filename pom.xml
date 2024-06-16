@@ -169,6 +169,13 @@
         </profile>
 
         <profile>
+            <id>local</id>
+            <properties>
+                <spring.profile>local</spring.profile>
+            </properties>
+        </profile>
+
+        <profile>
             <id>test</id>
             <properties>
                 <spring.profile>test</spring.profile>
