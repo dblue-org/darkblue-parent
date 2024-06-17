@@ -23,9 +23,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.permission.application.dto.PermissionAddDto;
+import org.dblue.application.module.permission.application.dto.PermissionQueryDto;
 import org.dblue.application.module.permission.application.dto.PermissionUpdateDto;
 import org.dblue.application.module.permission.application.service.PermissionApplicationService;
+import org.dblue.application.module.permission.application.vo.PermissionVo;
+import org.dblue.application.module.permission.domain.PermissionDomainQueryService;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
+import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +47,7 @@ public class PermissionController {
 
     private final PermissionDomainService permissionDomainService;
     private final PermissionApplicationService permissionApplicationService;
+    private final PermissionDomainQueryService permissionDomainQueryService;
 
     /**
      * 权限添加
@@ -81,5 +86,15 @@ public class PermissionController {
     public ResponseBean<String> delete(@PathVariable("id") String id){
         permissionApplicationService.delete(id);
         return ResponseBean.success();
+    }
+
+    /**
+     * 分页查询权限信息
+     *
+     * @param query 查询条件
+     * @return 权限列表
+     */
+    public PageResponseBean<PermissionVo> findByPage(PermissionQueryDto query){
+        return PageResponseBean.success(permissionApplicationService.findByPage(query));
     }
 }

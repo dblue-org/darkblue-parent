@@ -14,34 +14,20 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.domain;
-
-
-import org.dblue.application.module.permission.application.dto.PermissionQueryDto;
-import org.dblue.application.module.permission.infrastructure.entiry.Permission;
-import org.springframework.data.domain.Page;
+package org.dblue.application.module.role.infrastructure.domain.service;
 
 /**
- * 权限领域查询服务
+ * 角色权限查询领域服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/17 下午2:55
+ * @since 1.0.0  2024/6/17 下午4:02
  */
-public interface PermissionDomainQueryService {
-
+public interface RolePermissionDomainService {
 
     /**
-     * 查询菜单下权限
-     * @param menuId 菜单ID
+     * 统计角色权限关系数量
+     * @param permissionId 权限ID
      * @return 数量
      */
-    long countByMenuId( String menuId);
-
-    /**
-     * 分页查询权限信息
-     *
-     * @param query 查询条件
-     * @return 权限列表
-     */
-    Page<Permission> findByPage(PermissionQueryDto query);
+    long countByPermissionId(String permissionId);
 }

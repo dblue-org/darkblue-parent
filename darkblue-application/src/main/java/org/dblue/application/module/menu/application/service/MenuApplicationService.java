@@ -16,7 +16,7 @@
 
 package org.dblue.application.module.menu.application.service;
 
-import org.dblue.application.module.menu.application.vo.SysMenuVo;
+import org.dblue.application.module.menu.application.vo.MenuVo;
 
 import java.util.List;
 
@@ -39,12 +39,12 @@ public interface MenuApplicationService {
      *
      * @return 菜单列表
      */
-    List<SysMenuVo> findAllPcMenus();
+    List<MenuVo> findAllPcMenus();
 
     /**
      * 获取所有APP端菜单
      *
      * @return 菜单列表
      */
-    List<SysMenuVo> findAllAppMenus();
+    List<MenuVo> findAllAppMenus();
 }

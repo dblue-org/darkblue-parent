@@ -22,7 +22,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.commons.enums.MenuTypeEnum;
 import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.application.service.MenuApplicationService;
-import org.dblue.application.module.menu.application.vo.SysMenuVo;
+import org.dblue.application.module.menu.application.vo.MenuVo;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.domain.service.MenuDomainService;
 import org.dblue.application.module.menu.errors.MenuErrors;
@@ -81,7 +81,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
      * @return 菜单列表
      */
     @Override
-    public List<SysMenuVo> findAllPcMenus() {
+    public List<MenuVo> findAllPcMenus() {
         List<Menu> menuList = menuDomainQueryService.findAllMenus(PlatformEnum.PC);
         if (CollectionUtils.isEmpty(menuList)) {
             return List.of();
@@ -95,7 +95,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
      * @return 菜单列表
      */
     @Override
-    public List<SysMenuVo> findAllAppMenus() {
+    public List<MenuVo> findAllAppMenus() {
         List<Menu> menuList = menuDomainQueryService.findAllMenus(PlatformEnum.APP);
         if (CollectionUtils.isEmpty(menuList)) {
             return List.of();
@@ -117,21 +117,21 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
         }
     }
 
-    private List<SysMenuVo> asTree(List<Menu> menuList) {
+    private List<MenuVo> asTree(List<Menu> menuList) {
 
-        List<SysMenuVo> menuVoList = menuList.stream().map(this::build).collect(Collectors.toList());
-        List<SysMenuVo> roots = menuVoList.stream().filter(o -> Objects.equals(o.getLevel(), 1))
-                                          .collect(Collectors.toList());
-        for (SysMenuVo root : roots) {
+        List<MenuVo> menuVoList = menuList.stream().map(this::build).collect(Collectors.toList());
+        List<MenuVo> roots = menuVoList.stream().filter(o -> Objects.equals(o.getLevel(), 1))
+                                       .collect(Collectors.toList());
+        for (MenuVo root : roots) {
             this.setChildren(root, menuVoList);
         }
         return roots;
     }
 
 
-    private void setChildren(SysMenuVo menuVo, List<SysMenuVo> menuVoList) {
-        List<SysMenuVo> children = new ArrayList<>();
-        for (SysMenuVo item : menuVoList) {
+    private void setChildren(MenuVo menuVo, List<MenuVo> menuVoList) {
+        List<MenuVo> children = new ArrayList<>();
+        for (MenuVo item : menuVoList) {
             if (Objects.equals(menuVo.getMenuId(), item.getParentId())) {
                 children.add(item);
                 if (MenuTypeEnum.CATALOGUE.equalsTo(item.getMenuType())) {
@@ -142,9 +142,9 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
         menuVo.setChildren(children);
     }
 
-    public SysMenuVo build(Menu menu) {
-        SysMenuVo sysMenuVo = new SysMenuVo();
-        BeanUtils.copyProperties(menu, sysMenuVo);
-        return sysMenuVo;
+    public MenuVo build(Menu menu) {
+        MenuVo menuVo = new MenuVo();
+        BeanUtils.copyProperties(menu, menuVo);
+        return menuVo;
     }
 }

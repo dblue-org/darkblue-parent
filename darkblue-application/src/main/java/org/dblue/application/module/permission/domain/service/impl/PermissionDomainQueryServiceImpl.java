@@ -18,8 +18,11 @@ package org.dblue.application.module.permission.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dblue.application.module.permission.application.dto.PermissionQueryDto;
 import org.dblue.application.module.permission.domain.PermissionDomainQueryService;
+import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 /**
@@ -43,5 +46,16 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
     @Override
     public long countByMenuId(String menuId) {
         return permissionRepository.countByMenuId(menuId);
+    }
+
+    /**
+     * 分页查询权限信息
+     *
+     * @param query 查询条件
+     * @return 权限列表
+     */
+    @Override
+    public Page<Permission> findByPage(PermissionQueryDto query) {
+        return permissionRepository.findByMenuIdAndPermissionCodeAndPermissionName(query.getMenuId(), query.getPermissionCode(), query.getPermissionName(), query.toJpaPage());
     }
 }

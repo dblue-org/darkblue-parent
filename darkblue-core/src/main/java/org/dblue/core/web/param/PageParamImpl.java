@@ -22,6 +22,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.dblue.common.validation.annotation.PositiveNumber;
 import org.dblue.core.web.PageParam;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 分页参数
@@ -49,5 +51,8 @@ public class PageParamImpl<T> implements PageParam {
      */
     public IPage<T> toPage() {
         return new Page<>(getPage(), getPageSize());
+    }
+
+    public Pageable toJpaPage(){return PageRequest.of(getPage().intValue(),getPageSize().intValue());
     }
 }

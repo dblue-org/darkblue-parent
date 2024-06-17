@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Schema(description = "菜单")
 @Data
-public class SysMenuVo {
+public class MenuVo {
 
     /**
      * 菜单ID
@@ -105,7 +105,7 @@ public class SysMenuVo {
      * 子菜单
      */
     @Schema(title = "子菜单", description = "子菜单", required = true)
-    private List<SysMenuVo> children;
+    private List<MenuVo> children;
 
     /**
      * 是否可见

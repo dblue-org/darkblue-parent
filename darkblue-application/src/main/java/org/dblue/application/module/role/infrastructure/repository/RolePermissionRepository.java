@@ -18,6 +18,14 @@ package org.dblue.application.module.role.infrastructure.repository;
 
 import org.dblue.application.module.role.infrastructure.entiry.RolePermission;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
 
 public interface RolePermissionRepository extends JpaRepository<RolePermission, String> {
+
+    /**
+     * 统计角色权限关系数量
+     * @param permissionId 权限ID
+     * @return 数量
+     */
+    long countByPermissionId(@NonNull String permissionId);
 }

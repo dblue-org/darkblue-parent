@@ -21,6 +21,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dblue.common.error.ErrorInfo;
 import org.dblue.core.web.PageParam;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -123,6 +124,20 @@ public class PageResponseBean<T> extends BaseResponseBean<Object> implements Pag
         return responseBean;
     }
 
+
+    /**
+     * 返回成功状态，返回分页信息
+     *
+     * @param page 分页
+     * @param <T>  数据类型
+     * @return 响应数据包
+     */
+    public static <T> PageResponseBean<T> success(Page<T> page) {
+        PageResponseBean<T> responseBean = createPageInfo(page);
+        responseBean.setSuccess(true);
+        return responseBean;
+    }
+
     /**
      * 创建PageResponseBean
      *
@@ -140,6 +155,25 @@ public class PageResponseBean<T> extends BaseResponseBean<Object> implements Pag
         responseBean.setTotalPage(page.getPages());
         return responseBean;
     }
+
+    /**
+     * 创建PageResponseBean
+     *
+     * @param page 分页数据
+     * @param <T>  输出数据类型
+     * @return 响应数据
+     */
+    private static <T> PageResponseBean<T> createPageInfo(Page<T> page) {
+        //List<R>
+        PageResponseBean<T> responseBean = new PageResponseBean<>();
+        responseBean.setData(page.getContent());
+        responseBean.setPage((long) page.getNumber());
+        responseBean.setPageSize((long) page.getSize());
+        responseBean.setTotal(page.getTotalElements());
+        responseBean.setTotalPage((long) page.getTotalPages());
+        return responseBean;
+    }
+
 
     /**
      * 返回成功状态，返回分页信息

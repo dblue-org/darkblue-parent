@@ -17,12 +17,16 @@
 package org.dblue.application.module.permission.infrastructure.repository;
 
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 
 public interface PermissionRepository extends JpaRepository<Permission, String> {
+
 
     /**
      * 根据授权标识查询授权标识是否已存在
@@ -50,4 +54,15 @@ public interface PermissionRepository extends JpaRepository<Permission, String> 
     long countByMenuId(@NonNull String menuId);
 
 
+    /**
+     * 分页查询
+     * @param menuId 菜单ID
+     * @param permissionCode 权限标识
+     * @param permissionName  权限名称
+     * @param pageable 分页
+     * @return 权限
+     */
+    Page<Permission> findByMenuIdAndPermissionCodeAndPermissionName(
+            @NonNull String menuId, @Nullable String permissionCode, @Nullable String permissionName,
+            Pageable pageable);
 }

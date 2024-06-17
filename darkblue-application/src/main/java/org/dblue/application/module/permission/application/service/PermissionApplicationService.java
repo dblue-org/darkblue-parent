@@ -16,6 +16,10 @@
 
 package org.dblue.application.module.permission.application.service;
 
+import org.dblue.application.module.permission.application.dto.PermissionQueryDto;
+import org.dblue.application.module.permission.application.vo.PermissionVo;
+import org.springframework.data.domain.Page;
+
 /**
  * 权限应用服务
  *
@@ -29,4 +33,13 @@ public interface PermissionApplicationService {
      * @param id 权限id
      */
     void delete(String id);
+
+    /**
+     * 分页查询权限信息
+     *
+     * @param query 查询条件
+     * @return 权限列表
+     */
+    Page<PermissionVo> findByPage(PermissionQueryDto query);
+
 }

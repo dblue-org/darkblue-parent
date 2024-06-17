@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.menu.application.dto.MenuAddDto;
 import org.dblue.application.module.menu.application.dto.MenuUpdateDto;
 import org.dblue.application.module.menu.application.service.MenuApplicationService;
-import org.dblue.application.module.menu.application.vo.SysMenuVo;
+import org.dblue.application.module.menu.application.vo.MenuVo;
 import org.dblue.application.module.menu.domain.service.MenuDomainService;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
@@ -93,7 +93,7 @@ public class MenuController {
      */
     @Operation(summary = "获取所有PC端菜单", description = "获取所有PC端菜单")
     @GetMapping("/findAllPcMenus")
-    public ResponseBean<List<SysMenuVo>> findAllPcMenus() {
+    public ResponseBean<List<MenuVo>> findAllPcMenus() {
         return ResponseBean.success(menuApplicationService.findAllPcMenus());
     }
 
@@ -104,7 +104,7 @@ public class MenuController {
      */
     @Operation(summary = "获取所有APP端菜单", description = "获取所有APP端菜单")
     @GetMapping("/findAllAppMenus")
-    public ResponseBean<List<SysMenuVo>> findAllAppMenus() {
+    public ResponseBean<List<MenuVo>> findAllAppMenus() {
         return ResponseBean.success(menuApplicationService.findAllAppMenus());
     }
 }
