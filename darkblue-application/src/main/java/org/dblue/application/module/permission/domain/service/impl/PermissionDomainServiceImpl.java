@@ -76,6 +76,11 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(PermissionErrors.PERMISSION_IS_NOT_FOUND);
         }
+
+        boolean exists = permissionRepository.existsByPermissionCodeAndPermissionIdNot(permissionUpdateDto.getPermissionCode(), permissionUpdateDto.getPermissionId());
+        if (exists) {
+            throw new ServiceException(PermissionErrors.PERMISSION_EXITS);
+        }
         BeanUtils.copyProperties(permissionUpdateDto, optional.get());
         permissionRepository.save(optional.get());
     }
@@ -87,7 +92,10 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
      */
     @Override
     public void delete(String id) {
-
+        Optional<Permission> optional = permissionRepository.findById(id);
+        if (optional.isEmpty()) {
+            throw new ServiceException(PermissionErrors.PERMISSION_IS_NOT_FOUND);
+        }
         permissionRepository.deleteById(id);
 
     }

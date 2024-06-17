@@ -14,121 +14,104 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.menu.infrastructure.entity;
+package org.dblue.application.module.menu.application.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.dblue.core.jpa.AbstractAuditingEntity;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Data;
+import org.dblue.application.commons.enums.MenuTypeEnum;
+import org.dblue.application.commons.enums.PlatformEnum;
+import org.dblue.common.validation.annotation.EnumValues;
 
 /**
  * 菜单
  */
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_sys_menu")
-public class Menu extends AbstractAuditingEntity {
-    /**
-     * 菜单ID
-     */
-    @Id
-    @Size(max = 64)
-    @Column(name = "menu_id", nullable = false, length = 64)
-    private String menuId;
+@Schema(description = "菜单")
+@Data
+public class MenuDto {
 
     /**
      * 上级菜单ID
      */
+    @Schema(description = "上级菜单ID")
     @Size(max = 64)
-    @Column(name = "parent_id", length = 64)
+    @NotBlank(message = "上级菜单ID不能为空")
     private String parentId;
 
     /**
      * 菜单适用平台(1-PC；2-APP)
      */
-    @Column(name = "platform")
+    @Schema(description = "菜单适用平台(1-PC；2-APP)")
+    @EnumValues(message = "适用平台不正确",clazz = PlatformEnum.class)
     private Integer platform;
 
     /**
      * 菜单类型(1-目录;2-菜单)
      */
-    @Column(name = "menu_type")
+    @Schema(description = "菜单类型(1-目录;2-菜单)")
+    @EnumValues(message = "菜单类型不正确",clazz = MenuTypeEnum.class)
     private Integer menuType;
 
     /**
      * 菜单名称
      */
+    @Schema(description = "菜单名称")
     @Size(max = 64)
-    @Column(name = "menu_name", length = 64)
+    @NotBlank(message = "菜单名称不能为空")
     private String menuName;
 
     /**
      * 地址名
      */
+    @Schema(description = "地址名")
     @Size(max = 256)
-    @Column(name = "url_name", length = 256)
+    @NotBlank(message = "地址名不能为空")
     private String urlName;
 
     /**
      * 菜单url
      */
+    @Schema(description = "菜单url")
     @Size(max = 128)
-    @Column(name = "menu_url", length = 128)
     private String menuUrl;
-
-    /**
-     * 菜单层级
-     */
-    @Column(name = "level")
-    private Integer level;
 
     /**
      * 显示顺序
      */
-    @Column(name = "sort_num")
+    @Schema(description = "显示顺序")
+    @NotNull(message = "显示顺序不能为空")
     private Integer sortNum;
 
     /**
      * 菜单图标
      */
+    @Schema(description = "菜单图标")
     @Size(max = 128)
-    @Column(name = "menu_icon", length = 128)
     private String menuIcon;
 
     /**
      * 备注
      */
+    @Schema(description = "备注")
     @Size(max = 500)
-    @Column(name = "remark", length = 500)
     private String remark;
 
-    /**
-     * 是否可用
-     */
-    @Column(name = "is_enable")
-    private Boolean isEnable;
+
 
     /**
      * 是否可见
      */
-    @NotNull
-    @ColumnDefault("1")
-    @Column(name = "is_visible", nullable = false)
-    private Boolean isVisible = false;
+    @Schema(description = "是否可见")
+    @NotNull(message = "是否可见不能为空")
+    private Boolean isVisible;
 
     /**
      * 是否生产环境可见
      */
-    @NotNull
-    @ColumnDefault("1")
-    @Column(name = "is_production_visible", nullable = false)
-    private Boolean isProductionVisible = false;
+    @Schema(description = "是否生产环境可见")
+    @NotNull(message = "是否生产环境可见不能为空")
+    private Boolean isProductionVisible;
 
 }

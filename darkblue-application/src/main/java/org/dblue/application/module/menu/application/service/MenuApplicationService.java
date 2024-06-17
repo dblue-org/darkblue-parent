@@ -14,20 +14,37 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.repository;
+package org.dblue.application.module.menu.application.service;
 
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+import org.dblue.application.module.menu.application.vo.SysMenuVo;
 
 import java.util.List;
 
-public interface RoleMenuRepository extends JpaRepository<RoleMenu, String> {
+/**
+ * 菜单应用服务
+ *
+ * @author xie jin
+ * @since 1.0.0  2024/6/17 上午11:28
+ */
+public interface MenuApplicationService {
 
     /**
-     * 根据菜单ID查询
+     * 菜单删除
      * @param menuId 菜单ID
-     * @return 角色菜单
      */
-    List<RoleMenu> findByMenuId(@NonNull String menuId);
+    void delete(String menuId);
+
+    /**
+     * 获取所有PC端菜单
+     *
+     * @return 菜单列表
+     */
+    List<SysMenuVo> findAllPcMenus();
+
+    /**
+     * 获取所有APP端菜单
+     *
+     * @return 菜单列表
+     */
+    List<SysMenuVo> findAllAppMenus();
 }

@@ -14,20 +14,35 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.repository;
+package org.dblue.application.module.menu.domain.service;
 
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+import org.dblue.application.commons.enums.PlatformEnum;
+import org.dblue.application.module.menu.infrastructure.entity.Menu;
 
 import java.util.List;
 
-public interface RoleMenuRepository extends JpaRepository<RoleMenu, String> {
+/**
+ * 菜单查询领域服务
+ *
+ * @author xie jin
+ * @since 1.0.0  2024/6/17 下午2:16
+ */
+public interface MenuDomainQueryService {
 
     /**
-     * 根据菜单ID查询
-     * @param menuId 菜单ID
-     * @return 角色菜单
+     * 获取一条菜单数据
+     * @param menuId 菜单Id
+     * @return 菜单
      */
-    List<RoleMenu> findByMenuId(@NonNull String menuId);
+    Menu getOne(String menuId);
+
+    /**
+     * 获取所有菜单
+     *
+     * @param platformEnum 平台
+     * @return 菜单列表
+     */
+    List<Menu> findAllMenus(PlatformEnum platformEnum);
+
+
 }

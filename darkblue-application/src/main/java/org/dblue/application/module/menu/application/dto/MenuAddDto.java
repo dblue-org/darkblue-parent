@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.repository;
+package org.dblue.application.module.menu.application.dto;
 
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+/**
+ * 菜单添加
+ */
+@EqualsAndHashCode(callSuper = true)
+@Schema(description = "菜单")
+@Data
+public class MenuAddDto extends MenuDto{
 
-public interface RoleMenuRepository extends JpaRepository<RoleMenu, String> {
 
-    /**
-     * 根据菜单ID查询
-     * @param menuId 菜单ID
-     * @return 角色菜单
-     */
-    List<RoleMenu> findByMenuId(@NonNull String menuId);
 }

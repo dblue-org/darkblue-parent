@@ -23,30 +23,49 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.dblue.core.jpa.AbstractCreateAuditingEntity;
 
 import java.time.Instant;
 
+/**
+ * 角色权限
+ */
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_sys_role_permission")
-public class RolePermission {
+public class RolePermission extends AbstractCreateAuditingEntity {
+    /**
+     * 角色权限ID
+     */
     @Id
     @Size(max = 64)
     @Column(name = "role_permission_id", nullable = false, length = 64)
     private String rolePermissionId;
 
+    /**
+     * 角色ID
+     */
     @Size(max = 64)
     @Column(name = "role_id", length = 64)
     private String roleId;
 
+    /**
+     * 权限ID
+     */
     @Size(max = 64)
     @Column(name = "permission_id", length = 64)
     private String permissionId;
 
+    /**
+     * 创建时间
+     */
     @Column(name = "create_time")
     private Instant createTime;
 
+    /**
+     * 创建人
+     */
     @Size(max = 64)
     @Column(name = "create_user", length = 64)
     private String createUser;

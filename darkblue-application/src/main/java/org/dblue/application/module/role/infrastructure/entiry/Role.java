@@ -16,60 +16,62 @@
 
 package org.dblue.application.module.role.infrastructure.entiry;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.dblue.core.jpa.AbstractAuditingEntity;
 
-import java.time.Instant;
-import java.util.List;
-
+/**
+ * 角色
+ */
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_sys_role")
-public class Role {
+public class Role extends AbstractAuditingEntity {
+    /**
+     * 角色id
+     */
     @Id
     @Size(max = 64)
     @Column(name = "role_id", nullable = false, length = 64)
     private String roleId;
 
+    /**
+     * 角色名称
+     */
     @Size(max = 64)
     @Column(name = "role_name", length = 64)
     private String roleName;
 
+    /**
+     * 角色编码
+     */
     @Size(max = 64)
     @Column(name = "role_code", length = 64)
     private String roleCode;
 
+    /**
+     * 备注
+     */
     @Size(max = 500)
     @Column(name = "remark", length = 500)
     private String remark;
 
+    /**
+     * 是否可用
+     */
     @Column(name = "is_enable")
     private Boolean isEnable;
 
+    /**
+     * 是否内置
+     */
     @Column(name = "is_built_in")
     private Boolean isBuiltIn;
-
-    @Column(name = "create_time")
-    private Instant createTime;
-
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
-
-    @Column(name = "update_time")
-    private Instant updateTime;
-
-    @Size(max = 64)
-    @Column(name = "update_user", length = 64)
-    private String updateUser;
-
-    @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY, targetEntity = RoleMenu.class)
-    private List<RoleMenu> menus;
-
-    @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY, targetEntity = RolePermission.class)
-    private List<RolePermission> permissions;
 
 }

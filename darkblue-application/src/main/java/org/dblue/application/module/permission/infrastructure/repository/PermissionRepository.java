@@ -26,10 +26,28 @@ public interface PermissionRepository extends JpaRepository<Permission, String> 
 
     /**
      * 根据授权标识查询授权标识是否已存在
+     *
      * @param permissionCode 授权标识
      * @return 授权信息
      */
     Optional<Permission> findByPermissionCode(@NonNull String permissionCode);
+
+
+    /**
+     * 更新是判断新修改标识是否存在
+     *
+     * @param permissionCode 授权标识
+     * @param permissionId   授权ID
+     * @return 授权
+     */
+    boolean existsByPermissionCodeAndPermissionIdNot(@NonNull String permissionCode, @NonNull String permissionId);
+
+    /**
+     * 查询菜单下权限
+     * @param menuId 菜单ID
+     * @return 数量
+     */
+    long countByMenuId(@NonNull String menuId);
 
 
 }

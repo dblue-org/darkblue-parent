@@ -16,7 +16,6 @@
 
 package org.dblue.application.module.role.infrastructure.repository;
 
-import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, String> {

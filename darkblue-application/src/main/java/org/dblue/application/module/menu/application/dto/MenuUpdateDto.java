@@ -14,41 +14,32 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.menu.domain.service;
+package org.dblue.application.module.menu.application.dto;
 
-import org.dblue.application.module.menu.application.dto.MenuAddDto;
-import org.dblue.application.module.menu.application.dto.MenuUpdateDto;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * 菜单领域服务
- *
- * @author xie jin
- * @since 1.0.0  2024/6/14 下午3:01
+ * 菜单更新
  */
-public interface MenuDomainService {
-
+@EqualsAndHashCode(callSuper = true)
+@Schema(description = "菜单")
+@Data
+public class MenuUpdateDto extends MenuDto{
+    /**
+     * 菜单ID
+     */
+    @NotBlank(message = "菜单ID不能为空")
+    private String menuId;
 
     /**
-     * 菜单添加
-     *
-     * @param menuAddDto 菜单信息
+     * 是否可用
      */
-    void add(MenuAddDto menuAddDto);
-
-
-    /**
-     * 菜单更新
-     *
-     * @param menuUpdateDto 菜单信息
-     */
-    void update(MenuUpdateDto menuUpdateDto);
-
-
-    /**
-     * 菜单删除
-     * @param menuId 菜单ID
-     */
-    void delete(String menuId);
-
+    @Schema(description = "是否可用")
+    @NotNull(message = "是否可用不能为空")
+    private Boolean isEnable;
 
 }

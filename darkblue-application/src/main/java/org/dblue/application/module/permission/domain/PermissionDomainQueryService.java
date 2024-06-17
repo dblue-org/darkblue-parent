@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.repository;
+package org.dblue.application.module.permission.domain;
 
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
 
-import java.util.List;
+/**
+ * 权限领域查询服务
+ *
+ * @author xie jin
+ * @since 1.0.0  2024/6/17 下午2:55
+ */
+public interface PermissionDomainQueryService {
 
-public interface RoleMenuRepository extends JpaRepository<RoleMenu, String> {
 
     /**
-     * 根据菜单ID查询
+     * 查询菜单下权限
      * @param menuId 菜单ID
-     * @return 角色菜单
+     * @return 数量
      */
-    List<RoleMenu> findByMenuId(@NonNull String menuId);
+    long countByMenuId( String menuId);
 }

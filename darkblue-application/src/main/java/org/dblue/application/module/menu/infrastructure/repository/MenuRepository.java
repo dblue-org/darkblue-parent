@@ -18,6 +18,47 @@ package org.dblue.application.module.menu.infrastructure.repository;
 
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, String> {
+
+    /**
+     * 同一平台下菜单名称不能重复
+     * @param platform 平台
+     * @param menuName 菜单名称
+     * @return 菜单信息
+     */
+    Optional<Menu> findByPlatformAndMenuName(@NonNull Integer platform, @NonNull String menuName);
+
+
+    /**
+     * 更新是查询是否重复菜单名称
+     * @param platform 平台
+     * @param menuName  菜单名称
+     * @param menuId 菜单ID
+     * @return 菜单信息
+     */
+    Optional<Menu> findByPlatformAndMenuNameAndMenuIdNot(
+            @NonNull Integer platform, @NonNull String menuName, @NonNull String menuId);
+
+
+    /**
+     * 根据平台查询菜单信息
+     * @param platform 平台
+     * @return 菜单信息
+     */
+    List<Menu> findByPlatform(@NonNull Integer platform);
+
+
+    /**
+     * 查询子节点数量
+     * @param parentId 父节点ID
+     * @return 子节点数量
+     */
+    long countByParentId(@NonNull String parentId);
+
+
 }
