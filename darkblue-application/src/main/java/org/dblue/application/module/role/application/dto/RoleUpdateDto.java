@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.repository;
+package org.dblue.application.module.role.application.dto;
 
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
-
-import java.util.List;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * @author xie jin
+ * 角色更新
  */
-public interface RoleMenuRepository extends JpaRepository<RoleMenu, String> {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class RoleUpdateDto extends RoleDto{
 
     /**
-     * 根据菜单ID查询
-     * @param menuId 菜单ID
-     * @return 角色菜单
+     * 角色id
      */
-    List<RoleMenu> findByMenuId(@NonNull String menuId);
-
-
-    /**
-     * 根据角色ID删除关联信息
-     * @param roleId 角色ID
-     */
-    void deleteByRoleId(@NonNull String roleId);
+    @Size(max = 64)
+    @NotBlank(message = "角色ID不能为空")
+    private String roleId;
 }

@@ -28,4 +28,10 @@ public interface RolePermissionRepository extends JpaRepository<RolePermission, 
      * @return 数量
      */
     long countByPermissionId(@NonNull String permissionId);
+
+    /**
+     * 根据角色ID删除关联信息
+     * @param roleId 角色ID
+     */
+    void deleteByRoleId(@NonNull String roleId);
 }

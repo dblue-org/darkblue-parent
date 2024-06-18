@@ -20,7 +20,6 @@ import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
 import org.dblue.application.module.role.infrastructure.repository.RoleRepository;
 import org.dblue.application.module.user.infrastructure.entity.User;
-import org.dblue.application.module.user.infrastructure.entity.UserRole;
 import org.dblue.application.module.user.infrastructure.repository.UserRepository;
 import org.dblue.security.user.SecurityUser;
 import org.springframework.beans.BeanUtils;

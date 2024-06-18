@@ -13,21 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.role.errors;
 
-package org.dblue.application.module.role.infrastructure.domain.service;
+import lombok.Getter;
+import org.dblue.common.error.ErrorInfo;
 
 /**
- * 角色权限查询领域服务
+ * 角色错误
  *
  * @author xie jin
- * @since 1.0.0  2024/6/17 下午4:02
+ * @since 1.0.0  2024-06-14 15:29:11
  */
-public interface RolePermissionDomainService {
+@Getter
+public enum RoleErrors implements ErrorInfo {
+
 
     /**
-     * 统计角色权限关系数量
-     * @param permissionId 权限ID
-     * @return 数量
+     *
      */
-    long countByPermissionId(String permissionId);
+    ROLE_EXITS("ROLE_0001", "角色已存在"),
+    ROLE_IS_NOT_FOUND("ROLE_0002", "角色不存在"),
+    ROLE_USER_IS_EXITS("ROLE_0003", "用户角色存在关联关系"),
+
+
+    ;
+    private final String errorCode;
+    private final String errorMessage;
+
+    RoleErrors(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
 }

@@ -14,30 +14,13 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.repository;
-
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
-
-import java.util.List;
+package org.dblue.application.module.role.domain.service;
 
 /**
+ * 角色领域查询服务
+ *
  * @author xie jin
+ * @since 1.0.0  2024/6/18 下午3:44
  */
-public interface RoleMenuRepository extends JpaRepository<RoleMenu, String> {
-
-    /**
-     * 根据菜单ID查询
-     * @param menuId 菜单ID
-     * @return 角色菜单
-     */
-    List<RoleMenu> findByMenuId(@NonNull String menuId);
-
-
-    /**
-     * 根据角色ID删除关联信息
-     * @param roleId 角色ID
-     */
-    void deleteByRoleId(@NonNull String roleId);
+public interface RoleDomainQueryService {
 }

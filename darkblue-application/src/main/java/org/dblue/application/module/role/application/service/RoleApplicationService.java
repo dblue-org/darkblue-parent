@@ -14,24 +14,33 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.domain.service;
+package org.dblue.application.module.role.application.service;
 
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-
-import java.util.List;
+import org.dblue.application.module.role.application.dto.RoleQueryDto;
+import org.dblue.application.module.role.application.vo.RoleVo;
+import org.springframework.data.domain.Page;
 
 /**
- * 角色菜单查询领域服务
+ * 角色应用服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/17 下午2:02
+ * @since 1.0.0  2024/6/18 下午3:23
  */
-public interface RoleMenuDomainQueryService {
+public interface RoleApplicationService {
 
     /**
-     * 根据菜单ID查询角色菜单信息
-     * @param menuId 菜单ID
-     * @return  角色菜单
+     * 角色删除
+     * @param roleId 角色ID
      */
-    List<RoleMenu> getRoleMenuByMenuId(String menuId);
+    void delete(String roleId);
+
+
+    /**
+     * 分页查询角色信息
+     *
+     * @param query 查询条件
+     * @return 角色列表
+     */
+    Page<RoleVo> findByPage(RoleQueryDto query);
+
 }

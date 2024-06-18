@@ -25,8 +25,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.dblue.core.jpa.AbstractCreateAuditingEntity;
 
-import java.time.Instant;
-
 /**
  * 角色菜单
  */
@@ -57,17 +55,5 @@ public class RoleMenu extends AbstractCreateAuditingEntity {
     @Column(name = "menu_id", length = 64)
     private String menuId;
 
-    /**
-     * 创建时间
-     */
-    @Column(name = "create_time")
-    private Instant createTime;
-
-    /**
-     * 创建人
-     */
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
 
 }

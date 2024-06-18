@@ -14,37 +14,35 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.domain.service.impl;
+package org.dblue.application.module.role.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dblue.application.module.role.infrastructure.domain.service.RoleMenuDomainQueryService;
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-import org.dblue.application.module.role.infrastructure.repository.RoleMenuRepository;
+import org.dblue.application.module.role.domain.service.RolePermissionDomainQueryService;
+import org.dblue.application.module.role.infrastructure.repository.RolePermissionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
- * 角色菜单查询领域服务
+ * 角色权限查询领域服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/17 下午2:05
+ * @since 1.0.0  2024/6/17 下午4:04
  */
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class RoleMenuDomainQueryServiceImpl implements RoleMenuDomainQueryService {
 
-    private final RoleMenuRepository roleMenuRepository;
+public class RolePermissionDomainQueryServiceImpl implements RolePermissionDomainQueryService {
+
+    private final RolePermissionRepository rolePermissionRepository;
     /**
-     * 根据菜单ID查询角色菜单信息
+     * 统计角色权限关系数量
      *
-     * @param menuId 菜单ID
-     * @return 角色菜单
+     * @param permissionId 权限ID
+     * @return 数量
      */
     @Override
-    public List<RoleMenu> getRoleMenuByMenuId(String menuId) {
-        return roleMenuRepository.findByMenuId(menuId);
+    public long countByPermissionId(String permissionId) {
+        return rolePermissionRepository.countByPermissionId(permissionId);
     }
 }

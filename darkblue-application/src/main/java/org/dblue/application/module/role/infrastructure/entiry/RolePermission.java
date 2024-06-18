@@ -25,8 +25,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.dblue.core.jpa.AbstractCreateAuditingEntity;
 
-import java.time.Instant;
-
 /**
  * 角色权限
  */
@@ -57,17 +55,5 @@ public class RolePermission extends AbstractCreateAuditingEntity {
     @Column(name = "permission_id", length = 64)
     private String permissionId;
 
-    /**
-     * 创建时间
-     */
-    @Column(name = "create_time")
-    private Instant createTime;
-
-    /**
-     * 创建人
-     */
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
 
 }

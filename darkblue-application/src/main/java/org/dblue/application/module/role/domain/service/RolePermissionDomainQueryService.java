@@ -14,35 +14,20 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.domain.service.impl;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.dblue.application.module.role.infrastructure.domain.service.RolePermissionDomainService;
-import org.dblue.application.module.role.infrastructure.repository.RolePermissionRepository;
-import org.springframework.stereotype.Service;
+package org.dblue.application.module.role.domain.service;
 
 /**
  * 角色权限查询领域服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/17 下午4:04
+ * @since 1.0.0  2024/6/17 下午4:02
  */
-@Service
-@Slf4j
-@RequiredArgsConstructor
+public interface RolePermissionDomainQueryService {
 
-public class RolePermissionDomainServiceImpl implements RolePermissionDomainService {
-
-    private final RolePermissionRepository rolePermissionRepository;
     /**
      * 统计角色权限关系数量
-     *
      * @param permissionId 权限ID
      * @return 数量
      */
-    @Override
-    public long countByPermissionId(String permissionId) {
-        return rolePermissionRepository.countByPermissionId(permissionId);
-    }
+    long countByPermissionId(String permissionId);
 }

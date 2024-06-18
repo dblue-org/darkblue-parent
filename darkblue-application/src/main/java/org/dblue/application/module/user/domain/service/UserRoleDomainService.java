@@ -14,30 +14,30 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.infrastructure.repository;
+package org.dblue.application.module.user.domain.service;
 
-import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
-
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
+ * 用户角色领域查询服务
+ *
  * @author xie jin
+ * @since 1.0.0  2024/6/18 下午3:27
  */
-public interface RoleMenuRepository extends JpaRepository<RoleMenu, String> {
+public interface UserRoleDomainService {
 
     /**
-     * 根据菜单ID查询
-     * @param menuId 菜单ID
-     * @return 角色菜单
+     * 根据角色ID查询用户角色数据是否存在
+     * @param roleId  角色ID
+     * @return 是否存在
      */
-    List<RoleMenu> findByMenuId(@NonNull String menuId);
-
+    boolean existsUserRoleByRoleId(String roleId);
 
     /**
-     * 根据角色ID删除关联信息
-     * @param roleId 角色ID
+     * 批量获取使用角色的用户数量
+     * @param roleIdSet 角色ID集合
+     * @return key:roleId  value:nums
      */
-    void deleteByRoleId(@NonNull String roleId);
+    Map<String,Long> getUserRoleNum(Set<String> roleIdSet);
 }

@@ -25,7 +25,7 @@ import org.dblue.application.module.permission.domain.PermissionDomainQueryServi
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.application.module.permission.errors.PermissionErrors;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
-import org.dblue.application.module.role.infrastructure.domain.service.RolePermissionDomainService;
+import org.dblue.application.module.role.domain.service.RolePermissionDomainQueryService;
 import org.dblue.common.exception.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -44,7 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PermissionApplicationServiceImpl implements PermissionApplicationService {
 
     private final PermissionDomainService permissionDomainService;
-    private final RolePermissionDomainService rolePermissionDomainService;
+    private final RolePermissionDomainQueryService rolePermissionDomainQueryService;
     private final PermissionDomainQueryService permissionDomainQueryService;
     /**
      * 权限删除
@@ -54,7 +54,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String id) {
-        long count = rolePermissionDomainService.countByPermissionId(id);
+        long count = rolePermissionDomainQueryService.countByPermissionId(id);
         if(count > 0){
             throw new ServiceException(PermissionErrors.PERMISSION_ROLE_EXITS);
         }
