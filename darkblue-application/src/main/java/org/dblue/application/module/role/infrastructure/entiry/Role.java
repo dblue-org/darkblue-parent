@@ -16,14 +16,13 @@
 
 package org.dblue.application.module.role.infrastructure.entiry;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.dblue.core.jpa.AbstractAuditingEntity;
+
+import java.util.List;
 
 /**
  * 角色
@@ -73,5 +72,13 @@ public class Role extends AbstractAuditingEntity {
      */
     @Column(name = "is_built_in")
     private Boolean isBuiltIn;
+
+    @Transient
+    @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY, targetEntity = RoleMenu.class)
+    private List<RoleMenu> menus;
+
+    @Transient
+    @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY, targetEntity = RolePermission.class)
+    private List<RolePermission> permissions;
 
 }
