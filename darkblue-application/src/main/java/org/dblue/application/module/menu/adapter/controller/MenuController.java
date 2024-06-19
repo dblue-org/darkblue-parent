@@ -53,7 +53,7 @@ public class MenuController {
      * @param menuAddDto 菜单信息
      */
     @Operation(summary = "菜单添加", description = "菜单添加")
-    @PostMapping("/update")
+    @PostMapping("/add")
     public ResponseBean<String> add(@RequestBody @Valid MenuAddDto menuAddDto) {
         menuDomainService.add(menuAddDto);
         return ResponseBean.success();
@@ -67,7 +67,7 @@ public class MenuController {
      */
     @Operation(summary = "菜单更新", description = "菜单更新")
     @PostMapping("/update")
-    public ResponseBean<String> update(MenuUpdateDto menuUpdateDto) {
+    public ResponseBean<String> update(@RequestBody @Valid MenuUpdateDto menuUpdateDto) {
         menuDomainService.update(menuUpdateDto);
         return ResponseBean.success();
     }
