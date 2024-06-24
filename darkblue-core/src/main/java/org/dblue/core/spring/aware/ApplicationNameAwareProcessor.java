@@ -54,8 +54,8 @@ public class ApplicationNameAwareProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
-        if (bean instanceof ApplicationNameAware) {
-            ((ApplicationNameAware) bean).setApplicationName(this.applicationName);
+        if (bean instanceof ApplicationNameAware applicationNameAware) {
+            applicationNameAware.setApplicationName(this.applicationName);
         }
         return bean;
     }

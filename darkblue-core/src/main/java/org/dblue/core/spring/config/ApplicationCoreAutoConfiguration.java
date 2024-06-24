@@ -57,7 +57,7 @@ public class ApplicationCoreAutoConfiguration {
     }
 
     @Bean
-    public ApplicationNameAwareProcessor applicationNameAwareProcessor(ApplicationContext applicationContext) {
+    public static ApplicationNameAwareProcessor applicationNameAwareProcessor(ApplicationContext applicationContext) {
         return new ApplicationNameAwareProcessor(applicationContext);
     }
 }

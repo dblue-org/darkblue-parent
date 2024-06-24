@@ -15,6 +15,8 @@
  */
 package org.dblue.common.enums;
 
+import java.util.Objects;
+
 /**
  * 状态
  *
@@ -36,4 +38,14 @@ public interface EnumState {
      * @return 状态名称
      */
     String getName();
+
+    /**
+     * 状态判断
+     *
+     * @param value 传入的状态
+     * @return true-一致；false-不一致
+     */
+    default boolean equalsTo(Integer value) {
+        return Objects.equals(this.getValue(), value);
+    }
 }

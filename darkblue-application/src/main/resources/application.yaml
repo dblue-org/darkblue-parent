@@ -9,6 +9,10 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 150MB
+  data:
+    redis:
+      repositories:
+        enabled: false
 management:
   endpoints:
     web:
