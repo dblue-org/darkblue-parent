@@ -13,26 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.department.errors;
 
-package org.dblue.application.module.role.domain.service;
-
-import org.dblue.application.module.role.infrastructure.entiry.Role;
-
-import java.util.List;
-import java.util.Set;
+import lombok.Getter;
+import org.dblue.common.error.ErrorInfo;
 
 /**
- * 角色领域查询服务
+ * 组织错误
  *
  * @author xie jin
- * @since 1.0.0  2024/6/18 下午3:44
+ * @since 1.0.0  2024-06-14 15:29:11
  */
-public interface RoleDomainQueryService {
+@Getter
+public enum DepartmentErrors implements ErrorInfo {
+
 
     /**
-     * 批量获取角色信息
-     * @param roleIdSets 角色ID集合
-     * @return 角色信息
+     *
      */
-    List<Role> getMoreByIds(Set<String> roleIdSets);
+    DEPARTMENT_EXITS("DEPARTMENT_0001", "组织名称已存在"),
+    DEPARTMENT_IS_NOT_FOUND("DEPARTMENT_0002", "组织名称不存在"),
+
+
+    ;
+    private final String errorCode;
+    private final String errorMessage;
+
+    DepartmentErrors(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
 }

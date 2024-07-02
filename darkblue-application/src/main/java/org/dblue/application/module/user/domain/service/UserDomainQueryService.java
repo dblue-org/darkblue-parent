@@ -13,43 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.user.application.service;
+
+package org.dblue.application.module.user.domain.service;
 
 import org.dblue.application.module.user.application.dto.UserPageDto;
-import org.dblue.application.module.user.application.vo.UserPageVo;
-import org.dblue.application.module.user.application.vo.UserSelectVo;
-import org.dblue.application.module.user.application.vo.UserVo;
+import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 /**
- * 用户应用服务
+ * 用户领域查询服务
  *
- * @author Wang Chengwei
- * @since 1.0.0
+ * @author xie jin
+ * @since 1.0.0  2024/7/2 上午11:19
  */
-public interface UserApplicationService {
+public interface UserDomainQueryService {
 
     /**
-     * 分页查询
-     *
+     * 获取一个用户信息
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    User getOne(String userId);
+
+
+    /**
+     * 分页
      * @param pageDto 查询参数
      * @return 用户信息
      */
-    Page<UserPageVo> page(UserPageDto pageDto);
-
-    /**
-     * 单个信息获取
-     * @param userId 用户ID
-     * @return 单个信息
-     */
-    UserVo getOne(String userId);
+    Page<User> page(UserPageDto pageDto);
 
     /**
      * 下拉列表使用
      * @param name 用户名/姓名
      * @return 用户信息
      */
-    List<UserSelectVo> selectByNameOrUserName(String name);
+    List<User> selectByNameOrUserName(String name);
 }

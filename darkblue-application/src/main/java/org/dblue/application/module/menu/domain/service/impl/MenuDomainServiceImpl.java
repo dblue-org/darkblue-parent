@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.enums.MenuTypeEnum;
 import org.dblue.application.module.menu.application.dto.MenuAddDto;
 import org.dblue.application.module.menu.application.dto.MenuDto;
+import org.dblue.application.module.menu.application.dto.MenuEnableDto;
 import org.dblue.application.module.menu.application.dto.MenuUpdateDto;
 import org.dblue.application.module.menu.domain.service.MenuDomainService;
 import org.dblue.application.module.menu.errors.MenuErrors;
@@ -107,18 +108,34 @@ public class MenuDomainServiceImpl implements MenuDomainService {
         menuRepository.deleteById(menuId);
     }
 
-    private void checkMenuUrl(MenuDto menuDto){
-        if (MenuTypeEnum.MENU.equalsTo(menuDto.getMenuType())) {
-            if(StringUtils.isAnyBlank(menuDto.getMenuUrl(),menuDto.getUrlName())){
+    /**
+     * 菜单启用禁用
+     *
+     * @param menuEnableDto 菜单信息
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void enable(MenuEnableDto menuEnableDto) {
+        Optional<Menu> optional = menuRepository.findById(menuEnableDto.getMenuId());
+        if (optional.isEmpty()) {
+            throw new ServiceException(MenuErrors.MENU_IS_NOT_FOUND);
+        }
+        optional.get().setIsEnable(menuEnableDto.getEnable());
+        menuRepository.save(optional.get());
+    }
+
+    private void checkMenuUrl(MenuDto menuDto) {
+        if (MenuTypeEnum.MENU.equalsTo(menuDto.getMenuType()) && StringUtils.isAnyBlank(menuDto.getMenuUrl(), menuDto.getUrlName())) {
                 throw new ServiceException(MenuErrors.MENU_URL_NOT_BLANK);
             }
 
-        }
+
     }
+
     private void setParentInfo(Menu menu, String parentId) {
         if (parentId != null) {
             Optional<Menu> optionalMenu = menuRepository.findById(parentId);
-            if(optionalMenu.isEmpty()){
+            if (optionalMenu.isEmpty()) {
                 throw new ServiceException(MenuErrors.PARENT_MENU_NOT_EXIST);
             }
             Menu parentMenu = optionalMenu.get();

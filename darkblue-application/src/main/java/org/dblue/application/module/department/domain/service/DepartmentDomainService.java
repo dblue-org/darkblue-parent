@@ -14,25 +14,35 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.domain.service;
+package org.dblue.application.module.department.domain.service;
 
-import org.dblue.application.module.role.infrastructure.entiry.Role;
-
-import java.util.List;
-import java.util.Set;
+import org.dblue.application.module.department.application.dto.DepartmentAddDto;
+import org.dblue.application.module.department.application.dto.DepartmentUpdateDto;
 
 /**
- * 角色领域查询服务
+ * 部门领域服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/18 下午3:44
+ * @since 1.0.0  2024/6/21 下午1:32
  */
-public interface RoleDomainQueryService {
+public interface DepartmentDomainService {
+
 
     /**
-     * 批量获取角色信息
-     * @param roleIdSets 角色ID集合
-     * @return 角色信息
+     * 新增
+     * @param addDto 新增信息
      */
-    List<Role> getMoreByIds(Set<String> roleIdSets);
+    void add(DepartmentAddDto addDto);
+
+    /**
+     * 更新
+     * @param updateDto 更新信息
+     */
+    void update(DepartmentUpdateDto updateDto);
+
+    /**
+     * 删除
+     * @param departmentId 部门ID
+     */
+    void delete(String departmentId);
 }

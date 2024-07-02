@@ -14,25 +14,31 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.domain.service;
+package org.dblue.application.module.department.application.service;
 
-import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.dblue.application.module.department.application.vo.DepartmentTreeVo;
+import org.dblue.application.module.department.application.vo.DepartmentVo;
 
 import java.util.List;
-import java.util.Set;
 
 /**
- * 角色领域查询服务
+ * 部门应用服务层
  *
  * @author xie jin
- * @since 1.0.0  2024/6/18 下午3:44
+ * @since 1.0.0  2024/6/21 下午1:40
  */
-public interface RoleDomainQueryService {
+public interface DepartmentApplicationService {
 
     /**
-     * 批量获取角色信息
-     * @param roleIdSets 角色ID集合
-     * @return 角色信息
+     * 获取部门树
+     * @return 部门树
      */
-    List<Role> getMoreByIds(Set<String> roleIdSets);
+    List<DepartmentTreeVo> getAll();
+
+    /**
+     * 单个获取
+     * @param deptId 部门ID
+     * @return 组织信息
+     */
+    DepartmentVo getOne(String deptId);
 }

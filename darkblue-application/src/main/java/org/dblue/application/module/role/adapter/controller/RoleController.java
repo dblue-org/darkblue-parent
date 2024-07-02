@@ -23,10 +23,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.role.application.dto.RoleAddDto;
-import org.dblue.application.module.role.application.dto.RoleQueryDto;
+import org.dblue.application.module.role.application.dto.RolePageDto;
 import org.dblue.application.module.role.application.dto.RoleUpdateDto;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
-import org.dblue.application.module.role.application.vo.RoleVo;
+import org.dblue.application.module.role.application.vo.RolePageVo;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
@@ -91,7 +91,7 @@ public class RoleController {
      */
     @Operation(summary = "分页查询角色信息", description = "分页查询角色信息")
     @GetMapping("/page")
-    public PageResponseBean<RoleVo> findByPage(RoleQueryDto query){
+    public PageResponseBean<RolePageVo> findByPage(RolePageDto query){
         return PageResponseBean.success(roleApplicationService.findByPage(query));
     }
 }

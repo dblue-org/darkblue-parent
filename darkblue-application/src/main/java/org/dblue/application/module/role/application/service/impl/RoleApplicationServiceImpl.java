@@ -18,9 +18,9 @@ package org.dblue.application.module.role.application.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dblue.application.module.role.application.dto.RoleQueryDto;
+import org.dblue.application.module.role.application.dto.RolePageDto;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
-import org.dblue.application.module.role.application.vo.RoleVo;
+import org.dblue.application.module.role.application.vo.RolePageVo;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.application.module.role.errors.RoleErrors;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
@@ -72,7 +72,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
      * @return 角色列表
      */
     @Override
-    public Page<RoleVo> findByPage(RoleQueryDto query) {
+    public Page<RolePageVo> findByPage(RolePageDto query) {
         Page<Role> page = roleRepository.findByRoleCodeAndRoleName(query.getRoleCode(), query.getRoleName(), query.toJpaPage());
         if (page.isEmpty()) {
             return Page.empty();
@@ -82,10 +82,10 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
                                                                                  .collect(Collectors.toSet()));
 
         return page.map(role -> {
-            RoleVo roleVo = new RoleVo();
-            BeanUtils.copyProperties(roleVo,roleVo);
-            roleVo.setUserNums(userRoleNumMap.getOrDefault(roleVo.getRoleId(),0L).intValue());
-            return roleVo;
+            RolePageVo rolePageVo = new RolePageVo();
+            BeanUtils.copyProperties(rolePageVo, rolePageVo);
+            rolePageVo.setUserNums(userRoleNumMap.getOrDefault(rolePageVo.getRoleId(),0L).intValue());
+            return rolePageVo;
         });
     }
 }

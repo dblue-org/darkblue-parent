@@ -14,54 +14,67 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.department.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 角色
+ * 组织架构
+ *
  * @author xie jin
+ * @since 1.0.0  2024-07-02 11:32:52
  */
-@Schema(description = "角色")
+@Schema(description = "组织架构")
 @Data
-public class RoleVo {
+public class DepartmentVo {
     /**
-     * 角色id
-     */
-    @Schema(description = "角色id")
-    private String roleId;
-
-    /**
-     * 角色名称
+     * 部门ID
      */
 
-    @Schema(description = "角色名称")
-    private String roleName;
+    @Schema(description = "部门ID")
+    private String deptId;
 
     /**
-     * 角色编码
+     * 部门名称
      */
-    @Schema(description = "角色编码")
-    private String roleCode;
+
+    @Schema(description = "部门名称")
+    private String deptName;
 
     /**
-     * 备注
+     * 上级ID
      */
-    @Schema(description = "备注")
-    private String remark;
+
+    @Schema(description = "上级ID")
+    private String parentId;
 
     /**
-     * 是否可用
+     * 部门主管
      */
-    @Schema(description = "是否可用")
+
+    @Schema(description = "部门主管")
+    private String masterUserId;
+
+    /**
+     * 部门主管名称
+     */
+    @Schema(description = "部门主管名称")
+    private String masterUserName;
+
+    /**
+     * 是否启用
+     */
+
+    @Schema(description = "是否启用")
     private Boolean isEnable;
 
     /**
-     * 是否内置
+     * 是否删除
      */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
+
+    @Schema(description = "是否删除")
+    private Boolean isDel;
 
 
 }

@@ -16,8 +16,8 @@
 
 package org.dblue.application.module.role.application.service;
 
-import org.dblue.application.module.role.application.dto.RoleQueryDto;
-import org.dblue.application.module.role.application.vo.RoleVo;
+import org.dblue.application.module.role.application.dto.RolePageDto;
+import org.dblue.application.module.role.application.vo.RolePageVo;
 import org.springframework.data.domain.Page;
 
 /**
@@ -41,6 +41,6 @@ public interface RoleApplicationService {
      * @param query 查询条件
      * @return 角色列表
      */
-    Page<RoleVo> findByPage(RoleQueryDto query);
+    Page<RolePageVo> findByPage(RolePageDto query);
 
 }

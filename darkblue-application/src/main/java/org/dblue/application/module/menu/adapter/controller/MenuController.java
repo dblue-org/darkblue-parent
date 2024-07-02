@@ -23,9 +23,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.menu.application.dto.MenuAddDto;
+import org.dblue.application.module.menu.application.dto.MenuEnableDto;
 import org.dblue.application.module.menu.application.dto.MenuUpdateDto;
 import org.dblue.application.module.menu.application.service.MenuApplicationService;
-import org.dblue.application.module.menu.application.vo.MenuVo;
+import org.dblue.application.module.menu.application.vo.MenuTreeVo;
 import org.dblue.application.module.menu.domain.service.MenuDomainService;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
@@ -93,7 +94,7 @@ public class MenuController {
      */
     @Operation(summary = "获取所有PC端菜单", description = "获取所有PC端菜单")
     @GetMapping("/findAllPcMenus")
-    public ResponseBean<List<MenuVo>> findAllPcMenus() {
+    public ResponseBean<List<MenuTreeVo>> findAllPcMenus() {
         return ResponseBean.success(menuApplicationService.findAllPcMenus());
     }
 
@@ -104,7 +105,18 @@ public class MenuController {
      */
     @Operation(summary = "获取所有APP端菜单", description = "获取所有APP端菜单")
     @GetMapping("/findAllAppMenus")
-    public ResponseBean<List<MenuVo>> findAllAppMenus() {
+    public ResponseBean<List<MenuTreeVo>> findAllAppMenus() {
         return ResponseBean.success(menuApplicationService.findAllAppMenus());
+    }
+
+    /**
+     * 菜单启用禁用
+     * @param menuEnableDto 菜单信息
+     */
+    @Operation(summary = "菜单启用禁用", description = "菜单启用禁用")
+    @PostMapping("/enable")
+    public ResponseBean<String> enable(@Valid @RequestBody MenuEnableDto menuEnableDto){
+        menuDomainService.enable(menuEnableDto);
+        return ResponseBean.success();
     }
 }

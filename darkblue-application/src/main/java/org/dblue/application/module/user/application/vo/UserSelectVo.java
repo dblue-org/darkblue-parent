@@ -14,54 +14,36 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.user.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 角色
+ * 用户下拉列表Vo
  * @author xie jin
  */
-@Schema(description = "角色")
+@Schema(description = "用户下拉列表Vo")
 @Data
-public class RoleVo {
+public class UserSelectVo {
     /**
-     * 角色id
-     */
-    @Schema(description = "角色id")
-    private String roleId;
-
-    /**
-     * 角色名称
+     * 用户ID
      */
 
-    @Schema(description = "角色名称")
-    private String roleName;
+    @Schema(description = "用户ID")
+    private String userId;
 
     /**
-     * 角色编码
+     * 用户名
      */
-    @Schema(description = "角色编码")
-    private String roleCode;
+    @Schema(description = "用户名")
+    private String username;
+
 
     /**
-     * 备注
+     * 姓名
      */
-    @Schema(description = "备注")
-    private String remark;
-
-    /**
-     * 是否可用
-     */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
-
-    /**
-     * 是否内置
-     */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
-
+    @Schema(description = "姓名")
+    private String name;
 
 }

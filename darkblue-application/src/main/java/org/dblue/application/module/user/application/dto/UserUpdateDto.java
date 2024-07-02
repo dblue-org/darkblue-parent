@@ -14,54 +14,29 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.user.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * 角色
+ * 用户更新
+ *
  * @author xie jin
+ * @since 1.0.0  2024-07-02 11:31:03
  */
-@Schema(description = "角色")
+@Schema(description = "用户更新")
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class RoleVo {
-    /**
-     * 角色id
-     */
-    @Schema(description = "角色id")
-    private String roleId;
+public class UserUpdateDto extends UserDto {
 
     /**
-     * 角色名称
+     * 用户ID
      */
-
-    @Schema(description = "角色名称")
-    private String roleName;
-
-    /**
-     * 角色编码
-     */
-    @Schema(description = "角色编码")
-    private String roleCode;
-
-    /**
-     * 备注
-     */
-    @Schema(description = "备注")
-    private String remark;
-
-    /**
-     * 是否可用
-     */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
-
-    /**
-     * 是否内置
-     */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
-
+    @Schema(description = "用户ID")
+    @NotBlank(message = "用户ID不能为空")
+    private String userId;
 
 }

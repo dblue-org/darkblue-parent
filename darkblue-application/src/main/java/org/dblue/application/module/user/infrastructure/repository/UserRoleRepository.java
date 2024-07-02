@@ -23,6 +23,9 @@ import org.springframework.lang.NonNull;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author xie jin
+ */
 public interface UserRoleRepository extends JpaRepository<UserRole, String> {
 
     /**
@@ -40,6 +43,12 @@ public interface UserRoleRepository extends JpaRepository<UserRole, String> {
      * @return 是否存在
      */
     List<UserRole> findByRoleIdIn(@NonNull Collection<String> roleIds);
+
+    /**
+     * 通过用户ID删除
+     * @param userId 用户ID
+     */
+    void deleteByUserId(@NonNull String userId);
 
 
 }

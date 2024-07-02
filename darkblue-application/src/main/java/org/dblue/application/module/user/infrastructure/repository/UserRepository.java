@@ -16,7 +16,14 @@
 package org.dblue.application.module.user.infrastructure.repository;
 
 import org.dblue.application.module.user.infrastructure.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 用户
@@ -33,4 +40,37 @@ public interface UserRepository extends JpaRepository<User, String> {
      * @return 用户信息
      */
     User findByUsername(String username);
+
+
+    /**
+     * 更新检测用户名是否重复
+     * @param username 用户名
+     * @param userId 用户ID
+     * @return 用户
+     */
+    Optional<User> findByUsernameAndUserIdAndIsDelIsFalse(@NonNull String username, @NonNull String userId);
+
+
+    /**
+     * 分页查询
+     * @param name 姓名
+     * @param username 用户名
+     * @param phoneNumber 手机号
+     * @param pageable 分页参数
+     * @return 用户信息
+     */
+    Page<User> findByNameLikeAndUsernameLikeAndPhoneNumberLike(
+            @Nullable String name, @Nullable String username, @Nullable String phoneNumber, Pageable pageable);
+
+
+    /**
+     * 姓名或用户名查询可用用户信息
+     * @param name 姓名
+     * @param username 用户名
+     * @return 用户信息
+     */
+    List<User> findByNameLikeAndUsernameLikeAndIsDelFalseAndIsEnableTrue(
+            @Nullable String name, @Nullable String username);
+
+
 }

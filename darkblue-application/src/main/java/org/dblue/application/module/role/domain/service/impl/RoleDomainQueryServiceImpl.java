@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.domain.service;
+package org.dblue.application.module.role.domain.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.dblue.application.module.role.infrastructure.repository.RoleRepository;
+import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -25,14 +32,26 @@ import java.util.Set;
  * 角色领域查询服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/18 下午3:44
+ * @since 1.0.0  2024/7/2 上午10:09
  */
-public interface RoleDomainQueryService {
+@RequiredArgsConstructor
+@Service
+@Slf4j
+public class RoleDomainQueryServiceImpl implements RoleDomainQueryService {
+
+    private final RoleRepository roleRepository;
 
     /**
      * 批量获取角色信息
+     *
      * @param roleIdSets 角色ID集合
      * @return 角色信息
      */
-    List<Role> getMoreByIds(Set<String> roleIdSets);
+    @Override
+    public List<Role> getMoreByIds(Set<String> roleIdSets) {
+        if (CollectionUtils.isEmpty(roleIdSets)) {
+            return Collections.emptyList();
+        }
+        return roleRepository.findAllById(roleIdSets);
+    }
 }

@@ -34,14 +34,14 @@ import org.springframework.data.domain.Pageable;
 @Data
 public class PageParamImpl<T> implements PageParam {
 
+    @Schema(hidden = true)
     @PositiveNumber(message = "页码数只能是正数")
     @Parameter(description = "页码数")
-    @Schema(title = "页码数", description = "页码数")
     private Long page = 1L;
 
+    @Schema(hidden = true)
     @PositiveNumber(message = "每页行数只能是正数")
     @Parameter(description = "每页行数")
-    @Schema(title = "每页行数", description = "每页行数")
     private Long pageSize = 15L;
 
     /**

@@ -14,54 +14,62 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.department.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * 角色
+ * 组织架构树
+ *
  * @author xie jin
+ * @since 1.0.0  2024-07-02 11:30:24
  */
-@Schema(description = "角色")
+@Schema(description = "组织架构树")
 @Data
-public class RoleVo {
+public class DepartmentTreeVo  {
     /**
-     * 角色id
+     * 部门ID
      */
-    @Schema(description = "角色id")
-    private String roleId;
+    @Schema(description = "部门ID")
+    private String deptId;
 
     /**
-     * 角色名称
+     * 部门名称
      */
-
-    @Schema(description = "角色名称")
-    private String roleName;
-
-    /**
-     * 角色编码
-     */
-    @Schema(description = "角色编码")
-    private String roleCode;
+    @Schema(description = "部门名称")
+    private String deptName;
 
     /**
-     * 备注
+     * 上级ID
      */
-    @Schema(description = "备注")
-    private String remark;
+    @Schema(description = "上级ID")
+    private String parentId;
 
     /**
-     * 是否可用
+     * 部门主管
      */
-    @Schema(description = "是否可用")
+    @Schema(description = "部门主管")
+    private String masterUserId;
+
+    /**
+     * 是否启用
+     */
+    @Schema(description = "是否启用")
     private Boolean isEnable;
 
     /**
-     * 是否内置
+     * 是否删除
      */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
+    @Schema(description = "是否删除")
+    private Boolean isDel;
 
+    /**
+     * 子节点
+     */
+    @Schema(description = "子节点")
+    private List<DepartmentTreeVo> children;
 
 }

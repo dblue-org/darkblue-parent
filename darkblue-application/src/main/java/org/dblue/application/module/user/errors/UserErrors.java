@@ -25,6 +25,10 @@ import org.dblue.common.error.ErrorInfo;
 @Getter
 public enum UserErrors implements ErrorInfo {
 
+
+    /**
+     *
+     */
     USER_NOT_FOUND("USER_0001", "用户不存在"),
     USERNAME_EXISTS("USER_0002", "用户名已存在");
     private final String errorCode;

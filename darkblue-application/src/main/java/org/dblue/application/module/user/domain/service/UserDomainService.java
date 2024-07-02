@@ -15,11 +15,42 @@
  */
 package org.dblue.application.module.user.domain.service;
 
+import org.dblue.application.module.user.application.dto.UserAddDto;
+import org.dblue.application.module.user.application.dto.UserEnableDto;
+import org.dblue.application.module.user.application.dto.UserUpdateDto;
+
 /**
- * TODO
+ * 用户领域服务
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
 public interface UserDomainService {
+
+    /**
+     * 用户添加
+     * @param addDto 用户信息
+     */
+    void add(UserAddDto addDto);
+
+    /**
+     * 用户更新
+     * @param updateDto 用户信息
+     */
+    void update(UserUpdateDto updateDto);
+
+    /**
+     * 用户删除
+     * @param userId 用户ID
+     */
+    void delete(String userId);
+
+    /**
+     * 用户启用/禁用
+     * @param enableDto 启用/禁用信息
+     */
+    void  enable(UserEnableDto enableDto);
+
+
+
 }

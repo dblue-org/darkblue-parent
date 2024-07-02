@@ -1,31 +1,27 @@
 /*
- * Copyright (c) 2023-2024. the original authors and DBLUE.ORG
+ * Copyright (c) 2021-2022. 通冠机械租赁股份有限公司 Inc. All Right Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 公司拥有本软件版权，任何个人不得用于其他商业用户，公司保有所有权利
  */
 
 package org.dblue.application.module.role.application.vo;
 
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
- * 角色
+ * 角色列表
+ *
  * @author xie jin
+ * @since 1.0.0  2024-06-18 15:48:33
  */
-@Schema(description = "角色")
+@Schema(description = "角色列表")
 @Data
-public class RoleVo {
+public class RolePageVo {
+
     /**
      * 角色id
      */
@@ -35,7 +31,6 @@ public class RoleVo {
     /**
      * 角色名称
      */
-
     @Schema(description = "角色名称")
     private String roleName;
 
@@ -63,5 +58,18 @@ public class RoleVo {
     @Schema(description = "是否内置")
     private Boolean isBuiltIn;
 
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
+
+    /**
+     * 使用人数
+     */
+    @Schema(description = "使用人数")
+    private Integer userNums = 0;
 
 }
+
+

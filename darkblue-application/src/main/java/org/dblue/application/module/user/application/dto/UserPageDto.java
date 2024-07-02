@@ -14,54 +14,42 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.user.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dblue.application.module.user.application.vo.UserPageVo;
+import org.dblue.core.web.param.PageParamImpl;
 
 /**
- * 角色
+ * 用户分页查询
+ *
  * @author xie jin
+ * @since 1.0.0  2024/7/2 上午9:25
  */
-@Schema(description = "角色")
+@Schema(description = "用户分页查询")
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class RoleVo {
-    /**
-     * 角色id
-     */
-    @Schema(description = "角色id")
-    private String roleId;
+public class UserPageDto extends PageParamImpl<UserPageVo> {
 
     /**
-     * 角色名称
+     * 用户名
      */
+    @Schema(description = "用户名")
+    private String username;
 
-    @Schema(description = "角色名称")
-    private String roleName;
 
     /**
-     * 角色编码
+     * 姓名
      */
-    @Schema(description = "角色编码")
-    private String roleCode;
+    @Schema(description = "姓名")
+    private String name;
 
     /**
-     * 备注
+     * 手机号
      */
-    @Schema(description = "备注")
-    private String remark;
-
-    /**
-     * 是否可用
-     */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
-
-    /**
-     * 是否内置
-     */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
-
+    @Schema(description = "手机号")
+    private String phoneNumber;
 
 }

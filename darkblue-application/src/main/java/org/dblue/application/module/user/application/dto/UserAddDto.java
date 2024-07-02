@@ -13,13 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.dblue.application.module.user.application.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
- * TODO
+ * 用户添加
  *
- * @author Wang Chengwei
- * @since 1.0.0
+ * @author xie jin
+ * @since 1.0.0  2024-07-02 11:30:34
  */
-public class UserAddDto {
+@EqualsAndHashCode(callSuper = true)
+@Schema
+@Data
+public class UserAddDto extends UserDto{
+
+
+
 }

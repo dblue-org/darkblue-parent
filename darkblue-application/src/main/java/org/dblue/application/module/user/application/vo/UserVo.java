@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.user.infrastructure.entity;
+package org.dblue.application.module.user.application.vo;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.dblue.core.jpa.AbstractAuditingEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,107 +26,107 @@ import java.util.List;
  * 用户
  * @author xie jin
  */
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_sys_user")
-public class User extends AbstractAuditingEntity {
+@Schema(description = "用户")
+@Data
+public class UserVo {
     /**
      * 用户ID
      */
-    @Id
-    @Size(max = 64)
-    @Column(name = "user_id", nullable = false, length = 64)
+
+    @Schema(description = "用户ID")
     private String userId;
 
     /**
      * 用户名
      */
-    @Size(max = 64)
-    @Column(name = "username", length = 64)
+    @Schema(description = "用户名")
     private String username;
 
-    /**
-     * 密码
-     */
-    @Size(max = 128)
-    @Column(name = "password", length = 128)
-    private String password;
 
     /**
      * 姓名
      */
-    @Size(max = 64)
-    @Column(name = "name", length = 64)
+    @Schema(description = "姓名")
     private String name;
 
     /**
      * 性别（1-男；2-女）
      */
-    @Column(name = "sex")
+    @Schema(description = "性别（1-男；2-女）")
     private Integer sex;
 
     /**
      * 所属部门
      */
-    @Size(max = 64)
-    @Column(name = "dept_id", length = 64)
+    @Schema(description = "所属部门")
     private String deptId;
+
+    /**
+     * 所属部门名称
+     */
+    @Schema(description = "所属部门名称")
+    private String deptName;
 
     /**
      * 职务ID
      */
-    @Size(max = 64)
-    @Column(name = "position_id", length = 64)
+    @Schema(description = "职务ID")
     private String positionId;
+
+    /**
+     * 职务名称
+     */
+    @Schema(description = "职务名称")
+    private String positionName;
 
     /**
      * 手机号
      */
-    @Size(max = 20)
-    @Column(name = "phone_number", length = 20)
+    @Schema(description = "手机号")
     private String phoneNumber;
 
     /**
      * 身份证号码
      */
-    @Size(max = 20)
-    @Column(name = "identity_no", length = 20)
+    @Schema(description = "身份证号码")
     private String identityNo;
 
     /**
      * 是否可用
      */
-    @Column(name = "is_enable")
+
+    @Schema(description = "是否可用")
     private Boolean isEnable;
 
     /**
      * 最后登录日期
      */
-    @Column(name = "last_login_time")
+    @Schema(description = "最后登录日期")
     private LocalDateTime lastLoginTime;
 
     /**
      * 密码更新时间
      */
-    @Column(name = "password_update_time")
+    @Schema(description = "密码更新时间")
     private LocalDateTime passwordUpdateTime;
 
     /**
      * 是否超级管理员
      */
-    @Column(name = "is_admin")
+    @Schema(description = "是否超级管理员")
     private Boolean isAdmin;
 
     /**
      * 是否删除
      */
-    @Column(name = "is_del")
+    @Schema(description = "是否删除")
     private Boolean isDel;
 
 
-    @Transient
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY, targetEntity = UserRole.class)
-    private List<UserRole> roles;
+    /**
+     * 角色ID
+     */
+    @Schema(description = "角色ID")
+    private List<String> roleIdList;
 
 }

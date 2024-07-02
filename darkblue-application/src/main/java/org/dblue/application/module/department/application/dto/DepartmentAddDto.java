@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.domain.service;
+package org.dblue.application.module.department.application.dto;
 
-import org.dblue.application.module.role.infrastructure.entiry.Role;
-
-import java.util.List;
-import java.util.Set;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * 角色领域查询服务
- *
+ * 组织架构添加
  * @author xie jin
- * @since 1.0.0  2024/6/18 下午3:44
  */
-public interface RoleDomainQueryService {
+@Schema(description = "组织架构添加")
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class DepartmentAddDto extends DepartmentDto{
 
-    /**
-     * 批量获取角色信息
-     * @param roleIdSets 角色ID集合
-     * @return 角色信息
-     */
-    List<Role> getMoreByIds(Set<String> roleIdSets);
+
+
+
+
 }

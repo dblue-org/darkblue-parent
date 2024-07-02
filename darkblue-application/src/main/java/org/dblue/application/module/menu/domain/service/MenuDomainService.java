@@ -17,6 +17,7 @@
 package org.dblue.application.module.menu.domain.service;
 
 import org.dblue.application.module.menu.application.dto.MenuAddDto;
+import org.dblue.application.module.menu.application.dto.MenuEnableDto;
 import org.dblue.application.module.menu.application.dto.MenuUpdateDto;
 
 /**
@@ -49,6 +50,12 @@ public interface MenuDomainService {
      * @param menuId 菜单ID
      */
     void delete(String menuId);
+
+    /**
+     * 菜单启用禁用
+     * @param menuEnableDto 菜单信息
+     */
+    void enable(MenuEnableDto menuEnableDto);
 
 
 }

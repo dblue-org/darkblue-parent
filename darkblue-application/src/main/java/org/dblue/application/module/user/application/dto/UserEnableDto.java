@@ -14,25 +14,30 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.domain.service;
+package org.dblue.application.module.user.application.dto;
 
-import org.dblue.application.module.role.infrastructure.entiry.Role;
-
-import java.util.List;
-import java.util.Set;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
- * 角色领域查询服务
+ * 用户启用禁用
  *
  * @author xie jin
- * @since 1.0.0  2024/6/18 下午3:44
+ * @since 1.0.0  2024/6/21 下午4:01
  */
-public interface RoleDomainQueryService {
+@Data
+public class UserEnableDto {
 
     /**
-     * 批量获取角色信息
-     * @param roleIdSets 角色ID集合
-     * @return 角色信息
+     * 用户ID
      */
-    List<Role> getMoreByIds(Set<String> roleIdSets);
+    @NotBlank(message = "用户ID不能为空")
+    private String userId;
+
+    /**
+     * 启用/禁用
+     */
+    @NotNull(message = "状态不能为空")
+    private Boolean enable;
 }

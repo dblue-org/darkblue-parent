@@ -16,10 +16,7 @@
 
 package org.dblue.application.module.menu.infrastructure.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -28,7 +25,10 @@ import org.dblue.core.jpa.AbstractAuditingEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 /**
- * 菜单
+ * 用户更新
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-02 11:31:33
  */
 @Getter
 @Setter
@@ -49,6 +49,12 @@ public class Menu extends AbstractAuditingEntity {
     @Size(max = 64)
     @Column(name = "parent_id", length = 64)
     private String parentId;
+
+
+    @Transient
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Menu parentMenu;
 
     /**
      * 菜单适用平台(1-PC；2-APP)

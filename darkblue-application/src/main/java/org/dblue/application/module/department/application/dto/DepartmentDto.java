@@ -14,54 +14,44 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.department.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * 角色
+ * 组织架构
  * @author xie jin
  */
-@Schema(description = "角色")
+@Schema(description = "组织架构")
 @Data
-public class RoleVo {
-    /**
-     * 角色id
-     */
-    @Schema(description = "角色id")
-    private String roleId;
+public class DepartmentDto {
+
 
     /**
-     * 角色名称
+     * 部门名称
      */
-
-    @Schema(description = "角色名称")
-    private String roleName;
-
-    /**
-     * 角色编码
-     */
-    @Schema(description = "角色编码")
-    private String roleCode;
+    @Schema(description = "部门名称")
+    @Size(max = 200)
+    @NotBlank(message = "部门名称不能为空")
+    private String deptName;
 
     /**
-     * 备注
+     * 上级ID
      */
-    @Schema(description = "备注")
-    private String remark;
+    @Schema(description = "上级ID")
+    @Size(max = 64)
+    private String parentId;
 
     /**
-     * 是否可用
+     * 部门主管
      */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
+    @Schema(description = "部门主管")
+    @Size(max = 64)
+    private String masterUserId;
 
-    /**
-     * 是否内置
-     */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
 
 
 }
