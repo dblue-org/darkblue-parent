@@ -14,56 +14,43 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.role.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
- * 角色
+ * 角色设置权限
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 14:05:47
+ * @since 1.0.0  2024-07-02 14:00:39
  */
-@Schema(description = "角色")
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class RoleVo {
+public class RolePermissionDto extends RoleDto{
+
     /**
      * 角色id
      */
-    @Schema(description = "角色id")
+    @Size(max = 64)
+    @NotBlank(message = "角色ID不能为空")
     private String roleId;
 
     /**
-     * 角色名称
+     * 菜单信息
      */
-
-    @Schema(description = "角色名称")
-    private String roleName;
+    @Schema(description = "菜单信息")
+    private List<String> menuIdList;
 
     /**
-     * 角色编码
+     * 权限信息
      */
-    @Schema(description = "角色编码")
-    private String roleCode;
-
-    /**
-     * 备注
-     */
-    @Schema(description = "备注")
-    private String remark;
-
-    /**
-     * 是否可用
-     */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
-
-    /**
-     * 是否内置
-     */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
-
+    @Schema(description = "权限信息")
+    private List<String> permissionList;
 
 }

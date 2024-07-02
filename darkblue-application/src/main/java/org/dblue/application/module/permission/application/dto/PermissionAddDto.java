@@ -22,6 +22,9 @@ import lombok.EqualsAndHashCode;
 
 /**
  * 权限添加
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-02 14:16:38
  */
 @Schema(description = "权限添加")
 @EqualsAndHashCode(callSuper = true)

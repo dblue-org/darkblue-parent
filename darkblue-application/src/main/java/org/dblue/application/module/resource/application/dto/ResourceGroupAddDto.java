@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.repository;
+package org.dblue.application.module.resource.application.dto;
 
-import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
- * 权限资源
+ * 资源组添加
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 17:26:49
+ * @since 1.0.0  2024-07-02 16:32:47
  */
-public interface PermissionResourceRepository extends JpaRepository<PermissionResource, String> {
-
-    /**
-     * 根据权限删除
-     * @param permissionId 权限ID
-     */
-    void deleteByPermissionId(@NonNull String permissionId);
+@Schema(description = "资源组添加")
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class ResourceGroupAddDto extends ResourceGroupDto{
 
 
 }

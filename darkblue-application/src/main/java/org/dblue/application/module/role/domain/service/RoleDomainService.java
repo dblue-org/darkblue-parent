@@ -17,6 +17,7 @@
 package org.dblue.application.module.role.domain.service;
 
 import org.dblue.application.module.role.application.dto.RoleAddDto;
+import org.dblue.application.module.role.application.dto.RolePermissionDto;
 import org.dblue.application.module.role.application.dto.RoleUpdateDto;
 
 /**
@@ -46,4 +47,10 @@ public interface RoleDomainService {
      * @param roleId 角色ID
      */
     void delete(String roleId);
+
+    /**
+     * 设置权限
+     * @param permissionDto 权限信息
+     */
+    void setPermission(RolePermissionDto permissionDto);
 }

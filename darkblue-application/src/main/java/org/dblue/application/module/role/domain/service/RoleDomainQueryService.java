@@ -35,4 +35,12 @@ public interface RoleDomainQueryService {
      * @return 角色信息
      */
     List<Role> getMoreByIds(Set<String> roleIdSets);
+
+
+    /**
+     * 获取单个角色信息
+     * @param roleId 角色ID
+     * @return 角色
+     */
+    Role getOne(String roleId);
 }

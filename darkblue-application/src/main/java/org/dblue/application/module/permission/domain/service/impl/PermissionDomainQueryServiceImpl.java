@@ -18,12 +18,15 @@ package org.dblue.application.module.permission.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dblue.application.module.permission.application.dto.PermissionQueryDto;
-import org.dblue.application.module.permission.domain.PermissionDomainQueryService;
+import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.module.permission.application.dto.PermissionPageDto;
+import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * 权限领域查询服务
@@ -37,6 +40,7 @@ import org.springframework.stereotype.Service;
 public class PermissionDomainQueryServiceImpl implements PermissionDomainQueryService {
 
     private final PermissionRepository permissionRepository;
+
     /**
      * 查询菜单下权限
      *
@@ -55,7 +59,22 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
      * @return 权限列表
      */
     @Override
-    public Page<Permission> findByPage(PermissionQueryDto query) {
+    public Page<Permission> findByPage(PermissionPageDto query) {
         return permissionRepository.findByMenuIdAndPermissionCodeAndPermissionName(query.getMenuId(), query.getPermissionCode(), query.getPermissionName(), query.toJpaPage());
+    }
+
+    /**
+     * 权限信息
+     *
+     * @param permissionId 权限ID
+     * @return 权限信息
+     */
+    @Override
+    public Permission getOne(String permissionId) {
+        if (StringUtils.isBlank(permissionId)) {
+            return null;
+        }
+        Optional<Permission> optional = permissionRepository.findById(permissionId);
+        return optional.orElse(null);
     }
 }

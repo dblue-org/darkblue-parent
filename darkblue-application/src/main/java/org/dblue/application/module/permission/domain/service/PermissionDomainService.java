@@ -17,6 +17,7 @@
 package org.dblue.application.module.permission.domain.service;
 
 import org.dblue.application.module.permission.application.dto.PermissionAddDto;
+import org.dblue.application.module.permission.application.dto.PermissionResourceDto;
 import org.dblue.application.module.permission.application.dto.PermissionUpdateDto;
 
 /**
@@ -47,4 +48,10 @@ public interface PermissionDomainService {
      * @param id 权限id
      */
     void delete(String id);
+
+    /**
+     * 绑定资源
+     * @param resourceDto 信息
+     */
+    void setResource(PermissionResourceDto resourceDto);
 }

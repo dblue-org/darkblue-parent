@@ -18,10 +18,11 @@ package org.dblue.application.module.permission.application.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dblue.application.module.permission.application.dto.PermissionQueryDto;
+import org.dblue.application.module.permission.application.dto.PermissionPageDto;
 import org.dblue.application.module.permission.application.service.PermissionApplicationService;
+import org.dblue.application.module.permission.application.vo.PermissionPageVo;
 import org.dblue.application.module.permission.application.vo.PermissionVo;
-import org.dblue.application.module.permission.domain.PermissionDomainQueryService;
+import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.application.module.permission.errors.PermissionErrors;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
@@ -31,6 +32,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 /**
  * 权限应用服务
@@ -68,7 +71,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
      * @return 权限列表
      */
     @Override
-    public Page<PermissionVo> findByPage(PermissionQueryDto query) {
+    public Page<PermissionPageVo> findByPage(PermissionPageDto query) {
         Page<Permission> page = permissionDomainQueryService.findByPage(query);
         if(page.isEmpty()){
 
@@ -77,9 +80,25 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
         return page.map(this::build);
     }
 
-    private PermissionVo build(Permission permission) {
+    private PermissionPageVo build(Permission permission) {
+        PermissionPageVo permissionPageVo = new PermissionPageVo();
+        BeanUtils.copyProperties(permission, permissionPageVo);
+        return permissionPageVo;
+    }
+
+    /**
+     * 权限信息
+     *
+     * @param permissionId 权限ID
+     * @return 权限信息
+     */
+    @Override
+    public PermissionVo getOne(String permissionId) {
+        Permission permission = permissionDomainQueryService.getOne(permissionId);
         PermissionVo permissionVo = new PermissionVo();
-        BeanUtils.copyProperties(permission,permissionVo);
-        return  permissionVo;
+        if(Objects.nonNull(permission)){
+            BeanUtils.copyProperties(permission,permissionVo);
+        }
+        return permissionVo;
     }
 }

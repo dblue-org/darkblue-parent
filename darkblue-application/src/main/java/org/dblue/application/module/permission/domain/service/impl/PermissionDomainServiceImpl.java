@@ -19,11 +19,14 @@ package org.dblue.application.module.permission.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dblue.application.module.permission.application.dto.PermissionAddDto;
+import org.dblue.application.module.permission.application.dto.PermissionResourceDto;
 import org.dblue.application.module.permission.application.dto.PermissionUpdateDto;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.application.module.permission.errors.PermissionErrors;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
+import org.dblue.application.module.permission.infrastructure.repository.PermissionResourceRepository;
 import org.dblue.common.exception.ServiceException;
 import org.dblue.common.id.Snowflake;
 import org.springframework.beans.BeanUtils;
@@ -43,6 +46,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PermissionDomainServiceImpl implements PermissionDomainService {
     private final PermissionRepository permissionRepository;
+    private final PermissionResourceRepository permissionResourceRepository;
 
 
     /**
@@ -58,7 +62,7 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
             throw new ServiceException(PermissionErrors.PERMISSION_EXITS);
         }
         Permission permission = new Permission();
-        BeanUtils.copyProperties(permissionAddDto,permission);
+        BeanUtils.copyProperties(permissionAddDto, permission);
         permission.setPermissionId(Snowflake.stringId());
         permissionRepository.save(permission);
 
@@ -90,6 +94,7 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
      *
      * @param id 权限id
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String id) {
         Optional<Permission> optional = permissionRepository.findById(id);
@@ -97,6 +102,29 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
             throw new ServiceException(PermissionErrors.PERMISSION_IS_NOT_FOUND);
         }
         permissionRepository.deleteById(id);
+
+    }
+
+    /**
+     * 绑定资源
+     *
+     * @param resourceDto 信息
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void setResource(PermissionResourceDto resourceDto) {
+        Optional<Permission> optional = permissionRepository.findById(resourceDto.getPermissionId());
+        if (optional.isEmpty()) {
+            throw new ServiceException(PermissionErrors.PERMISSION_IS_NOT_FOUND);
+        }
+        permissionResourceRepository.deleteByPermissionId(resourceDto.getPermissionId());
+        for (String resourceId : resourceDto.getResourceIdList()) {
+            PermissionResource permissionResource = new PermissionResource();
+            permissionResource.setResourceId(resourceId);
+            permissionResource.setPermissionId(resourceDto.getPermissionId());
+            permissionResource.setPermissionResourceId(Snowflake.stringId());
+            permissionResourceRepository.save(permissionResource);
+        }
 
     }
 }

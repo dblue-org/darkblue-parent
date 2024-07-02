@@ -24,9 +24,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.role.application.dto.RoleAddDto;
 import org.dblue.application.module.role.application.dto.RolePageDto;
+import org.dblue.application.module.role.application.dto.RolePermissionDto;
 import org.dblue.application.module.role.application.dto.RoleUpdateDto;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
 import org.dblue.application.module.role.application.vo.RolePageVo;
+import org.dblue.application.module.role.application.vo.RoleVo;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
@@ -54,7 +56,7 @@ public class RoleController {
      */
     @Operation(summary = "角色添加", description = "角色添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@RequestBody @Valid RoleAddDto roleAddDto){
+    public ResponseBean<String> add(@RequestBody @Valid RoleAddDto roleAddDto) {
         roleDomainService.add(roleAddDto);
         return ResponseBean.success();
     }
@@ -66,19 +68,20 @@ public class RoleController {
      */
     @Operation(summary = "角色更新", description = "角色更新")
     @PostMapping("/update")
-    public ResponseBean<String> update(@RequestBody @Valid RoleUpdateDto roleUpdateDto){
+    public ResponseBean<String> update(@RequestBody @Valid RoleUpdateDto roleUpdateDto) {
         roleDomainService.update(roleUpdateDto);
         return ResponseBean.success();
     }
 
     /**
      * 角色删除
+     *
      * @param roleId 角色ID
      */
     @Parameter(name = "roleId", description = "角色ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "角色删除", description = "角色删除")
     @DeleteMapping("/delete/{roleId}")
-    public ResponseBean<String> delete(@PathVariable("roleId") String roleId){
+    public ResponseBean<String> delete(@PathVariable("roleId") String roleId) {
         roleDomainService.delete(roleId);
         return ResponseBean.success();
     }
@@ -91,7 +94,32 @@ public class RoleController {
      */
     @Operation(summary = "分页查询角色信息", description = "分页查询角色信息")
     @GetMapping("/page")
-    public PageResponseBean<RolePageVo> findByPage(RolePageDto query){
+    public PageResponseBean<RolePageVo> findByPage(RolePageDto query) {
         return PageResponseBean.success(roleApplicationService.findByPage(query));
+    }
+
+    /**
+     * 设置权限
+     *
+     * @param permissionDto 权限信息
+     */
+    @Operation(summary = "设置权限", description = "设置权限")
+    @PostMapping("/setPermission")
+    public ResponseBean<String> setPermission(@RequestBody @Valid RolePermissionDto permissionDto) {
+        roleDomainService.setPermission(permissionDto);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 获取单个角色信息
+     *
+     * @param roleId 角色ID
+     * @return 角色
+     */
+    @Parameter(name = "roleId", description = "角色ID", in = ParameterIn.PATH, required = true)
+    @Operation(summary = "获取单个角色信息", description = "获取单个角色信息")
+    @PostMapping("/getOne/{roleId}")
+    public ResponseBean<RoleVo> getOne(@PathVariable("roleId") String roleId) {
+        return ResponseBean.success(roleApplicationService.getOne(roleId));
     }
 }

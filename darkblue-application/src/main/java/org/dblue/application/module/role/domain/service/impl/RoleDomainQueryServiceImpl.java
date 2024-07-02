@@ -19,6 +19,7 @@ package org.dblue.application.module.role.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.dblue.application.module.role.infrastructure.repository.RoleRepository;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -53,5 +55,20 @@ public class RoleDomainQueryServiceImpl implements RoleDomainQueryService {
             return Collections.emptyList();
         }
         return roleRepository.findAllById(roleIdSets);
+    }
+
+    /**
+     * 获取单个角色信息
+     *
+     * @param roleId 角色ID
+     * @return 角色
+     */
+    @Override
+    public Role getOne(String roleId) {
+        if(StringUtils.isBlank(roleId)){
+            return null;
+        }
+        Optional<Role> optional = roleRepository.findById(roleId);
+        return optional.orElse(null);
     }
 }

@@ -14,24 +14,37 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.repository;
+package org.dblue.application.module.resource.infrastructure.repository;
 
-import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
+import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
+
+import java.util.Optional;
 /**
- * 权限资源
+ * 资源组
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 17:26:49
+ * @since 1.0.0  2024-07-02 17:27:01
  */
-public interface PermissionResourceRepository extends JpaRepository<PermissionResource, String> {
+public interface ResourceGroupRepository extends JpaRepository<ResourceGroup, String> {
 
     /**
-     * 根据权限删除
-     * @param permissionId 权限ID
+     * 根据资源组名称查询
+     * @param groupName 资源组名称
+     * @return 资源组
      */
-    void deleteByPermissionId(@NonNull String permissionId);
+    Optional<ResourceGroup> findByGroupName(@NonNull String groupName);
+
+
+    /**
+     * 更新查询用
+     * @param groupName 资源组名称
+     * @param resourceGroupId 资源组ID
+     * @return  资源组
+     */
+    Optional<ResourceGroup> findByGroupNameAndResourceGroupIdNot(
+            @NonNull String groupName, @NonNull String resourceGroupId);
 
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.resource.infrastructure.entiry;
+package org.dblue.application.module.resource.infrastructure.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,45 +23,59 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.dblue.core.jpa.AbstractAuditingEntity;
 
-import java.time.Instant;
-
+/**
+ * 资源
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-02 17:27:58
+ */
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_sys_resource")
-public class Resource {
+public class Resource extends AbstractAuditingEntity {
+    /**
+     * 资源ID
+     */
     @Id
     @Size(max = 64)
     @Column(name = "resource_id", nullable = false, length = 64)
     private String resourceId;
 
+    /**
+     * 资源组ID
+     */
+    @Size(max = 64)
+    @Column(name = "resource_group_id", length = 64)
+    private String resourceGroupId;
+
+    /**
+     * 资源名称
+     */
     @Size(max = 100)
     @Column(name = "resource_name", length = 100)
     private String resourceName;
 
+    /**
+     * 资源地址
+     */
     @Size(max = 256)
     @Column(name = "resource_url", length = 256)
     private String resourceUrl;
 
+    /**
+     * 是否登录即可访问
+     */
     @Column(name = "is_authed_access")
     private Boolean isAuthedAccess;
 
+    /**
+     * 排序字段
+     */
     @Column(name = "sort_num")
     private Integer sortNum;
 
-    @Column(name = "create_time")
-    private Instant createTime;
-
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
-
-    @Column(name = "update_time")
-    private Instant updateTime;
-
-    @Size(max = 64)
-    @Column(name = "update_user", length = 64)
-    private String updateUser;
 
 }

@@ -135,21 +135,22 @@ create table darkblue.tb_sys_permission_resource
 )
     comment '权限资源';
 
-create table darkblue.tb_sys_resource
+CREATE TABLE darkblue.tb_sys_resource
 (
-    resource_id       varchar(64)  not null comment '资源ID'
-        primary key,
-    resource_group_id varchar(64)  null comment '资源组ID',
-    resource_name     varchar(100) null comment '资源名称',
-    resource_url      varchar(256) null comment '资源地址',
-    is_authed_access  tinyint(1)   null comment '是否登录即可访问',
-    sort_num          int          null comment '排序字段',
-    create_time       datetime     null comment '创建时间',
-    create_user       varchar(64)  null comment '创建人',
-    update_time       datetime     null comment '更新时间',
-    update_user       varchar(64)  null comment '更新人'
-)
-    comment '资源';
+    resource_id          VARCHAR(64)  NOT NULL COMMENT '资源ID' PRIMARY KEY,
+    resource_group_id    VARCHAR(64)  NULL COMMENT '资源组ID',
+    resource_name        VARCHAR(100) NULL COMMENT '资源名称',
+    resource_url         VARCHAR(256) NULL COMMENT '资源地址',
+    request_method       VARCHAR(20)  NULL COMMENT '请求方式',
+    control_layer_class  VARCHAR(500) NULL COMMENT '控制层类',
+    control_layer_method VARCHAR(500) NULL COMMENT '控制层方法',
+    is_authed_access     TINYINT(1)   NULL COMMENT '是否登录即可访问',
+    sort_num             INT          NULL COMMENT '排序字段',
+    create_time          datetime     NULL COMMENT '创建时间',
+    create_user          VARCHAR(64)  NULL COMMENT '创建人',
+    update_time          datetime     NULL COMMENT '更新时间',
+    update_user          VARCHAR(64)  NULL COMMENT '更新人'
+) COMMENT '资源';
 
 create table darkblue.tb_sys_resource_group
 (

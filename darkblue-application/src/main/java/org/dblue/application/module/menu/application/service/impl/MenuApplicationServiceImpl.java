@@ -28,7 +28,7 @@ import org.dblue.application.module.menu.domain.service.MenuDomainService;
 import org.dblue.application.module.menu.errors.MenuErrors;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.dblue.application.module.menu.infrastructure.repository.MenuRepository;
-import org.dblue.application.module.permission.domain.PermissionDomainQueryService;
+import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.role.domain.service.RoleMenuDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
 import org.dblue.common.exception.ServiceException;

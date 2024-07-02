@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.role.application.dto.RoleAddDto;
-import org.dblue.application.module.role.application.dto.RoleDto;
+import org.dblue.application.module.role.application.dto.RolePermissionDto;
 import org.dblue.application.module.role.application.dto.RoleUpdateDto;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.application.module.role.errors.RoleErrors;
@@ -65,24 +65,21 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         if (Boolean.TRUE.equals(exists)) {
             throw new ServiceException(RoleErrors.ROLE_EXITS);
         }
-        Role role = saveRole(roleAddDto);
-        saveRoleMenu(roleAddDto, role);
-        saveRolePermission(roleAddDto, role);
+        saveRole(roleAddDto);
     }
 
-    private Role saveRole(RoleAddDto roleAddDto) {
+    private void saveRole(RoleAddDto roleAddDto) {
         Role role = new Role();
         role.setRoleId(Snowflake.stringId());
         BeanUtils.copyProperties(roleAddDto, role);
         role.setIsEnable(Boolean.TRUE);
         role.setIsBuiltIn(Boolean.FALSE);
         roleRepository.save(role);
-        return role;
     }
 
-    private void saveRoleMenu(RoleDto roleAddDto, Role role) {
-        if (CollectionUtils.isNotEmpty(roleAddDto.getMenuIdList())) {
-            for (String menuId : roleAddDto.getMenuIdList()) {
+    private void saveRoleMenu(RolePermissionDto permissionDto, Role role) {
+        if (CollectionUtils.isNotEmpty(permissionDto.getMenuIdList())) {
+            for (String menuId : permissionDto.getMenuIdList()) {
                 RoleMenu roleMenu = new RoleMenu();
                 roleMenu.setRoleMenuId(Snowflake.stringId());
                 roleMenu.setRoleId(role.getRoleId());
@@ -92,9 +89,9 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         }
     }
 
-    private void saveRolePermission(RoleDto roleAddDto, Role role) {
-        if (CollectionUtils.isNotEmpty(roleAddDto.getPermissionList())) {
-            for (String permissionId : roleAddDto.getPermissionList()) {
+    private void saveRolePermission(RolePermissionDto permissionDto, Role role) {
+        if (CollectionUtils.isNotEmpty(permissionDto.getPermissionList())) {
+            for (String permissionId : permissionDto.getPermissionList()) {
                 RolePermission rolePermission = new RolePermission();
                 rolePermission.setRolePermissionId(Snowflake.stringId());
                 rolePermission.setPermissionId(permissionId);
@@ -124,12 +121,6 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         BeanUtils.copyProperties(roleUpdateDto,optional.get());
         roleRepository.save(optional.get());
 
-        roleMenuRepository.deleteByRoleId(roleUpdateDto.getRoleId());
-        saveRoleMenu(roleUpdateDto,optional.get());
-
-        rolePermissionRepository.deleteByRoleId(roleUpdateDto.getRoleId());
-        saveRolePermission(roleUpdateDto,optional.get());
-
     }
 
     /**
@@ -147,5 +138,26 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         roleRepository.deleteById(roleId);
         roleMenuRepository.deleteByRoleId(roleId);
         rolePermissionRepository.deleteByRoleId(roleId);
+    }
+
+    /**
+     * 设置权限
+     *
+     * @param permissionDto 权限信息
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void setPermission(RolePermissionDto permissionDto) {
+        Optional<Role> optional = roleRepository.findById(permissionDto.getRoleId());
+        if(optional.isEmpty()){
+            throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
+        }
+
+
+        roleMenuRepository.deleteByRoleId(permissionDto.getRoleId());
+        saveRoleMenu(permissionDto,optional.get());
+
+        rolePermissionRepository.deleteByRoleId(permissionDto.getRoleId());
+        saveRolePermission(permissionDto,optional.get());
     }
 }

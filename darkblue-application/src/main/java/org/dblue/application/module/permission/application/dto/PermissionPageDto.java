@@ -10,7 +10,7 @@ package org.dblue.application.module.permission.application.dto;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dblue.application.module.permission.application.vo.PermissionVo;
+import org.dblue.application.module.permission.application.vo.PermissionPageVo;
 import org.dblue.core.web.param.PageParamImpl;
 
 /**
@@ -21,7 +21,7 @@ import org.dblue.core.web.param.PageParamImpl;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class PermissionQueryDto extends PageParamImpl<PermissionVo> {
+public class PermissionPageDto extends PageParamImpl<PermissionPageVo> {
 
     /**
      * 菜单ID

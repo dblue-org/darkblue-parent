@@ -14,34 +14,23 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.domain;
+package org.dblue.application.module.resource.application.service;
 
+import org.dblue.application.module.resource.application.vo.ResourceGroupVo;
 
-import org.dblue.application.module.permission.application.dto.PermissionQueryDto;
-import org.dblue.application.module.permission.infrastructure.entiry.Permission;
-import org.springframework.data.domain.Page;
+import java.util.List;
 
 /**
- * 权限领域查询服务
+ * 资源组应用服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/17 下午2:55
+ * @since 1.0.0  2024/7/2 下午5:19
  */
-public interface PermissionDomainQueryService {
-
-
-    /**
-     * 查询菜单下权限
-     * @param menuId 菜单ID
-     * @return 数量
-     */
-    long countByMenuId( String menuId);
+public interface ResourceGroupApplicationService {
 
     /**
-     * 分页查询权限信息
-     *
-     * @param query 查询条件
-     * @return 权限列表
+     * 获取全部资源组信息
+     * @return 资源组信息
      */
-    Page<Permission> findByPage(PermissionQueryDto query);
+    List<ResourceGroupVo> getAll();
 }

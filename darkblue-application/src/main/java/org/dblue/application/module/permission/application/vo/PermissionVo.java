@@ -1,7 +1,17 @@
 /*
- * Copyright (c) 2021-2022. 通冠机械租赁股份有限公司 Inc. All Right Reserved.
+ * Copyright (c) 2023-2024. the original authors and DBLUE.ORG
  *
- * 公司拥有本软件版权，任何个人不得用于其他商业用户，公司保有所有权利
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.dblue.application.module.permission.application.vo;
@@ -10,57 +20,43 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+
+
 /**
- * 权限
+ * 权限信息
  *
  * @author xie jin
- * @since 1.0.0  2024-06-17 16:11:59
+ * @since 1.0.0  2024-07-02 14:26:04
  */
-@Schema(description = "权限")
+@Schema(description = "权限信息")
 @Data
 public class PermissionVo {
-
     /**
      * 权限ID
      */
-    @Schema(title = "权限ID", description = "权限ID", required = true)
+    @Schema(description = "权限ID")
     private String permissionId;
 
-    /**
-     * 菜单ID
-     */
-    @Schema(title = "菜单ID", description = "菜单ID", required = true)
-    private String menuId;
-
-    /**
-     * 菜单名称
-     */
-    @Schema(title = "菜单名称", description = "菜单名称", required = true)
-    private String menuName;
-
-    /**
-     * 适用平台(1-PC；2-APP)从菜单代入
-     */
-    @Schema(title = "适用平台(1-PC；2-APP)从菜单代入", description = "适用平台(1-PC；2-APP)从菜单代入", required = true)
-    private Integer platform;
 
     /**
      * 权限名称
      */
-    @Schema(title = "权限名称", description = "权限名称", required = true)
+    @Schema(description = "权限名称")
     private String permissionName;
 
     /**
      * 权限标识
      */
-    @Schema(title = "权限标识", description = "权限标识", required = true)
+    @Schema(description = "权限标识")
     private String permissionCode;
+
 
     /**
      * 创建时间
      */
-    @Schema(title = "创建时间", description = "创建时间", required = true)
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
+
+
+
 }
-
-

@@ -14,56 +14,41 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.permission.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * 角色
+ * 绑定资源
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 14:05:47
+ * @since 1.0.0  2024-07-02 14:17:11
  */
-@Schema(description = "角色")
+@Schema(description = "绑定资源")
 @Data
-public class RoleVo {
-    /**
-     * 角色id
-     */
-    @Schema(description = "角色id")
-    private String roleId;
+public class PermissionResourceDto {
 
     /**
-     * 角色名称
+     * 权限ID
      */
+    @Schema(description = "权限ID")
+    @Size(max = 64)
+    @NotBlank(message = "权限ID不能为空")
+    private String permissionId;
 
-    @Schema(description = "角色名称")
-    private String roleName;
-
-    /**
-     * 角色编码
-     */
-    @Schema(description = "角色编码")
-    private String roleCode;
 
     /**
-     * 备注
+     * 资源信息
      */
-    @Schema(description = "备注")
-    private String remark;
-
-    /**
-     * 是否可用
-     */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
-
-    /**
-     * 是否内置
-     */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
+    @Schema(description = "资源信息")
+    @NotEmpty(message = "资源不能为空")
+    private List<String> resourceIdList;
 
 
 }

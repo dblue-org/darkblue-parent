@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.dblue.application.module.role.application.dto.RolePageDto;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
 import org.dblue.application.module.role.application.vo.RolePageVo;
+import org.dblue.application.module.role.application.vo.RoleVo;
+import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.application.module.role.errors.RoleErrors;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
@@ -33,6 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +52,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
     private final UserRoleDomainService userRoleDomainService;
     private final RoleDomainService roleDomainService;
     private final RoleRepository roleRepository;
+    private final RoleDomainQueryService roleDomainQueryService;
 
     /**
      * 角色删除
@@ -78,14 +82,30 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
             return Page.empty();
         }
         Map<String, Long> userRoleNumMap = userRoleDomainService.getUserRoleNum(page.getContent().stream()
-                                                                                 .map(Role::getRoleId)
-                                                                                 .collect(Collectors.toSet()));
+                                                                                    .map(Role::getRoleId)
+                                                                                    .collect(Collectors.toSet()));
 
         return page.map(role -> {
             RolePageVo rolePageVo = new RolePageVo();
             BeanUtils.copyProperties(rolePageVo, rolePageVo);
-            rolePageVo.setUserNums(userRoleNumMap.getOrDefault(rolePageVo.getRoleId(),0L).intValue());
+            rolePageVo.setUserNums(userRoleNumMap.getOrDefault(rolePageVo.getRoleId(), 0L).intValue());
             return rolePageVo;
         });
+    }
+
+    /**
+     * 获取单个角色信息
+     *
+     * @param roleId 角色ID
+     * @return 角色
+     */
+    @Override
+    public RoleVo getOne(String roleId) {
+        Role role = roleDomainQueryService.getOne(roleId);
+        RoleVo roleVo = new RoleVo();
+        if (Objects.nonNull(role)) {
+            BeanUtils.copyProperties(role, roleVo);
+        }
+        return roleVo;
     }
 }

@@ -14,24 +14,33 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.repository;
+package org.dblue.application.module.resource.application.dto;
 
-import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
- * 权限资源
+ * 资源组更新
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 17:26:49
+ * @since 1.0.0  2024-07-02 16:32:47
  */
-public interface PermissionResourceRepository extends JpaRepository<PermissionResource, String> {
+@Schema(description = "资源组更新")
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class ResourceGroupUpdateDto extends ResourceGroupDto{
 
     /**
-     * 根据权限删除
-     * @param permissionId 权限ID
+     * 资源组ID
      */
-    void deleteByPermissionId(@NonNull String permissionId);
-
+    @Schema(description = "资源组ID")
+    @Id
+    @Size(max = 64)
+    @NotBlank(message = "资源组ID不能为空")
+    private String resourceGroupId;
 
 }

@@ -14,26 +14,28 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.application.service;
+package org.dblue.application.module.permission.domain.service;
+
 
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
-import org.dblue.application.module.permission.application.vo.PermissionPageVo;
-import org.dblue.application.module.permission.application.vo.PermissionVo;
+import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.springframework.data.domain.Page;
 
 /**
- * 权限应用服务
+ * 权限领域查询服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/14 下午5:11
+ * @since 1.0.0  2024/6/17 下午2:55
  */
-public interface PermissionApplicationService {
+public interface PermissionDomainQueryService {
+
 
     /**
-     * 权限删除
-     * @param id 权限id
+     * 查询菜单下权限
+     * @param menuId 菜单ID
+     * @return 数量
      */
-    void delete(String id);
+    long countByMenuId( String menuId);
 
     /**
      * 分页查询权限信息
@@ -41,13 +43,12 @@ public interface PermissionApplicationService {
      * @param query 查询条件
      * @return 权限列表
      */
-    Page<PermissionPageVo> findByPage(PermissionPageDto query);
+    Page<Permission> findByPage(PermissionPageDto query);
 
     /**
      * 权限信息
      * @param permissionId 权限ID
      * @return 权限信息
      */
-    PermissionVo getOne(String permissionId);
-
+    Permission getOne(String permissionId);
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.resource.infrastructure.entiry;
+package org.dblue.application.module.resource.infrastructure.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,35 +23,32 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.dblue.core.jpa.AbstractAuditingEntity;
 
-import java.time.Instant;
-
+/**
+ * 资源组
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-02 17:27:25
+ */
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_sys_resource_group")
-public class ResourceGroup {
+public class ResourceGroup extends AbstractAuditingEntity {
+    /**
+     * 资源组ID
+     */
     @Id
     @Size(max = 64)
     @Column(name = "resource_group_id", nullable = false, length = 64)
     private String resourceGroupId;
 
+    /**
+     * 资源组名称
+     */
     @Size(max = 64)
     @Column(name = "group_name", length = 64)
     private String groupName;
-
-    @Column(name = "create_time")
-    private Instant createTime;
-
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
-
-    @Column(name = "update_time")
-    private Instant updateTime;
-
-    @Size(max = 64)
-    @Column(name = "update_user", length = 64)
-    private String updateUser;
 
 }
