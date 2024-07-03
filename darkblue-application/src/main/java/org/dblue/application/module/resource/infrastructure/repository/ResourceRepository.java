@@ -19,6 +19,9 @@ package org.dblue.application.module.resource.infrastructure.repository;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
+
+import java.util.Optional;
+
 /**
  * 资源
  *
@@ -34,5 +37,28 @@ public interface ResourceRepository extends JpaRepository<Resource, String> {
      */
     boolean existsByResourceGroupId(@NonNull String resourceGroupId);
 
+    /**
+     * 添加排重用
+     * @param resourceName  资源名称
+     * @param controlLayerClass 控制器类
+     * @param controlLayerMethod 控制器方法
+     * @return 资源
+     */
+    Optional<Resource> findByResourceNameAndControlLayerClassAndControlLayerMethod(
+            @NonNull String resourceName, @NonNull String controlLayerClass, @NonNull String controlLayerMethod);
+
+
+
+
+    /**
+     * 更新排重用
+     * @param resourceName  资源名称
+     * @param controlLayerClass 控制器类
+     * @param controlLayerMethod 控制器方法
+     * @param resourceId 资源ID
+     * @return 资源
+     */
+    Optional<Resource> findByResourceNameAndControlLayerClassAndControlLayerMethodAndResourceIdNot(
+            @NonNull String resourceName, @NonNull String controlLayerClass, @NonNull String controlLayerMethod,@NonNull String resourceId);
 
 }

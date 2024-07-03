@@ -14,31 +14,19 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.infrastructure.repository;
+package org.dblue.application.module.resource.application.service;
 
-import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
 /**
- * 权限资源
+ * 资源应用服务
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 17:26:49
+ * @since 1.0.0  2024/7/3 上午9:39
  */
-public interface PermissionResourceRepository extends JpaRepository<PermissionResource, String> {
+public interface ResourceApplicationService {
 
     /**
-     * 根据权限删除
-     * @param permissionId 权限ID
-     */
-    void deleteByPermissionId(@NonNull String permissionId);
-
-
-    /**
-     * 根据资源删除
+     * 删除资源
      * @param resourceId 资源ID
      */
-    void deleteByResourceId(@NonNull String resourceId);
-
-
+    void delete(String resourceId);
 }

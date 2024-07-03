@@ -67,7 +67,7 @@ public class RoleController {
      * @param roleUpdateDto 角色信息
      */
     @Operation(summary = "角色更新", description = "角色更新")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseBean<String> update(@RequestBody @Valid RoleUpdateDto roleUpdateDto) {
         roleDomainService.update(roleUpdateDto);
         return ResponseBean.success();
@@ -118,7 +118,7 @@ public class RoleController {
      */
     @Parameter(name = "roleId", description = "角色ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "获取单个角色信息", description = "获取单个角色信息")
-    @PostMapping("/getOne/{roleId}")
+    @GetMapping("/getOne/{roleId}")
     public ResponseBean<RoleVo> getOne(@PathVariable("roleId") String roleId) {
         return ResponseBean.success(roleApplicationService.getOne(roleId));
     }

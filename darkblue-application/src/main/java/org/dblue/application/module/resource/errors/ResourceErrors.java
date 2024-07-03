@@ -13,32 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.resource.errors;
 
-package org.dblue.application.module.permission.infrastructure.repository;
+import lombok.Getter;
+import org.dblue.common.error.ErrorInfo;
 
-import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
 /**
- * 权限资源
+ * 资源错误
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 17:26:49
+ * @since 1.0.0  2024-06-14 15:29:11
  */
-public interface PermissionResourceRepository extends JpaRepository<PermissionResource, String> {
-
-    /**
-     * 根据权限删除
-     * @param permissionId 权限ID
-     */
-    void deleteByPermissionId(@NonNull String permissionId);
+@Getter
+public enum ResourceErrors implements ErrorInfo {
 
 
     /**
-     * 根据资源删除
-     * @param resourceId 资源ID
+     *
      */
-    void deleteByResourceId(@NonNull String resourceId);
+    RESOURCE_EXITS("RESOURCE_0001", "资源名称已存在"),
+    RESOURCE_IS_NOT_FOUND("RESOURCE_0002", "资源信息不存在"),
+    ;
+    private final String errorCode;
+    private final String errorMessage;
 
-
+    ResourceErrors(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
 }

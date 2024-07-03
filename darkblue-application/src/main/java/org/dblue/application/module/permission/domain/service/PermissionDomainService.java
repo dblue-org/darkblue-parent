@@ -54,4 +54,11 @@ public interface PermissionDomainService {
      * @param resourceDto 信息
      */
     void setResource(PermissionResourceDto resourceDto);
+
+
+    /**
+     * 根据资源ID删除关联关系
+     * @param resourceId 资源ID
+     */
+    void deletePermissionResourceByResourceId(String resourceId);
 }

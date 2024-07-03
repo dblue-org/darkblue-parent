@@ -14,88 +14,77 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.resource.infrastructure.entity;
+package org.dblue.application.module.resource.application.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.dblue.core.jpa.AbstractAuditingEntity;
+import lombok.Data;
 
 /**
  * 资源
  *
  * @author xie jin
- * @since 1.0.0  2024-07-03 09:56:43
+ * @since 1.0.0  2024-07-02 17:27:58
  */
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_sys_resource")
-public class Resource extends AbstractAuditingEntity {
-    /**
-     * 资源ID
-     */
-    @Id
-    @Size(max = 64)
-    @Column(name = "resource_id", nullable = false, length = 64)
-    private String resourceId;
+@Data
+public class ResourceDto  {
 
     /**
      * 资源组ID
      */
+    @Schema(description = "资源组ID")
     @Size(max = 64)
-    @Column(name = "resource_group_id", length = 64)
     private String resourceGroupId;
 
     /**
      * 资源名称
      */
+    @Schema(description = "资源名称")
     @Size(max = 100)
-    @Column(name = "resource_name", length = 100)
+    @NotBlank(message = "资源名称不能为空")
     private String resourceName;
 
     /**
      * 资源地址
      */
+    @Schema(description = "资源地址")
     @Size(max = 256)
-    @Column(name = "resource_url", length = 256)
+    @NotBlank(message = "资源地址不能为空")
     private String resourceUrl;
+
+    /**
+     * 是否登录即可访问
+     */
+    @Schema(description = "是否登录即可访问")
+    @NotNull(message = "是否登录即可访问不能为空")
+    private Boolean isAuthedAccess;
 
     /**
      * 请求方式
      */
+    @Schema(description = "请求方式")
     @Size(max = 20)
-    @Column(name = "request_method", length = 20)
+    @NotBlank(message = "请求方式不能为空")
     private String requestMethod;
 
     /**
      * 控制层类
      */
+    @Schema(description = "控制层类")
     @Size(max = 500)
-    @Column(name = "control_layer_class", length = 500)
+    @NotBlank(message = "控制层类不能为空")
     private String controlLayerClass;
 
     /**
      * 控制层方法
      */
+    @Schema(description = "控制层方法")
     @Size(max = 500)
-    @Column(name = "control_layer_method", length = 500)
+    @NotBlank(message = "控制层方法不能为空")
     private String controlLayerMethod;
 
-    /**
-     * 是否登录即可访问
-     */
-    @Column(name = "is_authed_access")
-    private Boolean isAuthedAccess;
 
-    /**
-     * 排序字段
-     */
-    @Column(name = "sort_num")
-    private Integer sortNum;
 
 }

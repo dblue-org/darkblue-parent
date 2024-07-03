@@ -78,7 +78,7 @@ public class DepartmentController {
      * @param updateDto 更新信息
      */
     @Operation(summary = "更新", description = "更新")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseBean<String> update(@Valid @RequestBody DepartmentUpdateDto updateDto) {
         departmentDomainService.update(updateDto);
         return ResponseBean.success();
@@ -105,7 +105,7 @@ public class DepartmentController {
      */
     @Parameter(name = "deptId", description = "部门ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "单个获取", description = "单个获取")
-    @DeleteMapping("/getOne/{deptId}")
+    @GetMapping("/getOne/{deptId}")
     public ResponseBean<DepartmentVo> getOne(@PathVariable("deptId") String deptId) {
         return ResponseBean.success(departmentApplicationService.getOne(deptId));
     }

@@ -127,4 +127,16 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
         }
 
     }
+
+    /**
+     * 根据资源ID删除关联关系
+     *
+     * @param resourceId 资源ID
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deletePermissionResourceByResourceId(String resourceId) {
+
+        permissionResourceRepository.deleteByResourceId(resourceId);
+    }
 }

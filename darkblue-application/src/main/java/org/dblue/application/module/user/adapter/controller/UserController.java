@@ -69,7 +69,7 @@ public class UserController {
      * @param updateDto 用户信息
      */
     @Operation(summary = "用户更新", description = "用户更新")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseBean<String> update(@Valid @RequestBody UserUpdateDto updateDto) {
         userDomainService.update(updateDto);
         return ResponseBean.success();
@@ -94,7 +94,7 @@ public class UserController {
      * @param enableDto 启用/禁用信息
      */
     @Operation(summary = "用户启用/禁用", description = "用户启用/禁用")
-    @PostMapping("/enable")
+    @PatchMapping("/enable")
     public ResponseBean<String> enable(@Valid @RequestBody UserEnableDto enableDto) {
         userDomainService.enable(enableDto);
         return ResponseBean.success();

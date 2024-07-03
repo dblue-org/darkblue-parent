@@ -68,7 +68,7 @@ public class PermissionController {
      * @param permissionUpdateDto 权限信息
      */
     @Operation(summary = "权限更新", description = "权限更新")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseBean<String> update(@RequestBody @Valid PermissionUpdateDto permissionUpdateDto) {
         permissionDomainService.update(permissionUpdateDto);
         return ResponseBean.success();

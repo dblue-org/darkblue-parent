@@ -67,7 +67,7 @@ public class MenuController {
      * @param menuUpdateDto 菜单信息
      */
     @Operation(summary = "菜单更新", description = "菜单更新")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseBean<String> update(@RequestBody @Valid MenuUpdateDto menuUpdateDto) {
         menuDomainService.update(menuUpdateDto);
         return ResponseBean.success();
@@ -114,7 +114,7 @@ public class MenuController {
      * @param menuEnableDto 菜单信息
      */
     @Operation(summary = "菜单启用禁用", description = "菜单启用禁用")
-    @PostMapping("/enable")
+    @PatchMapping("/enable")
     public ResponseBean<String> enable(@Valid @RequestBody MenuEnableDto menuEnableDto){
         menuDomainService.enable(menuEnableDto);
         return ResponseBean.success();

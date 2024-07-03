@@ -27,6 +27,9 @@ import org.dblue.common.validation.annotation.EnumValues;
 
 /**
  * 菜单
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-03 09:56:51
  */
 @Schema(description = "菜单")
 @Data
@@ -37,7 +40,6 @@ public class MenuDto {
      */
     @Schema(description = "上级菜单ID")
     @Size(max = 64)
-    @NotBlank(message = "上级菜单ID不能为空")
     private String parentId;
 
     /**
