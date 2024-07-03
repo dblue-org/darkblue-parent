@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         scanBasePackages = {
                 "org.dblue.application",
                 "org.dblue.core",
-                "org.dblue.security"
+                "org.dblue.security",
         }
 )
 @EnableAsync

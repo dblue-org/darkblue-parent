@@ -15,4 +15,6 @@
 #
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   org.dblue.core.spring.config.ApplicationCoreAutoConfiguration,\
-  org.dblue.core.spring.config.WebMvcAutoConfiguration
+  org.dblue.core.spring.config.WebMvcAutoConfiguration,\
+  org.dblue.core.spring.config.MyBatisPlusConfiguration,\
+  org.dblue.core.spring.config.RedisAutoConfiguration
