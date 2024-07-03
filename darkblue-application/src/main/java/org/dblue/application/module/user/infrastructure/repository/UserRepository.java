@@ -79,7 +79,11 @@ public interface UserRepository extends JpaRepository<User, String>, QuerydslPre
         if(StringUtils.isNotBlank(phoneNumber)){
             builder.and(QUser.user.phoneNumber.likeIgnoreCase(phoneNumber));
         }
-        return this.findAll(builder,pageable);
+        if (builder.getValue() != null) {
+            return this.findAll(builder.getValue(),pageable);
+        }else {
+            return this.findAll(pageable);
+        }
 
     }
 
