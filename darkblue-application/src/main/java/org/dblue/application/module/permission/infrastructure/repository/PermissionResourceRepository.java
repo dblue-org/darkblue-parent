@@ -29,16 +29,16 @@ public interface PermissionResourceRepository extends JpaRepository<PermissionRe
 
     /**
      * 根据权限删除
-     * @param permissionId 权限ID
+     * @param permissionId 权限Id
      */
-    void deleteByPermissionId(@NonNull String permissionId);
+    void deleteByPermission_PermissionId(@NonNull String permissionId);
 
 
     /**
      * 根据资源删除
      * @param resourceId 资源ID
      */
-    void deleteByResourceId(@NonNull String resourceId);
+    void deleteByResource_ResourceId(@NonNull String resourceId);
 
 
 }

@@ -15,10 +15,14 @@
  */
 package org.dblue.application.module.user.infrastructure.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.module.user.infrastructure.entity.QUser;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -31,7 +35,7 @@ import java.util.Optional;
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, String>, QuerydslPredicateExecutor<User> {
 
     /**
      * 通过用户名获取用户信息
@@ -59,8 +63,25 @@ public interface UserRepository extends JpaRepository<User, String> {
      * @param pageable 分页参数
      * @return 用户信息
      */
-    Page<User> findByNameLikeAndUsernameLikeAndPhoneNumberLike(
-            @Nullable String name, @Nullable String username, @Nullable String phoneNumber, Pageable pageable);
+//    Page<User> findByNameLikeAndUsernameLikeAndPhoneNumberLike(
+//            @Nullable String name, @Nullable String username, @Nullable String phoneNumber, Pageable pageable);
+
+    default Page<User> findByNameLikeAndUsernameLikeAndPhoneNumberLike(
+            @Nullable String name, @Nullable String username, @Nullable String phoneNumber, Pageable pageable){
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if(StringUtils.isNotBlank(name)){
+            builder.and(QUser.user.name.likeIgnoreCase(name));
+        }
+        if(StringUtils.isNotBlank(username)){
+            builder.and(QUser.user.username.likeIgnoreCase(username));
+        }
+        if(StringUtils.isNotBlank(phoneNumber)){
+            builder.and(QUser.user.phoneNumber.likeIgnoreCase(phoneNumber));
+        }
+        return this.findAll(builder,pageable);
+
+    }
 
 
     /**

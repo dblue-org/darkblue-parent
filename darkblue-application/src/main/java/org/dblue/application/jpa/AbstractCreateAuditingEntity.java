@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.dblue.core.jpa;
+package org.dblue.application.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

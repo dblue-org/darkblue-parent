@@ -20,7 +20,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.dblue.core.jpa.AbstractAuditingEntity;
+import org.dblue.application.jpa.AbstractAuditingEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;

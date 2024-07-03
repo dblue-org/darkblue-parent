@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.dblue.core.jpa.AbstractCreateAuditingEntity;
+import org.dblue.application.jpa.AbstractCreateAuditingEntity;
 
 /**
  * 用户角色

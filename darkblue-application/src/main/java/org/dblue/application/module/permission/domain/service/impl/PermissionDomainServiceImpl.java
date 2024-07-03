@@ -27,6 +27,7 @@ import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionResourceRepository;
+import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.dblue.common.exception.ServiceException;
 import org.dblue.common.id.Snowflake;
 import org.springframework.beans.BeanUtils;
@@ -117,11 +118,16 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(PermissionErrors.PERMISSION_IS_NOT_FOUND);
         }
-        permissionResourceRepository.deleteByPermissionId(resourceDto.getPermissionId());
+        permissionResourceRepository.deleteByPermission_PermissionId(resourceDto.getPermissionId());
         for (String resourceId : resourceDto.getResourceIdList()) {
             PermissionResource permissionResource = new PermissionResource();
-            permissionResource.setResourceId(resourceId);
-            permissionResource.setPermissionId(resourceDto.getPermissionId());
+            Permission permission = new Permission();
+            permission.setPermissionId(resourceDto.getPermissionId());
+            permissionResource.setPermission(permission);
+            Resource resource = new Resource();
+            resource.setResourceId(resourceId);
+            permissionResource.setResource(resource);
+
             permissionResource.setPermissionResourceId(Snowflake.stringId());
             permissionResourceRepository.save(permissionResource);
         }
@@ -137,6 +143,6 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
     @Override
     public void deletePermissionResourceByResourceId(String resourceId) {
 
-        permissionResourceRepository.deleteByResourceId(resourceId);
+        permissionResourceRepository.deleteByResource_ResourceId(resourceId);
     }
 }
