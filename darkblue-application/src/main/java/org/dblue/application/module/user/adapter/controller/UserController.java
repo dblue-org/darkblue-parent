@@ -109,7 +109,7 @@ public class UserController {
      */
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
-    public PageResponseBean<UserPageVo> page(UserPageDto pageDto) {
+    public PageResponseBean<UserPageVo> page(@Valid UserPageDto pageDto) {
         return PageResponseBean.success(userApplicationService.page(pageDto));
     }
 

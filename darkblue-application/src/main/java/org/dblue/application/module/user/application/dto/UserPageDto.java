@@ -17,10 +17,12 @@
 package org.dblue.application.module.user.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dblue.application.module.user.application.vo.UserPageVo;
 import org.dblue.core.web.param.PageParamImpl;
+import org.springdoc.core.annotations.ParameterObject;
 
 /**
  * 用户分页查询
@@ -28,11 +30,18 @@ import org.dblue.core.web.param.PageParamImpl;
  * @author xie jin
  * @since 1.0.0  2024/7/2 上午9:25
  */
+@ParameterObject
 @Schema(description = "用户分页查询")
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class UserPageDto extends PageParamImpl<UserPageVo> {
 
+    /**
+     * 部门ID
+     */
+    @Schema(description = "部门ID")
+    @NotBlank(message = "部门ID不能为空")
+    private String deptId;
     /**
      * 用户名
      */

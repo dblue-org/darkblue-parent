@@ -65,7 +65,7 @@ public class UserDomainQueryServiceImpl implements UserDomainQueryService {
      */
     @Override
     public Page<User> page(UserPageDto pageDto) {
-        return userRepository.findByNameLikeAndUsernameLikeAndPhoneNumberLike(pageDto.getName(), pageDto.getUsername(), pageDto.getPhoneNumber(), pageDto.toJpaPage());
+        return userRepository.findByNameLikeAndUsernameLikeAndPhoneNumberLike(pageDto.getName(), pageDto.getUsername(), pageDto.getPhoneNumber(), pageDto.getDeptId(), pageDto.toJpaPage());
     }
 
     /**

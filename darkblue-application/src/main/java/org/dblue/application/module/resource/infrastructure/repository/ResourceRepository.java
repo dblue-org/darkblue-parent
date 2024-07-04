@@ -16,8 +16,8 @@
 
 package org.dblue.application.module.resource.infrastructure.repository;
 
+import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 
 import java.util.Optional;
@@ -28,7 +28,7 @@ import java.util.Optional;
  * @author xie jin
  * @since 1.0.0  2024-07-02 17:26:36
  */
-public interface ResourceRepository extends JpaRepository<Resource, String> {
+public interface ResourceRepository extends BaseJpaRepository<Resource, String> {
 
     /**
      * 判断资源组下是否有资源

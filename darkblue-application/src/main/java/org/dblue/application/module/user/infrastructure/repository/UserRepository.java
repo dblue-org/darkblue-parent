@@ -17,12 +17,11 @@ package org.dblue.application.module.user.infrastructure.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.user.infrastructure.entity.QUser;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -35,7 +34,7 @@ import java.util.Optional;
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface UserRepository extends JpaRepository<User, String>, QuerydslPredicateExecutor<User> {
+public interface UserRepository extends BaseJpaRepository<User, String> {
 
     /**
      * 通过用户名获取用户信息
@@ -48,8 +47,9 @@ public interface UserRepository extends JpaRepository<User, String>, QuerydslPre
 
     /**
      * 更新检测用户名是否重复
+     *
      * @param username 用户名
-     * @param userId 用户ID
+     * @param userId   用户ID
      * @return 用户
      */
     Optional<User> findByUsernameAndUserIdAndIsDelIsFalse(@NonNull String username, @NonNull String userId);
@@ -57,40 +57,37 @@ public interface UserRepository extends JpaRepository<User, String>, QuerydslPre
 
     /**
      * 分页查询
-     * @param name 姓名
-     * @param username 用户名
+     *
+     * @param name        姓名
+     * @param username    用户名
      * @param phoneNumber 手机号
-     * @param pageable 分页参数
+     * @param deptId 部门ID
+     * @param pageable    分页参数
      * @return 用户信息
      */
-//    Page<User> findByNameLikeAndUsernameLikeAndPhoneNumberLike(
-//            @Nullable String name, @Nullable String username, @Nullable String phoneNumber, Pageable pageable);
-
     default Page<User> findByNameLikeAndUsernameLikeAndPhoneNumberLike(
-            @Nullable String name, @Nullable String username, @Nullable String phoneNumber, Pageable pageable){
+            @Nullable String name, @Nullable String username, @Nullable String phoneNumber, String deptId,
+            Pageable pageable) {
 
         BooleanBuilder builder = new BooleanBuilder();
-        if(StringUtils.isNotBlank(name)){
+        builder.and(QUser.user.deptId.eq(deptId));
+        if (StringUtils.isNotBlank(name)) {
             builder.and(QUser.user.name.likeIgnoreCase(name));
         }
-        if(StringUtils.isNotBlank(username)){
+        if (StringUtils.isNotBlank(username)) {
             builder.and(QUser.user.username.likeIgnoreCase(username));
         }
-        if(StringUtils.isNotBlank(phoneNumber)){
+        if (StringUtils.isNotBlank(phoneNumber)) {
             builder.and(QUser.user.phoneNumber.likeIgnoreCase(phoneNumber));
         }
-        if (builder.getValue() != null) {
-            return this.findAll(builder.getValue(),pageable);
-        }else {
-            return this.findAll(pageable);
-        }
-
+        return page(builder, pageable);
     }
 
 
     /**
      * 姓名或用户名查询可用用户信息
-     * @param name 姓名
+     *
+     * @param name     姓名
      * @param username 用户名
      * @return 用户信息
      */

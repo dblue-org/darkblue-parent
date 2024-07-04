@@ -39,24 +39,16 @@ public class PermissionResource extends AbstractCreateAuditingEntity {
     @Column(name = "permission_resource_id", nullable = false, length = 64)
     private String permissionResourceId;
 
-//    /**
-//     * 权限id
-//     */
-//    @Size(max = 64)
-//    @Column(name = "permission_id", length = 64)
-//    private String permissionId;
-
+    /**
+     * 权限id
+     */
     @ManyToOne
     @JoinColumn(name = "permission_id")
     private Permission permission;
 
-//    /**
-//     * 资源id
-//     */
-//    @Size(max = 64)
-//    @Column(name = "resource_id", length = 64)
-//    private String resourceId;
-
+    /**
+     * 资源id
+     */
     @ManyToOne
     @JoinColumn(name = "resource_id")
     private Resource resource;

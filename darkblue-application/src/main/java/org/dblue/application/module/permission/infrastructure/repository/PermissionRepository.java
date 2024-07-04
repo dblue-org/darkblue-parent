@@ -16,16 +16,25 @@
 
 package org.dblue.application.module.permission.infrastructure.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.application.module.permission.infrastructure.entiry.QPermission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 
-public interface PermissionRepository extends JpaRepository<Permission, String> {
+/**
+ * 权限
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-04 14:40:23
+ */
+public interface PermissionRepository extends BaseJpaRepository<Permission, String> {
 
 
     /**
@@ -48,6 +57,7 @@ public interface PermissionRepository extends JpaRepository<Permission, String> 
 
     /**
      * 查询菜单下权限
+     *
      * @param menuId 菜单ID
      * @return 数量
      */
@@ -56,13 +66,27 @@ public interface PermissionRepository extends JpaRepository<Permission, String> 
 
     /**
      * 分页查询
-     * @param menuId 菜单ID
+     *
+     * @param menuId         菜单ID
      * @param permissionCode 权限标识
-     * @param permissionName  权限名称
-     * @param pageable 分页
+     * @param permissionName 权限名称
+     * @param pageable       分页
      * @return 权限
      */
-    Page<Permission> findByMenuIdAndPermissionCodeAndPermissionName(
+    default Page<Permission> findByMenuIdAndPermissionCodeAndPermissionName(
             @NonNull String menuId, @Nullable String permissionCode, @Nullable String permissionName,
-            Pageable pageable);
+            Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.isNotBlank(menuId)) {
+            builder.and(QPermission.permission.menuId.eq(menuId));
+        }
+        if (StringUtils.isNotBlank(permissionCode)) {
+            builder.and(QPermission.permission.permissionCode.eq(permissionCode));
+        }
+        if (StringUtils.isNotBlank(permissionName)) {
+            builder.and(QPermission.permission.permissionName.eq(permissionName));
+        }
+        return page(builder, pageable);
+
+    }
 }

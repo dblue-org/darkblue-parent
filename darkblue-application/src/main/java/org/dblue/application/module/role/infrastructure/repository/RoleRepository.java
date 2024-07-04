@@ -16,17 +16,20 @@
 
 package org.dblue.application.module.role.infrastructure.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.jpa.BaseJpaRepository;
+import org.dblue.application.module.role.infrastructure.entiry.QRole;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 
-public interface RoleRepository extends JpaRepository<Role, String> {
+public interface RoleRepository extends BaseJpaRepository<Role, String> {
 
 
 
@@ -59,7 +62,17 @@ public interface RoleRepository extends JpaRepository<Role, String> {
      * @param pageable 分页
      * @return 角色信息
      */
-    Page<Role> findByRoleCodeAndRoleName(@Nullable String roleCode, @Nullable String roleName, Pageable pageable);
+    default Page<Role> findByRoleCodeAndRoleName(
+            @Nullable String roleCode, @Nullable String roleName, Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.isNotBlank(roleCode)) {
+            builder.and(QRole.role.roleCode.eq(roleCode));
+        }
+        if (StringUtils.isNotBlank(roleName)) {
+            builder.and(QRole.role.roleName.eq(roleName));
+        }
+        return page(builder, pageable);
+    }
 
 
 }
