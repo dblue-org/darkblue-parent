@@ -16,6 +16,10 @@
 
 package org.dblue.application.module.resource.application.service;
 
+import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
+
+import java.util.List;
+
 /**
  * 资源应用服务
  *
@@ -29,4 +33,12 @@ public interface ResourceApplicationService {
      * @param resourceId 资源ID
      */
     void delete(String resourceId);
+
+
+    /**
+     * 获取资源信息
+     *
+     * @return 资源信息
+     */
+    List<ResourceControllerVo> getResourceController();
 }

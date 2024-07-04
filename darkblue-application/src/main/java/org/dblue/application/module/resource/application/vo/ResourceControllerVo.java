@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.resource.errors;
 
-import lombok.Getter;
-import org.dblue.common.error.ErrorInfo;
+package org.dblue.application.module.resource.application.vo;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import java.util.List;
 
 /**
- * 资源错误
+ * 资源控制器组
  *
  * @author xie jin
- * @since 1.0.0  2024-06-14 15:29:11
+ * @since 1.0.0  2024/7/4 下午2:58
  */
-@Getter
-public enum ResourceErrors implements ErrorInfo {
-
+@Schema(description = "资源控制器组")
+@Data
+public class ResourceControllerVo {
 
     /**
-     *
+     * 控制器名称
      */
-    RESOURCE_EXITS("RESOURCE_0001", "资源名称已存在"),
-    RESOURCE_IS_NOT_FOUND("RESOURCE_0002", "资源信息不存在"),
-    RESOURCE_METHOD_IS_NOT_SUPPORT("RESOURCE_0003", "资源请求类型不支持"),
-    ;
-    private final String errorCode;
-    private final String errorMessage;
+    @Schema(description = "控制器名称")
+    private String tagName;
 
-    ResourceErrors(String errorCode, String errorMessage) {
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-    }
+    /**
+     * 资源信息
+     */
+    @Schema(description = "资源信息")
+    private List<ResourceMappingVo> mappingVoList;
 }

@@ -25,9 +25,12 @@ import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.resource.application.dto.ResourceAddDto;
 import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
+import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 资源控制层
@@ -81,5 +84,16 @@ public class ResourceController {
     public ResponseBean<String> delete(@PathVariable("resourceId") String resourceId) {
         resourceApplicationService.delete(resourceId);
         return ResponseBean.success();
+    }
+
+    /**
+     * 获取资源信息
+     *
+     * @return 资源信息
+     */
+    @Operation(summary = "获取资源信息", description = "获取资源信息")
+    @GetMapping("/getResourceController")
+    public ResponseBean<List<ResourceControllerVo>> getResourceController() {
+        return ResponseBean.success(resourceApplicationService.getResourceController());
     }
 }

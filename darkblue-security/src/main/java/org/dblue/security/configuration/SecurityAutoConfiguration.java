@@ -70,7 +70,7 @@ import java.util.List;
         SecurityProperties.class
 })
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 @Configuration
 @ComponentScan(basePackages = {
         "org.dblue.security.token",
