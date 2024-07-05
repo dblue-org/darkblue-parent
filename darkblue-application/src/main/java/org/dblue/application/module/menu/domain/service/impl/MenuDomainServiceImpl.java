@@ -125,15 +125,13 @@ public class MenuDomainServiceImpl implements MenuDomainService {
     }
 
     private void checkMenuUrl(MenuDto menuDto) {
-        if (MenuTypeEnum.MENU.equalsTo(menuDto.getMenuType()) && StringUtils.isAnyBlank(menuDto.getMenuUrl(), menuDto.getUrlName())) {
-                throw new ServiceException(MenuErrors.MENU_URL_NOT_BLANK);
-            }
-
-
+        if (MenuTypeEnum.MENU.equalsTo(menuDto.getMenuType()) && StringUtils.isBlank(menuDto.getMenuUrl())) {
+            throw new ServiceException(MenuErrors.MENU_URL_NOT_BLANK);
+        }
     }
 
     private void setParentInfo(Menu menu, String parentId) {
-        if (parentId != null) {
+        if (StringUtils.isNotBlank(parentId)) {
             Optional<Menu> optionalMenu = menuRepository.findById(parentId);
             if (optionalMenu.isEmpty()) {
                 throw new ServiceException(MenuErrors.PARENT_MENU_NOT_EXIST);

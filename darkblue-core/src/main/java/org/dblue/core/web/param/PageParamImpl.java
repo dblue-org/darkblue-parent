@@ -53,6 +53,7 @@ public class PageParamImpl<T> implements PageParam {
         return new Page<>(getPage(), getPageSize());
     }
 
-    public Pageable toJpaPage(){return PageRequest.of(getPage().intValue()-1,getPageSize().intValue());
+    public Pageable toJpaPage() {
+        return PageRequest.of(getPage().intValue() - 1, getPageSize().intValue());
     }
 }

@@ -57,12 +57,19 @@ public class PreAccessTokenProcessingFilter extends OncePerRequestFilter {
             if (tokenCache != null) {
                 String userId = tokenCache.getUserId();
                 SecurityUser securityUser = this.userStoreService.getUser(userId);
-                AccessTokenAuthenticationToken authenticationToken = new AccessTokenAuthenticationToken(
-                        accessToken, securityUser, securityUser.getAuthorities()
-                );
-                authenticationToken.setDetails(authentication.getDetails());
-                authenticationToken.setAuthenticated(true);
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                if (securityUser != null) {
+                    AccessTokenAuthenticationToken authenticationToken = new AccessTokenAuthenticationToken(
+                            accessToken, securityUser, securityUser.getAuthorities()
+                    );
+                    authenticationToken.setDetails(authentication.getDetails());
+                    authenticationToken.setAuthenticated(true);
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+                    this.tokenManager.removeByAccessToken(accessToken);
+                    SecurityContextHolder.getContext().setAuthentication(null);
+                    SecurityContextHolder.clearContext();
+                }
+
             } else {
                 SecurityContextHolder.getContext().setAuthentication(null);
                 SecurityContextHolder.clearContext();

@@ -25,6 +25,7 @@ import org.dblue.application.module.department.errors.DepartmentErrors;
 import org.dblue.application.module.department.infrastructure.entity.Department;
 import org.dblue.application.module.department.infrastructure.repository.DepartmentRepository;
 import org.dblue.common.exception.ServiceException;
+import org.dblue.common.id.Snowflake;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +58,7 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
             throw new ServiceException(DepartmentErrors.DEPARTMENT_EXITS);
         }
         Department department = new Department();
+        department.setDeptId(Snowflake.stringId());
         BeanUtils.copyProperties(addDto, department);
         departmentRepository.save(department);
     }

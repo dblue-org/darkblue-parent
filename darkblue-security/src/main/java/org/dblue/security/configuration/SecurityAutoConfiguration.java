@@ -126,10 +126,12 @@ public class SecurityAutoConfiguration implements ApplicationContextAware {
     public AccessTokenTtlRefreshFilter accessTokenTtlRefreshFilter() {
         TokenManager tokenManager = this.applicationContext.getBean(TokenManager.class);
         AccessTokenFinder accessTokenFinder = this.applicationContext.getBean(AccessTokenFinder.class);
+        UserStoreService userStoreService = this.applicationContext.getBean(UserStoreService.class);
 
         AccessTokenTtlRefreshFilter accessTokenTtlRefreshFilter = new AccessTokenTtlRefreshFilter();
         accessTokenTtlRefreshFilter.setTokenManager(tokenManager);
         accessTokenTtlRefreshFilter.setAccessTokenFinder(accessTokenFinder);
+        accessTokenTtlRefreshFilter.setUserStoreService(userStoreService);
         return accessTokenTtlRefreshFilter;
     }
 

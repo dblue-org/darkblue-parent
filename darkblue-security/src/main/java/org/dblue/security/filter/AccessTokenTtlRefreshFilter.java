@@ -24,7 +24,9 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.security.converter.AccessTokenFinder;
+import org.dblue.security.token.TokenCache;
 import org.dblue.security.token.TokenManager;
+import org.dblue.security.user.UserStoreService;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -44,12 +46,18 @@ public class AccessTokenTtlRefreshFilter extends OncePerRequestFilter {
 
     private AccessTokenFinder accessTokenFinder;
 
+    private UserStoreService userStoreService;
+
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String accessToken = this.accessTokenFinder.getAccessToken(request);
         if (StringUtils.isNotBlank(accessToken)) {
-            this.tokenManager.refreshAccessToken(accessToken);
+            TokenCache tokenCache = this.tokenManager.getUserByAccessToken(accessToken);
+            if (tokenCache != null) {
+                this.tokenManager.refreshAccessToken(accessToken);
+                this.userStoreService.refreshUserCache(tokenCache.getUserId());
+            }
             log.info("Reset access token ttl.");
         }
         filterChain.doFilter(request, response);

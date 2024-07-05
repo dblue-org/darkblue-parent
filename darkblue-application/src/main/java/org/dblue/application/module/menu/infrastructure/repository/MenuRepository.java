@@ -50,7 +50,7 @@ public interface MenuRepository extends JpaRepository<Menu, String> {
      * @param platform 平台
      * @return 菜单信息
      */
-    List<Menu> findByPlatform(@NonNull Integer platform);
+    List<Menu> findByPlatformOrderBySortNum(@NonNull Integer platform);
 
 
     /**

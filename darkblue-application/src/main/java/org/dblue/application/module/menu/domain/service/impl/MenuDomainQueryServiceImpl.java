@@ -66,6 +66,6 @@ public class MenuDomainQueryServiceImpl implements MenuDomainQueryService {
      */
     @Override
     public List<Menu> findAllMenus(PlatformEnum platformEnum) {
-        return menuRepository.findByPlatform(platformEnum.getValue());
+        return menuRepository.findByPlatformOrderBySortNum(platformEnum.getValue());
     }
 }
