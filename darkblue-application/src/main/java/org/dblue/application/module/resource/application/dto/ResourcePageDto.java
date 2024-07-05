@@ -17,74 +17,58 @@
 package org.dblue.application.module.resource.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dblue.application.module.resource.application.vo.ResourcePageVo;
+import org.dblue.core.web.param.PageParamImpl;
+import org.springdoc.core.annotations.ParameterObject;
 
 /**
- * 资源
+ * 资源分页
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 17:27:58
+ * @since 1.0.0  2024/7/5 上午9:50
  */
+@Schema(description = "资源分页")
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class ResourceDto  {
+@ParameterObject
+public class ResourcePageDto extends PageParamImpl<ResourcePageVo> {
 
     /**
      * 资源组ID
      */
     @Schema(description = "资源组ID")
-    @Size(max = 64)
     private String resourceGroupId;
 
     /**
      * 资源名称
      */
     @Schema(description = "资源名称")
-    @Size(max = 100)
-    @NotBlank(message = "资源名称不能为空")
     private String resourceName;
 
     /**
      * 资源地址
      */
     @Schema(description = "资源地址")
-    @Size(max = 256)
-    @NotBlank(message = "资源地址不能为空")
     private String resourceUrl;
-
-    /**
-     * 是否登录即可访问
-     */
-    @Schema(description = "是否登录即可访问")
-    @NotNull(message = "是否登录即可访问不能为空")
-    private Boolean isAuthedAccess;
-
-    /**
-     * 请求方式
-     */
-    @Schema(description = "请求方式")
-    @Size(max = 20)
-    @NotBlank(message = "请求方式不能为空")
-    private String requestMethod;
 
     /**
      * 控制层类
      */
     @Schema(description = "控制层类")
-    @Size(max = 500)
-    @NotBlank(message = "控制层类不能为空")
     private String controller;
 
     /**
      * 控制层方法
      */
     @Schema(description = "控制层方法")
-    @Size(max = 500)
-    @NotBlank(message = "控制层方法不能为空")
     private String method;
 
-
+    /**
+     * 是否登录即可访问
+     */
+    @Schema(description = "是否登录即可访问")
+    private Boolean isAuthedAccess;
 
 }

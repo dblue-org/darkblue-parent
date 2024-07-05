@@ -14,89 +14,75 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.resource.infrastructure.entity;
+package org.dblue.application.module.resource.application.vo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.dblue.application.jpa.AbstractAuditingEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import org.dblue.application.module.permission.application.vo.PermissionVo;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * 资源
+ * 资源分页返回
  *
  * @author xie jin
  * @since 1.0.0  2024-07-03 09:56:43
  */
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_sys_resource")
-public class Resource extends AbstractAuditingEntity {
+@Schema(description = "资源分页返回")
+@Data
+public class ResourcePageVo {
     /**
      * 资源ID
      */
-    @Id
-    @Size(max = 64)
-    @Column(name = "resource_id", nullable = false, length = 64)
+    @Schema(description = "资源ID")
     private String resourceId;
-
-    /**
-     * 资源组ID
-     */
-    @Size(max = 64)
-    @Column(name = "resource_group_id", length = 64)
-    private String resourceGroupId;
 
     /**
      * 资源名称
      */
-    @Size(max = 100)
-    @Column(name = "resource_name", length = 100)
+    @Schema(description = "资源名称")
     private String resourceName;
 
     /**
      * 资源地址
      */
-    @Size(max = 256)
-    @Column(name = "resource_url", length = 256)
+    @Schema(description = "资源地址")
     private String resourceUrl;
 
     /**
      * 请求方式
      */
-    @Size(max = 20)
-    @Column(name = "request_method", length = 20)
+    @Schema(description = "请求方式")
     private String requestMethod;
 
     /**
      * 控制层类
      */
-    @Size(max = 500)
-    @Column(name = "controller", length = 500)
+    @Schema(description = "控制层类")
     private String controller;
 
     /**
      * 控制层方法
      */
-    @Size(max = 500)
-    @Column(name = "method", length = 500)
+    @Schema(description = "控制层方法")
     private String method;
-
     /**
      * 是否登录即可访问
      */
-    @Column(name = "is_authed_access")
+    @Schema(description = "是否登录即可访问")
     private Boolean isAuthedAccess;
 
+
     /**
-     * 排序字段
+     * 创建时间
      */
-    @Column(name = "sort_num")
-    private Integer sortNum;
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
 
-
+    /**
+     * 权限信息
+     */
+    @Schema(description = "权限信息")
+    private List<PermissionVo> permissionVoList;
 }

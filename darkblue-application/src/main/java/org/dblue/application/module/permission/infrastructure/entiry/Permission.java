@@ -16,18 +16,20 @@
 
 package org.dblue.application.module.permission.infrastructure.entiry;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.dblue.application.jpa.AbstractAuditingEntity;
 
+import java.util.List;
+
 
 /**
  * 权限
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-05 13:50:17
  */
 @Getter
 @Setter
@@ -68,6 +70,11 @@ public class Permission extends AbstractAuditingEntity {
     @Size(max = 64)
     @Column(name = "permission_code", length = 64)
     private String permissionCode;
+
+
+    @OneToMany
+    @JoinColumn(name = "permission_id")
+    private List<PermissionResource> permissionResourceList;
 
 
 

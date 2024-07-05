@@ -131,10 +131,10 @@ public class UserController {
      * @param name 用户名/姓名
      * @return 用户信息
      */
-    @Parameter(name = "name", description = "用户名/姓名", in = ParameterIn.QUERY, required = true)
+    @Parameter(name = "name", description = "用户名/姓名", in = ParameterIn.QUERY)
     @Operation(summary = "下拉列表使用", description = "下拉列表使用")
     @GetMapping("/selectByNameOrUserName")
-    public ResponseBean<List<UserSelectVo>> selectByNameOrUserName(@RequestParam String name) {
+    public ResponseBean<List<UserSelectVo>> selectByNameOrUserName(@RequestParam(required = false) String name) {
         return ResponseBean.success(userApplicationService.selectByNameOrUserName(name));
     }
 }

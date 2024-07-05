@@ -76,6 +76,6 @@ public class UserDomainQueryServiceImpl implements UserDomainQueryService {
      */
     @Override
     public List<User> selectByNameOrUserName(String name) {
-        return userRepository.findByNameLikeAndUsernameLikeAndIsDelFalseAndIsEnableTrue(name, name);
+        return userRepository.findByNameLikeAndUsernameLikeAndIsDelFalseAndIsEnableTrue(name);
     }
 }

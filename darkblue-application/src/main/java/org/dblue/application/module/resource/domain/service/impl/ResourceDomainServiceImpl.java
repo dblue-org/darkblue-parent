@@ -19,6 +19,7 @@ package org.dblue.application.module.resource.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dblue.application.module.resource.application.dto.ResourceAddDto;
+import org.dblue.application.module.resource.application.dto.ResourcePageDto;
 import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
 import org.dblue.application.module.resource.errors.ResourceErrors;
@@ -26,6 +27,7 @@ import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.dblue.application.module.resource.infrastructure.repository.ResourceRepository;
 import org.dblue.common.exception.ServiceException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +54,7 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(ResourceAddDto addDto) {
-        Optional<Resource> optional = resourceRepository.findByResourceNameAndControlLayerClassAndControlLayerMethod(addDto.getResourceName(), addDto.getControlLayerClass(), addDto.getControlLayerMethod());
+        Optional<Resource> optional = resourceRepository.findByResourceNameAndControllerAndMethod(addDto.getResourceName(), addDto.getController(), addDto.getMethod());
         if (optional.isPresent()) {
             throw new ServiceException(ResourceErrors.RESOURCE_EXITS);
         }
@@ -77,7 +79,7 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
             throw new ServiceException(ResourceErrors.RESOURCE_IS_NOT_FOUND);
         }
 
-        Optional<Resource> optional = resourceRepository.findByResourceNameAndControlLayerClassAndControlLayerMethodAndResourceIdNot(updateDto.getResourceName(), updateDto.getControlLayerClass(), updateDto.getRequestMethod(), updateDto.getResourceId());
+        Optional<Resource> optional = resourceRepository.findByResourceNameAndControllerAndMethodAndResourceIdNot(updateDto.getResourceName(), updateDto.getController(), updateDto.getRequestMethod(), updateDto.getResourceId());
         if (optional.isPresent()) {
             throw new ServiceException(ResourceErrors.RESOURCE_EXITS);
         }
@@ -98,5 +100,16 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
         if (optionalResource.isEmpty()) {
             throw new ServiceException(ResourceErrors.RESOURCE_IS_NOT_FOUND);
         }
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param pageDto 查询参数
+     * @return 资源
+     */
+    @Override
+    public Page<Resource> page(ResourcePageDto pageDto) {
+        return resourceRepository.page(pageDto, pageDto.toJpaPage());
     }
 }

@@ -21,6 +21,8 @@ import org.dblue.application.module.permission.application.dto.PermissionPageDto
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * 权限领域查询服务
  *
@@ -51,4 +53,12 @@ public interface PermissionDomainQueryService {
      * @return 权限信息
      */
     Permission getOne(String permissionId);
+
+    /**
+     * 根据资源ID查询权限信息
+     *
+     * @param resourceId 资源ID
+     * @return 权限
+     */
+    List<Permission> getPermissionMapByResourceId(String resourceId);
 }

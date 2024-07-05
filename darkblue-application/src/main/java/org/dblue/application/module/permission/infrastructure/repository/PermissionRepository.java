@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -88,5 +89,18 @@ public interface PermissionRepository extends BaseJpaRepository<Permission, Stri
         }
         return page(builder, pageable);
 
+    }
+
+
+    /**
+     * 根据资源ID查询权限信息
+     *
+     * @param resourceId 资源ID
+     * @return 权限
+     */
+    default List<Permission> getPermissionMapByResourceId(String resourceId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QPermission.permission.permissionResourceList.any().resource.resourceId.eq(resourceId));
+        return getList(builder);
     }
 }

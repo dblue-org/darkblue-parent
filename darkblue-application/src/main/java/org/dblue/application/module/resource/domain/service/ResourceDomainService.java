@@ -17,7 +17,10 @@
 package org.dblue.application.module.resource.domain.service;
 
 import org.dblue.application.module.resource.application.dto.ResourceAddDto;
+import org.dblue.application.module.resource.application.dto.ResourcePageDto;
 import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
+import org.dblue.application.module.resource.infrastructure.entity.Resource;
+import org.springframework.data.domain.Page;
 
 /**
  * 资源领域服务
@@ -46,4 +49,13 @@ public interface ResourceDomainService {
      * @param resourceId 资源Id
      */
     void delete(String resourceId);
+
+
+    /**
+     * 分页查询
+     *
+     * @param pageDto 查询参数
+     * @return 资源
+     */
+    Page<Resource> page(ResourcePageDto pageDto);
 }

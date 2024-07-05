@@ -16,7 +16,10 @@
 
 package org.dblue.application.module.resource.application.service;
 
+import org.dblue.application.module.resource.application.dto.ResourcePageDto;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
+import org.dblue.application.module.resource.application.vo.ResourcePageVo;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -41,4 +44,13 @@ public interface ResourceApplicationService {
      * @return 资源信息
      */
     List<ResourceControllerVo> getResourceController();
+
+
+    /**
+     * 分页查询
+     *
+     * @param pageDto 查询参数
+     * @return 资源
+     */
+    Page<ResourcePageVo> page(ResourcePageDto pageDto);
 }

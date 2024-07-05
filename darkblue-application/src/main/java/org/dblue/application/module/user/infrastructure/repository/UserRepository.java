@@ -61,7 +61,7 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
      * @param name        姓名
      * @param username    用户名
      * @param phoneNumber 手机号
-     * @param deptId 部门ID
+     * @param deptId      部门ID
      * @param pageable    分页参数
      * @return 用户信息
      */
@@ -87,12 +87,18 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
     /**
      * 姓名或用户名查询可用用户信息
      *
-     * @param name     姓名
-     * @param username 用户名
+     * @param name     姓名/用户名
      * @return 用户信息
      */
-    List<User> findByNameLikeAndUsernameLikeAndIsDelFalseAndIsEnableTrue(
-            @Nullable String name, @Nullable String username);
+    default List<User> findByNameLikeAndUsernameLikeAndIsDelFalseAndIsEnableTrue(String name) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QUser.user.isDel.isFalse());
+        builder.and(QUser.user.isEnable.isTrue());
+        if (StringUtils.isNotBlank(name)) {
+            builder.and(QUser.user.name.likeIgnoreCase(name).or(QUser.user.username.likeIgnoreCase(name)));
+        }
+        return getList(builder);
+    }
 
 
 }

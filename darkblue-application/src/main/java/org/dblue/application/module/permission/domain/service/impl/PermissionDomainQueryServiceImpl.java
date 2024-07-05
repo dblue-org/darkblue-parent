@@ -18,6 +18,7 @@ package org.dblue.application.module.permission.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
@@ -26,6 +27,7 @@ import org.dblue.application.module.permission.infrastructure.repository.Permiss
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -77,4 +79,23 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
         Optional<Permission> optional = permissionRepository.findById(permissionId);
         return optional.orElse(null);
     }
+
+
+    /**
+     * 根据资源ID查询权限信息
+     *
+     * @param resourceId 资源ID
+     * @return 权限
+     */
+    @Override
+    public List<Permission> getPermissionMapByResourceId(String resourceId) {
+        List<Permission> permissionList = permissionRepository.getPermissionMapByResourceId(resourceId);
+
+        if (CollectionUtils.isEmpty(permissionList)) {
+            return List.of();
+        }
+        return permissionList;
+    }
+
+
 }
