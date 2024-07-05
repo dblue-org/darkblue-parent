@@ -70,7 +70,9 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
             Pageable pageable) {
 
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(QUser.user.deptId.eq(deptId));
+        if (StringUtils.isNotBlank(deptId)) {
+            builder.and(QUser.user.deptId.eq(deptId));
+        }
         if (StringUtils.isNotBlank(name)) {
             builder.and(QUser.user.name.likeIgnoreCase(name));
         }
