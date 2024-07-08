@@ -14,109 +14,102 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.logs.infrastructure.entity;
+package org.dblue.application.module.logs.application.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import org.dblue.application.module.logs.infrastructure.entity.OperationLog;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
 /**
- * 操作日志
+ * 操作日志(tb_sys_operation_log)表实体类
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0 2024-07-08 13:28:37
  */
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_sys_operation_log")
-@TableName("tb_sys_operation_log")
-public class OperationLog {
+@Schema(description = "操作日志")
+@Data
+public class OperationLogPageListVo {
+
     /**
      * 操作日志ID
      */
-    @Id
-    @Size(max = 64)
-    @Column(name = "operation_log_id", nullable = false, length = 64)
+    @Schema(description = "操作日志ID")
     private String operationLogId;
 
     /**
      * 用户ID
      */
-    @Size(max = 64)
-    @Column(name = "user_id", length = 64)
+    @Schema(description = "用户ID")
     private String userId;
+    /**
+     * 用户姓名
+     */
+    @Schema(description = "用户姓名")
+    private String name;
 
     /**
      * 操作名称
      */
-    @Size(max = 256)
-    @Column(name = "operation_name", length = 256)
+    @Schema(description = "操作名称")
     private String operationName;
 
     /**
      * 操作时间
      */
-    @Column(name = "operation_time")
+    @Schema(description = "操作时间")
     private LocalDateTime operationTime;
 
     /**
      * 操作类
      */
-    @Size(max = 256)
-    @Column(name = "service_class", length = 256)
+    @Schema(description = "操作类")
     private String serviceClass;
 
     /**
      * 操作方法
      */
-    @Size(max = 128)
-    @Column(name = "service_method", length = 128)
+    @Schema(description = "操作方法")
     private String serviceMethod;
 
     /**
      * 入参参数
      */
-    @Column(name = "method_params")
+    @Schema(description = "入参参数")
     private String methodParams;
 
     /**
      * 方法返回结果
      */
-    @Column(name = "result")
+    @Schema(description = "方法返回结果")
     private String result;
 
     /**
      * 是否发生错误
      */
-    @Column(name = "is_error")
+    @Schema(description = "是否发生错误")
     private Boolean isError;
 
     /**
      * 方法执行耗时
      */
-    @Column(name = "time_consuming")
+    @Schema(description = "方法执行耗时")
     private Integer timeConsuming;
-
-    /**
-     * 错误详情
-     */
-    @Lob
-    @Column(name = "error_details")
-    private String errorDetails;
 
     /**
      * 创建时间
      */
-    @Column(name = "create_time")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
-    /**
-     * 创建人
-     */
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
+    public static OperationLogPageListVo of(OperationLog operationLog) {
+        OperationLogPageListVo vo = new OperationLogPageListVo();
+        BeanUtils.copyProperties(operationLog, vo);
+        return vo;
+    }
 
 }
+
+

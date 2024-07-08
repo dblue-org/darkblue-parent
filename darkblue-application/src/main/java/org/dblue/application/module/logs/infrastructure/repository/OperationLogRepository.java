@@ -16,8 +16,8 @@
 
 package org.dblue.application.module.logs.infrastructure.repository;
 
-import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
+import org.dblue.application.module.logs.infrastructure.entity.OperationLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoginLogRepository extends JpaRepository<LoginLog, String>, IntermediaryLoginLogRepository {
+public interface OperationLogRepository extends JpaRepository<OperationLog, String>, IntermediaryOperationLogRepository {
 }

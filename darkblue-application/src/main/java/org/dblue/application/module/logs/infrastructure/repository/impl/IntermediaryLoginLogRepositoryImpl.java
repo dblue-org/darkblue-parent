@@ -15,20 +15,20 @@
  */
 package org.dblue.application.module.logs.infrastructure.repository.impl;
 
-import org.dblue.application.module.logs.domain.query.LoginLogQuery;
-import org.dblue.application.module.logs.domain.query.LoginLogQueryImpl;
 import org.dblue.application.module.logs.infrastructure.mapper.LoginLogMapper;
-import org.dblue.application.module.logs.infrastructure.repository.CustomLoginLogRepository;
+import org.dblue.application.module.logs.infrastructure.query.LoginLogQuery;
+import org.dblue.application.module.logs.infrastructure.query.impl.LoginLogQueryImpl;
+import org.dblue.application.module.logs.infrastructure.repository.IntermediaryLoginLogRepository;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public class CustomLoginLogRepositoryImpl implements CustomLoginLogRepository {
+public class IntermediaryLoginLogRepositoryImpl implements IntermediaryLoginLogRepository {
 
     private final LoginLogMapper loginLogMapper;
 
-    public CustomLoginLogRepositoryImpl(LoginLogMapper loginLogMapper) {
+    public IntermediaryLoginLogRepositoryImpl(LoginLogMapper loginLogMapper) {
         this.loginLogMapper = loginLogMapper;
     }
 

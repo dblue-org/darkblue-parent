@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.logs.infrastructure.repository;
+package org.dblue.application.module.logs.domain.service;
 
-import org.dblue.application.module.logs.domain.query.LoginLogQuery;
+import org.dblue.application.module.logs.infrastructure.entity.OperationLog;
 
 /**
- * 自定义的存储库方法，用于将JPA和MyBatis的方法整合到一起
- *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface CustomLoginLogRepository {
+public interface OperationLogDomainService {
 
     /**
-     * 创建查询
+     * 保存操作日志
      *
-     * @return 查询类
+     * @param operationLog 操作日志
      */
-    LoginLogQuery createQuery();
+    void save(OperationLog operationLog);
 }

@@ -24,6 +24,7 @@ import org.dblue.security.enums.LoginPlatform;
 import org.dblue.security.enums.LoginType;
 import org.dblue.utils.ip.IpUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -40,6 +41,7 @@ public class LoginLogDomainServiceImpl implements LoginLogDomainService {
         this.loginLogRepository = loginLogRepository;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public LoginLog add(String userId, LoginPlatform loginPlatform, LoginType loginType, HttpServletRequest request) {
         LoginLog loginLog = new LoginLog();

@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.logs.infrastructure.mapper;
 
-package org.dblue.application.module.logs.infrastructure.repository;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.dblue.application.module.logs.infrastructure.entity.OperationLog;
 
-import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface LoginLogRepository extends JpaRepository<LoginLog, String>, IntermediaryLoginLogRepository {
+/**
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+public interface OperationLogMapper extends BaseMapper<OperationLog> {
 }

@@ -13,34 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.logs.domain.query;
+package org.dblue.application.module.logs.infrastructure.query.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
 import org.dblue.application.module.logs.infrastructure.mapper.LoginLogMapper;
+import org.dblue.application.module.logs.infrastructure.query.LoginLogQuery;
+import org.dblue.core.mybatis.query.AbstractBaseQuery;
 import org.dblue.security.enums.LoginPlatform;
 import org.dblue.security.enums.LoginType;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public class LoginLogQueryImpl implements LoginLogQuery {
-
-
-    private final LoginLogMapper loginLogMapper;
-    private final LambdaQueryWrapper<LoginLog> queryWrapper = new LambdaQueryWrapper<>();
-
+public class LoginLogQueryImpl extends AbstractBaseQuery<LoginLog> implements LoginLogQuery {
 
     public LoginLogQueryImpl(LoginLogMapper loginLogMapper) {
-        this.loginLogMapper = loginLogMapper;
-
+        super(loginLogMapper);
     }
 
 
@@ -111,14 +103,4 @@ public class LoginLogQueryImpl implements LoginLogQuery {
         return this;
     }
 
-    @Override
-    public List<LoginLog> list() {
-        return this.loginLogMapper.selectList(this.queryWrapper);
-    }
-
-    @Override
-    public IPage<LoginLog> page(long page, long pageSize) {
-        IPage<LoginLog> pageInfo = new Page<>(page, pageSize);
-        return this.loginLogMapper.selectPage(pageInfo, this.queryWrapper);
-    }
 }

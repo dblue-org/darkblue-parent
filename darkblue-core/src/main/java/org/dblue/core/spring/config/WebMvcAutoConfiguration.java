@@ -17,6 +17,7 @@ package org.dblue.core.spring.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.dblue.core.spring.config.properties.CoreConfigProperties;
+import org.dblue.core.spring.converter.StringToBooleanConverter;
 import org.dblue.core.spring.converter.StringToLocalDateConverter;
 import org.dblue.core.spring.converter.StringToLocalDateTimeConverter;
 import org.dblue.core.spring.exception.CustomErrorAttributes;
@@ -45,6 +46,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new StringToBooleanConverter());
         registry.addConverter(new StringToLocalDateConverter());
         registry.addConverter(new StringToLocalDateTimeConverter());
     }

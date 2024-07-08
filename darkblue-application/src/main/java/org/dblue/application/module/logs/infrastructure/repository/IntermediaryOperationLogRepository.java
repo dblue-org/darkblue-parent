@@ -13,11 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.dblue.application.module.logs.infrastructure.repository;
 
-import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.dblue.application.module.logs.infrastructure.query.OperationLogQuery;
 
-public interface LoginLogRepository extends JpaRepository<LoginLog, String>, IntermediaryLoginLogRepository {
+/**
+ * 自定义操作日志查询，此接口用于关联 MyBatis 的查询实现。最终通过 OperationLogRepository 对外暴露统一的接口
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+public interface IntermediaryOperationLogRepository {
+
+    /**
+     * 创建查询
+     *
+     * @return 查询类
+     */
+    OperationLogQuery createQuery();
 }

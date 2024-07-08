@@ -13,11 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.core.mybatis.query;
 
-package org.dblue.application.module.logs.infrastructure.repository;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
-import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-public interface LoginLogRepository extends JpaRepository<LoginLog, String>, IntermediaryLoginLogRepository {
+/**
+ * 基础查询接口
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+public interface BaseQuery<T> {
+
+    /**
+     * 获取所有数据
+     *
+     * @return 数据列表
+     */
+    List<T> list();
+
+    /**
+     * 分页查询数据
+     *
+     * @param page     页面
+     * @param pageSize 每页数量量
+     * @return 数据
+     */
+    IPage<T> page(long page, long pageSize);
+
+    /**
+     * 获取单条数据
+     *
+     * @return 数据
+     */
+    T single();
 }

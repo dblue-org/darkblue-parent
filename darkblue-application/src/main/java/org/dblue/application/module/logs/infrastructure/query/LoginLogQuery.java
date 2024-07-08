@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.logs.domain.query;
+package org.dblue.application.module.logs.infrastructure.query;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
+import org.dblue.core.mybatis.query.BaseQuery;
 import org.dblue.security.enums.LoginPlatform;
 import org.dblue.security.enums.LoginType;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface LoginLogQuery {
+public interface LoginLogQuery extends BaseQuery<LoginLog> {
 
     LoginLogQuery userId(String userId);
 
@@ -45,7 +44,4 @@ public interface LoginLogQuery {
 
     LoginLogQuery userAgentLike(String userAgent);
 
-    List<LoginLog> list();
-
-    IPage<LoginLog> page(long page, long pageSize);
 }

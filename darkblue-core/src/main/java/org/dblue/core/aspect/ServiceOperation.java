@@ -13,11 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.core.aspect;
 
-package org.dblue.application.module.logs.infrastructure.repository;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
-import org.springframework.data.jpa.repository.JpaRepository;
+import static java.lang.annotation.ElementType.METHOD;
 
-public interface LoginLogRepository extends JpaRepository<LoginLog, String>, IntermediaryLoginLogRepository {
+/**
+ * 业务操作标识
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+@Target({METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+public @interface ServiceOperation {
+
+    /**
+     * 操作名称
+     *
+     * @return 操作名称
+     */
+    String value();
 }
