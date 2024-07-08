@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.caching;
+package org.dblue.application.module.logs.infrastructure.repository;
 
-import org.dblue.core.caching.CachingService;
-
-import java.util.Collection;
-import java.util.List;
+import org.dblue.application.module.logs.domain.query.LoginLogQuery;
 
 /**
- * 用户缓存
+ * 自定义的存储库方法，用于将JPA和MyBatis的方法整合到一起
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface UserCacheService extends CachingService<UserCacheObject> {
+public interface CustomLoginLogRepository {
 
     /**
-     * 根据ID获取用户信息
+     * 创建查询
      *
-     * @param userIds 用户ID列表
-     * @return 用户列表
+     * @return 查询类
      */
-    List<UserCacheObject> getAllById(Collection<String> userIds);
+    LoginLogQuery createQuery();
 }

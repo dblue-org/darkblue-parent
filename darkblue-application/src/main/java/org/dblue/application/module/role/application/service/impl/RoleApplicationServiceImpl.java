@@ -87,7 +87,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
 
         return page.map(role -> {
             RolePageVo rolePageVo = new RolePageVo();
-            BeanUtils.copyProperties(rolePageVo, rolePageVo);
+            BeanUtils.copyProperties(role, rolePageVo);
             rolePageVo.setUserNums(userRoleNumMap.getOrDefault(rolePageVo.getRoleId(), 0L).intValue());
             return rolePageVo;
         });

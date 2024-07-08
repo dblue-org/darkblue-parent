@@ -85,6 +85,21 @@ create table darkblue.tb_sys_dictionary_item
 )
     comment '数据字典条目';
 
+create table darkblue.tb_sys_login_log
+(
+    login_log_id   varchar(64)  not null comment '登录日志ID'
+        primary key,
+    user_id        varchar(64)  null comment '用户ID',
+    login_platform int          null comment '登录平台（1-PC;2-Android;3-IOS;4-小程序）',
+    login_type     int          null comment '登录平台（1-密码登录;2-微信登录;3-支付宝登录;9-其他）',
+    login_time     datetime     null comment '登录时间',
+    login_ip       varchar(128) null comment '登录IP',
+    user_agent     varchar(512) null comment 'request 中的user-agent',
+    create_time    datetime     null comment '创建时间',
+    create_user    varchar(64)  null comment '创建人'
+)
+    comment '登录日志';
+
 create table darkblue.tb_sys_menu
 (
     menu_id               varchar(64)          not null comment '菜单ID'
@@ -108,6 +123,25 @@ create table darkblue.tb_sys_menu
     is_production_visible tinyint(1) default 1 not null comment '是否生产环境可见'
 )
     comment '菜单';
+
+create table darkblue.tb_sys_operation_log
+(
+    operation_log_id varchar(64)  not null comment '操作日志ID'
+        primary key,
+    user_id          varchar(64)  null comment '用户ID',
+    operation_name   varchar(256) null comment '操作名称',
+    operation_time   datetime     null comment '操作时间',
+    service_class    varchar(256) null comment '操作类',
+    service_method   varchar(128) null comment '操作方法',
+    method_params    json         null comment '入参参数',
+    result           json         null comment '方法返回结果',
+    is_error         tinyint(1)   null comment '是否发生错误',
+    time_consuming   int          null comment '方法执行耗时',
+    error_details    longtext     null comment '错误详情',
+    create_time      datetime     null comment '创建时间',
+    create_user      varchar(64)  null comment '创建人'
+)
+    comment '操作日志';
 
 create table darkblue.tb_sys_permission
 (
@@ -135,22 +169,58 @@ create table darkblue.tb_sys_permission_resource
 )
     comment '权限资源';
 
-CREATE TABLE darkblue.tb_sys_resource
+create table darkblue.tb_sys_position
 (
-    resource_id          VARCHAR(64)  NOT NULL COMMENT '资源ID' PRIMARY KEY,
-    resource_group_id    VARCHAR(64)  NULL COMMENT '资源组ID',
-    resource_name        VARCHAR(100) NULL COMMENT '资源名称',
-    resource_url         VARCHAR(256) NULL COMMENT '资源地址',
-    request_method       VARCHAR(20)  NULL COMMENT '请求方式',
-    control_layer_class  VARCHAR(500) NULL COMMENT '控制层类',
-    control_layer_method VARCHAR(500) NULL COMMENT '控制层方法',
-    is_authed_access     TINYINT(1)   NULL COMMENT '是否登录即可访问',
-    sort_num             INT          NULL COMMENT '排序字段',
-    create_time          datetime     NULL COMMENT '创建时间',
-    create_user          VARCHAR(64)  NULL COMMENT '创建人',
-    update_time          datetime     NULL COMMENT '更新时间',
-    update_user          VARCHAR(64)  NULL COMMENT '更新人'
-) COMMENT '资源';
+    position_id   varchar(64)          not null comment '职位ID'
+        primary key,
+    position_code varchar(64)          null comment '职位编码',
+    position_name varchar(64)          null comment '职位名称',
+    is_enable     tinyint(1) default 1 null comment '是否启用',
+    is_built_in   tinyint(1) default 0 null comment '是否内置',
+    create_time   datetime             null comment '创建时间',
+    create_user   varchar(64)          null comment '创建人',
+    update_time   datetime             null comment '更新时间',
+    update_user   varchar(64)          null comment '更新人'
+)
+    comment '职位';
+
+create table darkblue.tb_sys_property_setting
+(
+    property_id   varchar(64)  not null comment '属性ID'
+        primary key,
+    property_code varchar(512) null comment '参数编码',
+    property_name varchar(512) null comment '参数名称',
+    remark        text         null comment '参数说明',
+    type          int          null comment '参数类型（系统枚举定义）',
+    value_scope   json         null comment '取值范围',
+    default_value varchar(256) null comment '参数默认值',
+    value         varchar(256) null comment '参数当前值',
+    unit          varchar(64)  null comment '单位',
+    create_time   datetime     null comment '创建时间',
+    create_user   varchar(64)  null comment '创建人',
+    update_time   datetime     null comment '更新时间',
+    update_user   varchar(64)  null comment '更新人'
+)
+    comment '系统参数配置';
+
+create table darkblue.tb_sys_resource
+(
+    resource_id       varchar(64)  not null comment '资源ID'
+        primary key,
+    resource_group_id varchar(64)  null comment '资源组ID',
+    resource_name     varchar(100) null comment '资源名称',
+    resource_url      varchar(256) null comment '资源地址',
+    request_method    varchar(20)  null comment '请求方式',
+    controller        varchar(500) null comment '控制层类',
+    method            varchar(500) null comment '控制层方法',
+    is_authed_access  tinyint(1)   null comment '是否登录即可访问',
+    sort_num          int          null comment '排序字段',
+    create_time       datetime     null comment '创建时间',
+    create_user       varchar(64)  null comment '创建人',
+    update_time       datetime     null comment '更新时间',
+    update_user       varchar(64)  null comment '更新人'
+)
+    comment '资源';
 
 create table darkblue.tb_sys_resource_group
 (

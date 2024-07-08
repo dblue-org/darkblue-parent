@@ -16,6 +16,7 @@
 
 package org.dblue.application;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -34,7 +35,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         }
 )
 @EnableAsync
-@EnableJpaRepositories(basePackages = "org.dblue.application.module.*.infrastructure.repository")
+@MapperScan(
+        basePackages = "org.dblue.application.module.**.infrastructure.mapper"
+)
+@EnableJpaRepositories(basePackages = "org.dblue.application.module.*.infrastructure.repository", repositoryImplementationPostfix = "Impl")
 @EnableJpaAuditing
 public class DarkblueApplication {
 

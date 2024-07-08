@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.caching;
+package org.dblue.application.module.logs.application.service;
 
-import org.dblue.core.caching.CachingService;
-
-import java.util.Collection;
-import java.util.List;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.dblue.application.module.logs.application.dto.LoginLogQueryDto;
+import org.dblue.application.module.logs.application.vo.LoginLogPageListVo;
 
 /**
- * 用户缓存
+ * 登录日志应用层接口
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface UserCacheService extends CachingService<UserCacheObject> {
+public interface LoginLogApplicationService {
 
     /**
-     * 根据ID获取用户信息
+     * 登录日志查询
      *
-     * @param userIds 用户ID列表
-     * @return 用户列表
+     * @param queryDto 查询参数
+     * @return 登录日志
      */
-    List<UserCacheObject> getAllById(Collection<String> userIds);
+    IPage<LoginLogPageListVo> findByPage(LoginLogQueryDto queryDto);
+
 }

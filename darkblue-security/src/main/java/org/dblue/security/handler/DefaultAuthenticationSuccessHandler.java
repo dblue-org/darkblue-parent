@@ -20,11 +20,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.dblue.core.web.result.ResponseBean;
+import org.dblue.security.event.LoginSuccessEvent;
 import org.dblue.security.token.TokenManager;
 import org.dblue.security.token.Tokens;
 import org.dblue.security.user.LoginUserVo;
 import org.dblue.security.user.SecurityUser;
 import org.dblue.security.user.UserStoreService;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -35,14 +39,20 @@ import java.io.IOException;
  * @since 1.0.0 [2022/12/15 14:21]
  */
 public class DefaultAuthenticationSuccessHandler extends AbstractAuthenticationHandler
-        implements AuthenticationSuccessHandler {
+        implements AuthenticationSuccessHandler, ApplicationEventPublisherAware {
 
     private final TokenManager tokenManager;
     private final UserStoreService userStoreService;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     public DefaultAuthenticationSuccessHandler(TokenManager tokenManager, UserStoreService userStoreService) {
         this.tokenManager = tokenManager;
         this.userStoreService = userStoreService;
+    }
+
+    @Override
+    public void setApplicationEventPublisher(@NonNull ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -52,6 +62,8 @@ public class DefaultAuthenticationSuccessHandler extends AbstractAuthenticationH
 
         Tokens tokens = this.tokenManager.createToken(securityUser.getUserId());
         this.userStoreService.save(securityUser, tokens);
+
+        this.applicationEventPublisher.publishEvent(new LoginSuccessEvent(this, securityUser, request));
 
         LoginUserVo userVo = LoginUserVo.create(securityUser, tokens);
         this.print(response, ResponseBean.success(userVo));

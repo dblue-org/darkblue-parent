@@ -13,6 +13,9 @@ spring:
     redis:
       repositories:
         enabled: false
+mybatis-plus:
+  global-config:
+    banner: false
 management:
   endpoints:
     web:

@@ -13,26 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.caching;
+package org.dblue.application.module.logs.domain.service;
 
-import org.dblue.core.caching.CachingService;
-
-import java.util.Collection;
-import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
+import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
+import org.dblue.security.enums.LoginPlatform;
+import org.dblue.security.enums.LoginType;
 
 /**
- * 用户缓存
- *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface UserCacheService extends CachingService<UserCacheObject> {
+public interface LoginLogDomainService {
 
     /**
-     * 根据ID获取用户信息
+     * 添加登录日志
      *
-     * @param userIds 用户ID列表
-     * @return 用户列表
+     * @param userId        用户ID
+     * @param loginPlatform 登录平台
+     * @param loginType     登录方式
+     * @param request       请求
+     * @return 添加后的日志
      */
-    List<UserCacheObject> getAllById(Collection<String> userIds);
+    LoginLog add(String userId, LoginPlatform loginPlatform, LoginType loginType, HttpServletRequest request);
 }

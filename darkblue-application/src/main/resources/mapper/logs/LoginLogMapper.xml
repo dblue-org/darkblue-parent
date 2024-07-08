@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dblue.application.module.logs.infrastructure.mapper.LoginLogMapper">
+  <resultMap id="BaseResultMap" type="org.dblue.application.module.logs.infrastructure.entity.LoginLog">
+    <!--@mbg.generated-->
+    <!--@Table tb_sys_login_log-->
+    <id column="login_log_id" jdbcType="VARCHAR" property="loginLogId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="login_platform" jdbcType="INTEGER" property="loginPlatform" />
+    <result column="login_type" jdbcType="INTEGER" property="loginType" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
+    <result column="user_agent" jdbcType="VARCHAR" property="userAgent" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    login_log_id, user_id, login_platform, login_type, login_time, login_ip, user_agent, 
+    create_time, create_user
+  </sql>
+</mapper>

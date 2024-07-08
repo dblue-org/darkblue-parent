@@ -13,26 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.caching;
 
-import org.dblue.core.caching.CachingService;
+package org.dblue.application.module.logs.infrastructure.repository;
 
-import java.util.Collection;
-import java.util.List;
+import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-/**
- * 用户缓存
- *
- * @author Wang Chengwei
- * @since 1.0.0
- */
-public interface UserCacheService extends CachingService<UserCacheObject> {
-
-    /**
-     * 根据ID获取用户信息
-     *
-     * @param userIds 用户ID列表
-     * @return 用户列表
-     */
-    List<UserCacheObject> getAllById(Collection<String> userIds);
+public interface LoginLogRepository extends JpaRepository<LoginLog, String>, CustomLoginLogRepository {
 }
