@@ -16,14 +16,14 @@
 
 package org.dblue.application.module.resource.infrastructure.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.dblue.application.jpa.AbstractAuditingEntity;
+import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
+
+import java.util.List;
 
 /**
  * 资源
@@ -97,6 +97,9 @@ public class Resource extends AbstractAuditingEntity {
      */
     @Column(name = "sort_num")
     private Integer sortNum;
+
+    @OneToMany(mappedBy = "permission")
+    private List<PermissionResource> permissionResourceList;
 
 
 }

@@ -175,7 +175,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
         return page.map(resource -> {
             ResourcePageVo resourcePageVo = new ResourcePageVo();
             BeanUtils.copyProperties(resource, resourcePageVo);
-            List<Permission> permissionList = permissionDomainQueryService.getPermissionMapByResourceId(resourcePageVo.getResourceId());
+            List<Permission> permissionList = permissionDomainQueryService.getPermissionByResourceId(resourcePageVo.getResourceId());
 
             if (CollectionUtils.isNotEmpty(permissionList)) {
                 resourcePageVo.setPermissionVoList(permissionList.stream().map(permission -> {

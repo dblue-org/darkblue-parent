@@ -21,6 +21,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.dblue.application.jpa.AbstractAuditingEntity;
+import org.dblue.application.module.role.infrastructure.entiry.RolePermission;
 
 import java.util.List;
 
@@ -73,8 +74,12 @@ public class Permission extends AbstractAuditingEntity {
 
 
     @OneToMany
-    @JoinColumn(name = "permission_id")
+    @JoinColumn(name = "permission_id", referencedColumnName = "permission_id")
     private List<PermissionResource> permissionResourceList;
+
+    @OneToMany
+    @JoinColumn(name = "permission_id", referencedColumnName = "permission_id")
+    private List<RolePermission> rolePermissionList;
 
 
 

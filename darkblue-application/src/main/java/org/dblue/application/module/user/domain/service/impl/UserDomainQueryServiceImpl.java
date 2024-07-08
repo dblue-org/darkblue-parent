@@ -78,4 +78,19 @@ public class UserDomainQueryServiceImpl implements UserDomainQueryService {
     public List<User> selectByNameOrUserName(String name) {
         return userRepository.findByNameLikeAndUsernameLikeAndIsDelFalseAndIsEnableTrue(name);
     }
+
+    /**
+     * 根据角色ID查询用户
+     *
+     * @param roleId 角色ID
+     * @return 用户
+     */
+    @Override
+    public List<User> getUserByRoleId(String roleId) {
+        if (StringUtils.isBlank(roleId)) {
+            return List.of();
+        }
+        return userRepository.getUserByRoleId(roleId);
+
+    }
 }

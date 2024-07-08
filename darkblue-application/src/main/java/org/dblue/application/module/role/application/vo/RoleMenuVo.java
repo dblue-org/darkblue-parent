@@ -22,64 +22,49 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 角色
+ * 角色拥有菜单权限
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 14:05:47
+ * @since 1.0.0  2024/7/8 上午10:47
  */
-@Schema(description = "角色")
+@Schema(description = "角色拥有菜单权限")
 @Data
-public class RoleVo {
-    /**
-     * 角色id
-     */
-    @Schema(description = "角色id")
-    private String roleId;
+public class RoleMenuVo {
 
     /**
-     * 角色名称
+     * 菜单ID
      */
-
-    @Schema(description = "角色名称")
-    private String roleName;
-
-    /**
-     * 角色编码
-     */
-    @Schema(description = "角色编码")
-    private String roleCode;
+    @Schema(description = "菜单ID")
+    private String menuId;
 
     /**
-     * 备注
+     * 上级菜单ID
      */
-    @Schema(description = "备注")
-    private String remark;
-
-    /**
-     * 是否可用
-     */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
-
-    /**
-     * 是否内置
-     */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
-
-    /**
-     * 拥有权限
-     */
-    @Schema(description = "拥有权限")
-    private List<RoleMenuVo> roleMenuVoList;
+    @Schema(description = "上级菜单ID")
+    private String parentId;
 
 
     /**
-     * 用户信息
+     * 菜单类型(1-目录;2-菜单)
      */
-    @Schema(description = "用户信息")
-    private List<RoleUserVo> roleUserVoList;
+    @Schema(description = "菜单类型(1-目录;2-菜单)")
+    private Integer menuType;
 
+    /**
+     * 菜单名称
+     */
+    @Schema(description = "菜单名称")
+    private String menuName;
 
+    /**
+     * 子节点
+     */
+    @Schema(description = "子节点")
+    private List<RoleMenuVo> children;
 
+    /**
+     * 权限
+     */
+    @Schema(description = "权限")
+    private List<RolePermissionVo> permissionVoList;
 }

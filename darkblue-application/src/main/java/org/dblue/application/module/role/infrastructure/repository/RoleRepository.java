@@ -28,6 +28,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+import java.util.List;
+
 
 public interface RoleRepository extends BaseJpaRepository<Role, String> {
 
@@ -72,6 +74,18 @@ public interface RoleRepository extends BaseJpaRepository<Role, String> {
             builder.and(QRole.role.roleName.eq(roleName));
         }
         return page(builder, pageable);
+    }
+
+    /**
+     * 根据权限ID获取角色信息
+     *
+     * @param permissionId 权限ID
+     * @return 角色
+     */
+    default List<Role> getRoleByPermissionId(String permissionId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QRole.role.permissions.any().permissionId.eq(permissionId));
+        return getList(builder);
     }
 
 

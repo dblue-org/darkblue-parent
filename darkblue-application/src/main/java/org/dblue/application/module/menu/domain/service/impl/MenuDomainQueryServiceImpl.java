@@ -18,6 +18,7 @@ package org.dblue.application.module.menu.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.errors.MenuErrors;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * 菜单查询领域服务
@@ -67,5 +69,19 @@ public class MenuDomainQueryServiceImpl implements MenuDomainQueryService {
     @Override
     public List<Menu> findAllMenus(PlatformEnum platformEnum) {
         return menuRepository.findByPlatformOrderBySortNum(platformEnum.getValue());
+    }
+
+    /**
+     * 根据角色ID获取菜单信息
+     *
+     * @param roleIdSet 角色ID
+     * @return 菜单信息
+     */
+    @Override
+    public List<Menu> getMenuByRoleId(Set<String> roleIdSet) {
+        if (CollectionUtils.isEmpty(roleIdSet)) {
+            return List.of();
+        }
+        return menuRepository.getMenuByRoleId(roleIdSet);
     }
 }

@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * 权限领域查询服务
@@ -42,6 +43,7 @@ import java.util.Optional;
 public class PermissionDomainQueryServiceImpl implements PermissionDomainQueryService {
 
     private final PermissionRepository permissionRepository;
+
 
     /**
      * 查询菜单下权限
@@ -88,8 +90,11 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
      * @return 权限
      */
     @Override
-    public List<Permission> getPermissionMapByResourceId(String resourceId) {
-        List<Permission> permissionList = permissionRepository.getPermissionMapByResourceId(resourceId);
+    public List<Permission> getPermissionByResourceId(String resourceId) {
+        if (StringUtils.isBlank(resourceId)) {
+            return List.of();
+        }
+        List<Permission> permissionList = permissionRepository.getPermissionByResourceId(resourceId);
 
         if (CollectionUtils.isEmpty(permissionList)) {
             return List.of();
@@ -97,5 +102,17 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
         return permissionList;
     }
 
-
+    /**
+     * 根据角色ID获取权限
+     *
+     * @param roleIdSet 角色ID
+     * @return 权限
+     */
+    @Override
+    public List<Permission> getPermissionByRoleId(Set<String> roleIdSet) {
+        if (CollectionUtils.isEmpty(roleIdSet)) {
+            return List.of();
+        }
+        return permissionRepository.getPermissionByRoleId(roleIdSet);
+    }
 }

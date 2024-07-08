@@ -20,57 +20,58 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 /**
- * 权限信息
+ * 权限资源
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 14:26:04
+ * @since 1.0.0  2024-07-03 09:56:43
  */
-@Schema(description = "权限信息")
+@Schema(description = "权限资源")
 @Data
-public class PermissionVo {
+public class PermissionResourceVo {
     /**
-     * 权限ID
+     * 资源ID
      */
-    @Schema(description = "权限ID")
-    private String permissionId;
+    @Schema(description = "资源ID")
+    private String resourceId;
 
-
-    /**
-     * 权限名称
-     */
-    @Schema(description = "权限名称")
-    private String permissionName;
 
     /**
-     * 权限标识
+     * 资源名称
      */
-    @Schema(description = "权限标识")
-    private String permissionCode;
+    @Schema(description = "资源名称")
+    private String resourceName;
 
+    /**
+     * 资源地址
+     */
+    @Schema(description = "资源地址")
+    private String resourceUrl;
+
+    /**
+     * 请求方式
+     */
+    @Schema(description = "请求方式")
+    private String requestMethod;
+
+    /**
+     * 控制层类
+     */
+    @Schema(description = "控制层类")
+    private String controller;
+
+    /**
+     * 控制层方法
+     */
+    @Schema(description = "控制层方法")
+    private String method;
 
     /**
      * 创建时间
      */
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
-
-    /**
-     * 关联资源
-     */
-    @Schema(description = "关联资源")
-    private List<PermissionResourceVo> permissionResourceList;
-
-
-    /**
-     * 包含权限的角色信息
-     */
-    @Schema(description = "包含权限的角色信息")
-    private List<PermissionRoleVo> permissionRoleVoList;
-
 
 
 }

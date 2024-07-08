@@ -26,6 +26,9 @@ import java.util.List;
 
 /**
  * 角色
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-08 16:21:08
  */
 @Getter
 @Setter
@@ -73,12 +76,12 @@ public class Role extends AbstractAuditingEntity {
     @Column(name = "is_built_in")
     private Boolean isBuiltIn;
 
-    @Transient
-    @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY, targetEntity = RoleMenu.class)
+    @OneToMany
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private List<RoleMenu> menus;
 
-    @Transient
-    @OneToMany(mappedBy = "roleId", fetch = FetchType.LAZY, targetEntity = RolePermission.class)
+    @OneToMany
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     private List<RolePermission> permissions;
 
 }

@@ -20,6 +20,7 @@ import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单查询领域服务
@@ -43,6 +44,15 @@ public interface MenuDomainQueryService {
      * @return 菜单列表
      */
     List<Menu> findAllMenus(PlatformEnum platformEnum);
+
+
+    /**
+     * 根据角色ID获取菜单信息
+     *
+     * @param roleIdSet 角色ID
+     * @return 菜单信息
+     */
+    List<Menu> getMenuByRoleId(Set<String> roleIdSet);
 
 
 }

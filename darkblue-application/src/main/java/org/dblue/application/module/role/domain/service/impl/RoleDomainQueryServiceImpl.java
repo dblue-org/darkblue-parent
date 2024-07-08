@@ -65,10 +65,25 @@ public class RoleDomainQueryServiceImpl implements RoleDomainQueryService {
      */
     @Override
     public Role getOne(String roleId) {
-        if(StringUtils.isBlank(roleId)){
+        if (StringUtils.isBlank(roleId)) {
             return null;
         }
         Optional<Role> optional = roleRepository.findById(roleId);
         return optional.orElse(null);
+    }
+
+    /**
+     * 根据权限ID获取角色信息
+     *
+     * @param permissionId 权限ID
+     * @return 角色
+     */
+    @Override
+    public List<Role> getRoleByPermissionId(String permissionId) {
+
+        if (StringUtils.isBlank(permissionId)) {
+            return List.of();
+        }
+        return roleRepository.getRoleByPermissionId(permissionId);
     }
 }
