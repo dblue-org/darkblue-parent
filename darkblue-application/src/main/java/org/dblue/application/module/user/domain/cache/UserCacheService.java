@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.caching;
+package org.dblue.application.module.user.domain.cache;
 
 import org.dblue.core.caching.CachingService;
 

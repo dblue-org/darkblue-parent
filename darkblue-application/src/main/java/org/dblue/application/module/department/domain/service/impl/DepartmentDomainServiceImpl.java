@@ -26,6 +26,7 @@ import org.dblue.application.module.department.infrastructure.entity.Department;
 import org.dblue.application.module.department.infrastructure.repository.DepartmentRepository;
 import org.dblue.common.exception.ServiceException;
 import org.dblue.common.id.Snowflake;
+import org.dblue.core.aspect.ServiceOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,7 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
      *
      * @param addDto 新增信息
      */
+    @ServiceOperation("新增部门")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(DepartmentAddDto addDto) {
@@ -68,6 +70,7 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
      *
      * @param updateDto 更新信息
      */
+    @ServiceOperation("更新部门")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void update(DepartmentUpdateDto updateDto) {
@@ -89,6 +92,7 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
      *
      * @param departmentId 部门ID
      */
+    @ServiceOperation("删除部门")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String departmentId) {

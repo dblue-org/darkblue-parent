@@ -16,15 +16,14 @@
 package org.dblue.application.module.logs.application.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.dblue.application.module.caching.UserCacheObject;
-import org.dblue.application.module.caching.UserCacheService;
 import org.dblue.application.module.logs.application.dto.LoginLogQueryDto;
 import org.dblue.application.module.logs.application.service.LoginLogApplicationService;
 import org.dblue.application.module.logs.application.vo.LoginLogPageListVo;
 import org.dblue.application.module.logs.infrastructure.entity.LoginLog;
 import org.dblue.application.module.logs.infrastructure.query.LoginLogQuery;
 import org.dblue.application.module.logs.infrastructure.repository.LoginLogRepository;
-import org.dblue.core.aspect.ServiceOperation;
+import org.dblue.application.module.user.domain.cache.UserCacheObject;
+import org.dblue.application.module.user.domain.cache.UserCacheService;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -49,7 +48,6 @@ public class LoginLogApplicationServiceImpl implements LoginLogApplicationServic
         this.userCacheService = userCacheService;
     }
 
-    @ServiceOperation("登录日志查询")
     @Override
     public IPage<LoginLogPageListVo> findByPage(LoginLogQueryDto queryDto) {
         LoginLogQuery loginLogQuery = this.loginLogRepository.createQuery();

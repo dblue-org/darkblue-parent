@@ -27,7 +27,6 @@ import org.dblue.application.module.department.application.dto.DepartmentUpdateD
  */
 public interface DepartmentDomainService {
 
-
     /**
      * 新增
      * @param addDto 新增信息

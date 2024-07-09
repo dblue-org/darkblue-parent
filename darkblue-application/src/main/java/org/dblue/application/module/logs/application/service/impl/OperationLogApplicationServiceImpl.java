@@ -16,14 +16,14 @@
 package org.dblue.application.module.logs.application.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.dblue.application.module.caching.UserCacheObject;
-import org.dblue.application.module.caching.UserCacheService;
 import org.dblue.application.module.logs.application.dto.OperationLogQueryDto;
 import org.dblue.application.module.logs.application.service.OperationLogApplicationService;
 import org.dblue.application.module.logs.application.vo.OperationLogPageListVo;
 import org.dblue.application.module.logs.infrastructure.entity.OperationLog;
 import org.dblue.application.module.logs.infrastructure.query.OperationLogQuery;
 import org.dblue.application.module.logs.infrastructure.repository.OperationLogRepository;
+import org.dblue.application.module.user.domain.cache.UserCacheObject;
+import org.dblue.application.module.user.domain.cache.UserCacheService;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
