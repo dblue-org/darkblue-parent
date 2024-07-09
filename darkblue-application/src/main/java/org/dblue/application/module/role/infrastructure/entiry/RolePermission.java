@@ -27,6 +27,9 @@ import org.dblue.application.jpa.AbstractCreateAuditingEntity;
 
 /**
  * 角色权限
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-08 16:22:30
  */
 @Getter
 @Setter

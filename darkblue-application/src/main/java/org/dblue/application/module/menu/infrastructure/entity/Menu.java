@@ -22,7 +22,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.dblue.application.jpa.AbstractAuditingEntity;
+import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
 import org.hibernate.annotations.ColumnDefault;
+
+import java.util.List;
 
 /**
  * 用户更新
@@ -50,11 +53,6 @@ public class Menu extends AbstractAuditingEntity {
     @Column(name = "parent_id", length = 64)
     private String parentId;
 
-
-    @Transient
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Menu parentMenu;
 
     /**
      * 菜单适用平台(1-PC；2-APP)
@@ -136,5 +134,9 @@ public class Menu extends AbstractAuditingEntity {
     @ColumnDefault("1")
     @Column(name = "is_production_visible", nullable = false)
     private Boolean isProductionVisible = false;
+
+    @OneToMany
+    @JoinColumn(name = "menu_id", referencedColumnName = "menu_id")
+    private List<RoleMenu> roleMenuList;
 
 }

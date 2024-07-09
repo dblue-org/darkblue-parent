@@ -28,6 +28,7 @@ import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * 权限
@@ -98,9 +99,22 @@ public interface PermissionRepository extends BaseJpaRepository<Permission, Stri
      * @param resourceId 资源ID
      * @return 权限
      */
-    default List<Permission> getPermissionMapByResourceId(String resourceId) {
+    default List<Permission> getPermissionByResourceId(String resourceId) {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(QPermission.permission.permissionResourceList.any().resource.resourceId.eq(resourceId));
+        return getList(builder);
+    }
+
+
+    /**
+     * 根据角色ID获取权限
+     *
+     * @param roleIdSet 角色ID
+     * @return 权限
+     */
+    default List<Permission> getPermissionByRoleId(Set<String> roleIdSet) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QPermission.permission.rolePermissionList.any().roleId.in(roleIdSet));
         return getList(builder);
     }
 }

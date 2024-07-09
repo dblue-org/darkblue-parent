@@ -51,4 +51,13 @@ public interface UserDomainQueryService {
      * @return 用户信息
      */
     List<User> selectByNameOrUserName(String name);
+
+
+    /**
+     * 根据角色ID查询用户
+     *
+     * @param roleId 角色ID
+     * @return 用户
+     */
+    List<User> getUserByRoleId(String roleId);
 }

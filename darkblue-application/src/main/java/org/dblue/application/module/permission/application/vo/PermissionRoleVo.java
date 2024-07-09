@@ -16,61 +16,47 @@
 
 package org.dblue.application.module.permission.application.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 /**
- * 权限信息
+ * 包含权限的角色信息
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 14:26:04
+ * @since 1.0.0  2024-07-08 16:15:09
  */
-@Schema(description = "权限信息")
 @Data
-public class PermissionVo {
+public class PermissionRoleVo {
     /**
-     * 权限ID
+     * 角色id
      */
-    @Schema(description = "权限ID")
-    private String permissionId;
-
+    private String roleId;
 
     /**
-     * 权限名称
+     * 角色名称
      */
-    @Schema(description = "权限名称")
-    private String permissionName;
+    private String roleName;
 
     /**
-     * 权限标识
+     * 角色编码
      */
-    @Schema(description = "权限标识")
-    private String permissionCode;
+    private String roleCode;
 
+    /**
+     * 是否可用
+     */
+    private Boolean isEnable;
+
+    /**
+     * 是否内置
+     */
+    private Boolean isBuiltIn;
 
     /**
      * 创建时间
      */
-    @Schema(description = "创建时间")
     private LocalDateTime createTime;
-
-    /**
-     * 关联资源
-     */
-    @Schema(description = "关联资源")
-    private List<PermissionResourceVo> permissionResourceList;
-
-
-    /**
-     * 包含权限的角色信息
-     */
-    @Schema(description = "包含权限的角色信息")
-    private List<PermissionRoleVo> permissionRoleVoList;
-
 
 
 }

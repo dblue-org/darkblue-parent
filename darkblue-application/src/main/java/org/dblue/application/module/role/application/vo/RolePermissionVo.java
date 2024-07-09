@@ -14,29 +14,32 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.permission.application.vo;
+package org.dblue.application.module.role.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 
 /**
- * 权限信息
+ * 角色权限
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 14:26:04
+ * @since 1.0.0  2024-07-08 10:52:47
  */
-@Schema(description = "权限信息")
+@Schema(description = "角色权限")
 @Data
-public class PermissionVo {
+public class RolePermissionVo {
     /**
      * 权限ID
      */
     @Schema(description = "权限ID")
     private String permissionId;
+
+    /**
+     * 菜单ID
+     */
+    @Schema(description = "菜单ID")
+    private String menuId;
 
 
     /**
@@ -50,27 +53,6 @@ public class PermissionVo {
      */
     @Schema(description = "权限标识")
     private String permissionCode;
-
-
-    /**
-     * 创建时间
-     */
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
-
-    /**
-     * 关联资源
-     */
-    @Schema(description = "关联资源")
-    private List<PermissionResourceVo> permissionResourceList;
-
-
-    /**
-     * 包含权限的角色信息
-     */
-    @Schema(description = "包含权限的角色信息")
-    private List<PermissionRoleVo> permissionRoleVoList;
-
 
 
 }

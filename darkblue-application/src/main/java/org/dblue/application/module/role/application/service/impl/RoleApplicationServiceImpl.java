@@ -18,24 +18,33 @@ package org.dblue.application.module.role.application.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.commons.enums.MenuTypeEnum;
+import org.dblue.application.module.department.domain.service.DepartmentDomainQueryService;
+import org.dblue.application.module.department.infrastructure.entity.Department;
+import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
+import org.dblue.application.module.menu.infrastructure.entity.Menu;
+import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
+import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.role.application.dto.RolePageDto;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
-import org.dblue.application.module.role.application.vo.RolePageVo;
-import org.dblue.application.module.role.application.vo.RoleVo;
+import org.dblue.application.module.role.application.vo.*;
 import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.application.module.role.errors.RoleErrors;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.dblue.application.module.role.infrastructure.repository.RoleRepository;
+import org.dblue.application.module.user.domain.service.UserDomainQueryService;
 import org.dblue.application.module.user.domain.service.UserRoleDomainService;
+import org.dblue.application.module.user.infrastructure.entity.User;
 import org.dblue.common.exception.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -53,6 +62,10 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
     private final RoleDomainService roleDomainService;
     private final RoleRepository roleRepository;
     private final RoleDomainQueryService roleDomainQueryService;
+    private final MenuDomainQueryService menuDomainQueryService;
+    private final PermissionDomainQueryService permissionDomainQueryService;
+    private final UserDomainQueryService userDomainQueryService;
+    private final DepartmentDomainQueryService departmentDomainQueryService;
 
     /**
      * 角色删除
@@ -105,7 +118,57 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
         RoleVo roleVo = new RoleVo();
         if (Objects.nonNull(role)) {
             BeanUtils.copyProperties(role, roleVo);
+            List<Menu> menuList = menuDomainQueryService.getMenuByRoleId(Set.of(roleId));
+            List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(Set.of(roleId));
+            Map<String, List<Permission>> permissionMap = permissionList.stream()
+                                                                        .collect(Collectors.groupingBy(Permission::getMenuId));
+            Map<String, List<Menu>> childrenMap = menuList.stream()
+                                                          .filter(menu -> StringUtils.isNotBlank(menu.getParentId()))
+                                                          .collect(Collectors.groupingBy(Menu::getParentId));
+
+            List<Menu> rootMenuList = menuList.stream().filter(menu -> StringUtils.isBlank(menu.getParentId()))
+                                              .toList();
+
+
+            roleVo.setRoleMenuVoList(buildMenu(rootMenuList, childrenMap, permissionMap));
+            List<User> userList = userDomainQueryService.getUserByRoleId(roleId);
+            if (CollectionUtils.isNotEmpty(userList)) {
+                List<RoleUserVo> userVos = userList.stream().map(user -> {
+                    RoleUserVo roleUserVo = new RoleUserVo();
+                    BeanUtils.copyProperties(user, roleUserVo);
+                    Department department = departmentDomainQueryService.getOne(user.getDeptId());
+                    roleUserVo.setDeptName(department.getDeptName());
+                    return roleUserVo;
+                }).toList();
+                roleVo.setRoleUserVoList(userVos);
+            }
         }
         return roleVo;
+    }
+
+    public List<RoleMenuVo> buildMenu(
+            List<Menu> menuList, Map<String, List<Menu>> childrenMap, Map<String, List<Permission>> permissionMap) {
+        List<RoleMenuVo> userMenuVoList = new ArrayList<>();
+        for (Menu menu : menuList) {
+            RoleMenuVo roleMenuVo = new RoleMenuVo();
+            BeanUtils.copyProperties(menu, roleMenuVo);
+            if (MenuTypeEnum.MENU.equalsTo(menu.getMenuType())) {
+                List<Permission> permissionList = permissionMap.get(menu.getMenuId());
+                if (CollectionUtils.isNotEmpty(permissionList)) {
+                    roleMenuVo.setPermissionVoList(permissionList.stream().map(permission -> {
+                        RolePermissionVo rolePermissionVo = new RolePermissionVo();
+                        BeanUtils.copyProperties(permission, rolePermissionVo);
+                        return rolePermissionVo;
+                    }).toList());
+                }
+            } else {
+                List<Menu> menus = childrenMap.get(menu.getMenuId());
+                if (CollectionUtils.isNotEmpty(menus)) {
+                    roleMenuVo.setChildren(buildMenu(menus, childrenMap, permissionMap));
+                }
+            }
+            userMenuVoList.add(roleMenuVo);
+        }
+        return userMenuVoList;
     }
 }

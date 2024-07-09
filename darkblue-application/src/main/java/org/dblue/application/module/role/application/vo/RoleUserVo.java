@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.user.application.vo;
+package org.dblue.application.module.role.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 /**
  * 用户
+ *
  * @author xie jin
  */
 @Schema(description = "用户")
 @Data
-public class UserVo {
+public class RoleUserVo {
     /**
      * 用户ID
      */
@@ -49,11 +47,6 @@ public class UserVo {
     @Schema(description = "姓名")
     private String name;
 
-    /**
-     * 性别（1-男；2-女）
-     */
-    @Schema(description = "性别（1-男；2-女）")
-    private Integer sex;
 
     /**
      * 所属部门
@@ -67,17 +60,6 @@ public class UserVo {
     @Schema(description = "所属部门名称")
     private String deptName;
 
-    /**
-     * 职务ID
-     */
-    @Schema(description = "职务ID")
-    private String positionId;
-
-    /**
-     * 职务名称
-     */
-    @Schema(description = "职务名称")
-    private String positionName;
 
     /**
      * 手机号
@@ -85,55 +67,11 @@ public class UserVo {
     @Schema(description = "手机号")
     private String phoneNumber;
 
-    /**
-     * 身份证号码
-     */
-    @Schema(description = "身份证号码")
-    private String identityNo;
 
     /**
      * 是否可用
      */
-
     @Schema(description = "是否可用")
     private Boolean isEnable;
-
-    /**
-     * 最后登录日期
-     */
-    @Schema(description = "最后登录日期")
-    private LocalDateTime lastLoginTime;
-
-    /**
-     * 密码更新时间
-     */
-    @Schema(description = "密码更新时间")
-    private LocalDateTime passwordUpdateTime;
-
-    /**
-     * 是否超级管理员
-     */
-    @Schema(description = "是否超级管理员")
-    private Boolean isAdmin;
-
-    /**
-     * 是否删除
-     */
-    @Schema(description = "是否删除")
-    private Boolean isDel;
-
-
-    /**
-     * 角色名称
-     */
-    @Schema(description = "角色名称")
-    private List<String> roleNameList;
-
-
-    /**
-     * 拥有权限
-     */
-    @Schema(description = "拥有权限")
-    private List<UserMenuVo> userMenuVoList;
 
 }

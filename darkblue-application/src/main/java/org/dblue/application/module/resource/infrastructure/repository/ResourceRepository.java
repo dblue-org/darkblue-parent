@@ -26,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -48,9 +49,9 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
     /**
      * 添加排重用
      *
-     * @param resourceName       资源名称
-     * @param controller  控制器类
-     * @param method 控制器方法
+     * @param resourceName 资源名称
+     * @param controller   控制器类
+     * @param method       控制器方法
      * @return 资源
      */
     Optional<Resource> findByResourceNameAndControllerAndMethod(
@@ -60,10 +61,10 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
     /**
      * 更新排重用
      *
-     * @param resourceName       资源名称
-     * @param controller  控制器类
-     * @param method 控制器方法
-     * @param resourceId         资源ID
+     * @param resourceName 资源名称
+     * @param controller   控制器类
+     * @param method       控制器方法
+     * @param resourceId   资源ID
      * @return 资源
      */
     Optional<Resource> findByResourceNameAndControllerAndMethodAndResourceIdNot(
@@ -99,5 +100,17 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
             builder.and(QResource.resource.isAuthedAccess.eq(pageDto.getIsAuthedAccess()));
         }
         return page(builder, pageable);
+    }
+
+    /**
+     * 根据权限ID 查询资源信息
+     *
+     * @param permissionId 权限ID
+     * @return 资源信息
+     */
+    default List<Resource> getResourceByPermissionId(String permissionId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QResource.resource.permissionResourceList.any().permission.permissionId.eq(permissionId));
+        return getList(builder);
     }
 }

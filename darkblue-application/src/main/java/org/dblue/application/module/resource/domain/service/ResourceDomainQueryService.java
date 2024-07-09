@@ -14,41 +14,27 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.domain.service;
+package org.dblue.application.module.resource.domain.service;
 
-import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.dblue.application.module.resource.infrastructure.entity.Resource;
 
 import java.util.List;
-import java.util.Set;
 
 /**
- * 角色领域查询服务
+ * 资源领域查询服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/18 下午3:44
+ * @since 1.0.0  2024/7/8 下午4:05
  */
-public interface RoleDomainQueryService {
+public interface ResourceDomainQueryService {
 
     /**
-     * 批量获取角色信息
-     * @param roleIdSets 角色ID集合
-     * @return 角色信息
-     */
-    List<Role> getMoreByIds(Set<String> roleIdSets);
-
-
-    /**
-     * 获取单个角色信息
-     * @param roleId 角色ID
-     * @return 角色
-     */
-    Role getOne(String roleId);
-
-    /**
-     * 根据权限ID获取角色信息
+     * 根据权限ID 查询资源信息
      *
      * @param permissionId 权限ID
-     * @return 角色
+     * @return 资源信息
      */
-    List<Role> getRoleByPermissionId(String permissionId);
+    List<Resource> getResourceByPermissionId(String permissionId);
+
+
 }

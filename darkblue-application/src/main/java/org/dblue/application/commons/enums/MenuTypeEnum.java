@@ -31,8 +31,8 @@ public enum MenuTypeEnum implements EnumState {
     /**
      *
      */
-    CATALOGUE(1,"CATALOGUE"),
-    MENU(2,"MENU"),
+    CATALOGUE(1, "目录"),
+    MENU(2, "菜单项"),
             ;
 
     private final int value;
@@ -44,6 +44,7 @@ public enum MenuTypeEnum implements EnumState {
         this.name = name;
     }
 
+    @Override
     public boolean equalsTo(Integer type) {
         return type != null && this.value == type;
     }

@@ -18,21 +18,29 @@ package org.dblue.application.module.permission.application.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
 import org.dblue.application.module.permission.application.service.PermissionApplicationService;
 import org.dblue.application.module.permission.application.vo.PermissionPageVo;
+import org.dblue.application.module.permission.application.vo.PermissionResourceVo;
+import org.dblue.application.module.permission.application.vo.PermissionRoleVo;
 import org.dblue.application.module.permission.application.vo.PermissionVo;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.application.module.permission.errors.PermissionErrors;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.application.module.resource.domain.service.ResourceDomainQueryService;
+import org.dblue.application.module.resource.infrastructure.entity.Resource;
+import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.domain.service.RolePermissionDomainQueryService;
+import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.dblue.common.exception.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -49,6 +57,9 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
     private final PermissionDomainService permissionDomainService;
     private final RolePermissionDomainQueryService rolePermissionDomainQueryService;
     private final PermissionDomainQueryService permissionDomainQueryService;
+    private final ResourceDomainQueryService resourceDomainQueryService;
+    private final RoleDomainQueryService roleDomainQueryService;
+
     /**
      * 权限删除
      *
@@ -58,7 +69,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
     @Override
     public void delete(String id) {
         long count = rolePermissionDomainQueryService.countByPermissionId(id);
-        if(count > 0){
+        if (count > 0) {
             throw new ServiceException(PermissionErrors.PERMISSION_ROLE_EXITS);
         }
         permissionDomainService.delete(id);
@@ -73,7 +84,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
     @Override
     public Page<PermissionPageVo> findByPage(PermissionPageDto query) {
         Page<Permission> page = permissionDomainQueryService.findByPage(query);
-        if(page.isEmpty()){
+        if (page.isEmpty()) {
 
             return Page.empty(query.toJpaPage());
         }
@@ -96,8 +107,27 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
     public PermissionVo getOne(String permissionId) {
         Permission permission = permissionDomainQueryService.getOne(permissionId);
         PermissionVo permissionVo = new PermissionVo();
-        if(Objects.nonNull(permission)){
-            BeanUtils.copyProperties(permission,permissionVo);
+        if (Objects.nonNull(permission)) {
+            BeanUtils.copyProperties(permission, permissionVo);
+            List<Resource> resourceList = resourceDomainQueryService.getResourceByPermissionId(permissionId);
+            if (CollectionUtils.isNotEmpty(resourceList)) {
+                List<PermissionResourceVo> resourceVos = resourceList.stream().map(resource -> {
+                    PermissionResourceVo permissionResourceVo = new PermissionResourceVo();
+                    BeanUtils.copyProperties(resource, permissionResourceVo);
+                    return permissionResourceVo;
+                }).toList();
+                permissionVo.setPermissionResourceList(resourceVos);
+
+            }
+            List<Role> roleList = roleDomainQueryService.getRoleByPermissionId(permissionId);
+            if (CollectionUtils.isNotEmpty(roleList)) {
+                List<PermissionRoleVo> roleVoList = roleList.stream().map(role -> {
+                    PermissionRoleVo permissionRoleVo = new PermissionRoleVo();
+                    BeanUtils.copyProperties(role, permissionRoleVo);
+                    return permissionRoleVo;
+                }).toList();
+                permissionVo.setPermissionRoleVoList(roleVoList);
+            }
         }
         return permissionVo;
     }

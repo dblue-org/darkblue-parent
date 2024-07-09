@@ -89,7 +89,7 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
     /**
      * 姓名或用户名查询可用用户信息
      *
-     * @param name     姓名/用户名
+     * @param name 姓名/用户名
      * @return 用户信息
      */
     default List<User> findByNameLikeAndUsernameLikeAndIsDelFalseAndIsEnableTrue(String name) {
@@ -99,6 +99,18 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
         if (StringUtils.isNotBlank(name)) {
             builder.and(QUser.user.name.likeIgnoreCase(name).or(QUser.user.username.likeIgnoreCase(name)));
         }
+        return getList(builder);
+    }
+
+    /**
+     * 根据角色ID查询用户
+     *
+     * @param roleId 角色ID
+     * @return 用户
+     */
+    default List<User> getUserByRoleId(String roleId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QUser.user.roles.any().roleId.eq(roleId));
         return getList(builder);
     }
 

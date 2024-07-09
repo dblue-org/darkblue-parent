@@ -128,8 +128,8 @@ public class User extends AbstractAuditingEntity {
     private Boolean isDel;
 
 
-    @Transient
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY, targetEntity = UserRole.class)
+    @OneToMany
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private List<UserRole> roles;
 
 }
