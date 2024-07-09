@@ -15,6 +15,7 @@
  */
 package org.dblue.application.module.user.domain.cache;
 
+import org.dblue.application.module.user.infrastructure.entity.User;
 import org.dblue.core.caching.CachingService;
 
 import java.util.Collection;
@@ -26,7 +27,7 @@ import java.util.List;
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface UserCacheService extends CachingService<UserCacheObject> {
+public interface UserCacheService extends CachingService<User, UserCacheObject> {
 
     /**
      * 根据ID获取用户信息

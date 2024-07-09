@@ -13,13 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.user.adapter.listener;
+package org.dblue.application.module.setting.domain.event;
+
+import lombok.Getter;
+import org.dblue.application.module.setting.infrastructure.entity.PropertySetting;
+import org.springframework.context.ApplicationEvent;
 
 /**
- * TODO
+ * 参数添加后触发此事件
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public class UserAddListener {
+@Getter
+public class PropertyDeleteEvent extends ApplicationEvent {
+
+    private final transient PropertySetting propertySetting;
+
+    public PropertyDeleteEvent(Object source, PropertySetting propertySetting) {
+        super(source);
+        this.propertySetting = propertySetting;
+    }
 }

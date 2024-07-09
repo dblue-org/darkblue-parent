@@ -13,42 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.core.caching;
+package org.dblue.application.commons.bus;
 
-import java.util.List;
+import org.springframework.context.ApplicationEvent;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface CachingService<E, C> {
+public interface EventBus {
 
     /**
-     * 获取缓存数据
+     * 在事务提交后触发事件
      *
-     * @param id ID
-     * @return 缓存数据
+     * @param event 事件
      */
-    C get(String id);
+    void fireEventAfterCommit(ApplicationEvent event);
 
     /**
-     * 获取所有缓存数据
+     * 直接触发事件
      *
-     * @return 缓存数据列表
+     * @param event 事件
      */
-    List<C> getAll();
-
-    /**
-     * 添加或更新缓存
-     *
-     * @param entity 数据
-     */
-    void save(E entity);
-
-    /**
-     * 删除缓存
-     *
-     * @param id 数据ID
-     */
-    void delete(String id);
+    void fireEvent(ApplicationEvent event);
 }

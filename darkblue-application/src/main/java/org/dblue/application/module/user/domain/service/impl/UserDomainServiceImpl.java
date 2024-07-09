@@ -19,10 +19,14 @@ package org.dblue.application.module.user.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.dblue.application.commons.bus.EventBus;
 import org.dblue.application.module.user.application.dto.UserAddDto;
 import org.dblue.application.module.user.application.dto.UserDto;
 import org.dblue.application.module.user.application.dto.UserEnableDto;
 import org.dblue.application.module.user.application.dto.UserUpdateDto;
+import org.dblue.application.module.user.domain.event.UserAddEvent;
+import org.dblue.application.module.user.domain.event.UserDeleteEvent;
+import org.dblue.application.module.user.domain.event.UserUpdateEvent;
 import org.dblue.application.module.user.domain.service.UserDomainService;
 import org.dblue.application.module.user.errors.UserErrors;
 import org.dblue.application.module.user.infrastructure.entity.User;
@@ -51,6 +55,7 @@ public class UserDomainServiceImpl implements UserDomainService {
 
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
+    private final EventBus eventBus;
 
     /**
      * 用户添加
@@ -70,6 +75,8 @@ public class UserDomainServiceImpl implements UserDomainService {
         userSave.setIsDel(Boolean.FALSE);
         userRepository.save(userSave);
         saveUserRole(addDto, userSave);
+
+        this.eventBus.fireEventAfterCommit(new UserAddEvent(this, userSave));
     }
 
     private void saveUserRole(UserDto addDto, User userSave) {
@@ -105,6 +112,8 @@ public class UserDomainServiceImpl implements UserDomainService {
         userRoleRepository.deleteByUserId(updateDto.getUserId());
         saveUserRole(updateDto, optional.get());
 
+        this.eventBus.fireEventAfterCommit(new UserUpdateEvent(this, optional.get()));
+
     }
 
     /**
@@ -121,6 +130,8 @@ public class UserDomainServiceImpl implements UserDomainService {
         }
         optional.get().setIsDel(Boolean.TRUE);
         userRepository.save(optional.get());
+
+        this.eventBus.fireEventAfterCommit(new UserDeleteEvent(this, optional.get()));
     }
 
     /**
@@ -137,6 +148,8 @@ public class UserDomainServiceImpl implements UserDomainService {
         }
         optional.get().setIsEnable(enableDto.getEnable());
         userRepository.save(optional.get());
+
+        this.eventBus.fireEventAfterCommit(new UserUpdateEvent(this, optional.get()));
     }
 
 

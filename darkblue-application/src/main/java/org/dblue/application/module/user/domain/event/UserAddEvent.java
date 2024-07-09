@@ -15,11 +15,21 @@
  */
 package org.dblue.application.module.user.domain.event;
 
+import lombok.Getter;
+import org.dblue.application.module.user.infrastructure.entity.User;
+import org.springframework.context.ApplicationEvent;
+
 /**
- * TODO
- *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public class UserAddEvent {
+@Getter
+public class UserAddEvent extends ApplicationEvent {
+
+    private final transient User user;
+
+    public UserAddEvent(Object source, User user) {
+        super(source);
+        this.user = user;
+    }
 }

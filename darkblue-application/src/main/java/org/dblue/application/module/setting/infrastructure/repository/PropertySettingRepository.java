@@ -13,42 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.core.caching;
 
-import java.util.List;
+package org.dblue.application.module.setting.infrastructure.repository;
 
-/**
- * @author Wang Chengwei
- * @since 1.0.0
- */
-public interface CachingService<E, C> {
+import org.dblue.application.module.setting.infrastructure.entity.PropertySetting;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PropertySettingRepository extends JpaRepository<PropertySetting, String> {
 
     /**
-     * 获取缓存数据
+     * 根据参数编码查询参数信息
      *
-     * @param id ID
-     * @return 缓存数据
+     * @param propertyCode 参数编码
+     * @return 参数信息
      */
-    C get(String id);
-
-    /**
-     * 获取所有缓存数据
-     *
-     * @return 缓存数据列表
-     */
-    List<C> getAll();
-
-    /**
-     * 添加或更新缓存
-     *
-     * @param entity 数据
-     */
-    void save(E entity);
-
-    /**
-     * 删除缓存
-     *
-     * @param id 数据ID
-     */
-    void delete(String id);
+    PropertySetting findByPropertyCode(String propertyCode);
 }

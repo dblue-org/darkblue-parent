@@ -13,42 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.core.caching;
+package org.dblue.application.module.setting.errors;
 
-import java.util.List;
+import lombok.Getter;
+import org.dblue.common.error.ErrorInfo;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface CachingService<E, C> {
+@Getter
+public enum PropertySettingError implements ErrorInfo {
 
-    /**
-     * 获取缓存数据
-     *
-     * @param id ID
-     * @return 缓存数据
-     */
-    C get(String id);
+    PROPERTY_CODE_EXIST("PROPERTY_001", "参数编码已存在"),
+    NOT_EXIST("PROPERTY_001", "参数信息不存在");
+    private final String errorCode;
+    private final String errorMessage;
 
-    /**
-     * 获取所有缓存数据
-     *
-     * @return 缓存数据列表
-     */
-    List<C> getAll();
-
-    /**
-     * 添加或更新缓存
-     *
-     * @param entity 数据
-     */
-    void save(E entity);
-
-    /**
-     * 删除缓存
-     *
-     * @param id 数据ID
-     */
-    void delete(String id);
+    PropertySettingError(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
 }

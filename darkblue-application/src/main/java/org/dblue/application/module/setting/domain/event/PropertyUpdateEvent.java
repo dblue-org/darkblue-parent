@@ -13,42 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.core.caching;
+package org.dblue.application.module.setting.domain.event;
 
-import java.util.List;
+import lombok.Getter;
+import org.dblue.application.module.setting.infrastructure.entity.PropertySetting;
+import org.springframework.context.ApplicationEvent;
 
 /**
+ * 参数添加后触发此事件
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface CachingService<E, C> {
+@Getter
+public class PropertyUpdateEvent extends ApplicationEvent {
 
-    /**
-     * 获取缓存数据
-     *
-     * @param id ID
-     * @return 缓存数据
-     */
-    C get(String id);
+    private final transient PropertySetting propertySetting;
 
-    /**
-     * 获取所有缓存数据
-     *
-     * @return 缓存数据列表
-     */
-    List<C> getAll();
-
-    /**
-     * 添加或更新缓存
-     *
-     * @param entity 数据
-     */
-    void save(E entity);
-
-    /**
-     * 删除缓存
-     *
-     * @param id 数据ID
-     */
-    void delete(String id);
+    public PropertyUpdateEvent(Object source, PropertySetting propertySetting) {
+        super(source);
+        this.propertySetting = propertySetting;
+    }
 }

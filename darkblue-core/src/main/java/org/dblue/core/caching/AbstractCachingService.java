@@ -26,7 +26,7 @@ import java.util.Set;
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public abstract class AbstractCachingService<T, C> extends AbstractCachingInitService<T, C> implements CachingService<C> {
+public abstract class AbstractCachingService<T, C> extends AbstractCachingInitService<T, C> implements CachingService<T, C> {
 
     @Override
     public C get(String id) {
@@ -42,5 +42,19 @@ public abstract class AbstractCachingService<T, C> extends AbstractCachingInitSe
             return this.valueOperations.multiGet(keys);
         }
         return List.of();
+    }
+
+    @Override
+    public void save(T entity) {
+        String id = getId(entity);
+        String cacheKey = this.getCacheKey(id);
+        C cacheObject = this.toCacheObject(entity);
+        this.valueOperations.set(cacheKey, cacheObject);
+    }
+
+    @Override
+    public void delete(String id) {
+        String cacheKey = this.getCacheKey(id);
+        this.valueOperations.getOperations().delete(cacheKey);
     }
 }
