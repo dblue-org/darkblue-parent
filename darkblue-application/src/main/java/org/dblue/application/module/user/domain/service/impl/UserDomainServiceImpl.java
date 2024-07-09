@@ -73,6 +73,8 @@ public class UserDomainServiceImpl implements UserDomainService {
         BeanUtils.copyProperties(addDto, userSave);
         userSave.setUserId(Snowflake.stringId());
         userSave.setIsDel(Boolean.FALSE);
+        userSave.setIsEnable(Boolean.TRUE);
+        userSave.setIsAdmin(Boolean.FALSE);
         userRepository.save(userSave);
         saveUserRole(addDto, userSave);
 
@@ -103,7 +105,7 @@ public class UserDomainServiceImpl implements UserDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(UserErrors.USER_NOT_FOUND);
         }
-        Optional<User> existsOptional = userRepository.findByUsernameAndUserIdAndIsDelIsFalse(updateDto.getUsername(), updateDto.getUserId());
+        Optional<User> existsOptional = userRepository.findByUsernameAndUserIdNotAndIsDelIsFalse(updateDto.getUsername(), updateDto.getUserId());
         if (existsOptional.isPresent()) {
             throw new ServiceException(UserErrors.USERNAME_EXISTS);
         }

@@ -18,13 +18,14 @@ package org.dblue.application.module.user.infrastructure.repository;
 import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.jpa.BaseJpaRepository;
+import org.dblue.application.module.user.application.dto.UserPageDto;
 import org.dblue.application.module.user.infrastructure.entity.QUser;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,14 @@ import java.util.Optional;
  * @since 1.0.0
  */
 public interface UserRepository extends BaseJpaRepository<User, String> {
+
+    /**
+     * 根据职位ID查询用户信息
+     *
+     * @param positionIds 职位ID集合
+     * @return 用户信息
+     */
+    List<User> findByPositionIdIn(@NonNull Collection<String> positionIds);
 
     /**
      * 通过用户名获取用户信息
@@ -52,35 +61,35 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
      * @param userId   用户ID
      * @return 用户
      */
-    Optional<User> findByUsernameAndUserIdAndIsDelIsFalse(@NonNull String username, @NonNull String userId);
+    Optional<User> findByUsernameAndUserIdNotAndIsDelIsFalse(@NonNull String username, @NonNull String userId);
 
 
     /**
      * 分页查询
      *
-     * @param name        姓名
-     * @param username    用户名
-     * @param phoneNumber 手机号
-     * @param deptId      部门ID
-     * @param pageable    分页参数
+     * @param pageDto  查询信息
+     * @param pageable 分页参数
      * @return 用户信息
      */
-    default Page<User> findByNameLikeAndUsernameLikeAndPhoneNumberLike(
-            @Nullable String name, @Nullable String username, @Nullable String phoneNumber, String deptId,
+    default Page<User> page(
+            UserPageDto pageDto,
             Pageable pageable) {
 
         BooleanBuilder builder = new BooleanBuilder();
-        if (StringUtils.isNotBlank(deptId)) {
-            builder.and(QUser.user.deptId.eq(deptId));
+        if (StringUtils.isNotBlank(pageDto.getDeptId())) {
+            builder.and(QUser.user.deptId.eq(pageDto.getDeptId()));
         }
-        if (StringUtils.isNotBlank(name)) {
-            builder.and(QUser.user.name.likeIgnoreCase(name));
+        if (StringUtils.isNotBlank(pageDto.getName())) {
+            builder.and(QUser.user.name.likeIgnoreCase(pageDto.getName()));
         }
-        if (StringUtils.isNotBlank(username)) {
-            builder.and(QUser.user.username.likeIgnoreCase(username));
+        if (StringUtils.isNotBlank(pageDto.getUsername())) {
+            builder.and(QUser.user.username.likeIgnoreCase(pageDto.getUsername()));
         }
-        if (StringUtils.isNotBlank(phoneNumber)) {
-            builder.and(QUser.user.phoneNumber.likeIgnoreCase(phoneNumber));
+        if (StringUtils.isNotBlank(pageDto.getPhoneNumber())) {
+            builder.and(QUser.user.phoneNumber.likeIgnoreCase(pageDto.getPhoneNumber()));
+        }
+        if (StringUtils.isNotBlank(pageDto.getPositionId())) {
+            builder.and(QUser.user.positionId.eq(pageDto.getPositionId()));
         }
         return page(builder, pageable);
     }

@@ -14,48 +14,34 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.resource.application.vo;
+package org.dblue.application.module.role.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * 资源控制器信息
+ * 角色启用禁用
  *
  * @author xie jin
- * @since 1.0.0  2024/7/4 下午2:58
+ * @since 1.0.0  2024/7/9 上午11:14
  */
-@Schema(description = "资源控制器信息")
+@Schema(description = "角色启用禁用")
 @Data
-public class ResourceMappingVo {
+public class RoleEnableDto {
 
     /**
-     * 资源名称
+     * 角色id
      */
-    @Schema(description = "资源名称")
-    private String resourceName;
+    @Schema(description = "角色id")
+    @NotBlank(message = "角色ID不能为空")
+    private String roleId;
 
     /**
-     * 资源地址
+     * 启用/禁用
      */
-    @Schema(description = "资源地址")
-    private String resourceUrl;
-
-    /**
-     * 请求方式
-     */
-    @Schema(description = "请求方式")
-    private String requestMethod;
-
-    /**
-     * 控制层类
-     */
-    @Schema(description = "控制层类")
-    private String controller;
-
-    /**
-     * 控制层方法
-     */
-    @Schema(description = "控制层方法")
-    private String method;
+    @Schema(description = "启用/禁用")
+    @NotNull(message = "启用/禁用不能为空")
+    private Boolean enable;
 }

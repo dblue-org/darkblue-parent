@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.role.application.dto.RoleAddDto;
+import org.dblue.application.module.role.application.dto.RoleEnableDto;
 import org.dblue.application.module.role.application.dto.RolePermissionDto;
 import org.dblue.application.module.role.application.dto.RoleUpdateDto;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
@@ -77,6 +78,66 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         roleRepository.save(role);
     }
 
+    /**
+     * 角色更新
+     *
+     * @param roleUpdateDto 角色信息
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void update(RoleUpdateDto roleUpdateDto) {
+        Optional<Role> optional = roleRepository.findById(roleUpdateDto.getRoleId());
+        if (optional.isEmpty()) {
+            throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
+        }
+        boolean exists = roleRepository.existsByRodeCodeOrRoleNameAndRoleId(roleUpdateDto.getRoleCode(), roleUpdateDto.getRoleName(), roleUpdateDto.getRoleId());
+        if (exists) {
+            throw new ServiceException(RoleErrors.ROLE_EXITS);
+        }
+
+        BeanUtils.copyProperties(roleUpdateDto, optional.get());
+        roleRepository.save(optional.get());
+
+    }
+
+    /**
+     * 角色删除
+     *
+     * @param roleId 角色ID
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delete(String roleId) {
+        Optional<Role> optional = roleRepository.findById(roleId);
+        if (optional.isEmpty()) {
+            throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
+        }
+        roleRepository.deleteById(roleId);
+        roleMenuRepository.deleteByRoleId(roleId);
+        rolePermissionRepository.deleteByRoleId(roleId);
+    }
+
+    /**
+     * 设置权限
+     *
+     * @param permissionDto 权限信息
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void setPermission(RolePermissionDto permissionDto) {
+        Optional<Role> optional = roleRepository.findById(permissionDto.getRoleId());
+        if (optional.isEmpty()) {
+            throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
+        }
+
+
+        roleMenuRepository.deleteByRoleId(permissionDto.getRoleId());
+        saveRoleMenu(permissionDto, optional.get());
+
+        rolePermissionRepository.deleteByRoleId(permissionDto.getRoleId());
+        saveRolePermission(permissionDto, optional.get());
+    }
+
     private void saveRoleMenu(RolePermissionDto permissionDto, Role role) {
         if (CollectionUtils.isNotEmpty(permissionDto.getMenuIdList())) {
             for (String menuId : permissionDto.getMenuIdList()) {
@@ -102,62 +163,18 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     }
 
     /**
-     * 角色更新
+     * 启用禁用
      *
-     * @param roleUpdateDto 角色信息
+     * @param enableDto 启用禁用信息
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void update(RoleUpdateDto roleUpdateDto) {
-        Optional<Role> optional = roleRepository.findById(roleUpdateDto.getRoleId());
-        if(optional.isEmpty()){
+    public void enable(RoleEnableDto enableDto) {
+        Optional<Role> optional = roleRepository.findById(enableDto.getRoleId());
+        if (optional.isEmpty()) {
             throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
         }
-        boolean exists = roleRepository.existsByRodeCodeOrRoleNameAndRoleId(roleUpdateDto.getRoleCode(), roleUpdateDto.getRoleName(), roleUpdateDto.getRoleId());
-        if(exists){
-            throw new ServiceException(RoleErrors.ROLE_EXITS);
-        }
-
-        BeanUtils.copyProperties(roleUpdateDto,optional.get());
+        optional.get().setIsEnable(enableDto.getEnable());
         roleRepository.save(optional.get());
-
-    }
-
-    /**
-     * 角色删除
-     *
-     * @param roleId 角色ID
-     */
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public void delete(String roleId) {
-        Optional<Role> optional = roleRepository.findById(roleId);
-        if(optional.isEmpty()){
-            throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
-        }
-        roleRepository.deleteById(roleId);
-        roleMenuRepository.deleteByRoleId(roleId);
-        rolePermissionRepository.deleteByRoleId(roleId);
-    }
-
-    /**
-     * 设置权限
-     *
-     * @param permissionDto 权限信息
-     */
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public void setPermission(RolePermissionDto permissionDto) {
-        Optional<Role> optional = roleRepository.findById(permissionDto.getRoleId());
-        if(optional.isEmpty()){
-            throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
-        }
-
-
-        roleMenuRepository.deleteByRoleId(permissionDto.getRoleId());
-        saveRoleMenu(permissionDto,optional.get());
-
-        rolePermissionRepository.deleteByRoleId(permissionDto.getRoleId());
-        saveRolePermission(permissionDto,optional.get());
     }
 }

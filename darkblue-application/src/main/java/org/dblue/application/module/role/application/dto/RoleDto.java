@@ -21,10 +21,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * 角色
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-09 15:32:48
  */
 @Schema(description = "角色")
 @Data
@@ -55,16 +56,5 @@ public class RoleDto {
     private String remark;
 
 
-    /**
-     * 菜单信息
-     */
-    @Schema(description = "菜单信息")
-    private List<String> menuIdList;
-
-    /**
-     * 权限信息
-     */
-    @Schema(description = "权限信息")
-    private List<String> permissionList;
 
 }

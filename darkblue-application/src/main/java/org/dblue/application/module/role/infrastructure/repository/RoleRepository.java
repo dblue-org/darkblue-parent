@@ -88,5 +88,12 @@ public interface RoleRepository extends BaseJpaRepository<Role, String> {
         return getList(builder);
     }
 
+    /**
+     * 获取全部可用角色
+     *
+     * @return 角色
+     */
+    List<Role> findByIsEnableTrue();
+
 
 }

@@ -16,6 +16,7 @@
 
 package org.dblue.application.module.resource.application.dto;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,37 +39,37 @@ public class ResourcePageDto extends PageParamImpl<ResourcePageVo> {
     /**
      * 资源组ID
      */
-    @Schema(description = "资源组ID")
+    @Parameter(description = "资源组ID")
     private String resourceGroupId;
 
     /**
      * 资源名称
      */
-    @Schema(description = "资源名称")
+    @Parameter(description = "资源名称")
     private String resourceName;
 
     /**
      * 资源地址
      */
-    @Schema(description = "资源地址")
+    @Parameter(description = "资源地址")
     private String resourceUrl;
 
     /**
      * 控制层类
      */
-    @Schema(description = "控制层类")
+    @Parameter(description = "控制层类")
     private String controller;
 
     /**
      * 控制层方法
      */
-    @Schema(description = "控制层方法")
+    @Parameter(description = "控制层方法")
     private String method;
 
     /**
      * 是否登录即可访问
      */
-    @Schema(description = "是否登录即可访问")
+    @Parameter(description = "是否登录即可访问")
     private Boolean isAuthedAccess;
 
 }

@@ -100,6 +100,9 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
         if (optionalResource.isEmpty()) {
             throw new ServiceException(ResourceErrors.RESOURCE_IS_NOT_FOUND);
         }
+        resourceRepository.deleteById(resourceId);
+
+
     }
 
     /**

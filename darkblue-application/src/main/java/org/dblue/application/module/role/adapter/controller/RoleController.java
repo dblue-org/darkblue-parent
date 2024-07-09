@@ -22,17 +22,17 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.dblue.application.module.role.application.dto.RoleAddDto;
-import org.dblue.application.module.role.application.dto.RolePageDto;
-import org.dblue.application.module.role.application.dto.RolePermissionDto;
-import org.dblue.application.module.role.application.dto.RoleUpdateDto;
+import org.dblue.application.module.role.application.dto.*;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
 import org.dblue.application.module.role.application.vo.RolePageVo;
+import org.dblue.application.module.role.application.vo.RoleSelectVo;
 import org.dblue.application.module.role.application.vo.RoleVo;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 角色控制器
@@ -121,5 +121,28 @@ public class RoleController {
     @GetMapping("/getOne/{roleId}")
     public ResponseBean<RoleVo> getOne(@PathVariable("roleId") String roleId) {
         return ResponseBean.success(roleApplicationService.getOne(roleId));
+    }
+
+    /**
+     * 启用禁用
+     *
+     * @param enableDto 启用禁用信息
+     */
+    @Operation(summary = "启用禁用", description = "启用禁用")
+    @PatchMapping("/enable")
+    public ResponseBean<String> enable(@RequestBody @Valid RoleEnableDto enableDto) {
+        roleDomainService.enable(enableDto);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 获取全部角色信息
+     *
+     * @return 角色信息
+     */
+    @Operation(summary = "获取全部角色信息", description = "获取全部角色信息")
+    @GetMapping("/getAllForSelect")
+    public ResponseBean<List<RoleSelectVo>> getAllForSelect() {
+        return ResponseBean.success(roleApplicationService.getAllForSelect());
     }
 }

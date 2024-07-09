@@ -14,58 +14,35 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.user.application.dto;
+package org.dblue.application.module.position.application.dto;
 
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dblue.application.module.user.application.vo.UserPageVo;
+import org.dblue.application.module.position.application.vo.PositionPageVo;
 import org.dblue.core.web.param.PageParamImpl;
 import org.springdoc.core.annotations.ParameterObject;
 
 /**
- * 用户分页查询
+ * 分页查询
  *
  * @author xie jin
- * @since 1.0.0  2024/7/2 上午9:25
+ * @since 1.0.0  2024/7/9 上午10:24
  */
-@ParameterObject
-@Schema(description = "用户分页查询")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserPageDto extends PageParamImpl<UserPageVo> {
+@ParameterObject
+public class PositionPageDto extends PageParamImpl<PositionPageVo> {
 
     /**
-     * 部门ID
+     * 职位编码
      */
-    @Parameter(description = "部门ID")
-    @NotBlank(message = "部门ID不能为空")
-    private String deptId;
-    /**
-     * 用户名
-     */
-    @Parameter(description = "用户名")
-    private String username;
-
+    @Parameter(description = "职位编码")
+    private String positionCode;
 
     /**
-     * 姓名
+     * 职位名称
      */
-    @Parameter(description = "姓名")
-    private String name;
-
-    /**
-     * 手机号
-     */
-    @Parameter(description = "手机号")
-    private String phoneNumber;
-
-    /**
-     * 职位ID
-     */
-    @Parameter(description = "职位ID")
-    private String positionId;
-
+    @Parameter(description = "职位名称")
+    private String positionName;
 }

@@ -51,4 +51,11 @@ public interface RoleDomainQueryService {
      * @return 角色
      */
     List<Role> getRoleByPermissionId(String permissionId);
+
+    /**
+     * 获取全部角色
+     *
+     * @return 角色
+     */
+    List<Role> getAll();
 }

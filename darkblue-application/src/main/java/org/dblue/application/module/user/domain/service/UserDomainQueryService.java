@@ -21,6 +21,7 @@ import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户领域查询服务
@@ -32,6 +33,7 @@ public interface UserDomainQueryService {
 
     /**
      * 获取一个用户信息
+     *
      * @param userId 用户ID
      * @return 用户信息
      */
@@ -40,6 +42,7 @@ public interface UserDomainQueryService {
 
     /**
      * 分页
+     *
      * @param pageDto 查询参数
      * @return 用户信息
      */
@@ -47,6 +50,7 @@ public interface UserDomainQueryService {
 
     /**
      * 下拉列表使用
+     *
      * @param name 用户名/姓名
      * @return 用户信息
      */
@@ -60,4 +64,12 @@ public interface UserDomainQueryService {
      * @return 用户
      */
     List<User> getUserByRoleId(String roleId);
+
+    /**
+     * 根据职位ID查询用户信息
+     *
+     * @param positionIdSet 职位ID集合
+     * @return 用户信息
+     */
+    List<User> findByPositionIdIn(Set<String> positionIdSet);
 }

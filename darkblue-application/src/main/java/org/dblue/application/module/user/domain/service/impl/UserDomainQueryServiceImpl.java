@@ -18,6 +18,7 @@ package org.dblue.application.module.user.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.user.application.dto.UserPageDto;
 import org.dblue.application.module.user.domain.service.UserDomainQueryService;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * 用户领域查询服务
@@ -65,7 +67,7 @@ public class UserDomainQueryServiceImpl implements UserDomainQueryService {
      */
     @Override
     public Page<User> page(UserPageDto pageDto) {
-        return userRepository.findByNameLikeAndUsernameLikeAndPhoneNumberLike(pageDto.getName(), pageDto.getUsername(), pageDto.getPhoneNumber(), pageDto.getDeptId(), pageDto.toJpaPage());
+        return userRepository.page(pageDto, pageDto.toJpaPage());
     }
 
     /**
@@ -91,6 +93,21 @@ public class UserDomainQueryServiceImpl implements UserDomainQueryService {
             return List.of();
         }
         return userRepository.getUserByRoleId(roleId);
+
+    }
+
+    /**
+     * 根据职位ID查询用户信息
+     *
+     * @param positionIdSet 职位ID集合
+     * @return 用户信息
+     */
+    @Override
+    public List<User> findByPositionIdIn(Set<String> positionIdSet) {
+        if (CollectionUtils.isEmpty(positionIdSet)) {
+            return List.of();
+        }
+        return userRepository.findByPositionIdIn(positionIdSet);
 
     }
 }

@@ -17,6 +17,7 @@
 package org.dblue.application.module.role.domain.service;
 
 import org.dblue.application.module.role.application.dto.RoleAddDto;
+import org.dblue.application.module.role.application.dto.RoleEnableDto;
 import org.dblue.application.module.role.application.dto.RolePermissionDto;
 import org.dblue.application.module.role.application.dto.RoleUpdateDto;
 
@@ -53,4 +54,11 @@ public interface RoleDomainService {
      * @param permissionDto 权限信息
      */
     void setPermission(RolePermissionDto permissionDto);
+
+    /**
+     * 启用禁用
+     *
+     * @param enableDto 启用禁用信息
+     */
+    void enable(RoleEnableDto enableDto);
 }

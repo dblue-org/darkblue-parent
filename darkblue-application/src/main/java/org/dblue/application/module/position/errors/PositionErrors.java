@@ -13,33 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.position.errors;
 
-package org.dblue.application.module.resource.application.vo;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
-import java.util.List;
+import lombok.Getter;
+import org.dblue.common.error.ErrorInfo;
 
 /**
- * 资源控制器组
+ * 职位错误
  *
  * @author xie jin
- * @since 1.0.0  2024/7/4 下午2:58
+ * @since 1.0.0  2024-06-14 15:29:11
  */
-@Schema(description = "资源控制器组")
-@Data
-public class ResourceControllerVo {
+@Getter
+public enum PositionErrors implements ErrorInfo {
+
 
     /**
-     * 控制器名称
+     *
      */
-    @Schema(description = "控制器名称")
-    private String tagName;
+    POSITION_EXITS("POSITION_0001", "职位已存在"),
+    POSITION_IS_NOT_FOUND("POSITION_0002", "职位不存在"),
 
-    /**
-     * 资源信息
-     */
-    @Schema(description = "资源信息")
-    private List<ResourceMappingVo> mappings;
+
+    ;
+    private final String errorCode;
+    private final String errorMessage;
+
+    PositionErrors(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
 }

@@ -18,7 +18,6 @@ package org.dblue.application.module.resource.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.dblue.application.module.permission.application.vo.PermissionVo;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -84,5 +83,5 @@ public class ResourcePageVo {
      * 权限信息
      */
     @Schema(description = "权限信息")
-    private List<PermissionVo> permissionVoList;
+    private List<ResourcePermissionVo> permissions;
 }

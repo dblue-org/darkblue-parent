@@ -98,7 +98,7 @@ public class Resource extends AbstractAuditingEntity {
     @Column(name = "sort_num")
     private Integer sortNum;
 
-    @OneToMany(mappedBy = "permission")
+    @OneToMany(mappedBy = "resource")
     private List<PermissionResource> permissionResourceList;
 
 

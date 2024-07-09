@@ -21,7 +21,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.dblue.application.module.permission.application.vo.PermissionVo;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
@@ -30,6 +29,7 @@ import org.dblue.application.module.resource.application.service.ResourceApplica
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
+import org.dblue.application.module.resource.application.vo.ResourcePermissionVo;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
 import org.dblue.application.module.resource.errors.ResourceErrors;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
@@ -106,7 +106,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
         ResourceControllerVo resourceControllerVo = new ResourceControllerVo();
         resourceControllerVo.setTagName(tag.name());
         List<ResourceMappingVo> resourceMappingVoList = buildMapping(aClass, baseUrl);
-        resourceControllerVo.setMappingVoList(resourceMappingVoList);
+        resourceControllerVo.setMappings(resourceMappingVoList);
         return resourceControllerVo;
     }
 
@@ -116,8 +116,8 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
             ResourceMappingVo resourceMappingVo = setRequestMapping(declaredMethod, baseUrl);
             Operation operation = declaredMethod.getAnnotation(Operation.class);
             resourceMappingVo.setResourceName(operation.description());
-            resourceMappingVo.setControlLayerClass(aClass.getName());
-            resourceMappingVo.setControlLayerMethod(declaredMethod.getName());
+            resourceMappingVo.setController(aClass.getName());
+            resourceMappingVo.setMethod(declaredMethod.getName());
             resourceMappingVoList.add(resourceMappingVo);
 
         }
@@ -178,10 +178,10 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
             List<Permission> permissionList = permissionDomainQueryService.getPermissionByResourceId(resourcePageVo.getResourceId());
 
             if (CollectionUtils.isNotEmpty(permissionList)) {
-                resourcePageVo.setPermissionVoList(permissionList.stream().map(permission -> {
-                    PermissionVo permissionVo = new PermissionVo();
-                    BeanUtils.copyProperties(permission, permissionVo);
-                    return permissionVo;
+                resourcePageVo.setPermissions(permissionList.stream().map(permission -> {
+                    ResourcePermissionVo resourcePermissionVo = new ResourcePermissionVo();
+                    BeanUtils.copyProperties(permission, resourcePermissionVo);
+                    return resourcePermissionVo;
                 }).toList());
             }
             return resourcePageVo;

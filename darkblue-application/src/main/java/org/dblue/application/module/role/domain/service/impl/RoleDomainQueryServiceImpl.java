@@ -86,4 +86,14 @@ public class RoleDomainQueryServiceImpl implements RoleDomainQueryService {
         }
         return roleRepository.getRoleByPermissionId(permissionId);
     }
+
+    /**
+     * 获取全部角色
+     *
+     * @return 角色
+     */
+    @Override
+    public List<Role> getAll() {
+        return roleRepository.findByIsEnableTrue();
+    }
 }

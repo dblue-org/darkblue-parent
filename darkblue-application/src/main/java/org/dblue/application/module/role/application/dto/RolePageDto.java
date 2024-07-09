@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dblue.application.module.role.application.vo.RolePageVo;
 import org.dblue.core.web.param.PageParamImpl;
+import org.springdoc.core.annotations.ParameterObject;
 
 /**
  * 角色查询
@@ -20,6 +21,7 @@ import org.dblue.core.web.param.PageParamImpl;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ParameterObject
 public class RolePageDto extends PageParamImpl<RolePageVo> {
 
     /**

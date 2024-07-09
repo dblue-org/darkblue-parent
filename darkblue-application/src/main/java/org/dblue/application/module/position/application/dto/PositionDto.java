@@ -14,41 +14,34 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.role.application.dto;
+package org.dblue.application.module.position.application.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.util.List;
-
 /**
- * 角色设置权限
+ * 职位
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 14:00:39
+ * @since 1.0.0  2024-07-09 09:28:20
  */
 @Data
-public class RolePermissionDto {
+public class PositionDto {
 
     /**
-     * 角色id
+     * 职位编码
      */
     @Size(max = 64)
-    @NotBlank(message = "角色ID不能为空")
-    private String roleId;
+    @NotBlank(message = "职位编码不能为空")
+    private String positionCode;
 
     /**
-     * 菜单信息
+     * 职位名称
      */
-    @Schema(description = "菜单信息")
-    private List<String> menuIdList;
+    @Size(max = 64)
+    @NotBlank(message = "职位名称不能为空")
+    private String positionName;
 
-    /**
-     * 权限信息
-     */
-    @Schema(description = "权限信息")
-    private List<String> permissionList;
 
 }

@@ -19,43 +19,41 @@ package org.dblue.application.module.resource.application.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
- * 资源控制器信息
+ * 资源权限
  *
  * @author xie jin
- * @since 1.0.0  2024/7/4 下午2:58
+ * @since 1.0.0  2024/7/9 上午9:39
  */
-@Schema(description = "资源控制器信息")
 @Data
-public class ResourceMappingVo {
+public class ResourcePermissionVo {
 
     /**
-     * 资源名称
+     * 权限ID
      */
-    @Schema(description = "资源名称")
-    private String resourceName;
+    @Schema(description = "权限ID")
+    private String permissionId;
+
 
     /**
-     * 资源地址
+     * 权限名称
      */
-    @Schema(description = "资源地址")
-    private String resourceUrl;
+    @Schema(description = "权限名称")
+    private String permissionName;
 
     /**
-     * 请求方式
+     * 权限标识
      */
-    @Schema(description = "请求方式")
-    private String requestMethod;
+    @Schema(description = "权限标识")
+    private String permissionCode;
+
 
     /**
-     * 控制层类
+     * 创建时间
      */
-    @Schema(description = "控制层类")
-    private String controller;
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
 
-    /**
-     * 控制层方法
-     */
-    @Schema(description = "控制层方法")
-    private String method;
 }

@@ -23,10 +23,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.resource.application.dto.ResourceAddDto;
+import org.dblue.application.module.resource.application.dto.ResourcePageDto;
 import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
+import org.dblue.application.module.resource.application.vo.ResourcePageVo;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
+import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,10 +83,23 @@ public class ResourceController {
      */
     @Parameter(name = "resourceId", description = "资源Id", in = ParameterIn.PATH, required = true)
     @Operation(summary = "资源删除", description = "资源删除")
-    @PutMapping("/delete/{resourceId}")
+    @DeleteMapping("/delete/{resourceId}")
     public ResponseBean<String> delete(@PathVariable("resourceId") String resourceId) {
         resourceApplicationService.delete(resourceId);
         return ResponseBean.success();
+    }
+
+
+    /**
+     * 分页查询
+     *
+     * @param pageDto 查询参数
+     * @return 资源
+     */
+    @Operation(summary = "分页查询", description = "分页查询")
+    @GetMapping("/page")
+    public PageResponseBean<ResourcePageVo> page(ResourcePageDto pageDto) {
+        return PageResponseBean.success(resourceApplicationService.page(pageDto));
     }
 
     /**
