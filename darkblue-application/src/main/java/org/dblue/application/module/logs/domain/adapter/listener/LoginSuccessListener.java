@@ -16,9 +16,14 @@
 package org.dblue.application.module.logs.domain.adapter.listener;
 
 import org.dblue.application.module.logs.domain.service.LoginLogDomainService;
+import org.dblue.application.module.user.infrastructure.entity.User;
+import org.dblue.application.module.user.infrastructure.repository.UserRepository;
 import org.dblue.security.event.LoginSuccessEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * 监控登录成功的事件
@@ -31,12 +36,19 @@ public class LoginSuccessListener implements ApplicationListener<LoginSuccessEve
 
     private final LoginLogDomainService loginLogDomainService;
 
-    public LoginSuccessListener(LoginLogDomainService loginLogDomainService) {
+    private final UserRepository userRepository;
+
+    public LoginSuccessListener(LoginLogDomainService loginLogDomainService, UserRepository userRepository) {
         this.loginLogDomainService = loginLogDomainService;
+        this.userRepository = userRepository;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void onApplicationEvent(LoginSuccessEvent event) {
         this.loginLogDomainService.add(event.getUser().getUserId(), event.getLoginPlatform(), event.getLoginType(), event.getRequest());
+
+        Optional<User> userOptional = this.userRepository.findById(event.getUser().getUserId());
+        userOptional.ifPresent(User::changeLastLoginTimeToNow);
     }
 }

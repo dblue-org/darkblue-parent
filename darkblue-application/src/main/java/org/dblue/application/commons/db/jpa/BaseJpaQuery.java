@@ -13,30 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.commons.db.jpa;
 
-package org.dblue.application.module.user.application.dto;
+import org.springframework.data.domain.Page;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * 用户添加
- *
- * @author xie jin
- * @since 1.0.0  2024-07-02 11:30:34
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@EqualsAndHashCode(callSuper = true)
-@Schema
-@Data
-public class UserAddDto extends UserDto{
+public interface BaseJpaQuery<T> {
+
 
     /**
-     * 密码
+     * 获取所有数据
+     *
+     * @return 数据列表
      */
-    @Schema(description = "密码")
-    @NotBlank(message = "密码不能为空")
-    private String password;
+    List<T> list();
 
+    /**
+     * 分页查询数据
+     *
+     * @param page     页面
+     * @param pageSize 每页数量量
+     * @return 数据
+     */
+    Page<T> page(int page, int pageSize);
+
+    /**
+     * 获取单条数据
+     *
+     * @return 数据
+     */
+    Optional<T> single();
 }

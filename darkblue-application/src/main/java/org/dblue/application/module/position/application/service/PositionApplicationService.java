@@ -19,7 +19,10 @@ package org.dblue.application.module.position.application.service;
 import org.dblue.application.module.position.application.dto.PositionPageDto;
 import org.dblue.application.module.position.application.vo.PositionPageVo;
 import org.dblue.application.module.position.application.vo.PositionVo;
+import org.dblue.application.module.position.application.vo.SimplePositionVo;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * 职位应用层
@@ -44,4 +47,12 @@ public interface PositionApplicationService {
      * @return 职位信息
      */
     Page<PositionPageVo> page(PositionPageDto pageDto);
+
+    /**
+     * 查询所有职位信息
+     *
+     * @param keyword 关键字，名称或编码
+     * @return 职位列表
+     */
+    List<SimplePositionVo> findAll(String keyword);
 }

@@ -132,4 +132,7 @@ public class User extends AbstractAuditingEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private List<UserRole> roles;
 
+    public void changeLastLoginTimeToNow() {
+        this.lastLoginTime = LocalDateTime.now();
+    }
 }

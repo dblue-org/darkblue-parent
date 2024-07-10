@@ -41,15 +41,6 @@ public class UserDto {
     @NotBlank(message = "用户名不能为空")
     private String username;
 
-
-    /**
-     * 密码
-     */
-    @Schema(description = "密码")
-    @NotBlank(message = "密码不能为空")
-    private String password;
-
-
     /**
      * 姓名
      */
@@ -69,21 +60,6 @@ public class UserDto {
      */
     @Schema(description = "身份证号码")
     private String identityNo;
-
-
-    /**
-     *  是否可用
-     */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
-
-
-    /**
-     * 是否超级管理员
-     */
-    @Schema(description = "是否超级管理员")
-    private Boolean isAdmin;
-
 
     /**
      * 职务ID

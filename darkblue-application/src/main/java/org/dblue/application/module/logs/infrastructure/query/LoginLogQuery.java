@@ -44,4 +44,8 @@ public interface LoginLogQuery extends BaseQuery<LoginLog> {
 
     LoginLogQuery userAgentLike(String userAgent);
 
+    LoginLogQuery orderByCreateTime();
+
+    LoginLogQuery orderByCreateTimeDesc();
+
 }

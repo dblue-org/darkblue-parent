@@ -178,16 +178,16 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
      * @return 角色信息
      */
     @Override
-    public List<RoleSelectVo> getAllForSelect() {
+    public List<SimpleRoleVo> getAllForSelect() {
         List<Role> roleList = roleDomainQueryService.getAll();
         if (CollectionUtils.isEmpty(roleList)) {
             return List.of();
         }
 
         return roleList.stream().map(role -> {
-            RoleSelectVo roleSelectVo = new RoleSelectVo();
-            BeanUtils.copyProperties(role, roleSelectVo);
-            return roleSelectVo;
+            SimpleRoleVo simpleRoleVo = new SimpleRoleVo();
+            BeanUtils.copyProperties(role, simpleRoleVo);
+            return simpleRoleVo;
         }).toList();
 
     }

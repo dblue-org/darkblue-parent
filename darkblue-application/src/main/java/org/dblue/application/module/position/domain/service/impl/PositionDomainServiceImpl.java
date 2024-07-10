@@ -26,6 +26,7 @@ import org.dblue.application.module.position.application.dto.PositionUpdateDto;
 import org.dblue.application.module.position.domain.service.PositionDomainService;
 import org.dblue.application.module.position.errors.PositionErrors;
 import org.dblue.application.module.position.infrastructure.entity.Position;
+import org.dblue.application.module.position.infrastructure.query.PositionQuery;
 import org.dblue.application.module.position.infrastructure.repository.PositionRepository;
 import org.dblue.common.exception.ServiceException;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +34,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -62,6 +64,7 @@ public class PositionDomainServiceImpl implements PositionDomainService {
         }
         Position position = new Position();
         BeanUtils.copyProperties(addDto, position);
+        position.init();
         positionRepository.save(position);
     }
 
@@ -98,7 +101,7 @@ public class PositionDomainServiceImpl implements PositionDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
         }
-        optional.get().setIsDel(Boolean.TRUE);
+        optional.get().delete();
         positionRepository.save(optional.get());
     }
 
@@ -114,7 +117,11 @@ public class PositionDomainServiceImpl implements PositionDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
         }
-        optional.get().setIsEnable(enableDto.getEnable());
+        if (Boolean.TRUE.equals(enableDto.getEnable())) {
+            optional.get().enable();
+        } else {
+            optional.get().disable();
+        }
         positionRepository.save(optional.get());
     }
 
@@ -129,7 +136,7 @@ public class PositionDomainServiceImpl implements PositionDomainService {
         if (StringUtils.isBlank(positionId)) {
             return null;
         }
-        Optional<Position> optional = positionRepository.findById(positionId);
+        Optional<Position> optional = this.positionRepository.createQuery().positionId(positionId).single();
         return optional.orElse(null);
     }
 
@@ -142,5 +149,13 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Override
     public Page<Position> page(PositionPageDto pageDto) {
         return positionRepository.page(pageDto, pageDto.toJpaPage());
+    }
+
+    @Override
+    public List<Position> findAll(String keyword) {
+        PositionQuery positionQuery = this.positionRepository.createQuery()
+                .positionCodeLike(keyword)
+                .positionNameLike(keyword);
+        return positionQuery.list();
     }
 }

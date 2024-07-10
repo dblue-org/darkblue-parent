@@ -18,8 +18,8 @@ package org.dblue.application.module.position.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.time.LocalDateTime;
+import org.dblue.application.module.position.infrastructure.entity.Position;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 职位
@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
  */
 @Schema(description = "职位")
 @Data
-public class PositionVo {
+public class SimplePositionVo {
     /**
      * 职位ID
      */
@@ -48,39 +48,11 @@ public class PositionVo {
     @Schema(description = "职位名称")
     private String positionName;
 
-    /**
-     * 是否启用
-     */
-    @Schema(description = "是否启用")
-    private Boolean isEnable;
 
-    /**
-     * 是否内置
-     */
-    @Schema(description = "是否内置")
-    private Boolean isBuiltIn;
-
-    /**
-     * 逻辑删除
-     */
-    @Schema(description = "逻辑删除")
-    private Boolean isDel;
-
-    /**
-     * 用户数量
-     */
-    @Schema(description = "用户数量")
-    private Integer userNums = 0;
-
-    /**
-     * 创建时间
-     */
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
-
-
-    public static PositionVo of() {
-        return new PositionVo();
+    public static SimplePositionVo of(Position position) {
+        SimplePositionVo vo = new SimplePositionVo();
+        BeanUtils.copyProperties(position, vo);
+        return vo;
     }
 
 }

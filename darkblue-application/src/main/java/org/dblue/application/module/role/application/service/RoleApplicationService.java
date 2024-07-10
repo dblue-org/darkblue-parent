@@ -18,8 +18,8 @@ package org.dblue.application.module.role.application.service;
 
 import org.dblue.application.module.role.application.dto.RolePageDto;
 import org.dblue.application.module.role.application.vo.RolePageVo;
-import org.dblue.application.module.role.application.vo.RoleSelectVo;
 import org.dblue.application.module.role.application.vo.RoleVo;
+import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -60,6 +60,6 @@ public interface RoleApplicationService {
      *
      * @return 角色信息
      */
-    List<RoleSelectVo> getAllForSelect();
+    List<SimpleRoleVo> getAllForSelect();
 
 }
