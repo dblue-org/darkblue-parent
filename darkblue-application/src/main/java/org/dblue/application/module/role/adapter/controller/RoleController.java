@@ -25,8 +25,8 @@ import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.role.application.dto.*;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
 import org.dblue.application.module.role.application.vo.RolePageVo;
-import org.dblue.application.module.role.application.vo.RoleSelectVo;
 import org.dblue.application.module.role.application.vo.RoleVo;
+import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
@@ -142,7 +142,7 @@ public class RoleController {
      */
     @Operation(summary = "获取全部角色信息", description = "获取全部角色信息")
     @GetMapping("/getAllForSelect")
-    public ResponseBean<List<RoleSelectVo>> getAllForSelect() {
+    public ResponseBean<List<SimpleRoleVo>> getAllForSelect() {
         return ResponseBean.success(roleApplicationService.getAllForSelect());
     }
 }

@@ -29,10 +29,13 @@ import org.dblue.application.module.position.application.dto.PositionUpdateDto;
 import org.dblue.application.module.position.application.service.PositionApplicationService;
 import org.dblue.application.module.position.application.vo.PositionPageVo;
 import org.dblue.application.module.position.application.vo.PositionVo;
+import org.dblue.application.module.position.application.vo.SimplePositionVo;
 import org.dblue.application.module.position.domain.service.PositionDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 职位控制层
@@ -122,7 +125,19 @@ public class PositionController {
     @Operation(summary = "分页", description = "分页")
     @GetMapping("/page")
     public PageResponseBean<PositionPageVo> page(PositionPageDto pageDto) {
-
         return PageResponseBean.success(positionApplicationService.page(pageDto));
+    }
+
+    /**
+     * 查询所有职位信息
+     *
+     * @param keyword 关键字，名称或编码
+     * @return 职位列表
+     */
+    @Operation(summary = "查询所有职位信息")
+    @GetMapping("/findAll")
+    public ResponseBean<List<SimplePositionVo>> findAll(String keyword) {
+        List<SimplePositionVo> voList = this.positionApplicationService.findAll(keyword);
+        return ResponseBean.success(voList);
     }
 }

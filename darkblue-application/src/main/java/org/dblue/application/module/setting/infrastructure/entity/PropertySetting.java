@@ -21,10 +21,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.dblue.application.jpa.AbstractAuditingEntity;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
-import java.time.LocalDateTime;
 
 /**
  * 系统参数配置
@@ -34,7 +33,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tb_sys_property_setting")
 @TableName("tb_sys_property_setting")
-public class PropertySetting {
+public class PropertySetting extends AbstractAuditingEntity {
     /**
      * 属性ID
      */
@@ -98,29 +97,4 @@ public class PropertySetting {
     @Column(name = "unit", length = 64)
     private String unit;
 
-    /**
-     * 创建时间
-     */
-    @Column(name = "create_time")
-    private LocalDateTime createTime;
-
-    /**
-     * 创建人
-     */
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private LocalDateTime updateTime;
-
-    /**
-     * 更新人
-     */
-    @Size(max = 64)
-    @Column(name = "update_user", length = 64)
-    private String updateUser;
 }

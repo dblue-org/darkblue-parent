@@ -103,4 +103,15 @@ public class LoginLogQueryImpl extends AbstractBaseQuery<LoginLog> implements Lo
         return this;
     }
 
+    @Override
+    public LoginLogQuery orderByCreateTime() {
+        queryWrapper.orderByAsc(LoginLog::getCreateTime);
+        return this;
+    }
+
+    @Override
+    public LoginLogQuery orderByCreateTimeDesc() {
+        queryWrapper.orderByDesc(LoginLog::getCreateTime);
+        return this;
+    }
 }

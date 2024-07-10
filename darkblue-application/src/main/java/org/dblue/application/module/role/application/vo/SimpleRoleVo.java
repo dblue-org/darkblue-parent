@@ -16,7 +16,10 @@
 
 package org.dblue.application.module.role.application.vo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 角色下拉查询
@@ -24,22 +27,33 @@ import lombok.Data;
  * @author xie jin
  * @since 1.0.0  2024-07-09 13:31:09
  */
+@Schema(description = "角色下拉查询")
 @Data
-public class RoleSelectVo {
+public class SimpleRoleVo {
+
+
     /**
      * 角色id
      */
+    @Schema(description = "角色id")
     private String roleId;
 
     /**
      * 角色名称
      */
+    @Schema(description = "角色名称")
     private String roleName;
 
     /**
      * 角色编码
      */
+    @Schema(description = "角色编码")
     private String roleCode;
 
 
+    public static SimpleRoleVo of(Role role) {
+        SimpleRoleVo simpleRoleVo = new SimpleRoleVo();
+        BeanUtils.copyProperties(role, simpleRoleVo);
+        return simpleRoleVo;
+    }
 }

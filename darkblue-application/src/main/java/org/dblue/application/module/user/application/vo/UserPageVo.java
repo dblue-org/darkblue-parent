@@ -18,6 +18,7 @@ package org.dblue.application.module.user.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -106,10 +107,9 @@ public class UserPageVo {
     private Boolean isAdmin;
 
     /**
-     * 角色名称集合
+     * 角色名称
      */
-    @Schema(description = "角色名称集合")
-    private List<String> roleNameList;
-
+    @Schema(description = "角色名称")
+    private List<SimpleRoleVo> roles;
 
 }

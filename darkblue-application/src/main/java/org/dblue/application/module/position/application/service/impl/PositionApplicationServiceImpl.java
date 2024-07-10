@@ -23,6 +23,7 @@ import org.dblue.application.module.position.application.dto.PositionPageDto;
 import org.dblue.application.module.position.application.service.PositionApplicationService;
 import org.dblue.application.module.position.application.vo.PositionPageVo;
 import org.dblue.application.module.position.application.vo.PositionVo;
+import org.dblue.application.module.position.application.vo.SimplePositionVo;
 import org.dblue.application.module.position.domain.service.PositionDomainService;
 import org.dblue.application.module.position.infrastructure.entity.Position;
 import org.dblue.application.module.user.domain.service.UserDomainQueryService;
@@ -98,5 +99,11 @@ public class PositionApplicationServiceImpl implements PositionApplicationServic
             positionPageVo.setUserNums(finalPositionIdMap.getOrDefault(position.getPositionId(), 0L).intValue());
             return positionPageVo;
         });
+    }
+
+    @Override
+    public List<SimplePositionVo> findAll(String keyword) {
+        List<Position> positions = this.positionDomainService.findAll(keyword);
+        return positions.stream().map(SimplePositionVo::of).toList();
     }
 }

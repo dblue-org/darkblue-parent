@@ -22,6 +22,8 @@ import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.position.application.dto.PositionPageDto;
 import org.dblue.application.module.position.infrastructure.entity.Position;
 import org.dblue.application.module.position.infrastructure.entity.QPosition;
+import org.dblue.application.module.position.infrastructure.query.PositionQuery;
+import org.dblue.application.module.position.infrastructure.query.impl.PositionQueryImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
@@ -75,6 +77,15 @@ public interface PositionRepository extends BaseJpaRepository<Position, String> 
         }
         builder.and(QPosition.position.isDel.isFalse());
         return page(builder, pageable);
+    }
+
+    /**
+     * 创建查询器
+     *
+     * @return 查询器
+     */
+    default PositionQuery createQuery() {
+        return new PositionQueryImpl(this);
     }
 
 

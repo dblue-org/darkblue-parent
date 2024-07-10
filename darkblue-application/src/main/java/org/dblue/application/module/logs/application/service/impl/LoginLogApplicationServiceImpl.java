@@ -56,6 +56,7 @@ public class LoginLogApplicationServiceImpl implements LoginLogApplicationServic
                 .loginPlatform(queryDto.getLoginPlatform())
                 .loginType(queryDto.getLoginType())
                 .loginTime(queryDto.getLoginTimeStart(), queryDto.getLoginTimeEnd())
+                .orderByCreateTimeDesc()
                 .page(queryDto.getPage(), queryDto.getPageSize());
 
         Set<String> userIdSet = loginLogPage.getRecords().stream().map(LoginLog::getUserId).collect(Collectors.toSet());

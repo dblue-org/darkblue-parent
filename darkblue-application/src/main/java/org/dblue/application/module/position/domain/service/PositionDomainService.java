@@ -23,6 +23,8 @@ import org.dblue.application.module.position.application.dto.PositionUpdateDto;
 import org.dblue.application.module.position.infrastructure.entity.Position;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * 职位领域层
  *
@@ -76,4 +78,13 @@ public interface PositionDomainService {
      * @return 职位信息
      */
     Page<Position> page(PositionPageDto pageDto);
+
+    /**
+     * 获取所有职位
+     *
+     * @param keyword 关键字，模糊匹配职位编码和职位名称
+     * @return 职位列表
+     */
+    List<Position> findAll(String keyword);
+
 }

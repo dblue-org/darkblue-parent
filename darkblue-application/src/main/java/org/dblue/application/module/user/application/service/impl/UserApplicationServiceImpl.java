@@ -27,6 +27,9 @@ import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.application.module.position.domain.service.PositionDomainService;
+import org.dblue.application.module.position.infrastructure.entity.Position;
+import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.dblue.application.module.user.application.dto.UserPageDto;
@@ -58,6 +61,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     private final UserDomainQueryService userDomainQueryService;
     private final MenuDomainQueryService menuDomainQueryService;
     private final PermissionDomainQueryService permissionDomainQueryService;
+    private final PositionDomainService positionDomainService;
 
     /**
      * 分页查询
@@ -78,13 +82,17 @@ public class UserApplicationServiceImpl implements UserApplicationService {
             if (Objects.nonNull(department)) {
                 userPageVo.setDeptName(department.getDeptName());
             }
+            Position position = this.positionDomainService.getOne(user.getPositionId());
+            if (Objects.nonNull(position)) {
+                userPageVo.setPositionName(position.getPositionName());
+            }
             List<UserRole> userRoleList = user.getRoles();
             if (CollectionUtils.isNotEmpty(userRoleList)) {
                 List<Role> roleList = roleDomainQueryService.getMoreByIds(userRoleList.stream()
-                                                                                      .map(UserRole::getRoleId)
-                                                                                      .collect(Collectors.toSet()));
+                        .map(UserRole::getRoleId)
+                        .collect(Collectors.toSet()));
                 if (CollectionUtils.isNotEmpty(roleList)) {
-                    userPageVo.setRoleNameList(roleList.stream().map(Role::getRoleName).toList());
+                    userPageVo.setRoles(roleList.stream().map(SimpleRoleVo::of).toList());
                 }
             }
             return userPageVo;
@@ -109,12 +117,12 @@ public class UserApplicationServiceImpl implements UserApplicationService {
                 List<Menu> menuList = menuDomainQueryService.getMenuByRoleId(roleIdSet);
                 List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(roleIdSet);
                 List<Menu> rootMenuList = menuList.stream().filter(menu -> StringUtils.isBlank(menu.getParentId()))
-                                                  .toList();
+                        .toList();
                 Map<String, List<Menu>> childrenMap = menuList.stream()
-                                                              .filter(menu -> StringUtils.isNotBlank(menu.getParentId()))
-                                                              .collect(Collectors.groupingBy(Menu::getParentId));
+                        .filter(menu -> StringUtils.isNotBlank(menu.getParentId()))
+                        .collect(Collectors.groupingBy(Menu::getParentId));
                 Map<String, List<Permission>> permissionMap = permissionList.stream()
-                                                                            .collect(Collectors.groupingBy(Permission::getMenuId));
+                        .collect(Collectors.groupingBy(Permission::getMenuId));
 
                 userVo.setUserMenuVoList(buildMenu(rootMenuList, childrenMap, permissionMap));
             }

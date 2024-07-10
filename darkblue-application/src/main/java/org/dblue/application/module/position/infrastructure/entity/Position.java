@@ -24,6 +24,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.dblue.application.jpa.AbstractAuditingEntity;
+import org.dblue.common.id.Snowflake;
 import org.hibernate.annotations.ColumnDefault;
 
 /**
@@ -79,5 +80,24 @@ public class Position extends AbstractAuditingEntity {
     @ColumnDefault("0")
     @Column(name = "is_del")
     private Boolean isDel;
+
+    public void init() {
+        this.positionId = Snowflake.stringId();
+        this.isDel = false;
+        this.isEnable = true;
+        this.isBuiltIn = false;
+    }
+
+    public void delete() {
+        this.isDel = true;
+    }
+
+    public void enable() {
+        this.isEnable = true;
+    }
+
+    public void disable() {
+        this.isEnable = false;
+    }
 
 }
