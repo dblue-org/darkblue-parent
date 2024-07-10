@@ -108,6 +108,19 @@ public class UserDomainQueryServiceImpl implements UserDomainQueryService {
             return List.of();
         }
         return userRepository.findByPositionIdIn(positionIdSet);
+    }
 
+    /**
+     * 根据用户ID查询用户信息
+     *
+     * @param userIdSet 用户ID
+     * @return 用户
+     */
+    @Override
+    public List<User> getAllByUserId(Set<String> userIdSet) {
+        if (CollectionUtils.isEmpty(userIdSet)) {
+            return List.of();
+        }
+        return userRepository.findAllById(userIdSet);
     }
 }

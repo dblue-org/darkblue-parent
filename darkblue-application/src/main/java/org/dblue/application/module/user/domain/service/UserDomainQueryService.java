@@ -72,4 +72,13 @@ public interface UserDomainQueryService {
      * @return 用户信息
      */
     List<User> findByPositionIdIn(Set<String> positionIdSet);
+
+
+    /**
+     * 根据用户ID查询用户信息
+     *
+     * @param userIdSet 用户ID
+     * @return 用户
+     */
+    List<User> getAllByUserId(Set<String> userIdSet);
 }
