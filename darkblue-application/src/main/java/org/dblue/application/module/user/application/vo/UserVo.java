@@ -116,11 +116,6 @@ public class UserVo {
     @Schema(description = "是否超级管理员")
     private Boolean isAdmin;
 
-    /**
-     * 是否删除
-     */
-    @Schema(description = "是否删除")
-    private Boolean isDel;
 
 
     /**

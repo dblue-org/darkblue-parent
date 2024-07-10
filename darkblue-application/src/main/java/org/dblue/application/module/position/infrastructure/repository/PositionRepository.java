@@ -67,10 +67,10 @@ public interface PositionRepository extends BaseJpaRepository<Position, String> 
      */
     default Page<Position> page(PositionPageDto pageDto, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (StringUtils.isBlank(pageDto.getPositionCode())) {
+        if (StringUtils.isNotBlank(pageDto.getPositionCode())) {
             builder.and(QPosition.position.positionCode.eq(pageDto.getPositionCode()));
         }
-        if (StringUtils.isBlank(pageDto.getPositionName())) {
+        if (StringUtils.isNotBlank(pageDto.getPositionName())) {
             builder.and(QPosition.position.positionName.eq(pageDto.getPositionName()));
         }
         builder.and(QPosition.position.isDel.isFalse());
