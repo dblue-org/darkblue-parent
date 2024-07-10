@@ -19,12 +19,12 @@ package org.dblue.application.module.permission.application.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
+import org.dblue.application.module.menu.infrastructure.entity.Menu;
+import org.dblue.application.module.permission.application.dto.PermissionCheckBoxDto;
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
 import org.dblue.application.module.permission.application.service.PermissionApplicationService;
-import org.dblue.application.module.permission.application.vo.PermissionPageVo;
-import org.dblue.application.module.permission.application.vo.PermissionResourceVo;
-import org.dblue.application.module.permission.application.vo.PermissionRoleVo;
-import org.dblue.application.module.permission.application.vo.PermissionVo;
+import org.dblue.application.module.permission.application.vo.*;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.application.module.permission.errors.PermissionErrors;
@@ -40,8 +40,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 权限应用服务
@@ -59,6 +59,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
     private final PermissionDomainQueryService permissionDomainQueryService;
     private final ResourceDomainQueryService resourceDomainQueryService;
     private final RoleDomainQueryService roleDomainQueryService;
+    private final MenuDomainQueryService menuDomainQueryService;
 
     /**
      * 权限删除
@@ -130,5 +131,61 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
             }
         }
         return permissionVo;
+    }
+
+    /**
+     * 获取权限信息并标记是否选中
+     *
+     * @param checkBoxDto 查询信息
+     * @return 权限信息
+     */
+    @Override
+    public List<PermissionCheckBoxVo> getPermissionCheckBox(PermissionCheckBoxDto checkBoxDto) {
+
+
+        List<Permission> permissions = permissionDomainQueryService.getPermissionByMenuId(checkBoxDto.getMenuIdList());
+        if (CollectionUtils.isEmpty(permissions)) {
+            return List.of();
+        }
+
+        Set<String> checkedPermissionIdSet = HashSet.newHashSet(12);
+        List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(Collections.singleton(checkBoxDto.getRoleId()));
+        if (CollectionUtils.isNotEmpty(permissionList)) {
+            checkedPermissionIdSet = permissionList.stream().map(Permission::getPermissionId)
+                                                   .collect(Collectors.toSet());
+        }
+
+        List<Menu> menuList = menuDomainQueryService.getMenuByMenuId(checkBoxDto.getMenuIdList());
+        if (CollectionUtils.isEmpty(menuList)) {
+            return List.of();
+        }
+
+        Map<String, List<Permission>> permissionMap = permissions.stream()
+                                                                 .collect(Collectors.groupingBy(Permission::getMenuId));
+        return buildPermissionCheckBoxVo(checkedPermissionIdSet, menuList, permissionMap);
+    }
+
+    private List<PermissionCheckBoxVo> buildPermissionCheckBoxVo(
+            Set<String> checkedPermissionIdSet, List<Menu> menuList, Map<String, List<Permission>> permissionMap) {
+        List<PermissionCheckBoxVo> permissionCheckBoxVoList = new ArrayList<>();
+        for (Menu menu : menuList) {
+            PermissionCheckBoxVo permissionCheckBoxVo = new PermissionCheckBoxVo();
+            BeanUtils.copyProperties(menu, permissionCheckBoxVo);
+            List<Permission> list = permissionMap.get(menu.getMenuId());
+            if (CollectionUtils.isNotEmpty(list)) {
+                List<PermissionCheckBoxDetailVo> detailVoList = list.stream().map(permission -> {
+                    PermissionCheckBoxDetailVo permissionCheckBoxDetailVo = new PermissionCheckBoxDetailVo();
+                    BeanUtils.copyProperties(permission, permissionCheckBoxDetailVo);
+                    if (checkedPermissionIdSet.contains(permission.getPermissionId())) {
+                        permissionCheckBoxDetailVo.setChecked(Boolean.TRUE);
+                    }
+                    return permissionCheckBoxDetailVo;
+                }).toList();
+                permissionCheckBoxVo.setPermissions(detailVoList);
+            }
+            permissionCheckBoxVoList.add(permissionCheckBoxVo);
+
+        }
+        return permissionCheckBoxVoList;
     }
 }

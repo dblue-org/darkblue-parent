@@ -115,4 +115,18 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
         }
         return permissionRepository.getPermissionByRoleId(roleIdSet);
     }
+
+    /**
+     * 根据菜单ID获取权限
+     *
+     * @param menuIdSet 菜单ID
+     * @return 权限
+     */
+    @Override
+    public List<Permission> getPermissionByMenuId(Set<String> menuIdSet) {
+        if (CollectionUtils.isEmpty(menuIdSet)) {
+            return List.of();
+        }
+        return permissionRepository.findByMenuIdIn(menuIdSet);
+    }
 }

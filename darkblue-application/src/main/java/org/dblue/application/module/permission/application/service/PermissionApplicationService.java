@@ -16,10 +16,14 @@
 
 package org.dblue.application.module.permission.application.service;
 
+import org.dblue.application.module.permission.application.dto.PermissionCheckBoxDto;
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
+import org.dblue.application.module.permission.application.vo.PermissionCheckBoxVo;
 import org.dblue.application.module.permission.application.vo.PermissionPageVo;
 import org.dblue.application.module.permission.application.vo.PermissionVo;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * 权限应用服务
@@ -49,5 +53,14 @@ public interface PermissionApplicationService {
      * @return 权限信息
      */
     PermissionVo getOne(String permissionId);
+
+
+    /**
+     * 获取权限信息并标记是否选中
+     *
+     * @param checkBoxDto 查询信息
+     * @return 权限信息
+     */
+    List<PermissionCheckBoxVo> getPermissionCheckBox(PermissionCheckBoxDto checkBoxDto);
 
 }

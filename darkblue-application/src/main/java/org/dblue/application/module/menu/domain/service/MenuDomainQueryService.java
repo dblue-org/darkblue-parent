@@ -54,5 +54,21 @@ public interface MenuDomainQueryService {
      */
     List<Menu> getMenuByRoleId(Set<String> roleIdSet);
 
+    /**
+     * 获取所有菜单
+     *
+     * @return 菜单列表
+     */
+    List<Menu> findAllMenus();
+
+
+    /**
+     * 根据菜单ID获取菜单信息
+     *
+     * @param menuIdSet 菜单ID
+     * @return 菜单
+     */
+    List<Menu> getMenuByMenuId(Set<String> menuIdSet);
+
 
 }

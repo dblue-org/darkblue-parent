@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -117,4 +118,12 @@ public interface PermissionRepository extends BaseJpaRepository<Permission, Stri
         builder.and(QPermission.permission.rolePermissionList.any().roleId.in(roleIdSet));
         return getList(builder);
     }
+
+    /**
+     * 根据菜单ID获取权限
+     *
+     * @param menuIdSet 菜单ID
+     * @return 权限
+     */
+    List<Permission> findByMenuIdIn(@NonNull Collection<String> menuIdSet);
 }

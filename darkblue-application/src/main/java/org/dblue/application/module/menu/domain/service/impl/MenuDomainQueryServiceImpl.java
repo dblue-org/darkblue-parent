@@ -84,4 +84,25 @@ public class MenuDomainQueryServiceImpl implements MenuDomainQueryService {
         }
         return menuRepository.getMenuByRoleId(roleIdSet);
     }
+
+    /**
+     * 获取所有菜单
+     *
+     * @return 菜单列表
+     */
+    @Override
+    public List<Menu> findAllMenus() {
+        return menuRepository.findByIsEnableTrueAndIsVisibleTrueAndIsProductionVisibleTrue();
+    }
+
+    /**
+     * 根据菜单ID获取菜单信息
+     *
+     * @param menuIdSet 菜单ID
+     * @return 菜单
+     */
+    @Override
+    public List<Menu> getMenuByMenuId(Set<String> menuIdSet) {
+        return menuRepository.findAllById(menuIdSet);
+    }
 }

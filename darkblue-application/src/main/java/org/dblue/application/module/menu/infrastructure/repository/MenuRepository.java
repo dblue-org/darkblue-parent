@@ -84,5 +84,12 @@ public interface MenuRepository extends BaseJpaRepository<Menu, String> {
         return getList(builder);
     }
 
+    /**
+     * 查询可用菜单信息
+     *
+     * @return 菜单
+     */
+    List<Menu> findByIsEnableTrueAndIsVisibleTrueAndIsProductionVisibleTrue();
+
 
 }
