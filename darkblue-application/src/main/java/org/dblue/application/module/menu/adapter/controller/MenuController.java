@@ -26,6 +26,7 @@ import org.dblue.application.module.menu.application.dto.MenuAddDto;
 import org.dblue.application.module.menu.application.dto.MenuEnableDto;
 import org.dblue.application.module.menu.application.dto.MenuUpdateDto;
 import org.dblue.application.module.menu.application.service.MenuApplicationService;
+import org.dblue.application.module.menu.application.vo.MenuCheckBoxTreeVo;
 import org.dblue.application.module.menu.application.vo.MenuTreeVo;
 import org.dblue.application.module.menu.domain.service.MenuDomainService;
 import org.dblue.core.web.result.ResponseBean;
@@ -111,12 +112,24 @@ public class MenuController {
 
     /**
      * 菜单启用禁用
+     *
      * @param menuEnableDto 菜单信息
      */
     @Operation(summary = "菜单启用禁用", description = "菜单启用禁用")
     @PatchMapping("/enable")
-    public ResponseBean<String> enable(@Valid @RequestBody MenuEnableDto menuEnableDto){
+    public ResponseBean<String> enable(@Valid @RequestBody MenuEnableDto menuEnableDto) {
         menuDomainService.enable(menuEnableDto);
         return ResponseBean.success();
+    }
+
+    /**
+     * 根据角色ID获取菜单多选框树
+     *
+     * @param roleId 角色ID
+     * @return 菜单多选框树
+     */
+    @GetMapping("/getMenuCheckBoxTree")
+    public ResponseBean<List<MenuCheckBoxTreeVo>> getMenuCheckBoxTree(@RequestParam String roleId) {
+        return ResponseBean.success(menuApplicationService.getMenuCheckBoxTree(roleId));
     }
 }

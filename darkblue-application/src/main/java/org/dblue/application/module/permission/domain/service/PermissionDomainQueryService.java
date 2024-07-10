@@ -71,4 +71,13 @@ public interface PermissionDomainQueryService {
      * @return 权限
      */
     List<Permission> getPermissionByRoleId(Set<String> roleIdSet);
+
+
+    /**
+     * 根据菜单ID获取权限
+     *
+     * @param menuIdSet 菜单ID
+     * @return 权限
+     */
+    List<Permission> getPermissionByMenuId(Set<String> menuIdSet);
 }

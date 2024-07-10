@@ -16,6 +16,7 @@
 
 package org.dblue.application.module.menu.application.service;
 
+import org.dblue.application.module.menu.application.vo.MenuCheckBoxTreeVo;
 import org.dblue.application.module.menu.application.vo.MenuTreeVo;
 
 import java.util.List;
@@ -47,4 +48,13 @@ public interface MenuApplicationService {
      * @return 菜单列表
      */
     List<MenuTreeVo> findAllAppMenus();
+
+
+    /**
+     * 根据角色ID获取菜单多选框树
+     *
+     * @param roleId 角色ID
+     * @return 菜单多选框树
+     */
+    List<MenuCheckBoxTreeVo> getMenuCheckBoxTree(String roleId);
 }

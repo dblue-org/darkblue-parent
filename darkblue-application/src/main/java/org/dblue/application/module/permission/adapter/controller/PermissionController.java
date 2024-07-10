@@ -22,17 +22,17 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.dblue.application.module.permission.application.dto.PermissionAddDto;
-import org.dblue.application.module.permission.application.dto.PermissionPageDto;
-import org.dblue.application.module.permission.application.dto.PermissionResourceDto;
-import org.dblue.application.module.permission.application.dto.PermissionUpdateDto;
+import org.dblue.application.module.permission.application.dto.*;
 import org.dblue.application.module.permission.application.service.PermissionApplicationService;
+import org.dblue.application.module.permission.application.vo.PermissionCheckBoxVo;
 import org.dblue.application.module.permission.application.vo.PermissionPageVo;
 import org.dblue.application.module.permission.application.vo.PermissionVo;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 权限控制层
@@ -124,5 +124,19 @@ public class PermissionController {
     @GetMapping("/getOne/{permissionId}")
     public ResponseBean<PermissionVo> getOne(@PathVariable("permissionId") String permissionId) {
         return ResponseBean.success(permissionApplicationService.getOne(permissionId));
+    }
+
+    /**
+     * 获取权限信息并标记是否选中
+     *
+     * @param checkBoxDto 查询信息
+     * @return 权限信息
+     */
+    @Parameter(name = "checkBoxDto", description = "查询信息", in = ParameterIn.QUERY, required = true)
+    @Operation(summary = "获取权限信息并标记是否选中", description = "获取权限信息并标记是否选中")
+    @GetMapping("/getPermissionCheckBox")
+    public ResponseBean<List<PermissionCheckBoxVo>> getPermissionCheckBox(
+            @Valid @RequestParam PermissionCheckBoxDto checkBoxDto) {
+        return ResponseBean.success(permissionApplicationService.getPermissionCheckBox(checkBoxDto));
     }
 }
