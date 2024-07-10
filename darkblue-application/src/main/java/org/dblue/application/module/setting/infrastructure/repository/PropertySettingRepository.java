@@ -16,10 +16,15 @@
 
 package org.dblue.application.module.setting.infrastructure.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.setting.infrastructure.entity.PropertySetting;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.dblue.application.module.setting.infrastructure.entity.QPropertySetting;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-public interface PropertySettingRepository extends JpaRepository<PropertySetting, String> {
+public interface PropertySettingRepository extends BaseJpaRepository<PropertySetting, String> {
 
     /**
      * 根据参数编码查询参数信息
@@ -28,4 +33,23 @@ public interface PropertySettingRepository extends JpaRepository<PropertySetting
      * @return 参数信息
      */
     PropertySetting findByPropertyCode(String propertyCode);
+
+    /**
+     * 分页查询参数配置信息
+     *
+     * @param propertyCode 参数编码
+     * @param propertyName 参数名称
+     * @param pageable     分页参数
+     * @return 参数列表
+     */
+    default Page<PropertySetting> findByPage(String propertyCode, String propertyName, Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.isNotBlank(propertyCode)) {
+            builder.and(QPropertySetting.propertySetting.propertyCode.like(propertyCode));
+        }
+        if (StringUtils.isNotBlank(propertyName)) {
+            builder.and(QPropertySetting.propertySetting.propertyName.like(propertyName));
+        }
+        return this.page(builder, pageable);
+    }
 }

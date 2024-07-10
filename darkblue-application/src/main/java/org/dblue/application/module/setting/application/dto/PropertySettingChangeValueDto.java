@@ -13,43 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.core.caching;
 
-import java.util.List;
-import java.util.Optional;
+package org.dblue.application.module.setting.application.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 /**
+ * 系统参数配置(tb_sys_property_setting)表实体类
+ *
  * @author Wang Chengwei
- * @since 1.0.0
+ * @since 1.0.0 2024-07-09 11:40:06
  */
-public interface CachingService<E, C> {
+@Schema(description = "系统参数配置")
+@Data
+public class PropertySettingChangeValueDto {
 
     /**
-     * 获取缓存数据
-     *
-     * @param id ID
-     * @return 缓存数据
+     * 参数ID
      */
-    Optional<C> get(String id);
+    @NotBlank(message = "参数ID不能为空")
+    @Schema(description = "参数ID")
+    private String propertyId;
 
     /**
-     * 获取所有缓存数据
-     *
-     * @return 缓存数据列表
+     * 参数值
      */
-    List<C> getAll();
+    @NotBlank(message = "参数值不能为空")
+    @Schema(description = "参数值")
+    private String value;
 
-    /**
-     * 添加或更新缓存
-     *
-     * @param entity 数据
-     */
-    void save(E entity);
-
-    /**
-     * 删除缓存
-     *
-     * @param id 数据ID
-     */
-    void delete(String id);
 }
+
+

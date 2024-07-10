@@ -13,57 +13,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.setting.domain.service;
+package org.dblue.application.module.setting.application.service;
 
-import org.dblue.application.module.setting.infrastructure.entity.PropertySetting;
+import org.dblue.application.module.setting.application.dto.PropertySettingAddDto;
+import org.dblue.application.module.setting.application.dto.PropertySettingQueryDto;
+import org.dblue.application.module.setting.application.dto.PropertySettingUpdateDto;
+import org.dblue.application.module.setting.application.vo.PropertySettingPageListVo;
+import org.springframework.data.domain.Page;
 
 /**
- * 系统参数配置
+ * 配置参数暴露接口
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface PropertySettingDomainService {
+public interface PropertySettingApplicationService {
 
     /**
      * 添加参数
      *
-     * @param propertySetting 参数信息
-     * @param fireEvent       是否触发添加事件
+     * @param addDto 参数信息
      */
-    void add(PropertySetting propertySetting, boolean fireEvent);
+    void add(PropertySettingAddDto addDto);
 
     /**
      * 更新参数
      *
-     * @param propertySetting 参数信息
-     * @param fireEvent       是否触发更新事件
+     * @param updateDto 参数信息
      */
-    void update(PropertySetting propertySetting, boolean fireEvent);
+    void update(PropertySettingUpdateDto updateDto);
 
     /**
      * 删除参数
      *
      * @param propertyId 参数ID
-     * @param fireEvent  是否触发删除事件
      */
-    void delete(String propertyId, boolean fireEvent);
+    void delete(String propertyId);
 
     /**
      * 更新参数的值
      *
      * @param propertyId 参数ID
      * @param value      参数值
-     * @param fireEvent  是否触发更新事件
      */
-    void changeValue(String propertyId, String value, boolean fireEvent);
-
+    void changeValue(String propertyId, String value);
 
     /**
-     * 获取配置参数，当数据不存在时抛出异常
+     * 分页查询参数信息
      *
-     * @param propertyId 参数ID
+     * @param queryDto 查询条件
      * @return 参数信息
      */
-    PropertySetting get(String propertyId);
+    Page<PropertySettingPageListVo> findByPage(PropertySettingQueryDto queryDto);
 }

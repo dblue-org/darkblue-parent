@@ -26,7 +26,10 @@ import org.dblue.common.error.ErrorInfo;
 public enum PropertySettingError implements ErrorInfo {
 
     PROPERTY_CODE_EXIST("PROPERTY_001", "参数编码已存在"),
-    NOT_EXIST("PROPERTY_001", "参数信息不存在");
+    NOT_EXIST("PROPERTY_002", "参数信息不存在"),
+    VALUE_SCOPE_RESOLVE_ERROR("PROPERTY_003", "取值范围解析异常"),
+
+    ;
     private final String errorCode;
     private final String errorMessage;
 

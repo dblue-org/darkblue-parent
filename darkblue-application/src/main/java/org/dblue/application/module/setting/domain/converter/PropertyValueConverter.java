@@ -15,15 +15,38 @@
  */
 package org.dblue.application.module.setting.domain.converter;
 
-import org.dblue.application.module.setting.domain.enums.PropertyType;
+import java.util.Optional;
 
 /**
- * TODO
+ * 参数值转换，必须为其实现类通过 {@link org.springframework.core.annotation.Order} 来指定其优先级，
+ * 否则与默认转换器处于同一个优先级将可能出现无法正常解析的问题。
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface PropertyValueConverter {
+public interface PropertyValueConverter<T> {
 
-    boolean isSupported(PropertyType propertyType);
+    /**
+     * 是否支持处理此参数类型
+     *
+     * @param propertyType 参数类型
+     * @return true-支持
+     */
+    boolean isSupported(int propertyType);
+
+    /**
+     * 获取转换后的数据
+     *
+     * @param value 参数值
+     * @return 具体对象，如用户对应User等
+     */
+    Optional<T> convert(String value);
+
+    /**
+     * 获取显示名称
+     *
+     * @param value 值
+     * @return 显示名称
+     */
+    String getValueName(String value);
 }

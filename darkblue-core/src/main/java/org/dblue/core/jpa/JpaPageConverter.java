@@ -13,43 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.core.caching;
+package org.dblue.core.jpa;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Function;
 
 /**
+ * JPA page 类型转换
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface CachingService<E, C> {
+public class JpaPageConverter {
 
-    /**
-     * 获取缓存数据
-     *
-     * @param id ID
-     * @return 缓存数据
-     */
-    Optional<C> get(String id);
+    private JpaPageConverter() {
+    }
 
-    /**
-     * 获取所有缓存数据
-     *
-     * @return 缓存数据列表
-     */
-    List<C> getAll();
-
-    /**
-     * 添加或更新缓存
-     *
-     * @param entity 数据
-     */
-    void save(E entity);
-
-    /**
-     * 删除缓存
-     *
-     * @param id 数据ID
-     */
-    void delete(String id);
+    public static <T, V> Page<V> convert(Page<T> page, Function<T, V> converter) {
+        List<V> voList = page.get().map(converter).toList();
+        return new PageImpl<>(voList, page.getPageable(), page.getTotalElements());
+    }
 }

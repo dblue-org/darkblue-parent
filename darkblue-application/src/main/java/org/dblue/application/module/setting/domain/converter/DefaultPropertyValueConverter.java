@@ -13,43 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.core.caching;
+package org.dblue.application.module.setting.domain.converter;
 
-import java.util.List;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 
 /**
+ * 默认的类型转换器
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface CachingService<E, C> {
+@Order
+@Component
+public class DefaultPropertyValueConverter implements PropertyValueConverter<String> {
 
-    /**
-     * 获取缓存数据
-     *
-     * @param id ID
-     * @return 缓存数据
-     */
-    Optional<C> get(String id);
+    @Override
+    public boolean isSupported(int propertyType) {
+        return true;
+    }
 
-    /**
-     * 获取所有缓存数据
-     *
-     * @return 缓存数据列表
-     */
-    List<C> getAll();
+    @Override
+    public Optional<String> convert(String value) {
+        return Optional.of(value);
+    }
 
-    /**
-     * 添加或更新缓存
-     *
-     * @param entity 数据
-     */
-    void save(E entity);
-
-    /**
-     * 删除缓存
-     *
-     * @param id 数据ID
-     */
-    void delete(String id);
+    @Override
+    public String getValueName(String value) {
+        return value;
+    }
 }

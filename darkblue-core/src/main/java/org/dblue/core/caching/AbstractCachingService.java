@@ -18,6 +18,7 @@ package org.dblue.core.caching;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -29,9 +30,10 @@ import java.util.Set;
 public abstract class AbstractCachingService<T, C> extends AbstractCachingInitService<T, C> implements CachingService<T, C> {
 
     @Override
-    public C get(String id) {
+    public Optional<C> get(String id) {
         String cacheKey = this.getCacheKey(id);
-        return this.valueOperations.get(cacheKey);
+        C cacheObject = this.valueOperations.get(cacheKey);
+        return Optional.ofNullable(cacheObject);
     }
 
     @Override

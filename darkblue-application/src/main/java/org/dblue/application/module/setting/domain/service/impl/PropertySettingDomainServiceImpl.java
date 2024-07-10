@@ -90,10 +90,14 @@ public class PropertySettingDomainServiceImpl implements PropertySettingDomainSe
     }
 
     @Override
-    public void changePropertyValue(String propertyId, String value) {
+    public void changeValue(String propertyId, String value, boolean fireEvent) {
         PropertySetting dbPropertySetting = this.checkExistAndGet(propertyId);
         dbPropertySetting.setValue(value);
         this.propertySettingRepository.save(dbPropertySetting);
+
+        if (fireEvent) {
+            this.eventBus.fireEventAfterCommit(new PropertyAddEvent(this, dbPropertySetting));
+        }
     }
 
     @Override

@@ -18,6 +18,8 @@ package org.dblue.application.module.setting.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.setting.infrastructure.entity.PropertySetting;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
@@ -62,10 +64,16 @@ public class PropertySettingPageListVo {
     private Integer type;
 
     /**
+     * 参数类型名称
+     */
+    @Schema(description = "参数类型名称")
+    private String typeName;
+
+    /**
      * 取值范围
      */
     @Schema(description = "取值范围")
-    private String valueScope;
+    private Object valueScope;
 
     /**
      * 参数默认值
@@ -103,6 +111,11 @@ public class PropertySettingPageListVo {
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
+    public static PropertySettingPageListVo of(PropertySetting propertySetting) {
+        PropertySettingPageListVo vo = new PropertySettingPageListVo();
+        BeanUtils.copyProperties(propertySetting, vo);
+        return vo;
+    }
 }
 
 

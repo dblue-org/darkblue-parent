@@ -18,6 +18,8 @@ package org.dblue.application.module.setting.domain.enums;
 import lombok.Getter;
 import org.dblue.common.enums.EnumType;
 
+import java.util.Objects;
+
 /**
  * @author Wang Chengwei
  * @since 1.0.0
@@ -40,5 +42,14 @@ public enum PropertyType implements EnumType {
     PropertyType(int value, String name) {
         this.value = value;
         this.name = name;
+    }
+
+    public static String getName(Integer value) {
+        for (PropertyType propertyType : PropertyType.values()) {
+            if (Objects.equals(propertyType.getValue(), value)) {
+                return propertyType.getName();
+            }
+        }
+        return "";
     }
 }

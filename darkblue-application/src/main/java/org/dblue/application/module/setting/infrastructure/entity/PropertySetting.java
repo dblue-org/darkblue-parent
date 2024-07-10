@@ -16,6 +16,7 @@
 
 package org.dblue.application.module.setting.infrastructure.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "tb_sys_property_setting")
+@TableName("tb_sys_property_setting")
 public class PropertySetting {
     /**
      * 属性ID
