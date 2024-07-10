@@ -87,4 +87,11 @@ public interface UserGroupDomainService {
      */
     void deleteUser(String userGroupUserId);
 
+    /**
+     * 根据角色ID删除用户组和角色关联关系
+     *
+     * @param roleId 角色ID
+     */
+    void deleteRoleByRoleId(String roleId);
+
 }

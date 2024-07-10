@@ -31,6 +31,14 @@ import java.util.List;
  */
 public interface UserGroupRoleRepository extends JpaRepository<UserGroupRole, String> {
 
+
+    /**
+     * 根据角色ID删除用户组和角色关联关系
+     *
+     * @param roleId 角色ID
+     */
+    void deleteByRoleId(@NonNull String roleId);
+
     /**
      * 用户组角色删除
      *

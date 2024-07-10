@@ -19,6 +19,7 @@ package org.dblue.application.module.usergroup.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.usergroup.application.dto.*;
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainService;
 import org.dblue.application.module.usergroup.errors.UserGroupErrors;
@@ -201,5 +202,19 @@ public class UserGroupDomainServiceImpl implements UserGroupDomainService {
     @Override
     public void deleteUser(String userGroupUserId) {
         userGroupUserRepository.deleteById(userGroupUserId);
+    }
+
+    /**
+     * 根据角色ID删除用户组和角色关联关系
+     *
+     * @param roleId 角色ID
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteRoleByRoleId(String roleId) {
+
+        if (StringUtils.isNotBlank(roleId)) {
+            userGroupRoleRepository.deleteByRoleId(roleId);
+        }
     }
 }

@@ -38,6 +38,7 @@ import org.dblue.application.module.role.infrastructure.repository.RoleRepositor
 import org.dblue.application.module.user.domain.service.UserDomainQueryService;
 import org.dblue.application.module.user.domain.service.UserRoleDomainService;
 import org.dblue.application.module.user.infrastructure.entity.User;
+import org.dblue.application.module.usergroup.domain.service.UserGroupDomainService;
 import org.dblue.common.exception.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -66,6 +67,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
     private final PermissionDomainQueryService permissionDomainQueryService;
     private final UserDomainQueryService userDomainQueryService;
     private final DepartmentDomainQueryService departmentDomainQueryService;
+    private final UserGroupDomainService userGroupDomainService;
 
     /**
      * 角色删除
@@ -75,11 +77,12 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String roleId) {
-        boolean existsed = userRoleDomainService.existsUserRoleByRoleId(roleId);
-        if (existsed) {
+        boolean exists = userRoleDomainService.existsUserRoleByRoleId(roleId);
+        if (exists) {
             throw new ServiceException(RoleErrors.ROLE_USER_IS_EXITS);
         }
         roleDomainService.delete(roleId);
+        userGroupDomainService.deleteRoleByRoleId(roleId);
     }
 
     /**
@@ -146,6 +149,26 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
         return roleVo;
     }
 
+    /**
+     * 获取全部角色信息
+     *
+     * @return 角色信息
+     */
+    @Override
+    public List<SimpleRoleVo> getAllForSelect() {
+        List<Role> roleList = roleDomainQueryService.getAll();
+        if (CollectionUtils.isEmpty(roleList)) {
+            return List.of();
+        }
+
+        return roleList.stream().map(role -> {
+            SimpleRoleVo simpleRoleVo = new SimpleRoleVo();
+            BeanUtils.copyProperties(role, simpleRoleVo);
+            return simpleRoleVo;
+        }).toList();
+
+    }
+
     public List<RoleMenuVo> buildMenu(
             List<Menu> menuList, Map<String, List<Menu>> childrenMap, Map<String, List<Permission>> permissionMap) {
         List<RoleMenuVo> userMenuVoList = new ArrayList<>();
@@ -170,25 +193,5 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
             userMenuVoList.add(roleMenuVo);
         }
         return userMenuVoList;
-    }
-
-    /**
-     * 获取全部角色信息
-     *
-     * @return 角色信息
-     */
-    @Override
-    public List<SimpleRoleVo> getAllForSelect() {
-        List<Role> roleList = roleDomainQueryService.getAll();
-        if (CollectionUtils.isEmpty(roleList)) {
-            return List.of();
-        }
-
-        return roleList.stream().map(role -> {
-            SimpleRoleVo simpleRoleVo = new SimpleRoleVo();
-            BeanUtils.copyProperties(role, simpleRoleVo);
-            return simpleRoleVo;
-        }).toList();
-
     }
 }
