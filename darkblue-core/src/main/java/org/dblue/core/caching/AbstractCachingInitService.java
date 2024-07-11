@@ -47,7 +47,7 @@ public abstract class AbstractCachingInitService<T, C> implements CachingInitSer
         String keyPattern = this.getKeyPattern();
         Set<String> keys = this.valueOperations.getOperations().keys(keyPattern);
         if (!CollectionUtils.isEmpty(keys)) {
-            log.info("缓存已初始化，无需重复初始化");
+            log.info("{} 缓存已初始化，无需重复初始化", this.getCacheName());
             return;
         }
         log.info("初始化缓存：{}", this.getCacheName());

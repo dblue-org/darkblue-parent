@@ -144,6 +144,7 @@ public class UserController {
      *
      * @return 用户菜单权限
      */
+    @Operation(summary = "获取用户菜单权限")
     @GetMapping("/getUserMenu/pc")
     public ResponseBean<List<UserMenuVo>> getUserMenu() {
         return ResponseBean.success(userApplicationService.getUserMenu());

@@ -26,6 +26,7 @@ import org.dblue.application.module.resource.errors.ResourceErrors;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.dblue.application.module.resource.infrastructure.repository.ResourceRepository;
 import org.dblue.common.exception.ServiceException;
+import org.dblue.common.id.Snowflake;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,7 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
 
         Resource resource = new Resource();
         BeanUtils.copyProperties(addDto, resource);
+        resource.setResourceId(Snowflake.stringId());
         resourceRepository.save(resource);
 
     }
