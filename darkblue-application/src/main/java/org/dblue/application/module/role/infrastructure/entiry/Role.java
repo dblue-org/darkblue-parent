@@ -76,12 +76,10 @@ public class Role extends AbstractAuditingEntity {
     @Column(name = "is_built_in")
     private Boolean isBuiltIn;
 
-    @OneToMany
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    @OneToMany(mappedBy = "roleId")
     private List<RoleMenu> menus;
 
-    @OneToMany
-    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    @OneToMany(mappedBy = "roleId")
     private List<RolePermission> permissions;
 
 }

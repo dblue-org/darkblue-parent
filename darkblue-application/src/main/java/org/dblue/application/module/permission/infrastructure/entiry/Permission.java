@@ -73,12 +73,10 @@ public class Permission extends AbstractAuditingEntity {
     private String permissionCode;
 
 
-    @OneToMany
-    @JoinColumn(name = "permission_id", referencedColumnName = "permission_id")
+    @OneToMany(mappedBy = "permission")
     private List<PermissionResource> permissionResourceList;
 
-    @OneToMany
-    @JoinColumn(name = "permission_id", referencedColumnName = "permission_id")
+    @OneToMany(mappedBy = "permissionId")
     private List<RolePermission> rolePermissionList;
 
 

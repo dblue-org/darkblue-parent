@@ -128,8 +128,7 @@ public class User extends AbstractAuditingEntity {
     private Boolean isDel;
 
 
-    @OneToMany
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @OneToMany(mappedBy = "userId")
     private List<UserRole> roles;
 
     public void changeLastLoginTimeToNow() {

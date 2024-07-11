@@ -135,8 +135,7 @@ public class Menu extends AbstractAuditingEntity {
     @Column(name = "is_production_visible", nullable = false)
     private Boolean isProductionVisible = false;
 
-    @OneToMany
-    @JoinColumn(name = "menu_id", referencedColumnName = "menu_id")
+    @OneToMany(mappedBy = "menuId")
     private List<RoleMenu> roleMenuList;
 
 }
