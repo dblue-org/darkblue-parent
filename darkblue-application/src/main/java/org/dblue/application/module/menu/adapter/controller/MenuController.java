@@ -128,6 +128,7 @@ public class MenuController {
      * @param roleId 角色ID
      * @return 菜单多选框树
      */
+    @Operation(summary = "根据角色ID获取菜单多选框树")
     @GetMapping("/getMenuCheckBoxTree")
     public ResponseBean<List<MenuCheckBoxTreeVo>> getMenuCheckBoxTree(@RequestParam String roleId) {
         return ResponseBean.success(menuApplicationService.getMenuCheckBoxTree(roleId));

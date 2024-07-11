@@ -65,6 +65,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     private final PermissionDomainService permissionDomainService;
     private ApplicationContext applicationContext;
     private final PermissionDomainQueryService permissionDomainQueryService;
+    private List<ResourceControllerVo> resourceList = null;
 
     /**
      * 删除资源
@@ -85,6 +86,9 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
      */
     @Override
     public List<ResourceControllerVo> getResourceController() {
+        if (this.resourceList != null) {
+            return this.resourceList;
+        }
         List<ResourceControllerVo> resourceControllerVoList = new ArrayList<>();
         Map<String, Object> objectMap = applicationContext.getBeansWithAnnotation(RestController.class);
         for (Map.Entry<String, Object> entry : objectMap.entrySet()) {
@@ -99,6 +103,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
             resourceControllerVoList.add(resourceControllerVo);
 
         }
+        this.resourceList = resourceControllerVoList;
         return resourceControllerVoList;
     }
 
@@ -115,6 +120,10 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
         for (Method declaredMethod : aClass.getDeclaredMethods()) {
             ResourceMappingVo resourceMappingVo = setRequestMapping(declaredMethod, baseUrl);
             Operation operation = declaredMethod.getAnnotation(Operation.class);
+            if (operation == null) {
+                log.warn("方法 {} 上没有添加Operation注解，资源地址：{}", declaredMethod.getName(), baseUrl);
+                throw new ServiceException("请在方法上添加Operation注解");
+            }
             resourceMappingVo.setResourceName(operation.description());
             resourceMappingVo.setController(aClass.getName());
             resourceMappingVo.setMethod(declaredMethod.getName());
