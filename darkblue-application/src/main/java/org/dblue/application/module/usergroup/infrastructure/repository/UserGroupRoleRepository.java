@@ -56,4 +56,12 @@ public interface UserGroupRoleRepository extends JpaRepository<UserGroupRole, St
     List<UserGroupRole> findByRoleIdIn(@NonNull Collection<String> roleIds);
 
 
+    /**
+     * 根据用户组ID获取用户组角色
+     *
+     * @param userGroupIds 用户组ID
+     * @return 用户组角色
+     */
+    List<UserGroupRole> findByUserGroupIdIn(@NonNull Collection<String> userGroupIds);
+
 }

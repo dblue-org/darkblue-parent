@@ -78,7 +78,7 @@ public class MenuDomainQueryServiceImpl implements MenuDomainQueryService {
      * @return 菜单信息
      */
     @Override
-    public List<Menu> getMenuByRoleId(Set<String> roleIdSet) {
+    public List<Menu> getMenuByRoleIds(Set<String> roleIdSet) {
         if (CollectionUtils.isEmpty(roleIdSet)) {
             return List.of();
         }
@@ -102,7 +102,7 @@ public class MenuDomainQueryServiceImpl implements MenuDomainQueryService {
      * @return 菜单
      */
     @Override
-    public List<Menu> getMenuByMenuId(Set<String> menuIdSet) {
+    public List<Menu> getMenuByMenuIds(Set<String> menuIdSet) {
         return menuRepository.findAllById(menuIdSet);
     }
 }

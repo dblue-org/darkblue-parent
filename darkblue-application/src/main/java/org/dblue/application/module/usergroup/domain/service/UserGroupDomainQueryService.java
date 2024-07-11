@@ -18,6 +18,7 @@ package org.dblue.application.module.usergroup.domain.service;
 
 import org.dblue.application.module.usergroup.application.dto.UserGroupPageDto;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroup;
+import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupUser;
 import org.springframework.data.domain.Page;
 
@@ -56,6 +57,15 @@ public interface UserGroupDomainQueryService {
      * @return 用户组用户
      */
     List<UserGroupUser> getUserGroupUserByUserGroupId(Set<String> userGroupIdSet);
+
+
+    /**
+     * 根据用户ID获取用户组角色
+     *
+     * @param userId 用户ID
+     * @return 用户组角色
+     */
+    List<UserGroupRole> getUserGroupRoleByUserId(String userId);
 
 
 }

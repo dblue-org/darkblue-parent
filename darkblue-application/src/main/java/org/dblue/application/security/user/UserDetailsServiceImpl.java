@@ -15,15 +15,18 @@
  */
 package org.dblue.application.security.user;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
-import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
+import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.dblue.application.module.role.infrastructure.entiry.RolePermission;
-import org.dblue.application.module.role.infrastructure.repository.RoleRepository;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.dblue.application.module.user.infrastructure.entity.UserRole;
 import org.dblue.application.module.user.infrastructure.repository.UserRepository;
+import org.dblue.application.module.usergroup.domain.service.UserGroupDomainQueryService;
+import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.security.user.SecurityUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,20 +44,15 @@ import java.util.stream.Collectors;
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@RequiredArgsConstructor
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final UserGroupDomainQueryService userGroupDomainQueryService;
+    private final RoleDomainQueryService roleDomainQueryService;
+    private final PermissionDomainQueryService permissionDomainQueryService;
 
-    private final RoleRepository roleRepository;
-
-    private final PermissionRepository permissionRepository;
-
-    public UserDetailsServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.permissionRepository = permissionRepository;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -71,19 +69,27 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return securityUser;
         }
         Collection<GrantedAuthority> authorities = new HashSet<>();
+        List<Permission> permissionList;
+        if (Boolean.TRUE.equals(user.getIsAdmin())) {
+            permissionList = permissionDomainQueryService.getAll();
+        } else {
+            Set<String> roleIdSet = user.getRoles().stream().map(UserRole::getRoleId).collect(Collectors.toSet());
+            List<UserGroupRole> groupRoles = userGroupDomainQueryService.getUserGroupRoleByUserId(securityUser.getUserId());
+            if (CollectionUtils.isNotEmpty(groupRoles)) {
+                roleIdSet.addAll(groupRoles.stream().map(UserGroupRole::getRoleId).collect(Collectors.toSet()));
+            }
+            List<Role> roleList = this.roleDomainQueryService.getMoreByIds(roleIdSet);
+            for (Role role : roleList) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleCode()));
+            }
 
-        Set<String> roleIdSet = user.getRoles().stream().map(UserRole::getRoleId).collect(Collectors.toSet());
-        List<Role> roleList = this.roleRepository.findAllById(roleIdSet);
-        for (Role role : roleList) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleCode()));
+            Set<String> permissionIdSet = roleList.stream()
+                                                  .filter(o -> CollectionUtils.isNotEmpty(o.getPermissions()))
+                                                  .flatMap(o -> o.getPermissions().stream())
+                                                  .map(RolePermission::getPermissionId)
+                                                  .collect(Collectors.toSet());
+            permissionList = this.permissionDomainQueryService.getPermissionByPermissionIds(permissionIdSet);
         }
-
-        Set<String> permissionIdList = roleList.stream()
-                .filter(o -> CollectionUtils.isNotEmpty(o.getPermissions()))
-                .flatMap(o -> o.getPermissions().stream())
-                .map(RolePermission::getPermissionId)
-                .collect(Collectors.toSet());
-        List<Permission> permissionList = this.permissionRepository.findAllById(permissionIdList);
 
 
         for (Permission permission : permissionList) {

@@ -23,14 +23,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.usergroup.application.dto.UserGroupPageDto;
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainQueryService;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroup;
+import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupUser;
 import org.dblue.application.module.usergroup.infrastructure.repository.UserGroupRepository;
+import org.dblue.application.module.usergroup.infrastructure.repository.UserGroupRoleRepository;
 import org.dblue.application.module.usergroup.infrastructure.repository.UserGroupUserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户组查询领域
@@ -45,6 +48,7 @@ public class UserGroupDomainQueryServiceImpl implements UserGroupDomainQueryServ
 
     private final UserGroupRepository userGroupRepository;
     private final UserGroupUserRepository userGroupUserRepository;
+    private final UserGroupRoleRepository userGroupRoleRepository;
 
     /**
      * 获取单独一个
@@ -86,5 +90,22 @@ public class UserGroupDomainQueryServiceImpl implements UserGroupDomainQueryServ
             return List.of();
         }
         return userGroupUserRepository.findByUserGroupIdIn(userGroupIdSet);
+    }
+
+    /**
+     * 根据用户ID获取用户组角色
+     *
+     * @param userId 用户ID
+     * @return 用户组角色
+     */
+    @Override
+    public List<UserGroupRole> getUserGroupRoleByUserId(String userId) {
+        List<UserGroupUser> userGroupUsers = userGroupUserRepository.getUserGroupUserByUserId(userId);
+        if (CollectionUtils.isEmpty(userGroupUsers)) {
+            return List.of();
+        }
+        Set<String> userGroupIdSet = userGroupUsers.stream().map(UserGroupUser::getUserGroupId)
+                                                   .collect(Collectors.toSet());
+        return userGroupRoleRepository.findByUserGroupIdIn(userGroupIdSet);
     }
 }

@@ -155,7 +155,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
                                                    .collect(Collectors.toSet());
         }
 
-        List<Menu> menuList = menuDomainQueryService.getMenuByMenuId(checkBoxDto.getMenuIdList());
+        List<Menu> menuList = menuDomainQueryService.getMenuByMenuIds(checkBoxDto.getMenuIdList());
         if (CollectionUtils.isEmpty(menuList)) {
             return List.of();
         }

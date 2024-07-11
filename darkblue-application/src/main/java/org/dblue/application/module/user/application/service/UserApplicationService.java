@@ -16,6 +16,7 @@
 package org.dblue.application.module.user.application.service;
 
 import org.dblue.application.module.user.application.dto.UserPageDto;
+import org.dblue.application.module.user.application.vo.UserMenuVo;
 import org.dblue.application.module.user.application.vo.UserPageVo;
 import org.dblue.application.module.user.application.vo.UserSelectVo;
 import org.dblue.application.module.user.application.vo.UserVo;
@@ -52,4 +53,11 @@ public interface UserApplicationService {
      * @return 用户信息
      */
     List<UserSelectVo> selectByNameOrUserName(String name);
+
+    /**
+     * 获取用户菜单权限
+     *
+     * @return 用户菜单权限
+     */
+    List<UserMenuVo> getUserMenu();
 }

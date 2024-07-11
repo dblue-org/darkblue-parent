@@ -119,7 +119,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
             return List.of();
         }
         Set<String> menuIdSet = HashSet.newHashSet(12);
-        List<Menu> roleMenus = menuDomainQueryService.getMenuByRoleId(Set.of(roleId));
+        List<Menu> roleMenus = menuDomainQueryService.getMenuByRoleIds(Set.of(roleId));
         if (CollectionUtils.isNotEmpty(roleMenus)) {
             menuIdSet = roleMenus.stream().map(Menu::getMenuId).collect(Collectors.toSet());
         }

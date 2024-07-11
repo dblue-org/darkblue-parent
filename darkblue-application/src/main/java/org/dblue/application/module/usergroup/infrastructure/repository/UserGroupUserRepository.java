@@ -16,8 +16,10 @@
 
 package org.dblue.application.module.usergroup.infrastructure.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import org.dblue.application.jpa.BaseJpaRepository;
+import org.dblue.application.module.usergroup.infrastructure.entity.QUserGroupUser;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupUser;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -30,7 +32,7 @@ import java.util.Set;
  * @author xie jin
  * @since 1.0.0  2024-07-10 14:59:19
  */
-public interface UserGroupUserRepository extends JpaRepository<UserGroupUser, String> {
+public interface UserGroupUserRepository extends BaseJpaRepository<UserGroupUser, String> {
 
 
     /**
@@ -56,4 +58,18 @@ public interface UserGroupUserRepository extends JpaRepository<UserGroupUser, St
      * @param userGroupId 用户组ID
      */
     void deleteByUserGroupId(@NonNull String userGroupId);
+
+
+    /**
+     * 根据用户ID获取用户组用户
+     *
+     * @param userId 用户ID
+     * @return 用户组用户
+     */
+    default List<UserGroupUser> getUserGroupUserByUserId(String userId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QUserGroupUser.userGroupUser.userId.eq(userId));
+        builder.and(QUserGroupUser.userGroupUser.userGroup.isEnable.isTrue());
+        return getList(builder);
+    }
 }

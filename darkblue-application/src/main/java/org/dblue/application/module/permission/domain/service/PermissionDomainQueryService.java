@@ -80,4 +80,19 @@ public interface PermissionDomainQueryService {
      * @return 权限
      */
     List<Permission> getPermissionByMenuId(Set<String> menuIdSet);
+
+    /**
+     * 根据权限ID获取权限
+     *
+     * @param permissionIdSet 权限
+     * @return 权限
+     */
+    List<Permission> getPermissionByPermissionIds(Set<String> permissionIdSet);
+
+    /**
+     * 获取全部权限
+     *
+     * @return 权限
+     */
+    List<Permission> getAll();
 }

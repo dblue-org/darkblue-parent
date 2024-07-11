@@ -61,7 +61,7 @@ public class UserGroup extends AbstractAuditingEntity {
     @OneToMany(mappedBy = "userGroupId")
     private List<UserGroupRole> userGroupRoleList;
 
-    @OneToMany(mappedBy = "userGroupId")
+    @OneToMany(mappedBy = "userGroup")
     private List<UserGroupUser> userGroupUserList;
 
 }

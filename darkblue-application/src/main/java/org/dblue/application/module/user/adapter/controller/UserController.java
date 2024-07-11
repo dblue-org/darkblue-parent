@@ -26,6 +26,7 @@ import org.dblue.application.module.user.application.dto.UserEnableDto;
 import org.dblue.application.module.user.application.dto.UserPageDto;
 import org.dblue.application.module.user.application.dto.UserUpdateDto;
 import org.dblue.application.module.user.application.service.UserApplicationService;
+import org.dblue.application.module.user.application.vo.UserMenuVo;
 import org.dblue.application.module.user.application.vo.UserPageVo;
 import org.dblue.application.module.user.application.vo.UserSelectVo;
 import org.dblue.application.module.user.application.vo.UserVo;
@@ -136,5 +137,15 @@ public class UserController {
     @GetMapping("/selectByNameOrUserName")
     public ResponseBean<List<UserSelectVo>> selectByNameOrUserName(@RequestParam(required = false) String name) {
         return ResponseBean.success(userApplicationService.selectByNameOrUserName(name));
+    }
+
+    /**
+     * 获取用户菜单权限
+     *
+     * @return 用户菜单权限
+     */
+    @GetMapping("/getUserMenu/pc")
+    public ResponseBean<List<UserMenuVo>> getUserMenu() {
+        return ResponseBean.success(userApplicationService.getUserMenu());
     }
 }

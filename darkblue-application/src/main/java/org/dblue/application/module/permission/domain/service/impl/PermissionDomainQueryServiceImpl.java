@@ -129,4 +129,25 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
         }
         return permissionRepository.findByMenuIdIn(menuIdSet);
     }
+
+    /**
+     * 根据权限ID获取权限
+     *
+     * @param permissionIdSet 权限
+     * @return 权限
+     */
+    @Override
+    public List<Permission> getPermissionByPermissionIds(Set<String> permissionIdSet) {
+        return permissionRepository.findAllById(permissionIdSet);
+    }
+
+    /**
+     * 获取全部权限
+     *
+     * @return 权限
+     */
+    @Override
+    public List<Permission> getAll() {
+        return permissionRepository.findAll();
+    }
 }

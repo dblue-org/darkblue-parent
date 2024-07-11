@@ -19,7 +19,6 @@ package org.dblue.application.module.role.application.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.enums.MenuTypeEnum;
 import org.dblue.application.module.department.domain.service.DepartmentDomainQueryService;
 import org.dblue.application.module.department.infrastructure.entity.Department;
@@ -121,15 +120,15 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
         RoleVo roleVo = new RoleVo();
         if (Objects.nonNull(role)) {
             BeanUtils.copyProperties(role, roleVo);
-            List<Menu> menuList = menuDomainQueryService.getMenuByRoleId(Set.of(roleId));
+            List<Menu> menuList = menuDomainQueryService.getMenuByRoleIds(Set.of(roleId));
             List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(Set.of(roleId));
             Map<String, List<Permission>> permissionMap = permissionList.stream()
                                                                         .collect(Collectors.groupingBy(Permission::getMenuId));
             Map<String, List<Menu>> childrenMap = menuList.stream()
-                                                          .filter(menu -> StringUtils.isNotBlank(menu.getParentId()))
+                                                          .filter(menu -> !Objects.equals(menu.getLevel(), 1))
                                                           .collect(Collectors.groupingBy(Menu::getParentId));
 
-            List<Menu> rootMenuList = menuList.stream().filter(menu -> StringUtils.isBlank(menu.getParentId()))
+            List<Menu> rootMenuList = menuList.stream().filter(menu -> Objects.equals(menu.getLevel(), 1))
                                               .toList();
 
 
@@ -161,11 +160,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
             return List.of();
         }
 
-        return roleList.stream().map(role -> {
-            SimpleRoleVo simpleRoleVo = new SimpleRoleVo();
-            BeanUtils.copyProperties(role, simpleRoleVo);
-            return simpleRoleVo;
-        }).toList();
+        return roleList.stream().map(SimpleRoleVo::of).toList();
 
     }
 

@@ -16,10 +16,7 @@
 
 package org.dblue.application.module.usergroup.infrastructure.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,6 +48,8 @@ public class UserGroupUser extends AbstractCreateAuditingEntity {
     @Column(name = "user_group_id", length = 64)
     private String userGroupId;
 
+    @ManyToOne
+    private UserGroup userGroup;
     /**
      * 用户ID
      */

@@ -52,7 +52,7 @@ public interface MenuDomainQueryService {
      * @param roleIdSet 角色ID
      * @return 菜单信息
      */
-    List<Menu> getMenuByRoleId(Set<String> roleIdSet);
+    List<Menu> getMenuByRoleIds(Set<String> roleIdSet);
 
     /**
      * 获取所有菜单
@@ -68,7 +68,7 @@ public interface MenuDomainQueryService {
      * @param menuIdSet 菜单ID
      * @return 菜单
      */
-    List<Menu> getMenuByMenuId(Set<String> menuIdSet);
+    List<Menu> getMenuByMenuIds(Set<String> menuIdSet);
 
 
 }
