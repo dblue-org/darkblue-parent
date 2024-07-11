@@ -19,6 +19,7 @@ package org.dblue.application.module.role.application.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -66,6 +67,12 @@ public class RoleVo {
      */
     @Schema(description = "是否内置")
     private Boolean isBuiltIn;
+
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
 
     /**
      * 拥有权限

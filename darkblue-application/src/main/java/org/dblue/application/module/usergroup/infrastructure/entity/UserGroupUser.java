@@ -49,6 +49,7 @@ public class UserGroupUser extends AbstractCreateAuditingEntity {
     private String userGroupId;
 
     @ManyToOne
+    @JoinColumn(name = "user_group_id", referencedColumnName = "user_group_id", insertable = false, updatable = false)
     private UserGroup userGroup;
     /**
      * 用户ID

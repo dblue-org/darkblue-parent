@@ -66,6 +66,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     private final PositionDomainService positionDomainService;
     private final UserGroupDomainQueryService userGroupDomainQueryService;
 
+
     /**
      * 分页查询
      *
@@ -115,23 +116,72 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         if (Objects.nonNull(user)) {
             BeanUtils.copyProperties(user, userVo);
             List<UserRole> userRoleList = user.getRoles();
-            if (CollectionUtils.isNotEmpty(userRoleList)) {
-                Set<String> roleIdSet = userRoleList.stream().map(UserRole::getRoleId).collect(Collectors.toSet());
-                List<Menu> menuList = menuDomainQueryService.getMenuByRoleIds(roleIdSet);
-                List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(roleIdSet);
-                List<Menu> rootMenuList = menuList.stream().filter(menu -> Objects.equals(menu.getLevel(), 1))
-                                                  .toList();
-                Map<String, List<Menu>> childrenMap = menuList.stream()
-                                                              .filter(menu -> !Objects.equals(menu.getLevel(), 1))
-                                                              .collect(Collectors.groupingBy(Menu::getParentId));
-                Map<String, List<Permission>> permissionMap = permissionList.stream()
-                                                                            .collect(Collectors.groupingBy(Permission::getMenuId));
+            List<UserRoleVo> userRoleVoList = setUserRoleVo(userId, userRoleList);
 
-                userVo.setUserMenuVoList(buildMenu(rootMenuList, childrenMap, permissionMap));
-            }
+            setUserMenuVoList(userRoleVoList, userVo);
 
         }
         return userVo;
+    }
+
+    private List<UserRoleVo> setUserRoleVo(String userId, List<UserRole> userRoleList) {
+        List<UserRoleVo> userRoleVoList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(userRoleList)) {
+            Set<String> roleIdSet = userRoleList.stream().map(UserRole::getRoleId).collect(Collectors.toSet());
+
+            List<Role> roleList = roleDomainQueryService.getMoreByIds(roleIdSet);
+            userRoleVoList.addAll(roleList.stream().map(role -> {
+                UserRoleVo userRoleVo = new UserRoleVo();
+                BeanUtils.copyProperties(role, userRoleVo);
+                return userRoleVo;
+            }).toList());
+        }
+        List<UserGroupRole> groupRoles = userGroupDomainQueryService.getUserGroupRoleByUserId(userId);
+        if (CollectionUtils.isNotEmpty(groupRoles)) {
+            List<Role> roles = roleDomainQueryService.getMoreByIds(groupRoles.stream()
+                                                                             .map(UserGroupRole::getRoleId)
+                                                                             .collect(Collectors.toSet()));
+            if (CollectionUtils.isNotEmpty(userRoleVoList)) {
+                Set<String> roleIdSet = userRoleVoList.stream().map(UserRoleVo::getRoleId)
+                                                      .collect(Collectors.toSet());
+                for (Role role : roles) {
+                    if (roleIdSet.contains(role.getRoleId())) {
+                        continue;
+                    }
+                    UserRoleVo userRoleVo = new UserRoleVo();
+                    BeanUtils.copyProperties(role, userRoleVo);
+                    userRoleVo.setIsUserGroup(Boolean.TRUE);
+                    userRoleVoList.add(userRoleVo);
+                }
+
+            } else {
+                userRoleVoList.addAll(roles.stream().map(role -> {
+                    UserRoleVo userRoleVo = new UserRoleVo();
+                    BeanUtils.copyProperties(role, userRoleVo);
+                    userRoleVo.setIsUserGroup(Boolean.TRUE);
+                    return userRoleVo;
+                }).toList());
+            }
+        }
+        return userRoleVoList;
+    }
+
+    private void setUserMenuVoList(List<UserRoleVo> userRoleVoList, UserVo userVo) {
+        if (CollectionUtils.isNotEmpty(userRoleVoList)) {
+            Set<String> roleIdSet = userRoleVoList.stream().map(UserRoleVo::getRoleId)
+                                                  .collect(Collectors.toSet());
+            List<Menu> menuList = menuDomainQueryService.getMenuByRoleIds(roleIdSet);
+            List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(roleIdSet);
+            List<Menu> rootMenuList = menuList.stream().filter(menu -> Objects.equals(menu.getLevel(), 1))
+                                              .toList();
+            Map<String, List<Menu>> childrenMap = menuList.stream()
+                                                          .filter(menu -> !Objects.equals(menu.getLevel(), 1))
+                                                          .collect(Collectors.groupingBy(Menu::getParentId));
+            Map<String, List<Permission>> permissionMap = permissionList.stream()
+                                                                        .collect(Collectors.groupingBy(Permission::getMenuId));
+
+            userVo.setUserMenuVoList(buildMenu(rootMenuList, childrenMap, permissionMap));
+        }
     }
 
     /**

@@ -122,7 +122,12 @@ public class UserVo {
      * 角色名称
      */
     @Schema(description = "角色名称")
-    private List<String> roleNameList;
+    private List<UserRoleVo> roleList;
+
+    /**
+     * 用户组名称
+     */
+    private List<String> userGroupNameList;
 
 
     /**
