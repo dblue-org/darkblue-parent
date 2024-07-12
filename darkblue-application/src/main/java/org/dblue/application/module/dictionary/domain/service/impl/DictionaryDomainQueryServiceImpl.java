@@ -18,9 +18,11 @@ package org.dblue.application.module.dictionary.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainQueryService;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
 import org.dblue.application.module.dictionary.infrastructure.repository.DictionaryRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,5 +48,15 @@ public class DictionaryDomainQueryServiceImpl implements DictionaryDomainQuerySe
     @Override
     public List<Dictionary> getAll() {
         return dictionaryRepository.findByIsDeleteFalse();
+    }
+
+    @Override
+    public List<Dictionary> getItemTree(String dictionaryId) {
+        return List.of();
+    }
+
+    @Override
+    public Page<Dictionary> page(DictionaryItemPageVo itemPageVo) {
+        return null;
     }
 }
