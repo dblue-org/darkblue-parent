@@ -23,70 +23,94 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.dblue.application.jpa.AbstractAuditingEntity;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.time.Instant;
-
+/**
+ * 数据字典条目
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-12 11:15:19
+ */
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_sys_dictionary_item")
-public class DictionaryItem {
+public class DictionaryItem extends AbstractAuditingEntity {
+    /**
+     * 字典项目ID
+     */
     @Id
     @Size(max = 64)
-    @ColumnDefault("1")
+    @ColumnDefault("'1'")
     @Column(name = "dictionary_item_id", nullable = false, length = 64)
     private String dictionaryItemId;
 
+    /**
+     * 字典项识别码
+     */
     @Size(max = 64)
     @Column(name = "dictionary_item_code", length = 64)
     private String dictionaryItemCode;
 
+    /**
+     * 字典ID
+     */
     @Size(max = 64)
     @Column(name = "dictionary_id", length = 64)
     private String dictionaryId;
 
+    /**
+     * 编码
+     */
     @Column(name = "code")
     private Integer code;
 
+    /**
+     * 名称
+     */
     @Size(max = 500)
     @Column(name = "name", length = 500)
     private String name;
 
+    /**
+     * 扩展信息
+     */
     @Size(max = 500)
     @Column(name = "extension", length = 500)
     private String extension;
 
+    /**
+     * 上级ID
+     */
     @Size(max = 64)
     @Column(name = "parent_id", length = 64)
     private String parentId;
 
+    /**
+     * 顺序
+     */
     @Column(name = "order_num")
     private Integer orderNum;
 
+    /**
+     * 级别
+     */
     @Column(name = "item_level")
     private Integer itemLevel;
 
+    /**
+     * 是否删除
+     */
     @ColumnDefault("0")
     @Column(name = "is_delete")
     private Boolean isDelete;
 
+    /**
+     * 是否启用
+     */
     @ColumnDefault("1")
     @Column(name = "is_enabled")
     private Boolean isEnabled;
-
-    @Column(name = "create_time")
-    private Instant createTime;
-
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
-
-    @Column(name = "update_time")
-    private Instant updateTime;
-
-    @Size(max = 100)
-    @Column(name = "update_user", length = 100)
-    private String updateUser;
 
 }

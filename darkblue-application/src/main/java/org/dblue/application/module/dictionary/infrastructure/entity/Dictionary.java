@@ -23,45 +23,51 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.dblue.application.jpa.AbstractAuditingEntity;
 
-import java.time.Instant;
-
+/**
+ * 数据字典
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-12 11:15:06
+ */
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_sys_dictionary")
-public class Dictionary {
+public class Dictionary extends AbstractAuditingEntity {
+    /**
+     * 字典ID
+     */
     @Id
     @Size(max = 64)
     @Column(name = "dictionary_id", nullable = false, length = 64)
     private String dictionaryId;
 
+    /**
+     * 字典编码
+     */
     @Size(max = 64)
     @Column(name = "dictionary_code", length = 64)
     private String dictionaryCode;
 
+    /**
+     * 字典名称
+     */
     @Size(max = 64)
     @Column(name = "dictionary_name", length = 64)
     private String dictionaryName;
 
+    /**
+     * 字典类型（1-普通字典；2-树形字典）
+     */
     @Column(name = "dictionary_type")
     private Integer dictionaryType;
 
+    /**
+     * 是否删除
+     */
     @Column(name = "is_delete")
     private Boolean isDelete;
-
-    @Column(name = "create_time")
-    private Instant createTime;
-
-    @Size(max = 64)
-    @Column(name = "create_user", length = 64)
-    private String createUser;
-
-    @Column(name = "update_time")
-    private Instant updateTime;
-
-    @Size(max = 100)
-    @Column(name = "update_user", length = 100)
-    private String updateUser;
 
 }

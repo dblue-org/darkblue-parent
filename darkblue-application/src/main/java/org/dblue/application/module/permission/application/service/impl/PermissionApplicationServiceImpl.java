@@ -89,12 +89,16 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
 
             return Page.empty(query.toJpaPage());
         }
-        return page.map(this::build);
+        List<Menu> menuList = menuDomainQueryService.getMenuByMenuIds(page.stream().map(Permission::getMenuId)
+                                                                          .collect(Collectors.toSet()));
+        Map<String, String> menuMap = menuList.stream().collect(Collectors.toMap(Menu::getMenuId, Menu::getMenuName));
+        return page.map(permission -> build(permission, menuMap));
     }
 
-    private PermissionPageVo build(Permission permission) {
+    private PermissionPageVo build(Permission permission, Map<String, String> menuMap) {
         PermissionPageVo permissionPageVo = new PermissionPageVo();
         BeanUtils.copyProperties(permission, permissionPageVo);
+        permissionPageVo.setMenuName(menuMap.get(permissionPageVo.getMenuId()));
         return permissionPageVo;
     }
 
