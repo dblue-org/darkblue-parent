@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.permission.infrastructure.entiry.QPermission;
+import org.dblue.application.module.permission.infrastructure.query.PermissionQuery;
+import org.dblue.application.module.permission.infrastructure.query.impl.PermissionQueryImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
@@ -126,4 +128,13 @@ public interface PermissionRepository extends BaseJpaRepository<Permission, Stri
      * @return 权限
      */
     List<Permission> findByMenuIdIn(@NonNull Collection<String> menuIdSet);
+
+    /**
+     * 创建查询器
+     *
+     * @return 查询器
+     */
+    default PermissionQuery createQuery() {
+        return new PermissionQueryImpl(this);
+    }
 }

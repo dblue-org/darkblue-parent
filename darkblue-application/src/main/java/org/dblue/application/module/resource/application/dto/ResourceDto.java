@@ -32,13 +32,6 @@ import lombok.Data;
 public class ResourceDto  {
 
     /**
-     * 资源组ID
-     */
-    @Schema(description = "资源组ID")
-    @Size(max = 64)
-    private String resourceGroupId;
-
-    /**
      * 资源名称
      */
     @Schema(description = "资源名称")
@@ -84,7 +77,5 @@ public class ResourceDto  {
     @Size(max = 500)
     @NotBlank(message = "控制层方法不能为空")
     private String method;
-
-
 
 }

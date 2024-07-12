@@ -32,6 +32,7 @@ public interface ResourceGroupDomainService {
 
     /**
      * 资源组添加
+     *
      * @param addDto 添加信息
      */
     void add(ResourceGroupAddDto addDto);
@@ -39,24 +40,27 @@ public interface ResourceGroupDomainService {
 
     /**
      * 资源组更新
+     *
      * @param updateDto 更新信息
      */
     void update(ResourceGroupUpdateDto updateDto);
 
 
     /**
-     *  资源组删除
+     * 资源组删除
+     *
      * @param resourceGroupId 资源组ID
      */
-    void  delete(String resourceGroupId);
+    void delete(String resourceGroupId);
 
 
     /**
      * 获取全部资源组信息
      *
+     * @param platform 适用平台(1-PC；2-APP)
      * @return 资源组信息
      */
-    List<ResourceGroup> getAll();
+    List<ResourceGroup> getAll(Integer platform);
 
 
 }

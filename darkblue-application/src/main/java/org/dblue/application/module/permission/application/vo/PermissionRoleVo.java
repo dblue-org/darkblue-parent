@@ -17,6 +17,8 @@
 package org.dblue.application.module.permission.application.vo;
 
 import lombok.Data;
+import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
@@ -59,4 +61,9 @@ public class PermissionRoleVo {
     private LocalDateTime createTime;
 
 
+    public static PermissionRoleVo of(Role role) {
+        PermissionRoleVo permissionRoleVo = new PermissionRoleVo();
+        BeanUtils.copyProperties(role, permissionRoleVo);
+        return permissionRoleVo;
+    }
 }

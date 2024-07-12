@@ -17,6 +17,7 @@
 package org.dblue.application.module.department.domain.service;
 
 import org.dblue.application.module.department.infrastructure.entity.Department;
+import org.dblue.application.module.department.infrastructure.query.DepartmentQuery;
 
 import java.util.List;
 
@@ -40,4 +41,11 @@ public interface DepartmentDomainQueryService {
      * @return 部门信息
      */
     Department getOne(String departmentId);
+
+    /**
+     * 创建查询器
+     *
+     * @return 查询器
+     */
+    DepartmentQuery createQuery();
 }

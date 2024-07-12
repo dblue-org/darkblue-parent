@@ -18,9 +18,8 @@ package org.dblue.application.module.permission.application.service;
 
 import org.dblue.application.module.permission.application.dto.PermissionCheckBoxDto;
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
-import org.dblue.application.module.permission.application.vo.PermissionCheckBoxVo;
-import org.dblue.application.module.permission.application.vo.PermissionPageVo;
-import org.dblue.application.module.permission.application.vo.PermissionVo;
+import org.dblue.application.module.permission.application.dto.PermissionRoleQueryDto;
+import org.dblue.application.module.permission.application.vo.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -54,6 +53,21 @@ public interface PermissionApplicationService {
      */
     PermissionVo getOne(String permissionId);
 
+    /**
+     * 获取权限资源信息
+     *
+     * @param permissionId 权限ID
+     * @return 权限资源信息
+     */
+    List<PermissionResourceVo> findPermissionResource(String permissionId);
+
+    /**
+     * 获取权限关联的角色
+     *
+     * @param queryDto 分页查询参数
+     * @return 权限资源信息
+     */
+    Page<PermissionRoleVo> findPermissionRoles(PermissionRoleQueryDto queryDto);
 
     /**
      * 获取权限信息并标记是否选中

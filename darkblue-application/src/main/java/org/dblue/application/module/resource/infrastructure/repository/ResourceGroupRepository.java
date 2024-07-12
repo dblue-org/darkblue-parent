@@ -16,8 +16,10 @@
 
 package org.dblue.application.module.resource.infrastructure.repository;
 
+import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.dblue.application.module.resource.infrastructure.query.ResourceGroupQuery;
+import org.dblue.application.module.resource.infrastructure.query.impl.ResourceGroupQueryImpl;
 import org.springframework.lang.NonNull;
 
 import java.util.Optional;
@@ -27,7 +29,7 @@ import java.util.Optional;
  * @author xie jin
  * @since 1.0.0  2024-07-02 17:27:01
  */
-public interface ResourceGroupRepository extends JpaRepository<ResourceGroup, String> {
+public interface ResourceGroupRepository extends BaseJpaRepository<ResourceGroup, String> {
 
     /**
      * 根据资源组名称查询
@@ -47,4 +49,7 @@ public interface ResourceGroupRepository extends JpaRepository<ResourceGroup, St
             @NonNull String groupName, @NonNull String resourceGroupId);
 
 
+    default ResourceGroupQuery createQuery() {
+        return new ResourceGroupQueryImpl(this);
+    }
 }

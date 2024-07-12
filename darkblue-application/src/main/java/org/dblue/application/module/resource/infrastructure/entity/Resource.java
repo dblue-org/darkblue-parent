@@ -93,6 +93,12 @@ public class Resource extends AbstractAuditingEntity {
     private Boolean isAuthedAccess;
 
     /**
+     * 适用平台(1-PC；2-APP)
+     */
+    @Column(name = "platform")
+    private Integer platform;
+
+    /**
      * 排序字段
      */
     @Column(name = "sort_num")

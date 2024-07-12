@@ -72,7 +72,6 @@ public class ResourceGroupController {
         return ResponseBean.success();
     }
 
-
     /**
      * 资源组删除
      *
@@ -88,11 +87,14 @@ public class ResourceGroupController {
 
     /**
      * 获取全部资源组信息
+     *
+     * @param platform 适用平台(1-PC；2-APP)
      * @return 资源组信息
      */
+    @Parameter(name = "platform", description = "适用平台(1-PC；2-APP)", in = ParameterIn.PATH, required = true)
     @Operation(summary = "获取全部资源组信息", description = "获取全部资源组信息")
-    @GetMapping("/getAll")
-    public ResponseBean<List<ResourceGroupVo>>  getAll(){
-        return ResponseBean.success(resourceGroupApplicationService.getAll());
+    @GetMapping("/getAll/{platform}")
+    public ResponseBean<List<ResourceGroupVo>> getAll(@PathVariable Integer platform) {
+        return ResponseBean.success(resourceGroupApplicationService.getAll(platform));
     }
 }

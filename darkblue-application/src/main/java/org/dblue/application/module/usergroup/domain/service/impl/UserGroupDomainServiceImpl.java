@@ -156,16 +156,13 @@ public class UserGroupDomainServiceImpl implements UserGroupDomainService {
 
     }
 
-    /**
-     * 用户组角色删除
-     *
-     * @param userGroupRoleId 用户组角色Id
-     */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void deleteRole(String userGroupRoleId) {
-        userGroupRoleRepository.deleteById(userGroupRoleId);
+    public void deleteRoleRef(String userGroupId, String roleId) {
+        UserGroupRole userGroupRole = this.userGroupRoleRepository.findOneByUserGroupIdAndRoleId(userGroupId, roleId);
+        this.userGroupRoleRepository.delete(userGroupRole);
     }
+
 
     /**
      * 用户组用户添加

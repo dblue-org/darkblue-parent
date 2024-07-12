@@ -130,7 +130,6 @@ public class RoleDomainServiceImpl implements RoleDomainService {
             throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
         }
 
-
         roleMenuRepository.deleteByRoleId(permissionDto.getRoleId());
         saveRoleMenu(permissionDto, optional.get());
 
@@ -151,8 +150,8 @@ public class RoleDomainServiceImpl implements RoleDomainService {
     }
 
     private void saveRolePermission(RolePermissionDto permissionDto, Role role) {
-        if (CollectionUtils.isNotEmpty(permissionDto.getPermissionList())) {
-            for (String permissionId : permissionDto.getPermissionList()) {
+        if (CollectionUtils.isNotEmpty(permissionDto.getPermissionIdList())) {
+            for (String permissionId : permissionDto.getPermissionIdList()) {
                 RolePermission rolePermission = new RolePermission();
                 rolePermission.setRolePermissionId(Snowflake.stringId());
                 rolePermission.setPermissionId(permissionId);
@@ -174,7 +173,11 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
         }
-        optional.get().setIsEnable(enableDto.getEnable());
+        if (Boolean.TRUE.equals(enableDto.getEnable())) {
+            optional.get().enable();
+        } else {
+            optional.get().disable();
+        }
         roleRepository.save(optional.get());
     }
 }

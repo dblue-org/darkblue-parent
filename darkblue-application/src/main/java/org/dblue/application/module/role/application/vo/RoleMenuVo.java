@@ -66,5 +66,5 @@ public class RoleMenuVo {
      * 权限
      */
     @Schema(description = "权限")
-    private List<RolePermissionVo> permissionVoList;
+    private List<RolePermissionVo> permissions;
 }

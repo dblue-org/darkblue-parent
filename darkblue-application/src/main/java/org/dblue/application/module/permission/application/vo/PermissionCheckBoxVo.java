@@ -44,6 +44,12 @@ public class PermissionCheckBoxVo {
     private String menuName;
 
     /**
+     * 适用平台(1-PC；2-APP)从菜单代入
+     */
+    @Schema(description = "适用平台(1-PC；2-APP)")
+    private Integer platform;
+
+    /**
      * 权限
      */
     @Schema(description = "权限")

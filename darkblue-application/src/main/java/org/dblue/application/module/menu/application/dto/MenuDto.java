@@ -22,7 +22,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.dblue.application.commons.enums.MenuTypeEnum;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.common.validation.annotation.EnumValues;
 
 /**
@@ -41,13 +40,6 @@ public class MenuDto {
     @Schema(description = "上级菜单ID")
     @Size(max = 64)
     private String parentId;
-
-    /**
-     * 菜单适用平台(1-PC；2-APP)
-     */
-    @Schema(description = "菜单适用平台(1-PC；2-APP)")
-    @EnumValues(message = "适用平台不正确",clazz = PlatformEnum.class)
-    private Integer platform;
 
     /**
      * 菜单类型(1-目录;2-菜单)

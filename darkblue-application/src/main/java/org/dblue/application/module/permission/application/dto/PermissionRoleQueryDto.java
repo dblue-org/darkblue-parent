@@ -13,47 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.dblue.application.module.permission.application.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dblue.application.module.permission.application.vo.PermissionResourceVo;
+import org.dblue.core.web.param.PageParamImpl;
+import org.springdoc.core.annotations.ParameterObject;
 
 /**
- * 权限
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@Schema(description = "权限")
+@EqualsAndHashCode(callSuper = false)
+@ParameterObject
 @Data
-public class PermissionBaseDto {
-
-
-    /**
-     * 菜单ID
-     */
-    @Schema(description = "菜单ID")
-    @Size(max = 64)
-    @NotBlank(message = "菜单ID不能为空")
-    private String menuId;
-
+public class PermissionRoleQueryDto extends PageParamImpl<PermissionResourceVo> {
 
     /**
-     * 权限名称
+     * 权限ID
      */
-    @Schema(description = "权限名称")
-    @Size(max = 100)
-    @NotBlank(message = "适用平台不能为空")
-    private String permissionName;
-
-    /**
-     * 权限标识
-     */
-    @Schema(description = "权限标识")
-    @Size(max = 64)
-    @NotBlank(message = "适用平台不能为空")
-    private String permissionCode;
-
+    @Parameter(description = "权限ID")
+    private String permissionId;
 
 
 }

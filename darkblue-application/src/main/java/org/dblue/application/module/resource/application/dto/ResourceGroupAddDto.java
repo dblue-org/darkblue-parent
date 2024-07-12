@@ -19,6 +19,8 @@ package org.dblue.application.module.resource.application.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dblue.application.commons.enums.PlatformEnum;
+import org.dblue.common.validation.annotation.EnumValues;
 
 /**
  * 资源组添加
@@ -31,5 +33,10 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ResourceGroupAddDto extends ResourceGroupDto{
 
-
+    /**
+     * 适用平台(1-PC；2-APP)
+     */
+    @Schema(description = "适用平台(1-PC；2-APP)")
+    @EnumValues(message = "适用平台不正确", clazz = PlatformEnum.class)
+    private Integer platform;
 }

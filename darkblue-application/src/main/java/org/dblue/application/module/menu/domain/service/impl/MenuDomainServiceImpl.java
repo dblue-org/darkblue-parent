@@ -85,7 +85,8 @@ public class MenuDomainServiceImpl implements MenuDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(MenuErrors.MENU_IS_NOT_FOUND);
         }
-        Optional<Menu> optionalMenu = menuRepository.findByPlatformAndMenuNameAndMenuIdNot(menuUpdateDto.getPlatform(), menuUpdateDto.getMenuName(), menuUpdateDto.getMenuId());
+        Optional<Menu> optionalMenu = menuRepository.findByPlatformAndMenuNameAndMenuIdNot(optional.get().getPlatform(), menuUpdateDto.getMenuName(),
+                menuUpdateDto.getMenuId());
         if (optionalMenu.isPresent()) {
             throw new ServiceException(MenuErrors.MENU_EXITS);
         }

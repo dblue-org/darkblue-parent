@@ -16,8 +16,10 @@
 
 package org.dblue.application.module.department.infrastructure.repository;
 
+import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.department.infrastructure.entity.Department;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.dblue.application.module.department.infrastructure.query.DepartmentQuery;
+import org.dblue.application.module.department.infrastructure.query.DepartmentQueryImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -28,7 +30,7 @@ import java.util.Optional;
  * @author xie jin
  * @since 1.0.0  2024-07-02 10:53:42
  */
-public interface DepartmentRepository extends JpaRepository<Department, String> {
+public interface DepartmentRepository extends BaseJpaRepository<Department, String> {
 
     /**
      * 查询当前组织下是否有重复名称
@@ -57,5 +59,9 @@ public interface DepartmentRepository extends JpaRepository<Department, String> 
      */
     Optional<Department> findByDeptIdAndIsDelFalse(@NonNull String deptId);
 
+
+    default DepartmentQuery createQuery() {
+        return new DepartmentQueryImpl(this);
+    }
 
 }

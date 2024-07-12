@@ -82,10 +82,10 @@ public interface RoleRepository extends BaseJpaRepository<Role, String> {
      * @param permissionId 权限ID
      * @return 角色
      */
-    default List<Role> getRoleByPermissionId(String permissionId) {
+    default Page<Role> getRoleByPermissionId(String permissionId, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(QRole.role.permissions.any().permissionId.eq(permissionId));
-        return getList(builder);
+        return page(builder, pageable);
     }
 
     /**

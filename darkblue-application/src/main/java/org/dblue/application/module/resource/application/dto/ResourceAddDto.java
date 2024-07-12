@@ -17,6 +17,7 @@
 package org.dblue.application.module.resource.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,9 +30,15 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "资源添加")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ResourceAddDto extends ResourceDto{
+public class ResourceAddDto extends ResourceDto {
 
 
+    /**
+     * 资源组ID
+     */
+    @Schema(description = "资源组ID")
+    @Size(max = 64)
+    private String resourceGroupId;
 
 
 }

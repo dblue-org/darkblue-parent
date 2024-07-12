@@ -18,6 +18,7 @@ package org.dblue.application.module.usergroup.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -36,5 +37,12 @@ public class UserGroupDto {
     @Size(max = 200)
     @NotBlank(message = "用户组名称不能为空")
     private String userGroupName;
+
+    /**
+     * 排序字段
+     */
+    @Schema(description = "排序字段")
+    @NotNull(message = "排序字段不能为空")
+    private Integer sortNum;
 
 }

@@ -15,9 +15,12 @@
  */
 package org.dblue.application.commons.db.jpa;
 
+import org.dblue.common.exception.OperationNotSupportedException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -44,9 +47,41 @@ public interface BaseJpaQuery<T> {
     Page<T> page(int page, int pageSize);
 
     /**
+     * 分页查询数据
+     *
+     * @return 数据
+     */
+    Page<T> page(Pageable pageable);
+
+    /**
      * 获取单条数据
      *
      * @return 数据
      */
     Optional<T> single();
+
+    /**
+     * 获取数量
+     *
+     * @return 数量
+     */
+    long count();
+
+    /**
+     * 获取名称映射
+     *
+     * @return 名称映射
+     */
+    default Map<String, String> nameMap() {
+        throw new OperationNotSupportedException();
+    }
+
+    /**
+     * 结果转为Map
+     *
+     * @return 可以-ID, T-实体
+     */
+    default Map<String, T> toMap() {
+        throw new OperationNotSupportedException();
+    }
 }

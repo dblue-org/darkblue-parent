@@ -46,8 +46,8 @@ public class ResourceGroupApplicationServiceImpl implements ResourceGroupApplica
      * @return 资源组信息
      */
     @Override
-    public List<ResourceGroupVo> getAll() {
-        List<ResourceGroup> resourceGroupList = resourceGroupDomainService.getAll();
+    public List<ResourceGroupVo> getAll(Integer platform) {
+        List<ResourceGroup> resourceGroupList = resourceGroupDomainService.getAll(platform);
         if(CollectionUtils.isNotEmpty(resourceGroupList)){
             return resourceGroupList.stream().map(resourceGroup -> {
                 ResourceGroupVo resourceGroupVo = new ResourceGroupVo();

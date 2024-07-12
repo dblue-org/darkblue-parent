@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.department.domain.service.DepartmentDomainQueryService;
 import org.dblue.application.module.department.infrastructure.entity.Department;
+import org.dblue.application.module.department.infrastructure.query.DepartmentQuery;
 import org.dblue.application.module.department.infrastructure.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
 
@@ -62,5 +63,10 @@ public class DepartmentDomainQueryServiceImpl implements DepartmentDomainQuerySe
         }
         Optional<Department> optional = departmentRepository.findById(departmentId);
         return optional.orElse(null);
+    }
+
+    @Override
+    public DepartmentQuery createQuery() {
+        return this.departmentRepository.createQuery();
     }
 }

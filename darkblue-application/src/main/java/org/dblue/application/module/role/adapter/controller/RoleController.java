@@ -25,11 +25,13 @@ import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.role.application.dto.*;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
 import org.dblue.application.module.role.application.vo.RolePageVo;
+import org.dblue.application.module.role.application.vo.RoleUserVo;
 import org.dblue.application.module.role.application.vo.RoleVo;
 import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -121,6 +123,19 @@ public class RoleController {
     @GetMapping("/getOne/{roleId}")
     public ResponseBean<RoleVo> getOne(@PathVariable("roleId") String roleId) {
         return ResponseBean.success(roleApplicationService.getOne(roleId));
+    }
+
+    /**
+     * 分页查询角色关联的用户
+     *
+     * @param queryDto 查询条件
+     * @return 用户列表
+     */
+    @Operation(summary = "分页查询角色关联的用户")
+    @GetMapping("/findRefUsers")
+    public PageResponseBean<RoleUserVo> findRefUsers(RoleUserQueryDto queryDto) {
+        Page<RoleUserVo> voPage = this.roleApplicationService.findRefUsers(queryDto);
+        return PageResponseBean.success(voPage);
     }
 
     /**

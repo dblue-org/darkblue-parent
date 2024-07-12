@@ -23,6 +23,7 @@ import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.dblue.application.module.permission.application.dto.PermissionCheckBoxDto;
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
+import org.dblue.application.module.permission.application.dto.PermissionRoleQueryDto;
 import org.dblue.application.module.permission.application.service.PermissionApplicationService;
 import org.dblue.application.module.permission.application.vo.*;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
@@ -35,6 +36,7 @@ import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.domain.service.RolePermissionDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.dblue.common.exception.ServiceException;
+import org.dblue.core.jpa.JpaPageConverter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -90,7 +92,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
             return Page.empty(query.toJpaPage());
         }
         List<Menu> menuList = menuDomainQueryService.getMenuByMenuIds(page.stream().map(Permission::getMenuId)
-                                                                          .collect(Collectors.toSet()));
+                .collect(Collectors.toSet()));
         Map<String, String> menuMap = menuList.stream().collect(Collectors.toMap(Menu::getMenuId, Menu::getMenuName));
         return page.map(permission -> build(permission, menuMap));
     }
@@ -114,27 +116,28 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
         PermissionVo permissionVo = new PermissionVo();
         if (Objects.nonNull(permission)) {
             BeanUtils.copyProperties(permission, permissionVo);
-            List<Resource> resourceList = resourceDomainQueryService.getResourceByPermissionId(permissionId);
-            if (CollectionUtils.isNotEmpty(resourceList)) {
-                List<PermissionResourceVo> resourceVos = resourceList.stream().map(resource -> {
-                    PermissionResourceVo permissionResourceVo = new PermissionResourceVo();
-                    BeanUtils.copyProperties(resource, permissionResourceVo);
-                    return permissionResourceVo;
-                }).toList();
-                permissionVo.setPermissionResourceList(resourceVos);
-
-            }
-            List<Role> roleList = roleDomainQueryService.getRoleByPermissionId(permissionId);
-            if (CollectionUtils.isNotEmpty(roleList)) {
-                List<PermissionRoleVo> roleVoList = roleList.stream().map(role -> {
-                    PermissionRoleVo permissionRoleVo = new PermissionRoleVo();
-                    BeanUtils.copyProperties(role, permissionRoleVo);
-                    return permissionRoleVo;
-                }).toList();
-                permissionVo.setPermissionRoleVoList(roleVoList);
-            }
+            permissionVo.setPermissionResourceList(findPermissionResource(permissionId));
         }
         return permissionVo;
+    }
+
+    @Override
+    public List<PermissionResourceVo> findPermissionResource(String permissionId) {
+        List<Resource> resourceList = resourceDomainQueryService.getResourceByPermissionId(permissionId);
+        if (CollectionUtils.isEmpty(resourceList)) {
+            return Collections.emptyList();
+        }
+        return resourceList.stream().map(resource -> {
+            PermissionResourceVo permissionResourceVo = new PermissionResourceVo();
+            BeanUtils.copyProperties(resource, permissionResourceVo);
+            return permissionResourceVo;
+        }).toList();
+    }
+
+    @Override
+    public Page<PermissionRoleVo> findPermissionRoles(PermissionRoleQueryDto queryDto) {
+        Page<Role> roleList = roleDomainQueryService.getRoleByPermissionId(queryDto.getPermissionId(), queryDto.toJpaPage());
+        return JpaPageConverter.convert(roleList, PermissionRoleVo::of);
     }
 
     /**
@@ -146,7 +149,6 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
     @Override
     public List<PermissionCheckBoxVo> getPermissionCheckBox(PermissionCheckBoxDto checkBoxDto) {
 
-
         List<Permission> permissions = permissionDomainQueryService.getPermissionByMenuId(checkBoxDto.getMenuIdList());
         if (CollectionUtils.isEmpty(permissions)) {
             return List.of();
@@ -156,7 +158,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
         List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(Collections.singleton(checkBoxDto.getRoleId()));
         if (CollectionUtils.isNotEmpty(permissionList)) {
             checkedPermissionIdSet = permissionList.stream().map(Permission::getPermissionId)
-                                                   .collect(Collectors.toSet());
+                    .collect(Collectors.toSet());
         }
 
         List<Menu> menuList = menuDomainQueryService.getMenuByMenuIds(checkBoxDto.getMenuIdList());
@@ -165,8 +167,9 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
         }
 
         Map<String, List<Permission>> permissionMap = permissions.stream()
-                                                                 .collect(Collectors.groupingBy(Permission::getMenuId));
-        return buildPermissionCheckBoxVo(checkedPermissionIdSet, menuList, permissionMap);
+                .collect(Collectors.groupingBy(Permission::getMenuId));
+        List<PermissionCheckBoxVo> voList = buildPermissionCheckBoxVo(checkedPermissionIdSet, menuList, permissionMap);
+        return voList.stream().filter(permissionCheckBoxVo -> CollectionUtils.isNotEmpty(permissionCheckBoxVo.getPermissions())).toList();
     }
 
     private List<PermissionCheckBoxVo> buildPermissionCheckBoxVo(

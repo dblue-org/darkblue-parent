@@ -81,12 +81,4 @@ public class RoleVo {
     private List<RoleMenuVo> roleMenuVoList;
 
 
-    /**
-     * 用户信息
-     */
-    @Schema(description = "用户信息")
-    private List<RoleUserVo> roleUserVoList;
-
-
-
 }

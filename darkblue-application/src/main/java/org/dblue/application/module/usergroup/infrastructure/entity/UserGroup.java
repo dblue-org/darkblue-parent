@@ -58,6 +58,12 @@ public class UserGroup extends AbstractAuditingEntity {
     @Column(name = "is_enable")
     private Boolean isEnable;
 
+    /**
+     * 显示顺序
+     */
+    @Column(name = "sort_num")
+    private Integer sortNum;
+
     @OneToMany(mappedBy = "userGroupId")
     private List<UserGroupRole> userGroupRoleList;
 

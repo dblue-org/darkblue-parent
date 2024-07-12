@@ -18,6 +18,8 @@ package org.dblue.application.module.role.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.user.infrastructure.entity.User;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 用户
@@ -60,6 +62,18 @@ public class RoleUserVo {
     @Schema(description = "所属部门名称")
     private String deptName;
 
+    /**
+     * 职务ID
+     */
+    @Schema(description = "职务ID")
+    private String positionId;
+
+    /**
+     * 职务名称
+     */
+    @Schema(description = "职务名称")
+    private String positionName;
+
 
     /**
      * 手机号
@@ -74,4 +88,9 @@ public class RoleUserVo {
     @Schema(description = "是否可用")
     private Boolean isEnable;
 
+    public static RoleUserVo of(User user) {
+        RoleUserVo vo = new RoleUserVo();
+        BeanUtils.copyProperties(user, vo);
+        return vo;
+    }
 }

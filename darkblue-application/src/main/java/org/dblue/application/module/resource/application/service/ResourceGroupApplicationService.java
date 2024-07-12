@@ -30,7 +30,9 @@ public interface ResourceGroupApplicationService {
 
     /**
      * 获取全部资源组信息
+     *
+     * @param platform 适用平台(1-PC；2-APP)
      * @return 资源组信息
      */
-    List<ResourceGroupVo> getAll();
+    List<ResourceGroupVo> getAll(Integer platform);
 }

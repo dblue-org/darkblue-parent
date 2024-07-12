@@ -51,4 +51,15 @@ public class ResourceGroup extends AbstractAuditingEntity {
     @Column(name = "group_name", length = 64)
     private String groupName;
 
+    /**
+     * 适用平台(1-PC；2-APP)
+     */
+    @Column(name = "platform")
+    private Integer platform;
+
+    /**
+     * 显示顺序
+     */
+    @Column(name = "sort_num")
+    private Integer sortNum;
 }

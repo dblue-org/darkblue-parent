@@ -17,7 +17,9 @@
 package org.dblue.application.module.role.application.service;
 
 import org.dblue.application.module.role.application.dto.RolePageDto;
+import org.dblue.application.module.role.application.dto.RoleUserQueryDto;
 import org.dblue.application.module.role.application.vo.RolePageVo;
+import org.dblue.application.module.role.application.vo.RoleUserVo;
 import org.dblue.application.module.role.application.vo.RoleVo;
 import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 import org.springframework.data.domain.Page;
@@ -54,6 +56,14 @@ public interface RoleApplicationService {
      */
     RoleVo getOne(String roleId);
 
+
+    /**
+     * 分页查询角色关联的用户
+     *
+     * @param queryDto 查询条件
+     * @return 用户列表
+     */
+    Page<RoleUserVo> findRefUsers(RoleUserQueryDto queryDto);
 
     /**
      * 获取全部角色信息

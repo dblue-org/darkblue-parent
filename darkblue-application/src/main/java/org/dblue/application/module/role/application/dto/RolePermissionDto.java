@@ -49,6 +49,6 @@ public class RolePermissionDto {
      * 权限信息
      */
     @Schema(description = "权限信息")
-    private List<String> permissionList;
+    private List<String> permissionIdList;
 
 }

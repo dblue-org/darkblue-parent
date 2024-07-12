@@ -16,13 +16,15 @@
 package org.dblue.application.commons.db.jpa;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.common.exception.ServiceException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QPageRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +38,7 @@ public abstract class AbstractBaseJpaQuery<T, I> implements BaseJpaQuery<T> {
 
     protected final BaseJpaRepository<T, I> executor;
     protected BooleanBuilder queryBuilder = new BooleanBuilder();
+    protected List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
 
     protected AbstractBaseJpaQuery(BaseJpaRepository<T, I> executor) {
         this.executor = executor;
@@ -46,20 +49,31 @@ public abstract class AbstractBaseJpaQuery<T, I> implements BaseJpaQuery<T> {
     public List<T> list() {
         Predicate predicate = queryBuilder.getValue();
         if (predicate == null) {
-            return this.executor.findAll();
+            return this.executor.findAll(orderSpecifiers.toArray(OrderSpecifier[]::new));
         } else {
-            return this.executor.findAll(predicate);
+            return this.executor.findAll(predicate, orderSpecifiers.toArray(OrderSpecifier[]::new));
         }
     }
 
     @Override
     public Page<T> page(int page, int pageSize) {
         Predicate predicate = queryBuilder.getValue();
-        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Pageable pageable = QPageRequest.of(page - 1, pageSize, orderSpecifiers.toArray(OrderSpecifier[]::new));
         if (predicate == null) {
             return this.executor.findAll(pageable);
         } else {
             return this.executor.findAll(predicate, pageable);
+        }
+    }
+
+    @Override
+    public Page<T> page(Pageable pageable) {
+        Predicate predicate = queryBuilder.getValue();
+        Pageable newPageable = QPageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), orderSpecifiers.toArray(OrderSpecifier[]::new));
+        if (predicate == null) {
+            return this.executor.findAll(newPageable);
+        } else {
+            return this.executor.findAll(predicate, newPageable);
         }
     }
 
@@ -70,6 +84,16 @@ public abstract class AbstractBaseJpaQuery<T, I> implements BaseJpaQuery<T> {
             throw new ServiceException("查询单条数据时必须有条件");
         } else {
             return this.executor.findOne(predicate);
+        }
+    }
+
+    @Override
+    public long count() {
+        Predicate predicate = queryBuilder.getValue();
+        if (predicate == null) {
+            return this.executor.count();
+        } else {
+            return this.executor.count(predicate);
         }
     }
 }

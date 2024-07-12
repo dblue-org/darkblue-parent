@@ -99,6 +99,9 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
         if (Objects.nonNull(pageDto.getIsAuthedAccess())) {
             builder.and(QResource.resource.isAuthedAccess.eq(pageDto.getIsAuthedAccess()));
         }
+        if (pageDto.getPlatform() != null) {
+            builder.and(QResource.resource.platform.eq(pageDto.getPlatform()));
+        }
         return page(builder, pageable);
     }
 

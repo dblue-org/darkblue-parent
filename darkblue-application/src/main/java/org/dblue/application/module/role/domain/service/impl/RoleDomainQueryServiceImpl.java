@@ -19,10 +19,14 @@ package org.dblue.application.module.role.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
+import org.dblue.application.module.role.errors.RoleErrors;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.dblue.application.module.role.infrastructure.repository.RoleRepository;
+import org.dblue.common.exception.ServiceException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -63,13 +67,14 @@ public class RoleDomainQueryServiceImpl implements RoleDomainQueryService {
      * @param roleId 角色ID
      * @return 角色
      */
+    @NonNull
     @Override
     public Role getOne(String roleId) {
-        if (StringUtils.isBlank(roleId)) {
-            return null;
-        }
         Optional<Role> optional = roleRepository.findById(roleId);
-        return optional.orElse(null);
+        if (optional.isEmpty()) {
+            throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
+        }
+        return optional.get();
     }
 
     /**
@@ -79,12 +84,8 @@ public class RoleDomainQueryServiceImpl implements RoleDomainQueryService {
      * @return 角色
      */
     @Override
-    public List<Role> getRoleByPermissionId(String permissionId) {
-
-        if (StringUtils.isBlank(permissionId)) {
-            return List.of();
-        }
-        return roleRepository.getRoleByPermissionId(permissionId);
+    public Page<Role> getRoleByPermissionId(String permissionId, Pageable pageable) {
+        return roleRepository.getRoleByPermissionId(permissionId, pageable);
     }
 
     /**

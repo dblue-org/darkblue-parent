@@ -19,12 +19,12 @@ package org.dblue.application.module.menu.application.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.enums.MenuTypeEnum;
 import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.application.service.MenuApplicationService;
 import org.dblue.application.module.menu.application.vo.MenuCheckBoxTreeVo;
 import org.dblue.application.module.menu.application.vo.MenuTreeVo;
+import org.dblue.application.module.menu.application.vo.RoleMenuVo;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.domain.service.MenuDomainService;
 import org.dblue.application.module.menu.errors.MenuErrors;
@@ -110,24 +110,31 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
      * @return 菜单多选框树
      */
     @Override
-    public List<MenuCheckBoxTreeVo> getMenuCheckBoxTree(String roleId) {
-        if (StringUtils.isBlank(roleId)) {
-            return List.of();
-        }
-        List<Menu> menuList = menuDomainQueryService.findAllMenus();
-        if (CollectionUtils.isEmpty(menuList)) {
-            return List.of();
-        }
+    public RoleMenuVo getMenuCheckBoxTree(String roleId) {
+
+        List<Menu> pcMenuList = menuDomainQueryService.findAllMenus(PlatformEnum.PC);
+        List<Menu> appMenuList = menuDomainQueryService.findAllMenus(PlatformEnum.APP);
+
         Set<String> menuIdSet = HashSet.newHashSet(12);
         List<Menu> roleMenus = menuDomainQueryService.getMenuByRoleIds(Set.of(roleId));
         if (CollectionUtils.isNotEmpty(roleMenus)) {
             menuIdSet = roleMenus.stream().map(Menu::getMenuId).collect(Collectors.toSet());
         }
-        List<Menu> roots = menuList.stream().filter(o -> Objects.equals(o.getLevel(), 1))
-                                   .toList();
-        Map<String, List<Menu>> chilerenMap = menuList.stream().filter(o -> !Objects.equals(o.getLevel(), 1))
-                                                      .collect(Collectors.groupingBy(Menu::getParentId));
-        return buildMenuCheckBoxTree(roots, chilerenMap, menuIdSet);
+
+        List<Menu> pcRoots = pcMenuList.stream().filter(o -> Objects.equals(o.getLevel(), 1)).toList();
+        List<Menu> appRoots = appMenuList.stream().filter(o -> Objects.equals(o.getLevel(), 1)).toList();
+
+        Map<String, List<Menu>> pcChilerenMap = pcMenuList.stream()
+                .filter(o -> !Objects.equals(o.getLevel(), 1))
+                .collect(Collectors.groupingBy(Menu::getParentId));
+        Map<String, List<Menu>> appChilerenMap = appMenuList.stream()
+                .filter(o -> !Objects.equals(o.getLevel(), 1))
+                .collect(Collectors.groupingBy(Menu::getParentId));
+
+        RoleMenuVo roleMenuVo = new RoleMenuVo();
+        roleMenuVo.setPcMenus(this.buildMenuCheckBoxTree(pcRoots, pcChilerenMap, menuIdSet));
+        roleMenuVo.setAppMenus(this.buildMenuCheckBoxTree(appRoots, appChilerenMap, menuIdSet));
+        return roleMenuVo;
     }
 
     private void deleteCheck(String menuId, Menu menu) {
@@ -148,7 +155,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
 
         List<MenuTreeVo> menuTreeVoList = menuList.stream().map(this::build).toList();
         List<MenuTreeVo> roots = menuTreeVoList.stream().filter(o -> Objects.equals(o.getLevel(), 1))
-                                               .toList();
+                .toList();
         for (MenuTreeVo root : roots) {
             this.setChildren(root, menuTreeVoList);
         }
@@ -190,6 +197,8 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
                         menuCheckBoxTreeVo.setChecked(Boolean.TRUE);
                     }
                 }
+            } else {
+                menuCheckBoxTreeVo.setChecked(menuIdSet.contains(menu.getMenuId()));
             }
             menuCheckBoxTreeVoList.add(menuCheckBoxTreeVo);
 

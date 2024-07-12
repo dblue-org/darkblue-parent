@@ -40,4 +40,15 @@ public class ResourceGroupVo  {
     @Schema(description = "资源组名称")
     private String groupName;
 
+    /**
+     * 适用平台(1-PC；2-APP)
+     */
+    @Schema(description = "适用平台(1-PC；2-APP)")
+    private Integer platform;
+
+    /**
+     * 排序字段
+     */
+    @Schema(description = "排序字段")
+    private Integer sortNum;
 }

@@ -46,6 +46,15 @@ public interface UserGroupRoleRepository extends JpaRepository<UserGroupRole, St
      */
     void deleteByUserGroupId(@NonNull String userGroupId);
 
+    /**
+     * 获取用户组和角色关联
+     *
+     * @param userGroupId 用户组ID
+     * @param roleId      角色ID
+     * @return 关联关系
+     */
+    UserGroupRole findOneByUserGroupIdAndRoleId(@NonNull String userGroupId, @NonNull String roleId);
+
 
     /**
      * 根据角色ID查询

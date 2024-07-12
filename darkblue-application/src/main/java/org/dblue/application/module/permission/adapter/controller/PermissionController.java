@@ -24,12 +24,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.permission.application.dto.*;
 import org.dblue.application.module.permission.application.service.PermissionApplicationService;
-import org.dblue.application.module.permission.application.vo.PermissionCheckBoxVo;
-import org.dblue.application.module.permission.application.vo.PermissionPageVo;
-import org.dblue.application.module.permission.application.vo.PermissionVo;
+import org.dblue.application.module.permission.application.vo.*;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -127,6 +126,32 @@ public class PermissionController {
     }
 
     /**
+     * 获取权限资源信息
+     *
+     * @param permissionId 权限ID
+     * @return 权限资源信息
+     */
+    @Operation(summary = "获取权限资源信息")
+    @GetMapping("/findPermissionResource/{permissionId}")
+    public ResponseBean<List<PermissionResourceVo>> findPermissionResource(@PathVariable String permissionId) {
+        List<PermissionResourceVo> voList = this.permissionApplicationService.findPermissionResource(permissionId);
+        return ResponseBean.success(voList);
+    }
+
+    /**
+     * 获取权限关联的角色
+     *
+     * @param queryDto 分页查询参数
+     * @return 权限资源信息
+     */
+    @Operation(summary = "获取权限关联的角色")
+    @GetMapping("/findPermissionRoles")
+    public PageResponseBean<PermissionRoleVo> findPermissionRoles(PermissionRoleQueryDto queryDto) {
+        Page<PermissionRoleVo> voPage = this.permissionApplicationService.findPermissionRoles(queryDto);
+        return PageResponseBean.success(voPage);
+    }
+
+    /**
      * 获取权限信息并标记是否选中
      *
      * @param checkBoxDto 查询信息
@@ -135,8 +160,7 @@ public class PermissionController {
     @Parameter(name = "checkBoxDto", description = "查询信息", in = ParameterIn.QUERY, required = true)
     @Operation(summary = "获取权限信息并标记是否选中", description = "获取权限信息并标记是否选中")
     @GetMapping("/getPermissionCheckBox")
-    public ResponseBean<List<PermissionCheckBoxVo>> getPermissionCheckBox(
-            @Valid @RequestParam PermissionCheckBoxDto checkBoxDto) {
+    public ResponseBean<List<PermissionCheckBoxVo>> getPermissionCheckBox(@Valid PermissionCheckBoxDto checkBoxDto) {
         return ResponseBean.success(permissionApplicationService.getPermissionCheckBox(checkBoxDto));
     }
 }

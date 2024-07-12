@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.commons.db.jpa.Conditions;
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
@@ -64,7 +65,12 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
      */
     @Override
     public Page<Permission> findByPage(PermissionPageDto query) {
-        return permissionRepository.findByMenuIdAndPermissionCodeAndPermissionName(query.getMenuId(), query.getPermissionCode(), query.getPermissionName(), query.toJpaPage());
+        return this.permissionRepository.createQuery()
+                .menuId(query.getMenuId(), Conditions::isNotEmpty)
+                .platform(query.getPlatform())
+                .permissionCodeLike(query.getPermissionCode())
+                .permissionNameLike(query.getPermissionName())
+                .page(query.toJpaPage());
     }
 
     /**

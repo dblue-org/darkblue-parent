@@ -17,8 +17,11 @@
 package org.dblue.application.module.permission.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dblue.application.commons.enums.PlatformEnum;
+import org.dblue.common.validation.annotation.EnumValues;
 
 /**
  * 权限添加
@@ -29,8 +32,15 @@ import lombok.EqualsAndHashCode;
 @Schema(description = "权限添加")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class PermissionAddDto extends PermissionBaseDto{
+public class PermissionAddDto extends PermissionBaseDto {
 
 
+    /**
+     * 适用平台(1-PC；2-APP)从菜单代入
+     */
+    @Schema(description = "适用平台(1-PC；2-APP)从菜单代入")
+    @NotNull(message = "适用平台不能为空")
+    @EnumValues(message = "适用平台字段不正确", clazz = PlatformEnum.class)
+    private Integer platform;
 
 }

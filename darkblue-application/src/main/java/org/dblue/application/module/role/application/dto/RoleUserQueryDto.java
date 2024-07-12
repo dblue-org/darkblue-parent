@@ -13,32 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.role.application.dto;
 
-package org.dblue.application.module.resource.application.dto;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dblue.application.module.role.application.vo.RoleUserVo;
+import org.dblue.core.web.param.PageParamImpl;
+import org.springdoc.core.annotations.ParameterObject;
 
 /**
- * 资源更新
+ * 角色关联的用户查询
  *
- * @author xie jin
- * @since 1.0.0  2024-07-02 17:27:58
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@Schema(description = "资源更新")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
+@ParameterObject
 @Data
-public class ResourceUpdateDto extends ResourceDto {
+public class RoleUserQueryDto extends PageParamImpl<RoleUserVo> {
 
     /**
-     * 资源ID
+     * 角色ID
      */
-    @Size(max = 64)
-    @NotBlank(message = "资源ID不能为空")
-    private String resourceId;
-
-
+    @Parameter(description = "角色ID")
+    private String roleId;
 }

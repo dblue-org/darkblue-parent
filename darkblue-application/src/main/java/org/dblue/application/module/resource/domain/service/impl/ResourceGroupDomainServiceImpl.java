@@ -111,7 +111,10 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
      * @return 资源组信息
      */
     @Override
-    public List<ResourceGroup> getAll() {
-        return resourceGroupRepository.findAll();
+    public List<ResourceGroup> getAll(Integer platform) {
+        return resourceGroupRepository.createQuery()
+                .platform(platform)
+                .orderBySortNum()
+                .list();
     }
 }

@@ -21,12 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.commons.enums.MenuTypeEnum;
 import org.dblue.application.module.department.domain.service.DepartmentDomainQueryService;
-import org.dblue.application.module.department.infrastructure.entity.Department;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.application.module.position.domain.service.PositionDomainService;
 import org.dblue.application.module.role.application.dto.RolePageDto;
+import org.dblue.application.module.role.application.dto.RoleUserQueryDto;
 import org.dblue.application.module.role.application.service.RoleApplicationService;
 import org.dblue.application.module.role.application.vo.*;
 import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
@@ -39,6 +40,7 @@ import org.dblue.application.module.user.domain.service.UserRoleDomainService;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainService;
 import org.dblue.common.exception.ServiceException;
+import org.dblue.core.jpa.JpaPageConverter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -67,6 +69,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
     private final UserDomainQueryService userDomainQueryService;
     private final DepartmentDomainQueryService departmentDomainQueryService;
     private final UserGroupDomainService userGroupDomainService;
+    private final PositionDomainService positionDomainService;
 
     /**
      * 角色删除
@@ -97,8 +100,8 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
             return Page.empty();
         }
         Map<String, Long> userRoleNumMap = userRoleDomainService.getUserRoleNum(page.getContent().stream()
-                                                                                    .map(Role::getRoleId)
-                                                                                    .collect(Collectors.toSet()));
+                .map(Role::getRoleId)
+                .collect(Collectors.toSet()));
 
         return page.map(role -> {
             RolePageVo rolePageVo = new RolePageVo();
@@ -118,34 +121,45 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
     public RoleVo getOne(String roleId) {
         Role role = roleDomainQueryService.getOne(roleId);
         RoleVo roleVo = new RoleVo();
-        if (Objects.nonNull(role)) {
-            BeanUtils.copyProperties(role, roleVo);
-            List<Menu> menuList = menuDomainQueryService.getMenuByRoleIds(Set.of(roleId));
-            List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(Set.of(roleId));
-            Map<String, List<Permission>> permissionMap = permissionList.stream()
-                                                                        .collect(Collectors.groupingBy(Permission::getMenuId));
-            Map<String, List<Menu>> childrenMap = menuList.stream()
-                                                          .filter(menu -> !Objects.equals(menu.getLevel(), 1))
-                                                          .collect(Collectors.groupingBy(Menu::getParentId));
+        BeanUtils.copyProperties(role, roleVo);
+        List<Menu> menuList = menuDomainQueryService.getMenuByRoleIds(Set.of(roleId));
+        List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(Set.of(roleId));
+        Map<String, List<Permission>> permissionMap = permissionList.stream()
+                .collect(Collectors.groupingBy(Permission::getMenuId));
+        Map<String, List<Menu>> childrenMap = menuList.stream()
+                .filter(menu -> !Objects.equals(menu.getLevel(), 1))
+                .collect(Collectors.groupingBy(Menu::getParentId));
 
-            List<Menu> rootMenuList = menuList.stream().filter(menu -> Objects.equals(menu.getLevel(), 1))
-                                              .toList();
+        List<Menu> rootMenuList = menuList.stream().filter(menu -> Objects.equals(menu.getLevel(), 1))
+                .toList();
 
+        roleVo.setRoleMenuVoList(buildMenu(rootMenuList, childrenMap, permissionMap));
 
-            roleVo.setRoleMenuVoList(buildMenu(rootMenuList, childrenMap, permissionMap));
-            List<User> userList = userDomainQueryService.getUserByRoleId(roleId);
-            if (CollectionUtils.isNotEmpty(userList)) {
-                List<RoleUserVo> userVos = userList.stream().map(user -> {
-                    RoleUserVo roleUserVo = new RoleUserVo();
-                    BeanUtils.copyProperties(user, roleUserVo);
-                    Department department = departmentDomainQueryService.getOne(user.getDeptId());
-                    roleUserVo.setDeptName(department.getDeptName());
-                    return roleUserVo;
-                }).toList();
-                roleVo.setRoleUserVoList(userVos);
-            }
-        }
         return roleVo;
+    }
+
+    @Override
+    public Page<RoleUserVo> findRefUsers(RoleUserQueryDto queryDto) {
+        Page<User> userList = userDomainQueryService.getUserByRoleId(queryDto.getRoleId(), queryDto.toJpaPage());
+        if (userList.isEmpty()) {
+            return Page.empty();
+        }
+
+        Set<String> deptIdSet = userList.stream().map(User::getDeptId).collect(Collectors.toSet());
+        Set<String> positionIdSet = userList.stream().map(User::getPositionId).collect(Collectors.toSet());
+
+        Map<String, String> deptNameMap = departmentDomainQueryService.
+                createQuery().deptIdIn(deptIdSet).nameMap();
+
+        Map<String, String> positionNameMap = this.positionDomainService.createQuery()
+                .positionIdIn(positionIdSet).nameMap();
+
+        return JpaPageConverter.convert(userList, user -> {
+            RoleUserVo roleUserVo = RoleUserVo.of(user);
+            roleUserVo.setDeptName(deptNameMap.get(user.getDeptId()));
+            roleUserVo.setPositionName(positionNameMap.get(user.getDeptId()));
+            return roleUserVo;
+        });
     }
 
     /**
@@ -173,7 +187,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
             if (MenuTypeEnum.MENU.equalsTo(menu.getMenuType())) {
                 List<Permission> permissionList = permissionMap.get(menu.getMenuId());
                 if (CollectionUtils.isNotEmpty(permissionList)) {
-                    roleMenuVo.setPermissionVoList(permissionList.stream().map(permission -> {
+                    roleMenuVo.setPermissions(permissionList.stream().map(permission -> {
                         RolePermissionVo rolePermissionVo = new RolePermissionVo();
                         BeanUtils.copyProperties(permission, rolePermissionVo);
                         return rolePermissionVo;

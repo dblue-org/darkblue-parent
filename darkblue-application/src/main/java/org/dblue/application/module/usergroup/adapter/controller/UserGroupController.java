@@ -114,13 +114,17 @@ public class UserGroupController {
     /**
      * 用户组角色删除
      *
-     * @param userGroupRoleId 用户组角色Id
+     * @param userGroupId 用户组Id
+     * @param roleId 角色Id
      */
-    @Parameter(name = "userGroupRoleId", description = "用户组角色Id", in = ParameterIn.PATH, required = true)
+    @Parameter(name = "userGroupId", description = "用户组Id", in = ParameterIn.PATH, required = true)
+    @Parameter(name = "roleId", description = "角色Id", in = ParameterIn.PATH, required = true)
     @Operation(summary = "用户组角色删除", description = "用户组角色删除")
-    @DeleteMapping("/deleteRole/{userGroupRoleId}")
-    public ResponseBean<String> deleteRole(@PathVariable("userGroupRoleId") String userGroupRoleId) {
-        userGroupDomainService.deleteRole(userGroupRoleId);
+    @DeleteMapping("/deleteRoleRef/{userGroupId}/{roleId}")
+    public ResponseBean<String> deleteRole(
+            @PathVariable("userGroupId") String userGroupId,
+            @PathVariable("roleId") String roleId) {
+        userGroupDomainService.deleteRoleRef(userGroupId, roleId);
         return ResponseBean.success();
     }
 

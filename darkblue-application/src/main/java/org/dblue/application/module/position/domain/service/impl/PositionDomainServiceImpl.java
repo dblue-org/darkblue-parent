@@ -112,7 +112,7 @@ public class PositionDomainServiceImpl implements PositionDomainService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void enable(PositionEnableDto enableDto) {
+    public void toggleState(PositionEnableDto enableDto) {
         Optional<Position> optional = positionRepository.findById(enableDto.getPositionId());
         if (optional.isEmpty()) {
             throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
@@ -157,5 +157,10 @@ public class PositionDomainServiceImpl implements PositionDomainService {
                 .positionCodeLike(keyword)
                 .positionNameLike(keyword);
         return positionQuery.list();
+    }
+
+    @Override
+    public PositionQuery createQuery() {
+        return this.positionRepository.createQuery();
     }
 }

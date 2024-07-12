@@ -40,4 +40,11 @@ public class PermissionPageDto extends PageParamImpl<PermissionPageVo> {
      */
     @Parameter(description = "权限标识")
     private String permissionCode;
+
+
+    /**
+     * 适用平台(1-PC；2-APP)从菜单代入
+     */
+    @Parameter(description = "适用平台(1-PC；2-APP)从菜单代入")
+    private Integer platform;
 }

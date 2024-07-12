@@ -21,6 +21,7 @@ import org.dblue.application.module.position.application.dto.PositionEnableDto;
 import org.dblue.application.module.position.application.dto.PositionPageDto;
 import org.dblue.application.module.position.application.dto.PositionUpdateDto;
 import org.dblue.application.module.position.infrastructure.entity.Position;
+import org.dblue.application.module.position.infrastructure.query.PositionQuery;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public interface PositionDomainService {
      *
      * @param enableDto 启用禁用信息
      */
-    void enable(PositionEnableDto enableDto);
+    void toggleState(PositionEnableDto enableDto);
 
     /**
      * 职位单个查询
@@ -86,5 +87,13 @@ public interface PositionDomainService {
      * @return 职位列表
      */
     List<Position> findAll(String keyword);
+
+    /**
+     * 创建查询器
+     *
+     * @return 查询器
+     */
+    PositionQuery createQuery();
+
 
 }

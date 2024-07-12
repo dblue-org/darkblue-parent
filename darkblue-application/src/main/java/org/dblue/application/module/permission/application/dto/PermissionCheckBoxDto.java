@@ -16,6 +16,7 @@
 
 package org.dblue.application.module.permission.application.dto;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -36,12 +37,14 @@ public class PermissionCheckBoxDto {
     /**
      * 角色ID
      */
+    @Parameter(description = "角色ID")
     @NotBlank(message = "角色ID不能为空")
     private String roleId;
 
     /**
      * 菜单ID
      */
+    @Parameter(description = "菜单ID")
     @NotEmpty(message = "菜单ID不能为空")
     private Set<String> menuIdList;
 }

@@ -82,4 +82,12 @@ public class Role extends AbstractAuditingEntity {
     @OneToMany(mappedBy = "roleId")
     private List<RolePermission> permissions;
 
+    public void enable() {
+        this.isEnable = true;
+    }
+
+    public void disable() {
+        this.isEnable = false;
+    }
+
 }

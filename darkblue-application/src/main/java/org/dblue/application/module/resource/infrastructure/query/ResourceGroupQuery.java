@@ -13,30 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.resource.infrastructure.query;
 
-package org.dblue.application.module.menu.application.dto;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.dblue.application.commons.db.jpa.BaseJpaQuery;
 import org.dblue.application.commons.enums.PlatformEnum;
-import org.dblue.common.validation.annotation.EnumValues;
+import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
 
 /**
- * 菜单添加
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@EqualsAndHashCode(callSuper = true)
-@Schema(description = "菜单")
-@Data
-public class MenuAddDto extends MenuDto{
+public interface ResourceGroupQuery extends BaseJpaQuery<ResourceGroup> {
 
+    ResourceGroupQuery platform(Integer platform);
 
-    /**
-     * 菜单适用平台(1-PC；2-APP)
-     */
-    @Schema(description = "菜单适用平台(1-PC；2-APP)")
-    @EnumValues(message = "适用平台不正确", clazz = PlatformEnum.class)
-    private Integer platform;
+    ResourceGroupQuery platform(PlatformEnum platform);
 
+    ResourceGroupQuery resourceGroupId(String resourceGroupId);
 
+    ResourceGroupQuery groupName(String groupName);
+
+    ResourceGroupQuery groupNameLike(String groupName);
+
+    ResourceGroupQuery orderBySortNum();
 }

@@ -98,7 +98,7 @@ public class PositionController {
     @Operation(summary = "启用禁用", description = "启用禁用")
     @PatchMapping("/enable")
     public ResponseBean<String> enable(@Valid @RequestBody PositionEnableDto enableDto) {
-        positionDomainService.enable(enableDto);
+        positionDomainService.toggleState(enableDto);
         return ResponseBean.success();
     }
 

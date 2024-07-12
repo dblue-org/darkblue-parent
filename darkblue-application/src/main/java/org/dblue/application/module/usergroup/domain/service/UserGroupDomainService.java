@@ -68,9 +68,10 @@ public interface UserGroupDomainService {
     /**
      * 用户组角色删除
      *
-     * @param userGroupRoleId 用户组角色Id
+     * @param userGroupId 用户组Id
+     * @param roleId 组角色Id
      */
-    void deleteRole(String userGroupRoleId);
+    void deleteRoleRef(String userGroupId, String roleId);
 
 
     /**

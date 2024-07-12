@@ -117,10 +117,10 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
      * @param roleId 角色ID
      * @return 用户
      */
-    default List<User> getUserByRoleId(String roleId) {
+    default Page<User> getUserByRoleId(String roleId, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(QUser.user.roles.any().roleId.eq(roleId));
-        return getList(builder);
+        return page(builder, pageable);
     }
 
 

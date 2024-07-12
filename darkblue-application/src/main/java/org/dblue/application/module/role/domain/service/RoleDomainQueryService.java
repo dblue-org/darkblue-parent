@@ -17,6 +17,8 @@
 package org.dblue.application.module.role.domain.service;
 
 import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Set;
@@ -48,9 +50,10 @@ public interface RoleDomainQueryService {
      * 根据权限ID获取角色信息
      *
      * @param permissionId 权限ID
+     * @param pageable 分页参数
      * @return 角色
      */
-    List<Role> getRoleByPermissionId(String permissionId);
+    Page<Role> getRoleByPermissionId(String permissionId, Pageable pageable);
 
     /**
      * 获取全部角色

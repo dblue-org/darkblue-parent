@@ -26,8 +26,8 @@ import org.dblue.application.module.menu.application.dto.MenuAddDto;
 import org.dblue.application.module.menu.application.dto.MenuEnableDto;
 import org.dblue.application.module.menu.application.dto.MenuUpdateDto;
 import org.dblue.application.module.menu.application.service.MenuApplicationService;
-import org.dblue.application.module.menu.application.vo.MenuCheckBoxTreeVo;
 import org.dblue.application.module.menu.application.vo.MenuTreeVo;
+import org.dblue.application.module.menu.application.vo.RoleMenuVo;
 import org.dblue.application.module.menu.domain.service.MenuDomainService;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
@@ -130,7 +130,7 @@ public class MenuController {
      */
     @Operation(summary = "根据角色ID获取菜单多选框树")
     @GetMapping("/getMenuCheckBoxTree")
-    public ResponseBean<List<MenuCheckBoxTreeVo>> getMenuCheckBoxTree(@RequestParam String roleId) {
+    public ResponseBean<RoleMenuVo> getMenuCheckBoxTree(@RequestParam String roleId) {
         return ResponseBean.success(menuApplicationService.getMenuCheckBoxTree(roleId));
     }
 }

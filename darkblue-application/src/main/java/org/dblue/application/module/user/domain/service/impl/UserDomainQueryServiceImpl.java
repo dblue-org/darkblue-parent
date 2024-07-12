@@ -25,6 +25,7 @@ import org.dblue.application.module.user.domain.service.UserDomainQueryService;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.dblue.application.module.user.infrastructure.repository.UserRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -88,11 +89,8 @@ public class UserDomainQueryServiceImpl implements UserDomainQueryService {
      * @return 用户
      */
     @Override
-    public List<User> getUserByRoleId(String roleId) {
-        if (StringUtils.isBlank(roleId)) {
-            return List.of();
-        }
-        return userRepository.getUserByRoleId(roleId);
+    public Page<User> getUserByRoleId(String roleId, Pageable pageable) {
+        return userRepository.getUserByRoleId(roleId, pageable);
 
     }
 

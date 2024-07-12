@@ -13,32 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.menu.application.vo;
 
-package org.dblue.application.module.resource.application.dto;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
- * 资源更新
- *
- * @author xie jin
- * @since 1.0.0  2024-07-02 17:27:58
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@Schema(description = "资源更新")
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class ResourceUpdateDto extends ResourceDto {
+public class RoleMenuVo {
 
     /**
-     * 资源ID
+     * PC菜单
      */
-    @Size(max = 64)
-    @NotBlank(message = "资源ID不能为空")
-    private String resourceId;
+    private List<MenuCheckBoxTreeVo> pcMenus;
 
-
+    /**
+     * APP菜单
+     */
+    private List<MenuCheckBoxTreeVo> appMenus;
 }

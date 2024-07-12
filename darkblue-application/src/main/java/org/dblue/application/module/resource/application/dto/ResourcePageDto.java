@@ -72,4 +72,11 @@ public class ResourcePageDto extends PageParamImpl<ResourcePageVo> {
     @Parameter(description = "是否登录即可访问")
     private Boolean isAuthedAccess;
 
+
+    /**
+     * 适用平台(1-PC；2-APP)
+     */
+    @Parameter(description = "适用平台(1-PC；2-APP)")
+    private Integer platform;
+
 }
