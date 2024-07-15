@@ -23,6 +23,7 @@ import org.dblue.application.module.user.infrastructure.entity.QUser;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -91,7 +92,8 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
         if (StringUtils.isNotBlank(pageDto.getPositionId())) {
             builder.and(QUser.user.positionId.eq(pageDto.getPositionId()));
         }
-        return page(builder, pageable);
+        QSort qSort = new QSort(QUser.user.createTime.desc());
+        return page(builder, pageable, qSort);
     }
 
 

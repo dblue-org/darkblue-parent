@@ -24,6 +24,7 @@ import org.dblue.application.module.resource.infrastructure.entity.QResource;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -102,7 +103,8 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
         if (pageDto.getPlatform() != null) {
             builder.and(QResource.resource.platform.eq(pageDto.getPlatform()));
         }
-        return page(builder, pageable);
+        QSort qSort = new QSort(QResource.resource.createTime.desc());
+        return page(builder, pageable, qSort);
     }
 
     /**

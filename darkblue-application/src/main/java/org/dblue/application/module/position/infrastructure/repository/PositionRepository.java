@@ -26,6 +26,7 @@ import org.dblue.application.module.position.infrastructure.query.PositionQuery;
 import org.dblue.application.module.position.infrastructure.query.impl.PositionQueryImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.lang.NonNull;
 
 import java.util.Optional;
@@ -90,7 +91,8 @@ public interface PositionRepository extends BaseJpaRepository<Position, String> 
             builder.and(QPosition.position.positionName.eq(pageDto.getPositionName()));
         }
         builder.and(QPosition.position.isDel.isFalse());
-        return page(builder, pageable);
+        QSort qSort = new QSort(QPosition.position.createTime.desc());
+        return page(builder, pageable, qSort);
     }
 
     /**

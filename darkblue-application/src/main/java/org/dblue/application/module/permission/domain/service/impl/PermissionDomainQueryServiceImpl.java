@@ -23,8 +23,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.db.jpa.Conditions;
 import org.dblue.application.module.permission.application.dto.PermissionPageDto;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
+import org.dblue.application.module.permission.errors.PermissionErrors;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
+import org.dblue.common.exception.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -83,10 +85,13 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
     @Override
     public Permission getOne(String permissionId) {
         if (StringUtils.isBlank(permissionId)) {
-            return null;
+            throw new ServiceException(PermissionErrors.PERMISSION_ID_IS_NOT_BLANK);
         }
         Optional<Permission> optional = permissionRepository.findById(permissionId);
-        return optional.orElse(null);
+        if (optional.isEmpty()) {
+            throw new ServiceException(PermissionErrors.PERMISSION_IS_NOT_FOUND);
+        }
+        return optional.get();
     }
 
 
