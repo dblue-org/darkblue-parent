@@ -23,6 +23,7 @@ import org.dblue.application.module.role.infrastructure.entiry.QRole;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -93,7 +94,8 @@ public interface RoleRepository extends BaseJpaRepository<Role, String> {
     default Page<Role> getRoleByPermissionId(String permissionId, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(QRole.role.permissions.any().permissionId.eq(permissionId));
-        return page(builder, pageable);
+        QSort qSort = new QSort(QRole.role.createTime.desc());
+        return page(builder, pageable, qSort);
     }
 
     /**

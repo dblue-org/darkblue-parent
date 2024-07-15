@@ -34,6 +34,7 @@ public enum PermissionErrors implements ErrorInfo {
     PERMISSION_EXITS("PERMISSION_0001", "授权标识已存在"),
     PERMISSION_IS_NOT_FOUND("PERMISSION_0002", "权限信息不存在"),
     PERMISSION_ROLE_EXITS("PERMISSION_0003", "角色和权限有关联关系"),
+    PERMISSION_ID_IS_NOT_BLANK("PERMISSION_0004", "权限ID不能为空"),
     ;
     private final String errorCode;
     private final String errorMessage;

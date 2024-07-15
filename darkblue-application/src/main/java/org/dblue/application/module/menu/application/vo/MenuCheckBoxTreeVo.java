@@ -65,6 +65,13 @@ public class MenuCheckBoxTreeVo {
     @Schema(description = "是否选中")
     private Boolean checked = false;
 
+
+    /**
+     * 显示顺序
+     */
+    private Integer sortNum;
+
+
     /**
      * 子节点
      */

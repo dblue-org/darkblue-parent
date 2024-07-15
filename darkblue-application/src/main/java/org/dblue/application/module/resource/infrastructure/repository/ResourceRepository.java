@@ -24,6 +24,7 @@ import org.dblue.application.module.resource.infrastructure.entity.QResource;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -85,16 +86,16 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
             builder.and(QResource.resource.resourceGroupId.eq(pageDto.getResourceGroupId()));
         }
         if (StringUtils.isNotBlank(pageDto.getResourceName())) {
-            builder.and(QResource.resource.resourceName.likeIgnoreCase(pageDto.getResourceName()));
+            builder.and(QResource.resource.resourceName.contains(pageDto.getResourceName()));
         }
         if (StringUtils.isNotBlank(pageDto.getResourceUrl())) {
-            builder.and(QResource.resource.resourceUrl.likeIgnoreCase(pageDto.getResourceUrl()));
+            builder.and(QResource.resource.resourceUrl.contains(pageDto.getResourceUrl()));
         }
         if (StringUtils.isNotBlank(pageDto.getController())) {
-            builder.and(QResource.resource.controller.likeIgnoreCase(pageDto.getController()));
+            builder.and(QResource.resource.controller.contains(pageDto.getController()));
         }
         if (StringUtils.isNotBlank(pageDto.getMethod())) {
-            builder.and(QResource.resource.method.likeIgnoreCase(pageDto.getMethod()));
+            builder.and(QResource.resource.method.contains(pageDto.getMethod()));
         }
         if (Objects.nonNull(pageDto.getIsAuthedAccess())) {
             builder.and(QResource.resource.isAuthedAccess.eq(pageDto.getIsAuthedAccess()));
@@ -102,7 +103,8 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
         if (pageDto.getPlatform() != null) {
             builder.and(QResource.resource.platform.eq(pageDto.getPlatform()));
         }
-        return page(builder, pageable);
+        QSort qSort = new QSort(QResource.resource.createTime.desc());
+        return page(builder, pageable, qSort);
     }
 
     /**

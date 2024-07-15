@@ -23,6 +23,7 @@ import org.dblue.application.module.user.infrastructure.entity.QUser;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -80,18 +81,19 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
             builder.and(QUser.user.deptId.eq(pageDto.getDeptId()));
         }
         if (StringUtils.isNotBlank(pageDto.getName())) {
-            builder.and(QUser.user.name.likeIgnoreCase(pageDto.getName()));
+            builder.and(QUser.user.name.contains(pageDto.getName()));
         }
         if (StringUtils.isNotBlank(pageDto.getUsername())) {
-            builder.and(QUser.user.username.likeIgnoreCase(pageDto.getUsername()));
+            builder.and(QUser.user.username.contains(pageDto.getUsername()));
         }
         if (StringUtils.isNotBlank(pageDto.getPhoneNumber())) {
-            builder.and(QUser.user.phoneNumber.likeIgnoreCase(pageDto.getPhoneNumber()));
+            builder.and(QUser.user.phoneNumber.contains(pageDto.getPhoneNumber()));
         }
         if (StringUtils.isNotBlank(pageDto.getPositionId())) {
             builder.and(QUser.user.positionId.eq(pageDto.getPositionId()));
         }
-        return page(builder, pageable);
+        QSort qSort = new QSort(QUser.user.createTime.desc());
+        return page(builder, pageable, qSort);
     }
 
 
@@ -106,7 +108,7 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
         builder.and(QUser.user.isDel.isFalse());
         builder.and(QUser.user.isEnable.isTrue());
         if (StringUtils.isNotBlank(name)) {
-            builder.and(QUser.user.name.likeIgnoreCase(name).or(QUser.user.username.likeIgnoreCase(name)));
+            builder.and(QUser.user.name.contains(name).or(QUser.user.username.contains(name)));
         }
         return getList(builder);
     }

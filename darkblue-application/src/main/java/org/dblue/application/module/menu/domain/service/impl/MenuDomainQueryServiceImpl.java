@@ -19,6 +19,7 @@ package org.dblue.application.module.menu.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.errors.MenuErrors;
@@ -53,6 +54,9 @@ public class MenuDomainQueryServiceImpl implements MenuDomainQueryService {
     @Override
     public Menu getOne(String menuId) {
 
+        if (StringUtils.isBlank(menuId)) {
+            throw new ServiceException(MenuErrors.MENU_ID_IS_NOT_BLANK);
+        }
         Optional<Menu> optional = menuRepository.findById(menuId);
         if (optional.isEmpty()) {
             throw new ServiceException(MenuErrors.MENU_IS_NOT_FOUND);

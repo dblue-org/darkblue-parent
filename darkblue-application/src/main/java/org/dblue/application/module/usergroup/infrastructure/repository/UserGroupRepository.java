@@ -24,6 +24,7 @@ import org.dblue.application.module.usergroup.infrastructure.entity.QUserGroup;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.lang.NonNull;
 
 import java.util.Optional;
@@ -66,8 +67,9 @@ public interface UserGroupRepository extends BaseJpaRepository<UserGroup, String
     default Page<UserGroup> page(UserGroupPageDto pageDto, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
         if (StringUtils.isNotBlank(pageDto.getUserGroupName())) {
-            builder.and(QUserGroup.userGroup.userGroupName.like("%" + pageDto.getUserGroupName() + "%"));
+            builder.and(QUserGroup.userGroup.userGroupName.contains(pageDto.getUserGroupName()));
         }
-        return page(builder, pageable);
+        QSort qSort = new QSort(QUserGroup.userGroup.sortNum.asc());
+        return page(builder, pageable, qSort);
     }
 }

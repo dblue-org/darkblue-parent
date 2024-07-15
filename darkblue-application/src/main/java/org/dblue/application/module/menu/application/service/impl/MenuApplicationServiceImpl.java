@@ -121,8 +121,10 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
             menuIdSet = roleMenus.stream().map(Menu::getMenuId).collect(Collectors.toSet());
         }
 
-        List<Menu> pcRoots = pcMenuList.stream().filter(o -> Objects.equals(o.getLevel(), 1)).toList();
-        List<Menu> appRoots = appMenuList.stream().filter(o -> Objects.equals(o.getLevel(), 1)).toList();
+        List<Menu> pcRoots = pcMenuList.stream().filter(o -> Objects.equals(o.getLevel(), 1))
+                                       .sorted(Comparator.comparing(Menu::getSortNum)).toList();
+        List<Menu> appRoots = appMenuList.stream().filter(o -> Objects.equals(o.getLevel(), 1))
+                                         .sorted(Comparator.comparing(Menu::getSortNum)).toList();
 
         Map<String, List<Menu>> pcChilerenMap = pcMenuList.stream()
                 .filter(o -> !Objects.equals(o.getLevel(), 1))
@@ -155,6 +157,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
 
         List<MenuTreeVo> menuTreeVoList = menuList.stream().map(this::build).toList();
         List<MenuTreeVo> roots = menuTreeVoList.stream().filter(o -> Objects.equals(o.getLevel(), 1))
+                                               .sorted(Comparator.comparing(MenuTreeVo::getSortNum))
                 .toList();
         for (MenuTreeVo root : roots) {
             this.setChildren(root, menuTreeVoList);
@@ -172,6 +175,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
                 }
             }
         }
+        children.sort(Comparator.comparing(MenuTreeVo::getSortNum));
         menuTreeVo.setChildren(children);
     }
 
@@ -203,6 +207,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
             menuCheckBoxTreeVoList.add(menuCheckBoxTreeVo);
 
         }
+        menuCheckBoxTreeVoList.sort(Comparator.comparing(MenuCheckBoxTreeVo::getSortNum));
         return menuCheckBoxTreeVoList;
     }
 }
