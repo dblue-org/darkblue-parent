@@ -85,6 +85,20 @@ public class MenuDomainServiceImpl implements MenuDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(MenuErrors.MENU_IS_NOT_FOUND);
         }
+        // 原来是菜单组，修改为菜单项
+        if (MenuTypeEnum.CATALOGUE.equalsTo(optional.get()
+                                                    .getMenuType()) && MenuTypeEnum.MENU.equalsTo(menuUpdateDto.getMenuType())) {
+            // 判定节点下面是否有子节点
+            boolean exists = menuRepository.existsByParentId(menuUpdateDto.getMenuId());
+            if (Boolean.TRUE.equals(exists)) {
+                throw new ServiceException(MenuErrors.NOT_CHANGE_HAS_SUB_MENUS);
+            }
+        }
+        // 原来是菜单项，修改为菜单组
+        if (MenuTypeEnum.MENU.equalsTo(optional.get()
+                                               .getMenuType()) && MenuTypeEnum.CATALOGUE.equalsTo(menuUpdateDto.getMenuType())) {
+            optional.get().setMenuUrl(null);
+        }
         Optional<Menu> optionalMenu = menuRepository.findByPlatformAndMenuNameAndMenuIdNot(optional.get().getPlatform(), menuUpdateDto.getMenuName(),
                 menuUpdateDto.getMenuId());
         if (optionalMenu.isPresent()) {

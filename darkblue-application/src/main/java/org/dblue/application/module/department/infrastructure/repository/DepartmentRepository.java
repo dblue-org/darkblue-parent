@@ -16,14 +16,17 @@
 
 package org.dblue.application.module.department.infrastructure.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.department.infrastructure.entity.Department;
+import org.dblue.application.module.department.infrastructure.entity.QDepartment;
 import org.dblue.application.module.department.infrastructure.query.DepartmentQuery;
 import org.dblue.application.module.department.infrastructure.query.DepartmentQueryImpl;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import java.util.Optional;
+
 /**
  * 组织
  *
@@ -33,27 +36,46 @@ import java.util.Optional;
 public interface DepartmentRepository extends BaseJpaRepository<Department, String> {
 
     /**
-     * 查询当前组织下是否有重复名称
+     * 查询组织下是否有重复名称
      *
      * @param parentId 上级组织ID
      * @param deptName 部门名称
      * @return 组织信息
      */
-    Optional<Department> findByParentIdAndDeptNameAndIsDelIsFalse(@Nullable String parentId, String deptName);
+    default Optional<Department> findByParentIdAndDeptNameAndIsDelIsFalse(String parentId, String deptName) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.isNotBlank(parentId)) {
+            builder.and(QDepartment.department.parentId.eq(parentId));
+        }
+        builder.and(QDepartment.department.deptName.eq(deptName));
+        builder.and(QDepartment.department.isDel.isFalse());
+        return getOne(builder);
+    }
 
 
     /**
      * 查询当前组织下是否有重复名称(更新查询使用)
+     *
      * @param parentId 上级组织ID
      * @param deptName 部门名称
-     * @param deptId 部门ID
+     * @param deptId   部门ID
      * @return 组织信息
      */
-    Optional<Department> findByParentIdAndDeptNameAndDeptIdNotAndIsDelFalse(
-            @Nullable String parentId, @NonNull String deptName, @NonNull String deptId);
+    default Optional<Department> findByParentIdAndDeptNameAndDeptIdNotAndIsDelFalse(
+            String parentId, @NonNull String deptName, @NonNull String deptId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.isNotBlank(parentId)) {
+            builder.and(QDepartment.department.parentId.eq(parentId));
+        }
+        builder.and(QDepartment.department.deptName.eq(deptName));
+        builder.and(QDepartment.department.deptId.eq(deptId));
+        builder.and(QDepartment.department.isDel.isFalse());
+        return getOne(builder);
+    }
 
     /**
      * 组织单个查询
+     *
      * @param deptId 部门ID
      * @return 组织信息
      */

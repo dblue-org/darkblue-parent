@@ -91,5 +91,13 @@ public interface MenuRepository extends BaseJpaRepository<Menu, String> {
      */
     List<Menu> findByIsEnableTrueAndIsVisibleTrueAndIsProductionVisibleTrue();
 
+    /**
+     * 判断是否存在子节点
+     *
+     * @param parentId 父节点ID
+     * @return 是否存在
+     */
+    boolean existsByParentId(@NonNull String parentId);
+
 
 }

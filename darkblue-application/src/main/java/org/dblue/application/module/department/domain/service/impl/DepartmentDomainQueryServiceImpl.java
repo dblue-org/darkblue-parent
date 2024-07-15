@@ -20,9 +20,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.department.domain.service.DepartmentDomainQueryService;
+import org.dblue.application.module.department.errors.DepartmentErrors;
 import org.dblue.application.module.department.infrastructure.entity.Department;
 import org.dblue.application.module.department.infrastructure.query.DepartmentQuery;
 import org.dblue.application.module.department.infrastructure.repository.DepartmentRepository;
+import org.dblue.common.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,10 +61,13 @@ public class DepartmentDomainQueryServiceImpl implements DepartmentDomainQuerySe
     @Override
     public Department getOne(String departmentId) {
         if(StringUtils.isBlank(departmentId)){
-            return null;
+            throw new ServiceException(DepartmentErrors.DEPARTMENT_ID_IS_NOT_BLANK);
         }
         Optional<Department> optional = departmentRepository.findById(departmentId);
-        return optional.orElse(null);
+        if (optional.isEmpty()) {
+            throw new ServiceException(DepartmentErrors.DEPARTMENT_IS_NOT_FOUND);
+        }
+        return optional.get();
     }
 
     @Override

@@ -33,6 +33,7 @@ public enum DepartmentErrors implements ErrorInfo {
      */
     DEPARTMENT_EXITS("DEPARTMENT_0001", "组织名称已存在"),
     DEPARTMENT_IS_NOT_FOUND("DEPARTMENT_0002", "组织名称不存在"),
+    DEPARTMENT_ID_IS_NOT_BLANK("DEPARTMENT_0003", "组织ID不能为空"),
 
 
     ;

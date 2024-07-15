@@ -41,6 +41,7 @@ public enum MenuErrors implements ErrorInfo {
     PARENT_MENU_NOT_EXIST("MENU_0008", "父菜单不存在"),
     NOT_ALLOW_TO_ADD_SUB_MENU("MENU_0009", "菜单项下不允许添加菜单项"),
     PLATFORM_MUST_SAME("MENU_0010", "子菜单和父菜单的适用平台必须保持一致"),
+    NOT_CHANGE_HAS_SUB_MENUS("MENU_0011", "此菜单下有子菜单，不允许修改为菜单类型"),
 
     ;
     private final String errorCode;

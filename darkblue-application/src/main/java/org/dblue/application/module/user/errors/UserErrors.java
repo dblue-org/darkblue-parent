@@ -30,7 +30,9 @@ public enum UserErrors implements ErrorInfo {
      *
      */
     USER_NOT_FOUND("USER_0001", "用户不存在"),
-    USERNAME_EXISTS("USER_0002", "用户名已存在");
+    USERNAME_EXISTS("USER_0002", "用户名已存在"),
+    USER_ID_IS_NOT_BLANK("USER_0003", "用户ID不能为空"),
+    ;
     private final String errorCode;
     private final String errorMessage;
 

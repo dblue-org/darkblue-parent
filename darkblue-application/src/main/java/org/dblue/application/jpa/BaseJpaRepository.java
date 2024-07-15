@@ -25,6 +25,7 @@ import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.data.querydsl.QSort;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 基础查询接口继承
@@ -76,5 +77,32 @@ public interface BaseJpaRepository<T, ID> extends JpaRepository<T, ID>, ListQuer
      */
     default List<T> getList(BooleanBuilder builder) {
         return this.findAll(builder);
+    }
+
+    /**
+     * 获取一个
+     *
+     * @param builder 查询参数
+     * @return 返回结果
+     */
+    default Optional<T> getOne(BooleanBuilder builder) {
+        if (builder.getValue() != null) {
+            return this.findOne(builder.getValue());
+        }
+        return Optional.empty();
+    }
+
+
+    /**
+     * 是否存在
+     *
+     * @param builder 查询参数
+     * @return 返回结果
+     */
+    default Boolean exists(BooleanBuilder builder) {
+        if (builder.getValue() != null) {
+            return this.exists(builder.getValue());
+        }
+        return Boolean.FALSE;
     }
 }

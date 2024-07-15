@@ -22,8 +22,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.user.application.dto.UserPageDto;
 import org.dblue.application.module.user.domain.service.UserDomainQueryService;
+import org.dblue.application.module.user.errors.UserErrors;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.dblue.application.module.user.infrastructure.repository.UserRepository;
+import org.dblue.common.exception.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -54,10 +56,13 @@ public class UserDomainQueryServiceImpl implements UserDomainQueryService {
     @Override
     public User getOne(String userId) {
         if (StringUtils.isBlank(userId)) {
-            return null;
+            throw new ServiceException(UserErrors.USER_ID_IS_NOT_BLANK);
         }
         Optional<User> optional = userRepository.findById(userId);
-        return optional.orElse(null);
+        if (optional.isEmpty()) {
+            throw new ServiceException(UserErrors.USER_NOT_FOUND);
+        }
+        return optional.get();
     }
 
     /**

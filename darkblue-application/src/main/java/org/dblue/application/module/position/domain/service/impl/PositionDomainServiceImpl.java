@@ -58,7 +58,7 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(PositionAddDto addDto) {
-        Optional<Position> optionalPosition = positionRepository.findByPositionCodeAndPositionNameAndIsDelFalse(addDto.getPositionCode(), addDto.getPositionName());
+        Optional<Position> optionalPosition = positionRepository.findByPositionCodeOrPositionNameAndIsDelFalse(addDto.getPositionCode(), addDto.getPositionName());
         if (optionalPosition.isPresent()) {
             throw new ServiceException(PositionErrors.POSITION_EXITS);
         }
@@ -81,7 +81,7 @@ public class PositionDomainServiceImpl implements PositionDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
         }
-        Optional<Position> optionalPosition = positionRepository.findByPositionCodeAndPositionNameAndPositionIdNotAndIsDelFalse(updateDto.getPositionCode(), updateDto.getPositionName(), updateDto.getPositionId());
+        Optional<Position> optionalPosition = positionRepository.findByPositionCodeOrPositionNameAndPositionIdNotAndIsDelFalse(updateDto.getPositionCode(), updateDto.getPositionName(), updateDto.getPositionId());
         if (optionalPosition.isPresent()) {
             throw new ServiceException(PositionErrors.POSITION_EXITS);
         }
@@ -134,10 +134,13 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Override
     public Position getOne(String positionId) {
         if (StringUtils.isBlank(positionId)) {
-            return null;
+            throw new ServiceException(PositionErrors.POSITION_ID_IS_NOT_BLANK);
         }
         Optional<Position> optional = this.positionRepository.createQuery().positionId(positionId).single();
-        return optional.orElse(null);
+        if (optional.isEmpty()) {
+            throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
+        }
+        return optional.get();
     }
 
     /**
@@ -154,8 +157,8 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Override
     public List<Position> findAll(String keyword) {
         PositionQuery positionQuery = this.positionRepository.createQuery()
-                .positionCodeLike(keyword)
-                .positionNameLike(keyword);
+                                                             .positionCodeLike(keyword)
+                                                             .positionNameLike(keyword);
         return positionQuery.list();
     }
 

@@ -45,8 +45,15 @@ public interface PositionRepository extends BaseJpaRepository<Position, String> 
      * @param positionName 职位名称
      * @return 职位
      */
-    Optional<Position> findByPositionCodeAndPositionNameAndIsDelFalse(
-            @NonNull String positionCode, @NonNull String positionName);
+    default Optional<Position> findByPositionCodeOrPositionNameAndIsDelFalse(
+            String positionCode, String positionName) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QPosition.position.positionCode.eq(positionCode)
+                                                   .or(QPosition.position.positionName.eq(positionName)));
+        builder.and(QPosition.position.isDel.isFalse());
+        return getOne(builder);
+
+    }
 
 
     /**
@@ -57,8 +64,15 @@ public interface PositionRepository extends BaseJpaRepository<Position, String> 
      * @param positionId   职位ID
      * @return 职位
      */
-    Optional<Position> findByPositionCodeAndPositionNameAndPositionIdNotAndIsDelFalse(
-            @NonNull String positionCode, @NonNull String positionName, @NonNull String positionId);
+    default Optional<Position> findByPositionCodeOrPositionNameAndPositionIdNotAndIsDelFalse(
+            @NonNull String positionCode, @NonNull String positionName, @NonNull String positionId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QPosition.position.positionCode.eq(positionCode)
+                                                   .or(QPosition.position.positionName.eq(positionName)));
+        builder.and(QPosition.position.positionId.ne(positionId));
+        builder.and(QPosition.position.isDel.isFalse());
+        return getOne(builder);
+    }
 
     /**
      * 分页查询
