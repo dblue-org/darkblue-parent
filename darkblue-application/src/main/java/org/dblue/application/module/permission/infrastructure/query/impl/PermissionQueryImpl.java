@@ -74,7 +74,7 @@ public class PermissionQueryImpl extends AbstractBaseJpaQuery<Permission, String
     @Override
     public PermissionQuery permissionName(String permissionName) {
         if (permissionName != null) {
-            this.queryBuilder.and(QPermission.permission.menuId.eq(permissionName));
+            this.queryBuilder.and(QPermission.permission.permissionName.eq(permissionName));
         }
         return this;
     }
@@ -82,7 +82,7 @@ public class PermissionQueryImpl extends AbstractBaseJpaQuery<Permission, String
     @Override
     public PermissionQuery permissionCode(String permissionCode) {
         if (permissionCode != null) {
-            this.queryBuilder.and(QPermission.permission.menuId.eq(permissionCode));
+            this.queryBuilder.and(QPermission.permission.permissionCode.eq(permissionCode));
         }
         return this;
     }
@@ -90,7 +90,7 @@ public class PermissionQueryImpl extends AbstractBaseJpaQuery<Permission, String
     @Override
     public PermissionQuery permissionNameLike(String permissionName) {
         if (permissionName != null) {
-            this.queryBuilder.and(QPermission.permission.menuId.like("%" + permissionName + "%"));
+            this.queryBuilder.and(QPermission.permission.permissionName.contains(permissionName));
         }
         return this;
     }
@@ -98,7 +98,7 @@ public class PermissionQueryImpl extends AbstractBaseJpaQuery<Permission, String
     @Override
     public PermissionQuery permissionCodeLike(String permissionCode) {
         if (permissionCode != null) {
-            this.queryBuilder.and(QPermission.permission.menuId.like("%" + permissionCode + "%"));
+            this.queryBuilder.and(QPermission.permission.permissionCode.contains(permissionCode));
         }
         return this;
     }

@@ -56,7 +56,7 @@ public class PositionQueryImpl extends AbstractBaseJpaQuery<Position, String> im
     @Override
     public PositionQuery positionCode(String positionCode) {
         if (StringUtils.isNotBlank(positionCode)) {
-            this.queryBuilder.and(QPosition.position.positionId.eq(positionCode));
+            this.queryBuilder.and(QPosition.position.positionCode.eq(positionCode));
         }
         return this;
     }
@@ -64,7 +64,7 @@ public class PositionQueryImpl extends AbstractBaseJpaQuery<Position, String> im
     @Override
     public PositionQuery positionCodeLike(String positionCode) {
         if (StringUtils.isNotBlank(positionCode)) {
-            this.queryBuilder.and(QPosition.position.positionId.like("%" + positionCode + "%"));
+            this.queryBuilder.and(QPosition.position.positionCode.contains(positionCode));
         }
         return this;
     }
@@ -72,7 +72,7 @@ public class PositionQueryImpl extends AbstractBaseJpaQuery<Position, String> im
     @Override
     public PositionQuery positionName(String positionName) {
         if (StringUtils.isNotBlank(positionName)) {
-            this.queryBuilder.and(QPosition.position.positionId.eq(positionName));
+            this.queryBuilder.and(QPosition.position.positionName.eq(positionName));
         }
         return this;
     }
@@ -80,13 +80,19 @@ public class PositionQueryImpl extends AbstractBaseJpaQuery<Position, String> im
     @Override
     public PositionQuery positionNameLike(String positionName) {
         if (StringUtils.isNotBlank(positionName)) {
-            this.queryBuilder.and(QPosition.position.positionId.like("%" + positionName + "%"));
+            this.queryBuilder.and(QPosition.position.positionName.like(positionName));
         }
         return this;
     }
 
     @Override
     public PositionQuery createTimeBetween(LocalDateTime start, LocalDateTime end) {
+        if (start != null) {
+            this.queryBuilder.and(QPosition.position.createTime.goe(start));
+        }
+        if (end != null) {
+            this.queryBuilder.and(QPosition.position.createTime.loe(end));
+        }
         return null;
     }
 
