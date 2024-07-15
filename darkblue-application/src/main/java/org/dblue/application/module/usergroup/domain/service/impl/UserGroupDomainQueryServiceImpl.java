@@ -22,16 +22,19 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.usergroup.application.dto.UserGroupPageDto;
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainQueryService;
+import org.dblue.application.module.usergroup.errors.UserGroupErrors;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroup;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupUser;
 import org.dblue.application.module.usergroup.infrastructure.repository.UserGroupRepository;
 import org.dblue.application.module.usergroup.infrastructure.repository.UserGroupRoleRepository;
 import org.dblue.application.module.usergroup.infrastructure.repository.UserGroupUserRepository;
+import org.dblue.common.exception.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,9 +62,13 @@ public class UserGroupDomainQueryServiceImpl implements UserGroupDomainQueryServ
     @Override
     public UserGroup getOne(String userGroupId) {
         if (StringUtils.isBlank(userGroupId)) {
-            return null;
+            throw new ServiceException(UserGroupErrors.USER_GROUP_ID_IS_NOT_BLANK);
         }
-        return userGroupRepository.findById(userGroupId).orElse(null);
+        Optional<UserGroup> optional = userGroupRepository.findById(userGroupId);
+        if (optional.isEmpty()) {
+            throw new ServiceException(UserGroupErrors.USER_GROUP_IS_NOT_FOUND);
+        }
+        return optional.get();
     }
 
 

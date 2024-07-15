@@ -35,6 +35,7 @@ public enum UserGroupErrors implements ErrorInfo {
     USER_GROUP_IS_NOT_FOUND("USER_GROUP_0002", "用户组不存在"),
     USER_GROUP_ROLE_EXITS("USER_GROUP_0003", "用户组角色已存在"),
     USER_GROUP_USER_EXITS("USER_GROUP_0004", "用户组用户已存在"),
+    USER_GROUP_ID_IS_NOT_BLANK("USER_GROUP_0005", "用户组ID不能为空"),
 
 
     ;

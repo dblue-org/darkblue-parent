@@ -23,20 +23,24 @@ import org.dblue.application.module.role.infrastructure.entiry.QRole;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
 
-
+/**
+ * 角色
+ *
+ * @author xie jin
+ * @since 1.0.0  2024-07-15 14:12:39
+ */
 public interface RoleRepository extends BaseJpaRepository<Role, String> {
-
 
 
     /**
      * 查询角色是否重复
+     *
      * @param roleCode 角色编号
      * @param roleName 角色名称
      * @return 是否存在
@@ -46,19 +50,24 @@ public interface RoleRepository extends BaseJpaRepository<Role, String> {
 
     /**
      * 更新时查询是否有重复角色信息
+     *
      * @param roleCode 角色编号
      * @param roleName 角色名称
-     * @param roleId 角色ID
+     * @param roleId   角色ID
      * @return 是否存在
      */
-    @Query("""
-            select (count(r) > 0) from Role r
-            where (r.roleCode = :roleCode or r.roleName = :roleName) and r.roleId <> :roleId""")
-    boolean existsByRodeCodeOrRoleNameAndRoleId(
-            @Param("roleCode") @NonNull String roleCode, @Param("roleName") @NonNull String roleName, @Param("roleId") @NonNull String roleId);
+    default boolean existsByRodeCodeOrRoleNameAndRoleIdNot(
+            @Param("roleCode") @NonNull String roleCode, @Param("roleName") @NonNull String roleName,
+            @Param("roleId") @NonNull String roleId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(QRole.role.roleCode.eq(roleCode).or(QRole.role.roleName.eq(roleName)));
+        builder.and(QRole.role.roleId.ne(roleId));
+        return exists(builder);
+    }
 
     /**
      * 分页查询
+     *
      * @param roleCode 角色编号
      * @param roleName 角色名称
      * @param pageable 分页

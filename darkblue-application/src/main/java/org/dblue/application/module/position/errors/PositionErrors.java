@@ -33,6 +33,7 @@ public enum PositionErrors implements ErrorInfo {
      */
     POSITION_EXITS("POSITION_0001", "职位已存在"),
     POSITION_IS_NOT_FOUND("POSITION_0002", "职位不存在"),
+    POSITION_ID_IS_NOT_BLANK("POSITION_0003", "职位ID不能为空"),
 
 
     ;

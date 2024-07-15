@@ -90,7 +90,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
         }
-        boolean exists = roleRepository.existsByRodeCodeOrRoleNameAndRoleId(roleUpdateDto.getRoleCode(), roleUpdateDto.getRoleName(), roleUpdateDto.getRoleId());
+        boolean exists = roleRepository.existsByRodeCodeOrRoleNameAndRoleIdNot(roleUpdateDto.getRoleCode(), roleUpdateDto.getRoleName(), roleUpdateDto.getRoleId());
         if (exists) {
             throw new ServiceException(RoleErrors.ROLE_EXITS);
         }

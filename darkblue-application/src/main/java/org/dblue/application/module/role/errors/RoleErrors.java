@@ -34,6 +34,7 @@ public enum RoleErrors implements ErrorInfo {
     ROLE_EXITS("ROLE_0001", "角色已存在"),
     ROLE_IS_NOT_FOUND("ROLE_0002", "角色不存在"),
     ROLE_USER_IS_EXITS("ROLE_0003", "用户角色存在关联关系"),
+    ROLE_ID_IS_NOT_BLANK("ROLE_0003", "角色ID不能为空"),
 
 
     ;
