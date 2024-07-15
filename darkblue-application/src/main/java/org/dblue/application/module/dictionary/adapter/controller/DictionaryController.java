@@ -88,7 +88,7 @@ public class DictionaryController {
     }
 
     /**
-     * 字典添加
+     * 字典项添加
      *
      * @param addDto 字典信息
      */
@@ -100,7 +100,7 @@ public class DictionaryController {
     }
 
     /**
-     * 字典更新
+     * 字典项更新
      *
      * @param updateDto 字典信息
      */
