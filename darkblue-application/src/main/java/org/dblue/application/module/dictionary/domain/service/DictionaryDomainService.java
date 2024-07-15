@@ -68,11 +68,11 @@ public interface DictionaryDomainService {
 
 
     /**
-     * 字典删除
+     * 字典项删除
      *
-     * @param dictionaryId 字典ID
+     * @param dictionaryItemId 字典项ID
      */
-    void deleteItem(String dictionaryId);
+    void deleteItem(String dictionaryItemId);
 
     /**
      * 字典项启用禁用

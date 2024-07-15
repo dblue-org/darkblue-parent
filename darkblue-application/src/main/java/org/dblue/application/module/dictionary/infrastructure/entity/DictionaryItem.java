@@ -46,12 +46,6 @@ public class DictionaryItem extends AbstractAuditingEntity {
     @Column(name = "dictionary_item_id", nullable = false, length = 64)
     private String dictionaryItemId;
 
-    /**
-     * 字典项识别码
-     */
-    @Size(max = 64)
-    @Column(name = "dictionary_item_code", length = 64)
-    private String dictionaryItemCode;
 
     /**
      * 字典ID
@@ -112,5 +106,24 @@ public class DictionaryItem extends AbstractAuditingEntity {
     @ColumnDefault("1")
     @Column(name = "is_enabled")
     private Boolean isEnabled;
+
+    public void addItemLevel() {
+        this.itemLevel = 1;
+
+    }
+
+    public void addItemLevel(Integer level) {
+        this.itemLevel = this.itemLevel + level;
+    }
+
+
+    public void addOrderNum() {
+        this.orderNum = 1;
+
+    }
+
+    public void addOrderNum(Integer num) {
+        this.orderNum = this.orderNum + num;
+    }
 
 }

@@ -19,6 +19,8 @@ package org.dblue.application.module.dictionary.application.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 字典项分页
  *
@@ -76,4 +78,11 @@ public class DictionaryItemTreeVo {
      */
     @Schema(description = "级别")
     private Integer itemLevel;
+
+
+    /**
+     * 子节点
+     */
+    @Schema(description = "子节点")
+    private List<DictionaryItemTreeVo> children;
 }

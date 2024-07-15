@@ -21,6 +21,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.ListQuerydslPredicateExecutor;
+import org.springframework.data.querydsl.QPageRequest;
+import org.springframework.data.querydsl.QSort;
 
 import java.util.List;
 
@@ -45,6 +47,24 @@ public interface BaseJpaRepository<T, ID> extends JpaRepository<T, ID>, ListQuer
             return this.findAll(builder.getValue(), pageable);
         } else {
             return this.findAll(pageable);
+        }
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param builder  查询参数
+     * @param pageable 分页参数
+     * @param sort     排序
+     * @return 返回结果
+     */
+    default Page<T> page(BooleanBuilder builder, Pageable pageable, QSort sort) {
+
+        QPageRequest qPageRequest = QPageRequest.of(pageable.getPageSize(), pageable.getPageNumber(), sort);
+        if (builder.getValue() != null) {
+            return this.findAll(builder.getValue(), qPageRequest);
+        } else {
+            return this.findAll(qPageRequest);
         }
     }
 

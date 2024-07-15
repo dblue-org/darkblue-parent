@@ -31,14 +31,6 @@ import lombok.Data;
 @Data
 public class DictionaryItemDto {
 
-    /**
-     * 字典项识别码
-     */
-    @Schema(description = "字典项识别码")
-    @Size(max = 64)
-    @NotBlank(message = "字典项识别码不能为空")
-    private String dictionaryItemCode;
-
 
     /**
      * 编码

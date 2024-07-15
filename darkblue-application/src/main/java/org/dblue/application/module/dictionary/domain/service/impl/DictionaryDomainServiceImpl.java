@@ -18,10 +18,14 @@ package org.dblue.application.module.dictionary.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.dictionary.application.dto.*;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainService;
 import org.dblue.application.module.dictionary.error.DictionaryErrors;
+import org.dblue.application.module.dictionary.error.DictionaryItemErrors;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
+import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
 import org.dblue.application.module.dictionary.infrastructure.repository.DictionaryItemRepository;
 import org.dblue.application.module.dictionary.infrastructure.repository.DictionaryRepository;
 import org.dblue.common.exception.ServiceException;
@@ -30,6 +34,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -54,7 +59,7 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(DictionaryAddDto addDto) {
-        Optional<Dictionary> optional = dictionaryRepository.findByDictionaryCode(addDto.getDictionaryCode());
+        Optional<Dictionary> optional = dictionaryRepository.findByDictionaryCodeAndIsDeleteFalse(addDto.getDictionaryCode());
         if (optional.isPresent()) {
             throw new ServiceException(DictionaryErrors.DICTIONARY_EXITS);
         }
@@ -75,11 +80,11 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void update(DictionaryUpdateDto updateDto) {
-        Optional<Dictionary> optional = dictionaryRepository.findById(updateDto.getDictionaryId());
+        Optional<Dictionary> optional = dictionaryRepository.findByDictionaryIdAndIsDeleteFalse(updateDto.getDictionaryId());
         if (optional.isEmpty()) {
             throw new ServiceException(DictionaryErrors.DICTIONARY_IS_NOT_FOUND);
         }
-        Optional<Dictionary> optionalDictionary = dictionaryRepository.findByDictionaryCodeAndDictionaryIdNot(updateDto.getDictionaryCode(), updateDto.getDictionaryId());
+        Optional<Dictionary> optionalDictionary = dictionaryRepository.findByDictionaryCodeAndDictionaryIdNotAndIsDeleteFalse(updateDto.getDictionaryCode(), updateDto.getDictionaryId());
         if (optionalDictionary.isPresent()) {
             throw new ServiceException(DictionaryErrors.DICTIONARY_EXITS);
         }
@@ -116,6 +121,33 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addItem(DictionaryItemAddDto addDto) {
+        Optional<DictionaryItem> optional = dictionaryItemRepository.findByDictionaryIdAndCodeAndIsDeleteFalse(addDto.getDictionaryId(), addDto.getCode());
+        if (optional.isPresent()) {
+            throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_EXITS);
+        }
+
+        DictionaryItem dictionaryItem = new DictionaryItem();
+        BeanUtils.copyProperties(addDto, dictionaryItem);
+        dictionaryItem.setDictionaryItemId(Snowflake.stringId());
+        dictionaryItem.setIsDelete(Boolean.FALSE);
+        dictionaryItem.setIsEnabled(Boolean.TRUE);
+
+        if (StringUtils.isBlank(addDto.getParentId())) {
+            dictionaryItem.addItemLevel();
+        } else {
+            List<DictionaryItem> dictionaryItemList = dictionaryItemRepository.findByParentIdAndIsDeleteFalseOrderByOrderNumDesc(dictionaryItem.getParentId());
+            if (CollectionUtils.isNotEmpty(dictionaryItemList)) {
+                dictionaryItem.addItemLevel(dictionaryItemList.getFirst().getItemLevel());
+            }
+        }
+        List<DictionaryItem> dictionaryItemList = dictionaryItemRepository.findByDictionaryIdAndIsDeleteFalseOrderByItemLevelDesc(addDto.getDictionaryId());
+        if (CollectionUtils.isNotEmpty(dictionaryItemList)) {
+            dictionaryItem.addOrderNum(dictionaryItemList.getFirst().getOrderNum());
+        } else {
+            dictionaryItem.addOrderNum();
+        }
+        dictionaryItemRepository.save(dictionaryItem);
+
 
     }
 
@@ -127,18 +159,33 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateItem(DictionaryItemUpdateDto updateDto) {
-
+        Optional<DictionaryItem> optional = dictionaryItemRepository.findById(updateDto.getDictionaryItemId());
+        if (optional.isEmpty()) {
+            throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_IS_NOT_FOUND);
+        }
+        Optional<DictionaryItem> optionalDictionaryItem = dictionaryItemRepository.findByDictionaryIdAndCodeAndDictionaryItemIdNotAndIsDeleteFalse(optional
+                .get().getDictionaryId(), updateDto.getCode(), updateDto.getDictionaryItemId());
+        if (optionalDictionaryItem.isPresent()) {
+            throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_EXITS);
+        }
+        BeanUtils.copyProperties(updateDto, optional.get());
+        dictionaryItemRepository.save(optional.get());
     }
 
     /**
-     * 字典删除
+     * 字典项删除
      *
-     * @param dictionaryId 字典ID
+     * @param dictionaryItemId 字典项ID
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void deleteItem(String dictionaryId) {
-
+    public void deleteItem(String dictionaryItemId) {
+        Optional<DictionaryItem> optional = dictionaryItemRepository.findById(dictionaryItemId);
+        if (optional.isEmpty()) {
+            throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_IS_NOT_FOUND);
+        }
+        optional.get().setIsDelete(Boolean.TRUE);
+        dictionaryItemRepository.save(optional.get());
     }
 
     /**
@@ -149,6 +196,11 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void enableItem(DictionaryItemEnableDto enableDto) {
-
+        Optional<DictionaryItem> optional = dictionaryItemRepository.findById(enableDto.getDictionaryItemId());
+        if (optional.isEmpty()) {
+            throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_IS_NOT_FOUND);
+        }
+        optional.get().setIsEnabled(enableDto.getEnable());
+        dictionaryItemRepository.save(optional.get());
     }
 }

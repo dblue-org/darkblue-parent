@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainQueryService;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
+import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
+import org.dblue.application.module.dictionary.infrastructure.repository.DictionaryItemRepository;
 import org.dblue.application.module.dictionary.infrastructure.repository.DictionaryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ import java.util.List;
 public class DictionaryDomainQueryServiceImpl implements DictionaryDomainQueryService {
 
     private final DictionaryRepository dictionaryRepository;
+    private final DictionaryItemRepository dictionaryItemRepository;
 
     /**
      * 获取全部字典信息
@@ -51,12 +54,13 @@ public class DictionaryDomainQueryServiceImpl implements DictionaryDomainQuerySe
     }
 
     @Override
-    public List<Dictionary> getItemTree(String dictionaryId) {
-        return List.of();
+    public List<DictionaryItem> getItemTree(String dictionaryId) {
+        return dictionaryItemRepository.findByDictionaryIdAndIsDeleteFalse(dictionaryId);
     }
 
     @Override
-    public Page<Dictionary> page(DictionaryItemPageVo itemPageVo) {
+    public Page<DictionaryItem> page(DictionaryItemPageVo itemPageVo) {
+
         return null;
     }
 }

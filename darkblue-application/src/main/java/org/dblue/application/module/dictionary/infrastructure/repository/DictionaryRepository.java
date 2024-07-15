@@ -32,12 +32,20 @@ import java.util.Optional;
 public interface DictionaryRepository extends JpaRepository<Dictionary, String> {
 
     /**
+     * 查询未删除的字典
+     *
+     * @param dictionaryId 字典ID
+     * @return 字典
+     */
+    Optional<Dictionary> findByDictionaryIdAndIsDeleteFalse(@NonNull String dictionaryId);
+
+    /**
      * 新增查询
      *
      * @param dictionaryCode 字典编码
      * @return 字典
      */
-    Optional<Dictionary> findByDictionaryCode(@NonNull String dictionaryCode);
+    Optional<Dictionary> findByDictionaryCodeAndIsDeleteFalse(@NonNull String dictionaryCode);
 
 
     /**
@@ -47,7 +55,8 @@ public interface DictionaryRepository extends JpaRepository<Dictionary, String> 
      * @param dictionaryId   字典ID
      * @return 字典
      */
-    Optional<Dictionary> findByDictionaryCodeAndDictionaryIdNot(String dictionaryCode, @NonNull String dictionaryId);
+    Optional<Dictionary> findByDictionaryCodeAndDictionaryIdNotAndIsDeleteFalse(
+            String dictionaryCode, @NonNull String dictionaryId);
 
 
     /**

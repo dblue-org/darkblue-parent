@@ -16,10 +16,19 @@
 
 package org.dblue.application.module.dictionary.infrastructure.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.jpa.BaseJpaRepository;
+import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
 import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.dblue.application.module.dictionary.infrastructure.entity.QDictionaryItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QSort;
 import org.springframework.lang.NonNull;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -28,7 +37,24 @@ import java.util.Optional;
  * @author xie jin
  * @since 1.0.0  2024-07-12 14:07:49
  */
-public interface DictionaryItemRepository extends JpaRepository<DictionaryItem, String> {
+public interface DictionaryItemRepository extends BaseJpaRepository<DictionaryItem, String> {
+
+    /**
+     * 获取当前层级下字典信息
+     *
+     * @param parentId 父节点ID
+     * @return 字典信息
+     */
+    List<DictionaryItem> findByParentIdAndIsDeleteFalseOrderByOrderNumDesc(@NonNull String parentId);
+
+
+    /**
+     * 获取当前层级下字典信息
+     *
+     * @param dictionaryId 字典ID
+     * @return 字典信息
+     */
+    List<DictionaryItem> findByDictionaryIdAndIsDeleteFalseOrderByItemLevelDesc(@NonNull String dictionaryId);
 
     /**
      * 判断子项是否存在
@@ -42,24 +68,58 @@ public interface DictionaryItemRepository extends JpaRepository<DictionaryItem, 
     /**
      * 新增查询
      *
-     * @param dictionaryId       字典ID
-     * @param dictionaryItemCode 字典项编码
+     * @param dictionaryId 字典ID
+     * @param code         字典编码
      * @return 字典项
      */
-    Optional<DictionaryItem> findByDictionaryIdAndDictionaryItemCodeAndIsDeleteFalse(
-            @NonNull String dictionaryId, @NonNull String dictionaryItemCode);
+    Optional<DictionaryItem> findByDictionaryIdAndCodeAndIsDeleteFalse(
+            @NonNull String dictionaryId, @NonNull Integer code);
 
 
     /**
      * 更新用
      *
-     * @param dictionaryId       字典ID
-     * @param dictionaryItemCode 字典项编码
-     * @param dictionaryItemId   字典项ID
-     * @return
+     * @param dictionaryId     字典ID
+     * @param code             字典编码
+     * @param dictionaryItemId ID
+     * @return 字典项
      */
-    Optional<DictionaryItem> findByDictionaryIdAndDictionaryItemCodeAndDictionaryItemIdNotAndIsDeleteFalse(
-            @NonNull String dictionaryId, @NonNull String dictionaryItemCode, @NonNull String dictionaryItemId);
+    Optional<DictionaryItem> findByDictionaryIdAndCodeAndDictionaryItemIdNotAndIsDeleteFalse(
+            @NonNull String dictionaryId, @NonNull Integer code, @NonNull String dictionaryItemId);
+
+
+    /**
+     * 根据字典ID查询字典项信息
+     *
+     * @param dictionaryId 字典ID
+     * @return 字典项信息
+     */
+    List<DictionaryItem> findByDictionaryIdAndIsDeleteFalse(@NonNull String dictionaryId);
+
+
+    /**
+     * 分页查询
+     *
+     * @param itemPageVo 查询参数
+     * @param pageable   分页参数
+     * @return 字典项
+     */
+    default Page<DictionaryItem> page(DictionaryItemPageVo itemPageVo, Pageable pageable) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (Objects.nonNull(itemPageVo.getCode())) {
+            builder.and(QDictionaryItem.dictionaryItem.code.eq(itemPageVo.getCode()));
+        }
+        if (StringUtils.isNotBlank(itemPageVo.getName())) {
+            builder.and(QDictionaryItem.dictionaryItem.name.eq(itemPageVo.getName()));
+        }
+        if (StringUtils.isNotBlank(itemPageVo.getExtension())) {
+            builder.and(QDictionaryItem.dictionaryItem.extension.likeIgnoreCase(itemPageVo.getExtension()));
+        }
+        builder.and(QDictionaryItem.dictionaryItem.isDelete.isFalse());
+        QSort qSort = new QSort(QDictionaryItem.dictionaryItem.orderNum.asc());
+        return page(builder, pageable, qSort);
+    }
 
 
 }

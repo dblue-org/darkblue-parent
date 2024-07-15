@@ -35,11 +35,6 @@ public class DictionaryItemPageVo {
     @Schema(description = "字典项目ID")
     private String dictionaryItemId;
 
-    /**
-     * 字典项识别码
-     */
-    @Schema(description = "字典项识别码")
-    private String dictionaryItemCode;
 
     /**
      * 字典ID

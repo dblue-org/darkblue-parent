@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.dictionary.domain.service;
+package org.dblue.application.module.dictionary.application.service;
 
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
-import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
-import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
+import org.dblue.application.module.dictionary.application.vo.DictionaryItemTreeVo;
+import org.dblue.application.module.dictionary.application.vo.DictionaryVo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 /**
- * 字典领域查询服务层
+ * 字典应用层服务
  *
  * @author xie jin
- * @since 1.0.0  2024/7/12 下午2:13
+ * @since 1.0.0  2024/7/15 上午10:36
  */
-public interface DictionaryDomainQueryService {
+public interface DictionaryApplicationService {
 
     /**
      * 获取全部字典信息
      *
      * @return 字典信息
      */
-    List<Dictionary> getAll();
+    List<DictionaryVo> getAll();
 
 
     /**
@@ -45,7 +45,7 @@ public interface DictionaryDomainQueryService {
      * @param dictionaryId 字典ID
      * @return 字典
      */
-    List<DictionaryItem> getItemTree(String dictionaryId);
+    List<DictionaryItemTreeVo> getItemTree(String dictionaryId);
 
     /**
      * 字典项分页
@@ -53,5 +53,5 @@ public interface DictionaryDomainQueryService {
      * @param itemPageVo 查询参数
      * @return 字典项
      */
-    Page<DictionaryItem> page(DictionaryItemPageVo itemPageVo);
+    Page<DictionaryItemPageVo> page(DictionaryItemPageVo itemPageVo);
 }
