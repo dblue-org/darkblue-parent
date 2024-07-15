@@ -25,10 +25,13 @@ import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.usergroup.application.dto.*;
 import org.dblue.application.module.usergroup.application.service.UserGroupApplicationService;
 import org.dblue.application.module.usergroup.application.vo.UserGroupPageVo;
+import org.dblue.application.module.usergroup.application.vo.UserGroupRoleVo;
+import org.dblue.application.module.usergroup.application.vo.UserGroupUserVo;
 import org.dblue.application.module.usergroup.application.vo.UserGroupVo;
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainService;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -91,9 +94,9 @@ public class UserGroupController {
      * @param enableDto 用户组启用/禁用信息
      */
     @Operation(summary = "用户组启用/禁用", description = "用户组启用/禁用")
-    @PatchMapping("/enable")
-    public ResponseBean<String> enable(@Valid @RequestBody UserGroupEnableDto enableDto) {
-        userGroupDomainService.enable(enableDto);
+    @PatchMapping("/toggleState")
+    public ResponseBean<String> toggleState(@Valid @RequestBody UserGroupEnableDto enableDto) {
+        userGroupDomainService.toggleState(enableDto);
         return ResponseBean.success();
     }
 
@@ -115,7 +118,7 @@ public class UserGroupController {
      * 用户组角色删除
      *
      * @param userGroupId 用户组Id
-     * @param roleId 角色Id
+     * @param roleId      角色Id
      */
     @Parameter(name = "userGroupId", description = "用户组Id", in = ParameterIn.PATH, required = true)
     @Parameter(name = "roleId", description = "角色Id", in = ParameterIn.PATH, required = true)
@@ -144,13 +147,17 @@ public class UserGroupController {
     /**
      * 用户组用户删除
      *
-     * @param userGroupUserId 用户组用户Id
+     * @param userGroupId 用户组Id
+     * @param userId      用户Id
      */
-    @Parameter(name = "userGroupUserId", description = "用户组用户Id", in = ParameterIn.PATH, required = true)
+    @Parameter(name = "userGroupUserId", description = "用户组Id", in = ParameterIn.PATH, required = true)
+    @Parameter(name = "userId", description = "用户Id", in = ParameterIn.PATH, required = true)
     @Operation(summary = "用户组用户删除", description = "用户组用户删除")
-    @DeleteMapping("/deleteUser/{userGroupUserId}")
-    public ResponseBean<String> deleteUser(@PathVariable("userGroupUserId") String userGroupUserId) {
-        userGroupDomainService.deleteUser(userGroupUserId);
+    @DeleteMapping("/deleteUserRef/{userGroupId}/{userId}")
+    public ResponseBean<String> deleteUser(
+            @PathVariable("userGroupId") String userGroupId,
+            @PathVariable("userId") String userId) {
+        userGroupDomainService.deleteUser(userGroupId, userId);
         return ResponseBean.success();
     }
 
@@ -162,8 +169,8 @@ public class UserGroupController {
      */
     @Parameter(name = "userGroupId", description = "用户组ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "获取单独一个", description = "获取单独一个")
-    @GetMapping("/getOne/{userGroupUserId}")
-    public ResponseBean<UserGroupVo> getOne(@PathVariable("userGroupUserId") String userGroupId) {
+    @GetMapping("/getOne/{userGroupId}")
+    public ResponseBean<UserGroupVo> getOne(@PathVariable("userGroupId") String userGroupId) {
         return ResponseBean.success(userGroupApplicationService.getOne(userGroupId));
     }
 
@@ -177,5 +184,31 @@ public class UserGroupController {
     @GetMapping("/page")
     public PageResponseBean<UserGroupPageVo> page(UserGroupPageDto pageDto) {
         return PageResponseBean.success(userGroupApplicationService.page(pageDto));
+    }
+
+    /**
+     * 获取用户组对应的角色
+     *
+     * @param queryDto 查询参数
+     * @return 角色列表
+     */
+    @Operation(summary = "获取用户组对应的角色")
+    @GetMapping("/findUserGroupRoles")
+    public PageResponseBean<UserGroupRoleVo> findUserGroupRoles(@Valid UserGroupRefQueryDto queryDto) {
+        Page<UserGroupRoleVo> page = this.userGroupApplicationService.findUserGroupRoles(queryDto);
+        return PageResponseBean.success(page);
+    }
+
+    /**
+     * 获取用户组对应的用户
+     *
+     * @param queryDto 查询参数
+     * @return 用户列表
+     */
+    @Operation(summary = "获取用户组对应的用户")
+    @GetMapping("/findUserGroupUsers")
+    public PageResponseBean<UserGroupUserVo> findUserGroupUsers(@Valid UserGroupRefQueryDto queryDto) {
+        Page<UserGroupUserVo> page = this.userGroupApplicationService.findUserGroupUsers(queryDto);
+        return PageResponseBean.success(page);
     }
 }

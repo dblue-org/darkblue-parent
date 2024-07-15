@@ -13,58 +13,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.dblue.application.module.user.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.List;
-
 /**
- * 用户拥有菜单权限
- *
- * @author xie jin
- * @since 1.0.0  2024/7/8 上午10:47
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@Schema(description = "用户拥有菜单权限")
 @Data
-public class UserMenuVo {
+public class BaseUserVo {
+    /**
+     * 用户ID
+     */
+    @Schema(description = "用户ID")
+    private String userId;
 
     /**
-     * 菜单ID
+     * 用户名
      */
-    @Schema(description = "菜单ID")
-    private String menuId;
+    @Schema(description = "用户名")
+    private String username;
 
     /**
-     * 上级菜单ID
+     * 姓名
      */
-    @Schema(description = "上级菜单ID")
-    private String parentId;
-
-
-    /**
-     * 菜单类型(1-目录;2-菜单)
-     */
-    @Schema(description = "菜单类型(1-目录;2-菜单)")
-    private Integer menuType;
+    @Schema(description = "姓名")
+    private String name;
 
     /**
-     * 菜单名称
+     * 所属部门
      */
-    @Schema(description = "菜单名称")
-    private String menuName;
+    @Schema(description = "所属部门")
+    private String deptId;
 
     /**
-     * 子节点
+     * 所属部门名称
      */
-    @Schema(description = "子节点")
-    private List<UserMenuVo> children;
+    @Schema(description = "所属部门名称")
+    private String deptName;
 
     /**
-     * 权限
+     * 职务ID
      */
-    @Schema(description = "权限")
-    private List<UserPermissionVo> permissions;
+    @Schema(description = "职务ID")
+    private String positionId;
+
+    /**
+     * 职务名称
+     */
+    @Schema(description = "职务名称")
+    private String positionName;
+
+    /**
+     * 手机号
+     */
+    @Schema(description = "手机号")
+    private String phoneNumber;
 }

@@ -21,6 +21,8 @@ import org.dblue.application.module.usergroup.infrastructure.entity.UserGroup;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupUser;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 import java.util.Set;
@@ -67,5 +69,31 @@ public interface UserGroupDomainQueryService {
      */
     List<UserGroupRole> getUserGroupRoleByUserId(String userId);
 
+    /**
+     * 获取用户组关联的用户
+     *
+     * @param userGroupId 用户ID
+     * @param pageable    分页参数
+     * @return 用户组用户列表
+     */
+    Page<UserGroupUser> findUserReference(String userGroupId, Pageable pageable);
+
+    /**
+     * 获取用户组关联的角色
+     *
+     * @param userGroupId 用户ID
+     * @param pageable    分页参数
+     * @return 用户组角色列表
+     */
+    Page<UserGroupRole> findRoleReference(String userGroupId, Pageable pageable);
+
+    /**
+     * 根据用户ID获取
+     *
+     * @param userId 用户ID
+     * @return 用户组
+     */
+    @NonNull
+    List<UserGroup> findByUserId(String userId);
 
 }

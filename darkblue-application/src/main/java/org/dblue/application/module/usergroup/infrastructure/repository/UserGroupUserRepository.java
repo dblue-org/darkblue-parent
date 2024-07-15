@@ -20,6 +20,8 @@ import com.querydsl.core.BooleanBuilder;
 import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.usergroup.infrastructure.entity.QUserGroupUser;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.lang.NonNull;
 
 import java.util.Collection;
@@ -34,14 +36,14 @@ import java.util.Set;
  */
 public interface UserGroupUserRepository extends BaseJpaRepository<UserGroupUser, String> {
 
-
     /**
-     * 根据用户ID查询
+     * 根据用户组ID和用户ID查询其关联关系是否存在
      *
+     * @param userGroupId 用户组ID
      * @param userIds 用户ID
      * @return 用户组用户
      */
-    List<UserGroupUser> findByUserIdIn(@NonNull Collection<String> userIds);
+    List<UserGroupUser> findByUserGroupIdAndUserIdIn(@NonNull String userGroupId, @NonNull Collection<String> userIds);
 
 
     /**
@@ -59,6 +61,23 @@ public interface UserGroupUserRepository extends BaseJpaRepository<UserGroupUser
      */
     void deleteByUserGroupId(@NonNull String userGroupId);
 
+    /**
+     * 分页查询用户组关联的用户（关联关系）
+     *
+     * @param userGroupId 用户组ID
+     * @param pageable    分页参数
+     * @return 关联关系列表
+     */
+    Page<UserGroupUser> findByUserGroupId(String userGroupId, Pageable pageable);
+
+    /**
+     * 根据用户组和用户获取其关联关系
+     *
+     * @param userGroupId 用户组ID
+     * @param userId      用户ID
+     * @return 关联关系
+     */
+    UserGroupUser findOneByUserGroupIdAndUserId(@NonNull String userGroupId, @NonNull String userId);
 
     /**
      * 根据用户ID获取用户组用户

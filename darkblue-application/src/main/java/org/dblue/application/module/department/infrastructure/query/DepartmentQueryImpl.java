@@ -56,7 +56,7 @@ public class DepartmentQueryImpl extends AbstractBaseJpaQuery<Department, String
     @Override
     public DepartmentQuery deptNameLike(String deptName, ConditionPredicate<String> conditionPredicate) {
         if (conditionPredicate.test(deptName)) {
-            this.queryBuilder.and(QDepartment.department.deptName.like(deptName));
+            this.queryBuilder.and(QDepartment.department.deptName.like("%" + deptName + "%"));
         }
         return this;
     }

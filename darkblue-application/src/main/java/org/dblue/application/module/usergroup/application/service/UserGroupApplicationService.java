@@ -17,7 +17,10 @@
 package org.dblue.application.module.usergroup.application.service;
 
 import org.dblue.application.module.usergroup.application.dto.UserGroupPageDto;
+import org.dblue.application.module.usergroup.application.dto.UserGroupRefQueryDto;
 import org.dblue.application.module.usergroup.application.vo.UserGroupPageVo;
+import org.dblue.application.module.usergroup.application.vo.UserGroupRoleVo;
+import org.dblue.application.module.usergroup.application.vo.UserGroupUserVo;
 import org.dblue.application.module.usergroup.application.vo.UserGroupVo;
 import org.springframework.data.domain.Page;
 
@@ -44,5 +47,22 @@ public interface UserGroupApplicationService {
      * @return 分组
      */
     Page<UserGroupPageVo> page(UserGroupPageDto pageDto);
+
+
+    /**
+     * 获取用户组对应的角色
+     *
+     * @param queryDto 查询参数
+     * @return 角色列表
+     */
+    Page<UserGroupRoleVo> findUserGroupRoles(UserGroupRefQueryDto queryDto);
+
+    /**
+     * 获取用户组对应的用户
+     *
+     * @param queryDto 查询参数
+     * @return 用户列表
+     */
+    Page<UserGroupUserVo> findUserGroupUsers(UserGroupRefQueryDto queryDto);
 
 }

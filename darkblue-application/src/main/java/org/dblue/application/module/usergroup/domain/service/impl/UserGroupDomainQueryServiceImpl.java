@@ -29,8 +29,11 @@ import org.dblue.application.module.usergroup.infrastructure.repository.UserGrou
 import org.dblue.application.module.usergroup.infrastructure.repository.UserGroupRoleRepository;
 import org.dblue.application.module.usergroup.infrastructure.repository.UserGroupUserRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -107,5 +110,26 @@ public class UserGroupDomainQueryServiceImpl implements UserGroupDomainQueryServ
         Set<String> userGroupIdSet = userGroupUsers.stream().map(UserGroupUser::getUserGroupId)
                                                    .collect(Collectors.toSet());
         return userGroupRoleRepository.findByUserGroupIdIn(userGroupIdSet);
+    }
+
+    @Override
+    public Page<UserGroupUser> findUserReference(String userGroupId, Pageable pageable) {
+        return this.userGroupUserRepository.findByUserGroupId(userGroupId, pageable);
+    }
+
+    @Override
+    public Page<UserGroupRole> findRoleReference(String userGroupId, Pageable pageable) {
+        return this.userGroupRoleRepository.findByUserGroupId(userGroupId, pageable);
+    }
+
+    @NonNull
+    @Override
+    public List<UserGroup> findByUserId(String userId) {
+        List<UserGroupUser> userGroupUsers = userGroupUserRepository.getUserGroupUserByUserId(userId);
+        if (CollectionUtils.isEmpty(userGroupUsers)) {
+            return Collections.emptyList();
+        }
+        Set<String> userGroupIdSet = userGroupUsers.stream().map(UserGroupUser::getUserGroupId).collect(Collectors.toSet());
+        return this.userGroupRepository.findAllById(userGroupIdSet);
     }
 }

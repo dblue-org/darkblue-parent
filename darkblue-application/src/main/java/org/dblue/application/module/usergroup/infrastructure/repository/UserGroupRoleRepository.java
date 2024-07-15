@@ -17,6 +17,8 @@
 package org.dblue.application.module.usergroup.infrastructure.repository;
 
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 
@@ -55,14 +57,14 @@ public interface UserGroupRoleRepository extends JpaRepository<UserGroupRole, St
      */
     UserGroupRole findOneByUserGroupIdAndRoleId(@NonNull String userGroupId, @NonNull String roleId);
 
-
     /**
-     * 根据角色ID查询
+     * 根据用户组ID和角色ID列表查询用户组角色关联关系
      *
-     * @param roleIds 角色ID
-     * @return 用户组角色
+     * @param userGroupId 用户组ID
+     * @param roleIdSet 角色ID列表
+     * @return 关联关系列表
      */
-    List<UserGroupRole> findByRoleIdIn(@NonNull Collection<String> roleIds);
+    List<UserGroupRole> findByUserGroupIdAndRoleIdIn(@NonNull String userGroupId, @NonNull Collection<String> roleIdSet);
 
 
     /**
@@ -72,5 +74,14 @@ public interface UserGroupRoleRepository extends JpaRepository<UserGroupRole, St
      * @return 用户组角色
      */
     List<UserGroupRole> findByUserGroupIdIn(@NonNull Collection<String> userGroupIds);
+
+    /**
+     * 分页查询用户组关联的用户（关联关系）
+     *
+     * @param userGroupId 用户组ID
+     * @param pageable    分页参数
+     * @return 关联关系列表
+     */
+    Page<UserGroupRole> findByUserGroupId(@NonNull String userGroupId, Pageable pageable);
 
 }

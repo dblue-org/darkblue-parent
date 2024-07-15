@@ -18,6 +18,8 @@ package org.dblue.application.module.user.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dblue.application.module.usergroup.application.vo.UserGroupVo;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,64 +28,16 @@ import java.util.List;
  * 用户
  * @author xie jin
  */
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "用户")
 @Data
-public class UserVo {
-    /**
-     * 用户ID
-     */
-
-    @Schema(description = "用户ID")
-    private String userId;
-
-    /**
-     * 用户名
-     */
-    @Schema(description = "用户名")
-    private String username;
-
-
-    /**
-     * 姓名
-     */
-    @Schema(description = "姓名")
-    private String name;
+public class UserVo extends BaseUserVo {
 
     /**
      * 性别（1-男；2-女）
      */
     @Schema(description = "性别（1-男；2-女）")
     private Integer sex;
-
-    /**
-     * 所属部门
-     */
-    @Schema(description = "所属部门")
-    private String deptId;
-
-    /**
-     * 所属部门名称
-     */
-    @Schema(description = "所属部门名称")
-    private String deptName;
-
-    /**
-     * 职务ID
-     */
-    @Schema(description = "职务ID")
-    private String positionId;
-
-    /**
-     * 职务名称
-     */
-    @Schema(description = "职务名称")
-    private String positionName;
-
-    /**
-     * 手机号
-     */
-    @Schema(description = "手机号")
-    private String phoneNumber;
 
     /**
      * 身份证号码
@@ -116,18 +70,16 @@ public class UserVo {
     @Schema(description = "是否超级管理员")
     private Boolean isAdmin;
 
-
-
     /**
      * 角色名称
      */
     @Schema(description = "角色名称")
-    private List<UserRoleVo> roleList;
+    private List<UserRoleVo> roles;
 
     /**
      * 用户组名称
      */
-    private List<String> userGroupNameList;
+    private List<UserGroupVo> userGroups;
 
 
     /**

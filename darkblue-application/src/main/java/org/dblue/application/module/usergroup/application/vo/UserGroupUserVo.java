@@ -18,6 +18,10 @@ package org.dblue.application.module.usergroup.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dblue.application.module.user.application.vo.BaseUserVo;
+import org.dblue.application.module.user.infrastructure.entity.User;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 用户组用户
@@ -25,9 +29,10 @@ import lombok.Data;
  * @author xie jin
  * @since 1.0.0  2024/7/10 下午3:11
  */
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "用户组用户")
 @Data
-public class UserGroupUserVo {
+public class UserGroupUserVo extends BaseUserVo {
 
 
     /**
@@ -37,28 +42,14 @@ public class UserGroupUserVo {
     private String userGroupUserId;
 
     /**
-     * 用户ID
+     * 是否可用
      */
-    @Schema(description = "用户ID")
-    private String userId;
+    @Schema(description = "是否可用")
+    private Boolean isEnable;
 
-    /**
-     * 用户名
-     */
-    @Schema(description = "用户名")
-    private String username;
-
-
-    /**
-     * 姓名
-     */
-    @Schema(description = "姓名")
-    private String name;
-
-
-    /**
-     * 手机号
-     */
-    @Schema(description = "手机号")
-    private String phoneNumber;
+    public static UserGroupUserVo of(User user) {
+        UserGroupUserVo userGroupUserVo = new UserGroupUserVo();
+        BeanUtils.copyProperties(user, userGroupUserVo);
+        return userGroupUserVo;
+    }
 }

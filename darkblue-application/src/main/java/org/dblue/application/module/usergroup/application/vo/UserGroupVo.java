@@ -18,9 +18,10 @@ package org.dblue.application.module.usergroup.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.usergroup.infrastructure.entity.UserGroup;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 用户组
@@ -56,20 +57,10 @@ public class UserGroupVo {
     private LocalDateTime createTime;
 
 
-    /**
-     * 拥有角色
-     */
-    @Schema(description = "拥有角色")
-    private List<UserGroupRoleVo> groupRoleVoList;
-
-    /**
-     * 用户列表
-     */
-    @Schema(description = "用户列表")
-    private List<UserGroupUserVo> userGroupUserVoList;
-
-    public static UserGroupVo of() {
-        return new UserGroupVo();
+    public static UserGroupVo of(UserGroup userGroup) {
+        UserGroupVo userGroupVo = new UserGroupVo();
+        BeanUtils.copyProperties(userGroup, userGroupVo);
+        return userGroupVo;
     }
 
 }

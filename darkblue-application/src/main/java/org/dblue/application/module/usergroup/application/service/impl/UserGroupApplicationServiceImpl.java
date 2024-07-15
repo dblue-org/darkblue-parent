@@ -18,23 +18,28 @@ package org.dblue.application.module.usergroup.application.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.dblue.application.module.user.application.helper.UserVoHelper;
 import org.dblue.application.module.user.domain.service.UserDomainQueryService;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.dblue.application.module.usergroup.application.dto.UserGroupPageDto;
+import org.dblue.application.module.usergroup.application.dto.UserGroupRefQueryDto;
 import org.dblue.application.module.usergroup.application.service.UserGroupApplicationService;
 import org.dblue.application.module.usergroup.application.vo.UserGroupPageVo;
 import org.dblue.application.module.usergroup.application.vo.UserGroupRoleVo;
 import org.dblue.application.module.usergroup.application.vo.UserGroupUserVo;
 import org.dblue.application.module.usergroup.application.vo.UserGroupVo;
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainQueryService;
+import org.dblue.application.module.usergroup.errors.UserGroupErrors;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroup;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupUser;
+import org.dblue.common.assertion.ServiceAssert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,6 +62,7 @@ public class UserGroupApplicationServiceImpl implements UserGroupApplicationServ
 
     private final UserDomainQueryService userDomainQueryService;
     private final RoleDomainQueryService roleDomainQueryService;
+    private final UserVoHelper userVoHelper;
 
     /**
      * 获取单独一个
@@ -66,48 +72,9 @@ public class UserGroupApplicationServiceImpl implements UserGroupApplicationServ
      */
     @Override
     public UserGroupVo getOne(String userGroupId) {
-
         UserGroup userGroup = userGroupDomainQueryService.getOne(userGroupId);
-        if (userGroup == null) {
-            return UserGroupVo.of();
-        }
-        UserGroupVo userGroupVo = new UserGroupVo();
-        BeanUtils.copyProperties(userGroup, userGroupVo);
-        setUserGroupUserVoList(userGroup, userGroupVo);
-
-        setGroupRoleVoList(userGroup, userGroupVo);
-        return userGroupVo;
-    }
-
-    private void setUserGroupUserVoList(UserGroup userGroup, UserGroupVo userGroupVo) {
-        List<UserGroupUser> userGroupUserList = userGroup.getUserGroupUserList();
-        if (CollectionUtils.isNotEmpty(userGroupUserList)) {
-            Set<String> userIdSet = userGroupUserList.stream().map(UserGroupUser::getUserId)
-                                                     .collect(Collectors.toSet());
-            List<User> userList = userDomainQueryService.getAllByUserId(userIdSet);
-            List<UserGroupUserVo> list = userList.stream().map(user -> {
-                UserGroupUserVo userGroupUserVo = new UserGroupUserVo();
-                BeanUtils.copyProperties(user, userGroupUserVo);
-                return userGroupUserVo;
-            }).toList();
-            userGroupVo.setUserGroupUserVoList(list);
-
-        }
-    }
-
-    private void setGroupRoleVoList(UserGroup userGroup, UserGroupVo userGroupVo) {
-        List<UserGroupRole> userGroupRoleList = userGroup.getUserGroupRoleList();
-        if (CollectionUtils.isNotEmpty(userGroupRoleList)) {
-            List<Role> roleList = roleDomainQueryService.getMoreByIds(userGroupRoleList.stream()
-                                                                                       .map(UserGroupRole::getRoleId)
-                                                                                       .collect(Collectors.toSet()));
-            List<UserGroupRoleVo> list = roleList.stream().map(role -> {
-                UserGroupRoleVo userGroupRoleVo = new UserGroupRoleVo();
-                BeanUtils.copyProperties(role, userGroupRoleVo);
-                return userGroupRoleVo;
-            }).toList();
-            userGroupVo.setGroupRoleVoList(list);
-        }
+        ServiceAssert.notNull(userGroup, UserGroupErrors.USER_GROUP_IS_NOT_FOUND);
+        return UserGroupVo.of(userGroup);
     }
 
     /**
@@ -125,12 +92,50 @@ public class UserGroupApplicationServiceImpl implements UserGroupApplicationServ
         Set<String> userGroupIdSet = page.stream().map(UserGroup::getUserGroupId).collect(Collectors.toSet());
         List<UserGroupUser> userGroupUserList = userGroupDomainQueryService.getUserGroupUserByUserGroupId(userGroupIdSet);
         Map<String, Long> userNumMap = userGroupUserList.stream()
-                                                        .collect(Collectors.groupingBy(UserGroupUser::getUserGroupId, Collectors.counting()));
+                .collect(Collectors.groupingBy(UserGroupUser::getUserGroupId, Collectors.counting()));
         return page.map(userGroup -> {
             UserGroupPageVo userGroupPageVo = new UserGroupPageVo();
             BeanUtils.copyProperties(userGroup, userGroupPageVo);
-            userGroupPageVo.setUserNums(userNumMap.getOrDefault(userGroup.getUserGroupId(), 0L).intValue());
+            userGroupPageVo.setUserNum(userNumMap.getOrDefault(userGroup.getUserGroupId(), 0L).intValue());
             return userGroupPageVo;
         });
+    }
+
+    @Override
+    public Page<UserGroupRoleVo> findUserGroupRoles(UserGroupRefQueryDto queryDto) {
+        Pageable pageable = queryDto.toJpaPage();
+        Page<UserGroupRole> userGroupRolePage = this.userGroupDomainQueryService.findRoleReference(queryDto.getUserGroupId(), pageable);
+        if (userGroupRolePage.isEmpty()) {
+            return Page.empty();
+        }
+
+        Map<String, String> refMap = userGroupRolePage.stream().collect(Collectors.toMap(UserGroupRole::getRoleId, UserGroupRole::getUserGroupRoleId));
+        List<Role> roleList = roleDomainQueryService.getMoreByIds(refMap.keySet());
+        List<UserGroupRoleVo> list = roleList.stream().map(role -> {
+            UserGroupRoleVo vo = UserGroupRoleVo.of(role);
+            vo.setUserGroupRoleId(refMap.get(vo.getRoleId()));
+            return vo;
+        }).toList();
+
+        return new PageImpl<>(list, pageable, userGroupRolePage.getTotalElements());
+    }
+
+    @Override
+    public Page<UserGroupUserVo> findUserGroupUsers(UserGroupRefQueryDto queryDto) {
+        Pageable pageable = queryDto.toJpaPage();
+        Page<UserGroupUser> userGroupUserPage = this.userGroupDomainQueryService.findUserReference(queryDto.getUserGroupId(), pageable);
+        if (userGroupUserPage.isEmpty()) {
+            return Page.empty();
+        }
+
+        Map<String, String> refMap = userGroupUserPage.stream().collect(Collectors.toMap(UserGroupUser::getUserId, UserGroupUser::getUserGroupUserId));
+        List<User> userList = userDomainQueryService.getAllByUserId(refMap.keySet());
+        List<UserGroupUserVo> userVoList = userList.stream().map(user -> {
+            UserGroupUserVo vo = UserGroupUserVo.of(user);
+            vo.setUserGroupUserId(refMap.get(vo.getUserId()));
+            return vo;
+        }).toList();
+        this.userVoHelper.setExternalNames(userVoList);
+        return new PageImpl<>(userVoList, pageable, userGroupUserPage.getTotalElements());
     }
 }

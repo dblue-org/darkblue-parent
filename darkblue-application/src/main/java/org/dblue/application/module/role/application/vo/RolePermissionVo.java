@@ -18,6 +18,8 @@ package org.dblue.application.module.role.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.springframework.beans.BeanUtils;
 
 
 /**
@@ -53,6 +55,13 @@ public class RolePermissionVo {
      */
     @Schema(description = "权限标识")
     private String permissionCode;
+
+
+    public static RolePermissionVo of(Permission permission) {
+        RolePermissionVo vo = new RolePermissionVo();
+        BeanUtils.copyProperties(permission, vo);
+        return vo;
+    }
 
 
 }

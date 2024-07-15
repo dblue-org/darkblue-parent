@@ -64,7 +64,7 @@ public class PositionQueryImpl extends AbstractBaseJpaQuery<Position, String> im
     @Override
     public PositionQuery positionCodeLike(String positionCode) {
         if (StringUtils.isNotBlank(positionCode)) {
-            this.queryBuilder.and(QPosition.position.positionId.like(positionCode));
+            this.queryBuilder.and(QPosition.position.positionId.like("%" + positionCode + "%"));
         }
         return this;
     }
@@ -80,7 +80,7 @@ public class PositionQueryImpl extends AbstractBaseJpaQuery<Position, String> im
     @Override
     public PositionQuery positionNameLike(String positionName) {
         if (StringUtils.isNotBlank(positionName)) {
-            this.queryBuilder.and(QPosition.position.positionId.like(positionName));
+            this.queryBuilder.and(QPosition.position.positionId.like("%" + positionName + "%"));
         }
         return this;
     }

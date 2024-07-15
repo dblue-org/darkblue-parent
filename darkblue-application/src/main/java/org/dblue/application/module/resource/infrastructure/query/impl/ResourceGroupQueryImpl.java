@@ -66,7 +66,7 @@ public class ResourceGroupQueryImpl extends AbstractBaseJpaQuery<ResourceGroup, 
     @Override
     public ResourceGroupQuery groupNameLike(String groupName) {
         if (StringUtils.isNotBlank(groupName)) {
-            this.queryBuilder.and(QResourceGroup.resourceGroup.groupName.like(groupName));
+            this.queryBuilder.and(QResourceGroup.resourceGroup.groupName.like("%" + groupName + "%"));
         }
         return this;
     }

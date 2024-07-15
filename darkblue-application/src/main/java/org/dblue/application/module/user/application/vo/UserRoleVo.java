@@ -18,6 +18,8 @@ package org.dblue.application.module.user.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 用户角色
@@ -46,4 +48,11 @@ public class UserRoleVo {
      */
     @Schema(description = "是否用户组")
     private Boolean isUserGroup;
+
+    public static UserRoleVo of(Role role, boolean isUserGroup) {
+        UserRoleVo vo = new UserRoleVo();
+        BeanUtils.copyProperties(role, vo);
+        vo.setIsUserGroup(isUserGroup);
+        return vo;
+    }
 }

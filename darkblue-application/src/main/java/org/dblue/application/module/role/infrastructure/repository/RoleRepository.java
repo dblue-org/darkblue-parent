@@ -33,8 +33,6 @@ import java.util.List;
 
 public interface RoleRepository extends BaseJpaRepository<Role, String> {
 
-
-
     /**
      * 查询角色是否重复
      * @param roleCode 角色编号
@@ -64,14 +62,14 @@ public interface RoleRepository extends BaseJpaRepository<Role, String> {
      * @param pageable 分页
      * @return 角色信息
      */
-    default Page<Role> findByRoleCodeAndRoleName(
+    default Page<Role> findByRoleCodeLikeAndRoleNameLike(
             @Nullable String roleCode, @Nullable String roleName, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
         if (StringUtils.isNotBlank(roleCode)) {
-            builder.and(QRole.role.roleCode.eq(roleCode));
+            builder.and(QRole.role.roleCode.like("%" + roleCode + "%"));
         }
         if (StringUtils.isNotBlank(roleName)) {
-            builder.and(QRole.role.roleName.eq(roleName));
+            builder.and(QRole.role.roleName.like("%" + roleName + "%"));
         }
         return page(builder, pageable);
     }

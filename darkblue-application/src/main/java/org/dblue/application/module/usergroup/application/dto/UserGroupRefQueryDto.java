@@ -13,35 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.usergroup.application.dto;
 
-package org.dblue.application.module.role.application.vo;
-
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dblue.application.module.user.application.vo.BaseUserVo;
-import org.dblue.application.module.user.infrastructure.entity.User;
-import org.springframework.beans.BeanUtils;
+import org.dblue.core.web.param.PageParamImpl;
+import org.springdoc.core.annotations.ParameterObject;
 
 /**
- * 用户
- *
- * @author xie jin
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
+@ParameterObject
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "用户")
 @Data
-public class RoleUserVo extends BaseUserVo {
+public class UserGroupRefQueryDto extends PageParamImpl<Object> {
 
     /**
-     * 是否可用
+     * 用户组ID
      */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
-
-    public static RoleUserVo of(User user) {
-        RoleUserVo vo = new RoleUserVo();
-        BeanUtils.copyProperties(user, vo);
-        return vo;
-    }
+    @Parameter(description = "用户组ID")
+    @NotBlank(message = "用户组ID不能为空")
+    private String userGroupId;
 }

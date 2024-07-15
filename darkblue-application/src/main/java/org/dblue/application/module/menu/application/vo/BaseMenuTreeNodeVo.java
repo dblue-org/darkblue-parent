@@ -13,35 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.dblue.application.module.role.application.vo;
+package org.dblue.application.module.menu.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.dblue.application.module.user.application.vo.BaseUserVo;
-import org.dblue.application.module.user.infrastructure.entity.User;
-import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 /**
- * 用户
- *
- * @author xie jin
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@EqualsAndHashCode(callSuper = false)
-@Schema(description = "用户")
 @Data
-public class RoleUserVo extends BaseUserVo {
+public class BaseMenuTreeNodeVo {
 
     /**
-     * 是否可用
+     * 菜单ID
      */
-    @Schema(description = "是否可用")
-    private Boolean isEnable;
+    @Schema(description = "菜单ID")
+    private String menuId;
 
-    public static RoleUserVo of(User user) {
-        RoleUserVo vo = new RoleUserVo();
-        BeanUtils.copyProperties(user, vo);
-        return vo;
-    }
+
+    /**
+     * 菜单名称
+     */
+    @Schema(description = "菜单名称")
+    private String menuName;
+
+    /**
+     * 上级菜单ID
+     */
+    @Schema(description = "上级菜单ID")
+    private String parentId;
+
+    /**
+     * 子菜单
+     */
+    @Schema(description = "子菜单")
+    private List<? extends BaseMenuTreeNodeVo> children;
 }

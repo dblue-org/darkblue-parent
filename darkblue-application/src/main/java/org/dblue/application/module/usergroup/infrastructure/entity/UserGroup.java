@@ -70,4 +70,12 @@ public class UserGroup extends AbstractAuditingEntity {
     @OneToMany(mappedBy = "userGroupId")
     private List<UserGroupUser> userGroupUserList;
 
+    public void enable() {
+        this.isEnable = true;
+    }
+
+    public void disable() {
+        this.isEnable = false;
+    }
+
 }

@@ -75,10 +75,16 @@ public class RoleVo {
     private LocalDateTime createTime;
 
     /**
-     * 拥有权限
+     * 拥有权限(PC端)
      */
     @Schema(description = "拥有权限")
-    private List<RoleMenuVo> roleMenuVoList;
+    private List<RoleMenuVo> pcMenus;
+
+    /**
+     * 拥有权限(移动端)
+     */
+    @Schema(description = "拥有权限(移动端)")
+    private List<RoleMenuVo> appMenus;
 
 
 }

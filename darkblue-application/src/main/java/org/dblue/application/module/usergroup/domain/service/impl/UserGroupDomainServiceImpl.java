@@ -119,13 +119,16 @@ public class UserGroupDomainServiceImpl implements UserGroupDomainService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void enable(UserGroupEnableDto enableDto) {
+    public void toggleState(UserGroupEnableDto enableDto) {
         Optional<UserGroup> optional = userGroupRepository.findById(enableDto.getUserGroupId());
         if (optional.isEmpty()) {
             throw new ServiceException(UserGroupErrors.USER_GROUP_IS_NOT_FOUND);
         }
-        optional.get().setIsEnable(Boolean.TRUE);
-        userGroupRepository.save(optional.get());
+        if (Boolean.TRUE.equals(enableDto.getIsEnable())) {
+            optional.get().enable();
+        } else {
+            optional.get().disable();
+        }
     }
 
 
@@ -142,7 +145,7 @@ public class UserGroupDomainServiceImpl implements UserGroupDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(UserGroupErrors.USER_GROUP_IS_NOT_FOUND);
         }
-        List<UserGroupRole> userGroupRoles = userGroupRoleRepository.findByRoleIdIn(roleAddDto.getRoleIdList());
+        List<UserGroupRole> userGroupRoles = userGroupRoleRepository.findByUserGroupIdAndRoleIdIn(roleAddDto.getUserGroupId(), roleAddDto.getRoleIdList());
         if (CollectionUtils.isNotEmpty(userGroupRoles)) {
             throw new ServiceException(UserGroupErrors.USER_GROUP_ROLE_EXITS);
         }
@@ -176,7 +179,7 @@ public class UserGroupDomainServiceImpl implements UserGroupDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(UserGroupErrors.USER_GROUP_IS_NOT_FOUND);
         }
-        List<UserGroupUser> groupUsers = userGroupUserRepository.findByUserIdIn(userAddDto.getUserIdList());
+        List<UserGroupUser> groupUsers = userGroupUserRepository.findByUserGroupIdAndUserIdIn(userAddDto.getUserGroupId(), userAddDto.getUserIdList());
         if (CollectionUtils.isNotEmpty(groupUsers)) {
             throw new ServiceException(UserGroupErrors.USER_GROUP_USER_EXITS);
         }
@@ -187,18 +190,15 @@ public class UserGroupDomainServiceImpl implements UserGroupDomainService {
             userGroupUser.setUserGroupId(userAddDto.getUserGroupId());
             userGroupUserRepository.save(userGroupUser);
         }
-
     }
 
-    /**
-     * 用户组用户删除
-     *
-     * @param userGroupUserId 用户组用户Id
-     */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void deleteUser(String userGroupUserId) {
-        userGroupUserRepository.deleteById(userGroupUserId);
+    public void deleteUser(String userGroupId, String userId) {
+        UserGroupUser userGroupUser = this.userGroupUserRepository.findOneByUserGroupIdAndUserId(userGroupId, userId);
+        if (userGroupUser != null) {
+            this.userGroupUserRepository.delete(userGroupUser);
+        }
     }
 
     /**

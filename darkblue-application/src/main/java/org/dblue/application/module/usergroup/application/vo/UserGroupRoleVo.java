@@ -18,6 +18,8 @@ package org.dblue.application.module.usergroup.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 
@@ -74,4 +76,10 @@ public class UserGroupRoleVo {
      */
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
+
+    public static UserGroupRoleVo of(Role role) {
+        UserGroupRoleVo userGroupRoleVo = new UserGroupRoleVo();
+        BeanUtils.copyProperties(role, userGroupRoleVo);
+        return userGroupRoleVo;
+    }
 }

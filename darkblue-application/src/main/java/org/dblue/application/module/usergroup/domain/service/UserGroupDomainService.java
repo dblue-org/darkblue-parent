@@ -54,7 +54,7 @@ public interface UserGroupDomainService {
      *
      * @param enableDto 用户组启用/禁用信息
      */
-    void enable(UserGroupEnableDto enableDto);
+    void toggleState(UserGroupEnableDto enableDto);
 
 
     /**
@@ -84,9 +84,10 @@ public interface UserGroupDomainService {
     /**
      * 用户组用户删除
      *
-     * @param userGroupUserId 用户组用户Id
+     * @param userGroupId 用户组Id
+     * @param userId 用户Id
      */
-    void deleteUser(String userGroupUserId);
+    void deleteUser(String userGroupId, String userId);
 
     /**
      * 根据角色ID删除用户组和角色关联关系

@@ -43,6 +43,12 @@ public class UserGroupPageVo {
     private String userGroupName;
 
     /**
+     * 排序字段
+     */
+    @Schema(description = "排序字段")
+    private Integer sortNum;
+
+    /**
      * 是否可用
      */
     @Schema(description = "是否可用")
@@ -54,11 +60,10 @@ public class UserGroupPageVo {
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
-
     /**
      * 用户数量
      */
     @Schema(description = "用户数量")
-    private Integer userNums = 0;
+    private Integer userNum = 0;
 
 }

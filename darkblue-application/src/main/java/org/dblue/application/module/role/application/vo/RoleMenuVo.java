@@ -18,6 +18,10 @@ package org.dblue.application.module.role.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dblue.application.module.menu.application.vo.BaseMenuTreeNodeVo;
+import org.dblue.application.module.menu.infrastructure.entity.Menu;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -27,22 +31,10 @@ import java.util.List;
  * @author xie jin
  * @since 1.0.0  2024/7/8 上午10:47
  */
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "角色拥有菜单权限")
 @Data
-public class RoleMenuVo {
-
-    /**
-     * 菜单ID
-     */
-    @Schema(description = "菜单ID")
-    private String menuId;
-
-    /**
-     * 上级菜单ID
-     */
-    @Schema(description = "上级菜单ID")
-    private String parentId;
-
+public class RoleMenuVo extends BaseMenuTreeNodeVo {
 
     /**
      * 菜单类型(1-目录;2-菜单)
@@ -51,20 +43,15 @@ public class RoleMenuVo {
     private Integer menuType;
 
     /**
-     * 菜单名称
-     */
-    @Schema(description = "菜单名称")
-    private String menuName;
-
-    /**
-     * 子节点
-     */
-    @Schema(description = "子节点")
-    private List<RoleMenuVo> children;
-
-    /**
      * 权限
      */
     @Schema(description = "权限")
     private List<RolePermissionVo> permissions;
+
+
+    public static RoleMenuVo of(Menu menu) {
+        RoleMenuVo vo = new RoleMenuVo();
+        BeanUtils.copyProperties(menu, vo);
+        return vo;
+    }
 }
