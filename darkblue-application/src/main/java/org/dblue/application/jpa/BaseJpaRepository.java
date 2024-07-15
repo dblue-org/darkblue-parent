@@ -61,7 +61,7 @@ public interface BaseJpaRepository<T, ID> extends JpaRepository<T, ID>, ListQuer
      */
     default Page<T> page(BooleanBuilder builder, Pageable pageable, QSort sort) {
 
-        QPageRequest qPageRequest = QPageRequest.of(pageable.getPageSize(), pageable.getPageNumber(), sort);
+        QPageRequest qPageRequest = QPageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
         if (builder.getValue() != null) {
             return this.findAll(builder.getValue(), qPageRequest);
         } else {

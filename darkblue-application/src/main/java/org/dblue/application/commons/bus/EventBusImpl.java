@@ -49,8 +49,10 @@ public class EventBusImpl implements ApplicationContextAware, EventBus {
             TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
                 @Override
                 public void afterCompletion(int status) {
-                    log.info("事务已提交，触发事件：{}", event.getClass().getName());
-                    applicationContext.publishEvent(event);
+                    if (status == TransactionSynchronization.STATUS_COMMITTED) {
+                        log.info("事务已提交，触发事件：{}", event.getClass().getName());
+                        applicationContext.publishEvent(event);
+                    }
                 }
             });
         } else {
