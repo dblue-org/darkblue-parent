@@ -18,7 +18,7 @@ package org.dblue.application.module.dictionary.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
+import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainQueryService;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
 import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
@@ -58,9 +58,15 @@ public class DictionaryDomainQueryServiceImpl implements DictionaryDomainQuerySe
         return dictionaryItemRepository.findByDictionaryIdAndIsDeleteFalse(dictionaryId);
     }
 
-    @Override
-    public Page<DictionaryItem> page(DictionaryItemPageVo itemPageVo) {
 
-        return null;
+    /**
+     * 字典项分页
+     *
+     * @param itemPageDto 查询参数
+     * @return 字典项
+     */
+    @Override
+    public Page<DictionaryItem> page(DictionaryItemPageDto itemPageDto) {
+        return dictionaryItemRepository.page(itemPageDto, itemPageDto.toJpaPage());
     }
 }

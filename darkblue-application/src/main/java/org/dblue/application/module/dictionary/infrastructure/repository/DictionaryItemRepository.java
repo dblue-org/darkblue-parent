@@ -19,7 +19,7 @@ package org.dblue.application.module.dictionary.infrastructure.repository;
 import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.jpa.BaseJpaRepository;
-import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
+import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
 import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
 import org.dblue.application.module.dictionary.infrastructure.entity.QDictionaryItem;
 import org.springframework.data.domain.Page;
@@ -100,21 +100,21 @@ public interface DictionaryItemRepository extends BaseJpaRepository<DictionaryIt
     /**
      * 分页查询
      *
-     * @param itemPageVo 查询参数
+     * @param itemPageDto 查询参数
      * @param pageable   分页参数
      * @return 字典项
      */
-    default Page<DictionaryItem> page(DictionaryItemPageVo itemPageVo, Pageable pageable) {
+    default Page<DictionaryItem> page(DictionaryItemPageDto itemPageDto, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (Objects.nonNull(itemPageVo.getCode())) {
-            builder.and(QDictionaryItem.dictionaryItem.code.eq(itemPageVo.getCode()));
+        if (Objects.nonNull(itemPageDto.getCode())) {
+            builder.and(QDictionaryItem.dictionaryItem.code.eq(itemPageDto.getCode()));
         }
-        if (StringUtils.isNotBlank(itemPageVo.getName())) {
-            builder.and(QDictionaryItem.dictionaryItem.name.eq(itemPageVo.getName()));
+        if (StringUtils.isNotBlank(itemPageDto.getName())) {
+            builder.and(QDictionaryItem.dictionaryItem.name.eq(itemPageDto.getName()));
         }
-        if (StringUtils.isNotBlank(itemPageVo.getExtension())) {
-            builder.and(QDictionaryItem.dictionaryItem.extension.contains(itemPageVo.getExtension()));
+        if (StringUtils.isNotBlank(itemPageDto.getExtension())) {
+            builder.and(QDictionaryItem.dictionaryItem.extension.contains(itemPageDto.getExtension()));
         }
         builder.and(QDictionaryItem.dictionaryItem.isDelete.isFalse());
         QSort qSort = new QSort(QDictionaryItem.dictionaryItem.orderNum.asc());

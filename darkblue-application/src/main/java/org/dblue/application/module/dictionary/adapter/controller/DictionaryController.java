@@ -165,12 +165,12 @@ public class DictionaryController {
     /**
      * 字典项分页
      *
-     * @param itemPageVo 查询参数
+     * @param itemPageDto 查询参数
      * @return 字典项
      */
     @Operation(summary = "字典项分页", description = "字典项分页")
     @GetMapping("/page")
-    public PageResponseBean<DictionaryItemPageVo> page(DictionaryItemPageVo itemPageVo) {
-        return PageResponseBean.success(dictionaryApplicationService.page(itemPageVo));
+    public PageResponseBean<DictionaryItemPageVo> page(DictionaryItemPageDto itemPageDto) {
+        return PageResponseBean.success(dictionaryApplicationService.page(itemPageDto));
     }
 }

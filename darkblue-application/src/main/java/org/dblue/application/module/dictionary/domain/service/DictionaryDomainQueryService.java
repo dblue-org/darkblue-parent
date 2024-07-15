@@ -16,7 +16,7 @@
 
 package org.dblue.application.module.dictionary.domain.service;
 
-import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
+import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
 import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
 import org.springframework.data.domain.Page;
@@ -50,8 +50,8 @@ public interface DictionaryDomainQueryService {
     /**
      * 字典项分页
      *
-     * @param itemPageVo 查询参数
+     * @param itemPageDto 查询参数
      * @return 字典项
      */
-    Page<DictionaryItem> page(DictionaryItemPageVo itemPageVo);
+    Page<DictionaryItem> page(DictionaryItemPageDto itemPageDto);
 }

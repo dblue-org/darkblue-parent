@@ -16,6 +16,7 @@
 
 package org.dblue.application.module.dictionary.application.service;
 
+import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemTreeVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryVo;
@@ -50,8 +51,8 @@ public interface DictionaryApplicationService {
     /**
      * 字典项分页
      *
-     * @param itemPageVo 查询参数
+     * @param itemPageDto 查询参数
      * @return 字典项
      */
-    Page<DictionaryItemPageVo> page(DictionaryItemPageVo itemPageVo);
+    Page<DictionaryItemPageVo> page(DictionaryItemPageDto itemPageDto);
 }

@@ -19,6 +19,7 @@ package org.dblue.application.module.dictionary.application.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
 import org.dblue.application.module.dictionary.application.service.DictionaryApplicationService;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemTreeVo;
@@ -93,12 +94,12 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
     /**
      * 字典项分页
      *
-     * @param itemPageVo 查询参数
+     * @param itemPageDto 查询参数
      * @return 字典项
      */
     @Override
-    public Page<DictionaryItemPageVo> page(DictionaryItemPageVo itemPageVo) {
-        Page<DictionaryItem> page = dictionaryDomainQueryService.page(itemPageVo);
+    public Page<DictionaryItemPageVo> page(DictionaryItemPageDto itemPageDto) {
+        Page<DictionaryItem> page = dictionaryDomainQueryService.page(itemPageDto);
         if (page.isEmpty()) {
             return Page.empty();
         }
@@ -107,6 +108,7 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
             BeanUtils.copyProperties(dictionaryItem, dictionaryItemPageVo);
             return dictionaryItemPageVo;
         });
+
     }
 
     public List<DictionaryItemTreeVo> toTree(

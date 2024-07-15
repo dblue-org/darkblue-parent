@@ -29,10 +29,10 @@ import org.dblue.core.web.param.PageParamImpl;
  * @author xie jin
  * @since 1.0.0  2024-07-12 11:15:06
  */
-@Schema(description = "数据字典更新")
+@Schema(description = "数据字典项分页查询")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DictionaryPageDto extends PageParamImpl<DictionaryItemPageVo> {
+public class DictionaryItemPageDto extends PageParamImpl<DictionaryItemPageVo> {
 
     /**
      * 字典ID
