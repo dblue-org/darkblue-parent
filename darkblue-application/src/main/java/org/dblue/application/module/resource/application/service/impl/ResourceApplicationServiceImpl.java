@@ -63,8 +63,8 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
 
     private final ResourceDomainService resourceDomainService;
     private final PermissionDomainService permissionDomainService;
-    private ApplicationContext applicationContext;
     private final PermissionDomainQueryService permissionDomainQueryService;
+    private ApplicationContext applicationContext;
     private List<ResourceControllerVo> resourceList = null;
 
     /**
@@ -144,7 +144,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
         GetMapping getMapping = declaredMethod.getDeclaredAnnotation(GetMapping.class);
         if (getMapping != null) {
             resourceMappingVo.setRequestMethod(HttpMethod.GET.name());
-            resourceMappingVo.setResourceUrl(baseUrl + getMapping.value()[0]);
+            resourceMappingVo.setResourceUrl(baseUrl + replaceAll(getMapping.value()[0]));
             return resourceMappingVo;
         }
         PutMapping putMapping = declaredMethod.getDeclaredAnnotation(PutMapping.class);
@@ -162,11 +162,16 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
         DeleteMapping deleteMapping = declaredMethod.getDeclaredAnnotation(DeleteMapping.class);
         if (deleteMapping != null) {
             resourceMappingVo.setRequestMethod(HttpMethod.DELETE.name());
-            resourceMappingVo.setResourceUrl(baseUrl + deleteMapping.value()[0]);
+            resourceMappingVo.setResourceUrl(baseUrl + replaceAll(deleteMapping.value()[0]));
             return resourceMappingVo;
 
         }
         throw new ServiceException(ResourceErrors.RESOURCE_METHOD_IS_NOT_SUPPORT);
+    }
+
+    @SuppressWarnings("java:S5857")
+    private String replaceAll(String url) {
+        return url.replaceAll("\\{.*?}", "*");
     }
 
     /**
