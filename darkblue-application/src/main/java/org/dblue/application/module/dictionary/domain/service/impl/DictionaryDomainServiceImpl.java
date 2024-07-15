@@ -20,8 +20,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.commons.bus.EventBus;
 import org.dblue.application.module.dictionary.application.dto.*;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainService;
+import org.dblue.application.module.dictionary.domain.service.event.DictionaryDeleteEvent;
+import org.dblue.application.module.dictionary.domain.service.event.DictionaryItemAddEvent;
 import org.dblue.application.module.dictionary.error.DictionaryErrors;
 import org.dblue.application.module.dictionary.error.DictionaryItemErrors;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
@@ -50,6 +53,7 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
 
     private final DictionaryRepository dictionaryRepository;
     private final DictionaryItemRepository dictionaryItemRepository;
+    private final EventBus eventBus;
 
     /**
      * 字典添加
@@ -68,8 +72,6 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
         dictionary.setDictionaryId(Snowflake.stringId());
         dictionary.setIsDelete(Boolean.FALSE);
         dictionaryRepository.save(dictionary);
-
-
     }
 
     /**
@@ -111,6 +113,8 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
         }
         optional.get().setIsDelete(Boolean.TRUE);
         dictionaryRepository.save(optional.get());
+
+        this.eventBus.fireEventAfterCommit(new DictionaryDeleteEvent(this, optional.get()));
     }
 
     /**
@@ -121,6 +125,12 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void addItem(DictionaryItemAddDto addDto) {
+
+        Optional<Dictionary> dictionaryOptional = dictionaryRepository.findByDictionaryIdAndIsDeleteFalse(addDto.getDictionaryId());
+        if (dictionaryOptional.isEmpty()) {
+            throw new ServiceException(DictionaryErrors.DICTIONARY_IS_NOT_FOUND);
+        }
+
         Optional<DictionaryItem> optional = dictionaryItemRepository.findByDictionaryIdAndCodeAndIsDeleteFalse(addDto.getDictionaryId(), addDto.getCode());
         if (optional.isPresent()) {
             throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_EXITS);
@@ -148,6 +158,7 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
         }
         dictionaryItemRepository.save(dictionaryItem);
 
+        this.eventBus.fireEventAfterCommit(new DictionaryItemAddEvent(this, dictionaryOptional.get(), dictionaryItem));
 
     }
 
@@ -163,6 +174,12 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_IS_NOT_FOUND);
         }
+
+        Optional<Dictionary> dictionaryOptional = dictionaryRepository.findByDictionaryIdAndIsDeleteFalse(optional.get().getDictionaryId());
+        if (dictionaryOptional.isEmpty()) {
+            throw new ServiceException(DictionaryErrors.DICTIONARY_IS_NOT_FOUND);
+        }
+
         Optional<DictionaryItem> optionalDictionaryItem = dictionaryItemRepository.findByDictionaryIdAndCodeAndDictionaryItemIdNotAndIsDeleteFalse(optional
                 .get().getDictionaryId(), updateDto.getCode(), updateDto.getDictionaryItemId());
         if (optionalDictionaryItem.isPresent()) {
@@ -170,6 +187,8 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
         }
         BeanUtils.copyProperties(updateDto, optional.get());
         dictionaryItemRepository.save(optional.get());
+
+        this.eventBus.fireEventAfterCommit(new DictionaryItemAddEvent(this, dictionaryOptional.get(), optional.get()));
     }
 
     /**
@@ -184,8 +203,13 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_IS_NOT_FOUND);
         }
+        Optional<Dictionary> dictionaryOptional = dictionaryRepository.findByDictionaryIdAndIsDeleteFalse(optional.get().getDictionaryId());
+        if (dictionaryOptional.isEmpty()) {
+            throw new ServiceException(DictionaryErrors.DICTIONARY_IS_NOT_FOUND);
+        }
         optional.get().setIsDelete(Boolean.TRUE);
         dictionaryItemRepository.save(optional.get());
+        this.eventBus.fireEventAfterCommit(new DictionaryItemAddEvent(this, dictionaryOptional.get(), optional.get()));
     }
 
     /**
