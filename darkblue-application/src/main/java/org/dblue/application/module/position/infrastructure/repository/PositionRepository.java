@@ -80,6 +80,15 @@ public interface PositionRepository extends BaseJpaRepository<Position, String> 
     }
 
     /**
+     * 查询未删除的职位信息
+     *
+     * @param positionId 职位ID
+     * @return 职位
+     */
+    Optional<Position> findByPositionIdAndIsDelFalse(@NonNull String positionId);
+
+
+    /**
      * 创建查询器
      *
      * @return 查询器

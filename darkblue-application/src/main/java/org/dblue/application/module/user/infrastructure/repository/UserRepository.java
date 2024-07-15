@@ -115,6 +115,7 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
      * 根据角色ID查询用户
      *
      * @param roleId 角色ID
+     * @param pageable 分页参数
      * @return 用户
      */
     default Page<User> getUserByRoleId(String roleId, Pageable pageable) {
@@ -122,6 +123,14 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
         builder.and(QUser.user.roles.any().roleId.eq(roleId));
         return page(builder, pageable);
     }
+
+    /**
+     * 查询可用用户
+     *
+     * @param userId 用户ID
+     * @return 可用用户
+     */
+    Optional<User> findByUserIdAndIsDelFalse(@NonNull String userId);
 
 
 }

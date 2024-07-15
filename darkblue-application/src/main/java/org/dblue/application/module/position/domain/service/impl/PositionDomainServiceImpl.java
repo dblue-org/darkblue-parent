@@ -77,7 +77,7 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Override
     public void update(PositionUpdateDto updateDto) {
 
-        Optional<Position> optional = positionRepository.findById(updateDto.getPositionId());
+        Optional<Position> optional = positionRepository.findByPositionIdAndIsDelFalse(updateDto.getPositionId());
         if (optional.isEmpty()) {
             throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
         }
@@ -113,7 +113,7 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void toggleState(PositionEnableDto enableDto) {
-        Optional<Position> optional = positionRepository.findById(enableDto.getPositionId());
+        Optional<Position> optional = positionRepository.findByPositionIdAndIsDelFalse(enableDto.getPositionId());
         if (optional.isEmpty()) {
             throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
         }

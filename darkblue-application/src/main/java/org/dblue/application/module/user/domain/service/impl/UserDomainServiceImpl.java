@@ -101,7 +101,7 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void update(UserUpdateDto updateDto) {
-        Optional<User> optional = userRepository.findById(updateDto.getUserId());
+        Optional<User> optional = userRepository.findByUserIdAndIsDelFalse(updateDto.getUserId());
         if (optional.isEmpty()) {
             throw new ServiceException(UserErrors.USER_NOT_FOUND);
         }
@@ -144,7 +144,7 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void enable(UserEnableDto enableDto) {
-        Optional<User> optional = userRepository.findById(enableDto.getUserId());
+        Optional<User> optional = userRepository.findByUserIdAndIsDelFalse(enableDto.getUserId());
         if (optional.isEmpty()) {
             throw new ServiceException(UserErrors.USER_NOT_FOUND);
         }
