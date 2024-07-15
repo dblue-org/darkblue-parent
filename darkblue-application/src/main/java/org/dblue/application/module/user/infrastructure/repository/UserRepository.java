@@ -81,13 +81,13 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
             builder.and(QUser.user.deptId.eq(pageDto.getDeptId()));
         }
         if (StringUtils.isNotBlank(pageDto.getName())) {
-            builder.and(QUser.user.name.likeIgnoreCase(pageDto.getName()));
+            builder.and(QUser.user.name.contains(pageDto.getName()));
         }
         if (StringUtils.isNotBlank(pageDto.getUsername())) {
-            builder.and(QUser.user.username.likeIgnoreCase(pageDto.getUsername()));
+            builder.and(QUser.user.username.contains(pageDto.getUsername()));
         }
         if (StringUtils.isNotBlank(pageDto.getPhoneNumber())) {
-            builder.and(QUser.user.phoneNumber.likeIgnoreCase(pageDto.getPhoneNumber()));
+            builder.and(QUser.user.phoneNumber.contains(pageDto.getPhoneNumber()));
         }
         if (StringUtils.isNotBlank(pageDto.getPositionId())) {
             builder.and(QUser.user.positionId.eq(pageDto.getPositionId()));
@@ -108,7 +108,7 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
         builder.and(QUser.user.isDel.isFalse());
         builder.and(QUser.user.isEnable.isTrue());
         if (StringUtils.isNotBlank(name)) {
-            builder.and(QUser.user.name.likeIgnoreCase(name).or(QUser.user.username.likeIgnoreCase(name)));
+            builder.and(QUser.user.name.contains(name).or(QUser.user.username.contains(name)));
         }
         return getList(builder);
     }

@@ -114,7 +114,7 @@ public interface DictionaryItemRepository extends BaseJpaRepository<DictionaryIt
             builder.and(QDictionaryItem.dictionaryItem.name.eq(itemPageVo.getName()));
         }
         if (StringUtils.isNotBlank(itemPageVo.getExtension())) {
-            builder.and(QDictionaryItem.dictionaryItem.extension.likeIgnoreCase(itemPageVo.getExtension()));
+            builder.and(QDictionaryItem.dictionaryItem.extension.contains(itemPageVo.getExtension()));
         }
         builder.and(QDictionaryItem.dictionaryItem.isDelete.isFalse());
         QSort qSort = new QSort(QDictionaryItem.dictionaryItem.orderNum.asc());

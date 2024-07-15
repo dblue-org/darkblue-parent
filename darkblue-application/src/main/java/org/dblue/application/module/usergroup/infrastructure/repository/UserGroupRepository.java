@@ -67,7 +67,7 @@ public interface UserGroupRepository extends BaseJpaRepository<UserGroup, String
     default Page<UserGroup> page(UserGroupPageDto pageDto, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
         if (StringUtils.isNotBlank(pageDto.getUserGroupName())) {
-            builder.and(QUserGroup.userGroup.userGroupName.like("%" + pageDto.getUserGroupName() + "%"));
+            builder.and(QUserGroup.userGroup.userGroupName.contains(pageDto.getUserGroupName()));
         }
         QSort qSort = new QSort(QUserGroup.userGroup.sortNum.asc());
         return page(builder, pageable, qSort);

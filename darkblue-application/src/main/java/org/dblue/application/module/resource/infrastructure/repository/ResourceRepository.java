@@ -86,16 +86,16 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
             builder.and(QResource.resource.resourceGroupId.eq(pageDto.getResourceGroupId()));
         }
         if (StringUtils.isNotBlank(pageDto.getResourceName())) {
-            builder.and(QResource.resource.resourceName.likeIgnoreCase(pageDto.getResourceName()));
+            builder.and(QResource.resource.resourceName.contains(pageDto.getResourceName()));
         }
         if (StringUtils.isNotBlank(pageDto.getResourceUrl())) {
-            builder.and(QResource.resource.resourceUrl.likeIgnoreCase(pageDto.getResourceUrl()));
+            builder.and(QResource.resource.resourceUrl.contains(pageDto.getResourceUrl()));
         }
         if (StringUtils.isNotBlank(pageDto.getController())) {
-            builder.and(QResource.resource.controller.likeIgnoreCase(pageDto.getController()));
+            builder.and(QResource.resource.controller.contains(pageDto.getController()));
         }
         if (StringUtils.isNotBlank(pageDto.getMethod())) {
-            builder.and(QResource.resource.method.likeIgnoreCase(pageDto.getMethod()));
+            builder.and(QResource.resource.method.contains(pageDto.getMethod()));
         }
         if (Objects.nonNull(pageDto.getIsAuthedAccess())) {
             builder.and(QResource.resource.isAuthedAccess.eq(pageDto.getIsAuthedAccess()));
