@@ -16,6 +16,7 @@
 
 package org.dblue.application.module.dictionary.domain.service;
 
+import lombok.NonNull;
 import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
 import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
@@ -45,7 +46,7 @@ public interface DictionaryDomainQueryService {
      * @param dictionaryId 字典ID
      * @return 字典
      */
-    List<DictionaryItem> getItemTree(String dictionaryId);
+    List<DictionaryItem> getItems(String dictionaryId);
 
     /**
      * 字典项分页
@@ -54,4 +55,13 @@ public interface DictionaryDomainQueryService {
      * @return 字典项
      */
     Page<DictionaryItem> page(DictionaryItemPageDto itemPageDto);
+
+    /**
+     * 根据字典编码获取字典信息
+     *
+     * @param dictionaryCode 字典编码
+     * @return 字典
+     */
+    @NonNull
+    Dictionary findByDictionaryCode(String dictionaryCode);
 }

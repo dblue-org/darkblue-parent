@@ -16,18 +16,22 @@
 
 package org.dblue.application.module.dictionary.domain.service.impl;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainQueryService;
+import org.dblue.application.module.dictionary.error.DictionaryErrors;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
 import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
 import org.dblue.application.module.dictionary.infrastructure.repository.DictionaryItemRepository;
 import org.dblue.application.module.dictionary.infrastructure.repository.DictionaryRepository;
+import org.dblue.common.exception.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 字典领域查询服务层
@@ -54,7 +58,7 @@ public class DictionaryDomainQueryServiceImpl implements DictionaryDomainQuerySe
     }
 
     @Override
-    public List<DictionaryItem> getItemTree(String dictionaryId) {
+    public List<DictionaryItem> getItems(String dictionaryId) {
         return dictionaryItemRepository.findByDictionaryIdAndIsDeleteFalse(dictionaryId);
     }
 
@@ -68,5 +72,15 @@ public class DictionaryDomainQueryServiceImpl implements DictionaryDomainQuerySe
     @Override
     public Page<DictionaryItem> page(DictionaryItemPageDto itemPageDto) {
         return dictionaryItemRepository.page(itemPageDto, itemPageDto.toJpaPage());
+    }
+
+    @NonNull
+    @Override
+    public Dictionary findByDictionaryCode(String dictionaryCode) {
+        Optional<Dictionary> dictionaryOptional = this.dictionaryRepository.findByDictionaryCodeAndIsDeleteFalse(dictionaryCode);
+        if (dictionaryOptional.isEmpty()) {
+            throw new ServiceException(DictionaryErrors.DICTIONARY_IS_NOT_FOUND);
+        }
+        return dictionaryOptional.get();
     }
 }

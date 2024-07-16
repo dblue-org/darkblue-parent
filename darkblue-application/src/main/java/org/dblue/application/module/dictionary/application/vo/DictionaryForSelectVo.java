@@ -13,56 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.dblue.application.module.dictionary.application.dto;
+package org.dblue.application.module.dictionary.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.dblue.application.module.dictionary.enums.DictionaryType;
-import org.dblue.common.validation.annotation.EnumValues;
+import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
+import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 /**
- * 数据字典
+ * 字典信息（Select组件使用）
  *
- * @author xie jin
- * @since 1.0.0  2024-07-12 11:15:06
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@Schema(description = "数据字典")
+@Schema(description = "字典信息（Select组件使用）")
 @Data
-public class DictionaryDto {
-
+public class DictionaryForSelectVo {
     /**
      * 字典ID
      */
     @Schema(description = "字典ID")
-    @Size(max = 64)
-    @NotBlank(message = "字典ID不能为空")
     private String dictionaryId;
 
     /**
      * 字典编码
      */
     @Schema(description = "字典编码")
-    @Size(max = 64)
-    @NotBlank(message = "字典编码不能为空")
     private String dictionaryCode;
 
     /**
      * 字典名称
      */
     @Schema(description = "字典名称")
-    @Size(max = 64)
-    @NotBlank(message = "字典名称不能为空")
     private String dictionaryName;
 
     /**
      * 字典类型（1-普通字典；2-树形字典）
      */
     @Schema(description = "字典类型（1-普通字典；2-树形字典）")
-    @EnumValues(message = "不能为空", clazz = DictionaryType.class)
     private Integer dictionaryType;
 
+    /**
+     * 字典项（列表或树）
+     */
+    @Schema(description = "字典项（列表或树）")
+    private List<DictionaryItemNodeForSelectVo> items;
 
+    public static DictionaryForSelectVo of(Dictionary dictionary) {
+        DictionaryForSelectVo dictionaryForSelectVo = new DictionaryForSelectVo();
+        BeanUtils.copyProperties(dictionary, dictionaryForSelectVo);
+        return dictionaryForSelectVo;
+    }
 }

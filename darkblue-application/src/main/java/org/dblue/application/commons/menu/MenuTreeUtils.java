@@ -15,7 +15,6 @@
  */
 package org.dblue.application.commons.menu;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.menu.application.vo.BaseMenuTreeNodeVo;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 
@@ -33,22 +32,28 @@ public class MenuTreeUtils {
     }
 
     public static <R extends BaseMenuTreeNodeVo> List<R> buildTree(List<Menu> allNodes, Function<Menu, R> converter) {
-        List<Menu> roots = allNodes.stream().filter(menu -> menu.getParentId() == null).toList();
-        List<R> rootNodes = roots.stream().map(converter).toList();
-        for (R rootNode : rootNodes) {
-            setChildren(rootNode, allNodes, converter);
-        }
-        return rootNodes;
+
+        return TreeUtils.toTree(allNodes, new TreeUtils.DataMapper<>() {
+            @Override
+            public boolean isRoot(Menu menu) {
+                return Objects.isNull(menu.getParentId());
+            }
+
+            @Override
+            public R convert(Menu rawData) {
+                return converter.apply(rawData);
+            }
+
+            @Override
+            public boolean isSubNode(R parent, Menu rawData) {
+                return Objects.equals(parent.getMenuId(), rawData.getParentId());
+            }
+
+            @Override
+            public void setChildren(R parent, List<R> nodes) {
+                parent.setChildren(nodes);
+            }
+        });
     }
 
-    public static <R extends BaseMenuTreeNodeVo> void setChildren(R parent, List<Menu> allNodes, Function<Menu, R> converter) {
-        List<R> children = allNodes.stream().filter(menu -> Objects.equals(parent.getMenuId(), menu.getParentId()))
-                .map(converter).toList();
-        if (CollectionUtils.isNotEmpty(children)) {
-            parent.setChildren(children);
-            for (R child : children) {
-                setChildren(child, allNodes, converter);
-            }
-        }
-    }
 }

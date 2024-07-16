@@ -24,6 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.dictionary.application.dto.*;
 import org.dblue.application.module.dictionary.application.service.DictionaryApplicationService;
+import org.dblue.application.module.dictionary.application.vo.DictionaryForSelectVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemTreeVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryVo;
@@ -172,5 +173,18 @@ public class DictionaryController {
     @GetMapping("/page")
     public PageResponseBean<DictionaryItemPageVo> page(DictionaryItemPageDto itemPageDto) {
         return PageResponseBean.success(dictionaryApplicationService.page(itemPageDto));
+    }
+
+    /**
+     * 获取字典数据（用于Select、SelectTree组件）
+     *
+     * @param dictionaryCode 字典编码
+     * @return 字典数据
+     */
+    @Operation(summary = "获取字典数据（用于Select、SelectTree组件）")
+    @GetMapping("/getDictionaryForSelect")
+    public ResponseBean<DictionaryForSelectVo> getDictionaryForSelect(String dictionaryCode) {
+        DictionaryForSelectVo selectVo = this.dictionaryApplicationService.getDictionaryForSelect(dictionaryCode);
+        return ResponseBean.success(selectVo);
     }
 }

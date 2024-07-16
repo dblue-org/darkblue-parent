@@ -43,7 +43,7 @@ public class DictionaryCacheServiceImpl implements DictionaryCacheService {
     private final DictionaryRepository dictionaryRepository;
     private final DictionaryItemRepository dictionaryItemRepository;
     @Resource(name = "redisTemplate")
-    private HashOperations<String, Integer, String> hashOperations;
+    private HashOperations<String, String, String> hashOperations;
 
     public DictionaryCacheServiceImpl(DictionaryRepository dictionaryRepository, DictionaryItemRepository dictionaryItemRepository) {
         this.dictionaryRepository = dictionaryRepository;
@@ -53,7 +53,7 @@ public class DictionaryCacheServiceImpl implements DictionaryCacheService {
     @Override
     public void set(String dictionaryCode, Integer code, String name) {
         String cacheKey = this.getCacheKey(dictionaryCode);
-        this.hashOperations.put(cacheKey, code, name);
+        this.hashOperations.put(cacheKey, String.valueOf(code), name);
     }
 
     @Override
@@ -72,8 +72,8 @@ public class DictionaryCacheServiceImpl implements DictionaryCacheService {
     public Map<Integer, String> getAll(String dictionaryCode) {
         String cacheKey = this.getCacheKey(dictionaryCode);
         if (Boolean.TRUE.equals(this.hashOperations.getOperations().hasKey(cacheKey))) {
-            Set<Integer> codes = this.hashOperations.keys(cacheKey);
-            return this.getAll(dictionaryCode, codes);
+            Set<String> codes = this.hashOperations.keys(cacheKey);
+            return this.getAll(dictionaryCode, codes.stream().map(Integer::valueOf).collect(Collectors.toSet()));
         }
         return Map.of();
     }
@@ -83,7 +83,7 @@ public class DictionaryCacheServiceImpl implements DictionaryCacheService {
         String cacheKey = this.getCacheKey(dictionaryCode);
         Map<Integer, String> itemMap = new LinkedHashMap<>();
         for (Integer code : codes) {
-            String name = this.hashOperations.get(cacheKey, code);
+            String name = this.hashOperations.get(cacheKey, String.valueOf(code));
             itemMap.put(code, name);
         }
         return itemMap;
@@ -134,8 +134,8 @@ public class DictionaryCacheServiceImpl implements DictionaryCacheService {
             List<DictionaryItem> items = dictionaryItemMap.get(dictionary.getDictionaryId());
             if (CollectionUtils.isNotEmpty(items)) {
                 String cacheKey = this.getCacheKey(dictionary.getDictionaryCode());
-                Map<Integer, String> itemMap = items.stream().collect(
-                        Collectors.toMap(DictionaryItem::getCode, DictionaryItem::getName));
+                Map<String, String> itemMap = items.stream().collect(
+                        Collectors.toMap(item -> String.valueOf(item.getCode()), DictionaryItem::getName));
                 this.hashOperations.putAll(cacheKey, itemMap);
             }
         }

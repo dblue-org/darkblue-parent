@@ -17,6 +17,7 @@
 package org.dblue.application.module.dictionary.application.service;
 
 import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
+import org.dblue.application.module.dictionary.application.vo.DictionaryForSelectVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemTreeVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryVo;
@@ -55,4 +56,12 @@ public interface DictionaryApplicationService {
      * @return 字典项
      */
     Page<DictionaryItemPageVo> page(DictionaryItemPageDto itemPageDto);
+
+    /**
+     * 获取字典数据（用于Select、SelectTree组件）
+     *
+     * @param dictionaryCode 字典编码
+     * @return 字典数据
+     */
+    DictionaryForSelectVo getDictionaryForSelect(String dictionaryCode);
 }

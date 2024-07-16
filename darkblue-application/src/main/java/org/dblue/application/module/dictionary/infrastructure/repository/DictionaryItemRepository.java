@@ -40,23 +40,6 @@ import java.util.Optional;
 public interface DictionaryItemRepository extends BaseJpaRepository<DictionaryItem, String> {
 
     /**
-     * 获取当前层级下字典信息
-     *
-     * @param parentId 父节点ID
-     * @return 字典信息
-     */
-    List<DictionaryItem> findByParentIdAndIsDeleteFalseOrderByOrderNumDesc(@NonNull String parentId);
-
-
-    /**
-     * 获取当前层级下字典信息
-     *
-     * @param dictionaryId 字典ID
-     * @return 字典信息
-     */
-    List<DictionaryItem> findByDictionaryIdAndIsDeleteFalseOrderByItemLevelDesc(@NonNull String dictionaryId);
-
-    /**
      * 判断子项是否存在
      *
      * @param dictionaryId 字典ID
@@ -106,7 +89,7 @@ public interface DictionaryItemRepository extends BaseJpaRepository<DictionaryIt
      */
     default Page<DictionaryItem> page(DictionaryItemPageDto itemPageDto, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
-
+        builder.and(QDictionaryItem.dictionaryItem.dictionaryId.eq(itemPageDto.getDictionaryId()));
         if (Objects.nonNull(itemPageDto.getCode())) {
             builder.and(QDictionaryItem.dictionaryItem.code.eq(itemPageDto.getCode()));
         }

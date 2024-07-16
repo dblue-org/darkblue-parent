@@ -19,23 +19,20 @@ package org.dblue.application.module.dictionary.application.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.dblue.application.commons.menu.DictionaryTreeUtils;
 import org.dblue.application.module.dictionary.application.dto.DictionaryItemPageDto;
 import org.dblue.application.module.dictionary.application.service.DictionaryApplicationService;
-import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
-import org.dblue.application.module.dictionary.application.vo.DictionaryItemTreeVo;
-import org.dblue.application.module.dictionary.application.vo.DictionaryVo;
+import org.dblue.application.module.dictionary.application.vo.*;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainQueryService;
+import org.dblue.application.module.dictionary.enums.DictionaryType;
 import org.dblue.application.module.dictionary.infrastructure.entity.Dictionary;
 import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 字典应用层服务
@@ -77,18 +74,11 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
      */
     @Override
     public List<DictionaryItemTreeVo> getItemTree(String dictionaryId) {
-        List<DictionaryItem> itemList = dictionaryDomainQueryService.getItemTree(dictionaryId);
+        List<DictionaryItem> itemList = dictionaryDomainQueryService.getItems(dictionaryId);
         if (CollectionUtils.isEmpty(itemList)) {
             return List.of();
         }
-        List<DictionaryItem> rooItemList = itemList.stream()
-                                                   .filter(dictionaryItem -> Objects.equals(dictionaryItem.getItemLevel(), 1))
-                                                   .toList();
-        Map<String, List<DictionaryItem>> childrenMap = itemList.stream()
-                                                                .filter(dictionaryItem -> !Objects.equals(dictionaryItem.getItemLevel(), 1))
-                                                                .collect(Collectors.groupingBy(DictionaryItem::getParentId));
-
-        return toTree(rooItemList, childrenMap);
+        return DictionaryTreeUtils.toTree(itemList);
     }
 
     /**
@@ -111,18 +101,23 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
 
     }
 
-    public List<DictionaryItemTreeVo> toTree(
-            List<DictionaryItem> itemList, Map<String, List<DictionaryItem>> childrenMap) {
-        List<DictionaryItemTreeVo> dictionaryItemTreeVos = new ArrayList<>();
-        for (DictionaryItem dictionaryItem : itemList) {
-            DictionaryItemTreeVo dictionaryItemTreeVo = new DictionaryItemTreeVo();
-            BeanUtils.copyProperties(dictionaryItem, dictionaryItemTreeVo);
-            List<DictionaryItem> dictionaryItemList = childrenMap.get(dictionaryItem.getDictionaryItemId());
-            if (CollectionUtils.isNotEmpty(dictionaryItemList)) {
-                dictionaryItemTreeVo.setChildren(toTree(dictionaryItemList, childrenMap));
-            }
-            dictionaryItemTreeVos.add(dictionaryItemTreeVo);
+    @Override
+    public DictionaryForSelectVo getDictionaryForSelect(String dictionaryCode) {
+        Dictionary dictionary = this.dictionaryDomainQueryService.findByDictionaryCode(dictionaryCode);
+        DictionaryForSelectVo selectVo = DictionaryForSelectVo.of(dictionary);
+
+        List<DictionaryItem> items = this.dictionaryDomainQueryService.getItems(dictionary.getDictionaryId());
+        if (CollectionUtils.isEmpty(items)) {
+            selectVo.setItems(Collections.emptyList());
+            return selectVo;
         }
-        return dictionaryItemTreeVos;
+
+        // 如果是普通字典直接转为VO，如果是属性字典则转为树。统一返回，由前端根据类型自动处理
+        if (DictionaryType.GENERAL.equalsTo(dictionary.getDictionaryType())) {
+            selectVo.setItems(items.stream().map(DictionaryItemNodeForSelectVo::of).toList());
+        } else {
+            selectVo.setItems(DictionaryTreeUtils.toSelectTree(items));
+        }
+        return selectVo;
     }
 }

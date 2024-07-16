@@ -18,7 +18,6 @@ package org.dblue.application.module.dictionary.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.bus.EventBus;
 import org.dblue.application.module.dictionary.application.dto.*;
@@ -37,7 +36,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -140,22 +138,15 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
         BeanUtils.copyProperties(addDto, dictionaryItem);
         dictionaryItem.setDictionaryItemId(Snowflake.stringId());
         dictionaryItem.setIsDelete(Boolean.FALSE);
-        dictionaryItem.setIsEnabled(Boolean.TRUE);
+        dictionaryItem.setIsEnable(Boolean.TRUE);
 
         if (StringUtils.isBlank(addDto.getParentId())) {
-            dictionaryItem.addItemLevel();
+            dictionaryItem.initItemLevel();
         } else {
-            List<DictionaryItem> dictionaryItemList = dictionaryItemRepository.findByParentIdAndIsDeleteFalseOrderByOrderNumDesc(dictionaryItem.getParentId());
-            if (CollectionUtils.isNotEmpty(dictionaryItemList)) {
-                dictionaryItem.addItemLevel(dictionaryItemList.getFirst().getItemLevel());
-            }
+            Optional<DictionaryItem> dictionaryItemOptional = dictionaryItemRepository.findById(dictionaryItem.getParentId());
+            dictionaryItemOptional.ifPresent(item -> dictionaryItem.setItemLevel(item.getItemLevel() + 1));
         }
-        List<DictionaryItem> dictionaryItemList = dictionaryItemRepository.findByDictionaryIdAndIsDeleteFalseOrderByItemLevelDesc(addDto.getDictionaryId());
-        if (CollectionUtils.isNotEmpty(dictionaryItemList)) {
-            dictionaryItem.addOrderNum(dictionaryItemList.getFirst().getOrderNum());
-        } else {
-            dictionaryItem.addOrderNum();
-        }
+
         dictionaryItemRepository.save(dictionaryItem);
 
         this.eventBus.fireEventAfterCommit(new DictionaryItemAddEvent(this, dictionaryOptional.get(), dictionaryItem));
@@ -224,7 +215,7 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_IS_NOT_FOUND);
         }
-        optional.get().setIsEnabled(enableDto.getEnable());
+        optional.get().setIsEnable(enableDto.getEnable());
         dictionaryItemRepository.save(optional.get());
     }
 }

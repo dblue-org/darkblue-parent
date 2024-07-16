@@ -18,29 +18,26 @@ package org.dblue.application.module.dictionary.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryItem;
+import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 /**
- * 字典项分页
+ * 字典项
  *
  * @author xie jin
  * @since 1.0.0  2024/7/12 下午2:53
  */
-@Schema(description = "字典项分页")
+@Schema(description = "字典项")
 @Data
-public class DictionaryItemPageVo {
+public class DictionaryItemNodeForSelectVo {
 
     /**
      * 字典项目ID
      */
     @Schema(description = "字典项目ID")
     private String dictionaryItemId;
-
-
-    /**
-     * 字典ID
-     */
-    @Schema(description = "字典ID")
-    private String dictionaryId;
 
     /**
      * 编码
@@ -61,14 +58,20 @@ public class DictionaryItemPageVo {
     private String extension;
 
     /**
-     * 顺序
+     * 级别
      */
-    @Schema(description = "顺序")
-    private Integer orderNum;
+    @Schema(description = "级别")
+    private Integer itemLevel;
 
     /**
-     * 字典项状态
+     * 子节点
      */
-    @Schema(description = "字典项状态")
-    private Boolean isEnable;
+    @Schema(description = "子节点")
+    private List<DictionaryItemNodeForSelectVo> children;
+
+    public static DictionaryItemNodeForSelectVo of(DictionaryItem dictionaryItem) {
+        DictionaryItemNodeForSelectVo selectVo = new DictionaryItemNodeForSelectVo();
+        BeanUtils.copyProperties(dictionaryItem, selectVo);
+        return selectVo;
+    }
 }

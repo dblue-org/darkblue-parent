@@ -124,7 +124,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
                 log.warn("方法 {} 上没有添加Operation注解，资源地址：{}", declaredMethod.getName(), baseUrl);
                 throw new ServiceException("请在方法上添加Operation注解");
             }
-            resourceMappingVo.setResourceName(operation.description());
+            resourceMappingVo.setResourceName(operation.summary());
             resourceMappingVo.setController(aClass.getName());
             resourceMappingVo.setMethod(declaredMethod.getName());
             resourceMappingVoList.add(resourceMappingVo);

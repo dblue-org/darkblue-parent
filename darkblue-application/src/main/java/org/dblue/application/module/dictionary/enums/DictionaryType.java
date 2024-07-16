@@ -17,7 +17,7 @@
 package org.dblue.application.module.dictionary.enums;
 
 import lombok.Getter;
-import org.dblue.common.enums.EnumState;
+import org.dblue.common.enums.EnumType;
 
 /**
  * 字典类型枚举
@@ -26,7 +26,7 @@ import org.dblue.common.enums.EnumState;
  * @since 1.0.0  2024/7/12 下午2:17
  */
 @Getter
-public enum DictionaryTypeEnums implements EnumState {
+public enum DictionaryType implements EnumType {
 
 
     /**
@@ -40,7 +40,7 @@ public enum DictionaryTypeEnums implements EnumState {
     private final String name;
 
 
-    DictionaryTypeEnums(Integer value, String name) {
+    DictionaryType(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

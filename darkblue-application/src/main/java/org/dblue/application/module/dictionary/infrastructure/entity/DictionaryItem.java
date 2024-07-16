@@ -104,16 +104,16 @@ public class DictionaryItem extends AbstractAuditingEntity {
      * 是否启用
      */
     @ColumnDefault("1")
-    @Column(name = "is_enabled")
-    private Boolean isEnabled;
+    @Column(name = "is_enable")
+    private Boolean isEnable;
 
-    public void addItemLevel() {
+    public void initItemLevel() {
         this.itemLevel = 1;
 
     }
 
-    public void addItemLevel(Integer level) {
-        this.itemLevel = this.itemLevel + level;
+    public void initItemLevel(Integer level) {
+        this.itemLevel = level + 1;
     }
 
 
@@ -123,7 +123,7 @@ public class DictionaryItem extends AbstractAuditingEntity {
     }
 
     public void addOrderNum(Integer num) {
-        this.orderNum = this.orderNum + num;
+        this.orderNum = num + 1;
     }
 
 }

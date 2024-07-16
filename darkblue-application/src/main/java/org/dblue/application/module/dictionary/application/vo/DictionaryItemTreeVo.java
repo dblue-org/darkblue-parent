@@ -79,6 +79,11 @@ public class DictionaryItemTreeVo {
     @Schema(description = "级别")
     private Integer itemLevel;
 
+    /**
+     * 字典项状态
+     */
+    @Schema(description = "字典项状态")
+    private Boolean isEnable;
 
     /**
      * 子节点

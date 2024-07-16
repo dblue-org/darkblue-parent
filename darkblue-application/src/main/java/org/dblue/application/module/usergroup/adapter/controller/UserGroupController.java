@@ -120,9 +120,9 @@ public class UserGroupController {
      * @param userGroupId 用户组Id
      * @param roleId      角色Id
      */
+    @Operation(summary = "用户组角色删除", description = "用户组角色删除")
     @Parameter(name = "userGroupId", description = "用户组Id", in = ParameterIn.PATH, required = true)
     @Parameter(name = "roleId", description = "角色Id", in = ParameterIn.PATH, required = true)
-    @Operation(summary = "用户组角色删除", description = "用户组角色删除")
     @DeleteMapping("/deleteRoleRef/{userGroupId}/{roleId}")
     public ResponseBean<String> deleteRole(
             @PathVariable("userGroupId") String userGroupId,
@@ -150,9 +150,9 @@ public class UserGroupController {
      * @param userGroupId 用户组Id
      * @param userId      用户Id
      */
-    @Parameter(name = "userGroupUserId", description = "用户组Id", in = ParameterIn.PATH, required = true)
-    @Parameter(name = "userId", description = "用户Id", in = ParameterIn.PATH, required = true)
     @Operation(summary = "用户组用户删除", description = "用户组用户删除")
+    @Parameter(name = "userGroupId", description = "用户组Id", in = ParameterIn.PATH, required = true)
+    @Parameter(name = "userId", description = "用户Id", in = ParameterIn.PATH, required = true)
     @DeleteMapping("/deleteUserRef/{userGroupId}/{userId}")
     public ResponseBean<String> deleteUser(
             @PathVariable("userGroupId") String userGroupId,
@@ -205,7 +205,7 @@ public class UserGroupController {
      * @param queryDto 查询参数
      * @return 用户列表
      */
-    @Operation(summary = "获取用户组对应的用户")
+    @Operation(summary = "获取用户组对应的用户", description = "获取用户组对应的用户")
     @GetMapping("/findUserGroupUsers")
     public PageResponseBean<UserGroupUserVo> findUserGroupUsers(@Valid UserGroupRefQueryDto queryDto) {
         Page<UserGroupUserVo> page = this.userGroupApplicationService.findUserGroupUsers(queryDto);
