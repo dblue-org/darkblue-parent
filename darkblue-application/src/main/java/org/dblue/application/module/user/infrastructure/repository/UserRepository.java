@@ -92,6 +92,7 @@ public interface UserRepository extends BaseJpaRepository<User, String> {
         if (StringUtils.isNotBlank(pageDto.getPositionId())) {
             builder.and(QUser.user.positionId.eq(pageDto.getPositionId()));
         }
+        builder.and(QUser.user.isDel.isFalse());
         QSort qSort = new QSort(QUser.user.createTime.desc());
         return page(builder, pageable, qSort);
     }
