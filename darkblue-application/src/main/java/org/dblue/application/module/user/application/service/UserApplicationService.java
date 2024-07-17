@@ -60,4 +60,11 @@ public interface UserApplicationService {
      * @return 用户菜单权限
      */
     List<UserMenuVo> getUserMenu();
+
+    /**
+     * 用户删除
+     *
+     * @param userId 用户ID
+     */
+    void delete(String userId);
 }

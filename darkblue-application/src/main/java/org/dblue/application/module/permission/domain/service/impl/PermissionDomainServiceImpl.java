@@ -27,6 +27,7 @@ import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionResourceRepository;
+import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.dblue.common.exception.ServiceException;
 import org.dblue.common.id.Snowflake;
@@ -144,5 +145,27 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
     public void deletePermissionResourceByResourceId(String resourceId) {
 
         permissionResourceRepository.deleteByResource_ResourceId(resourceId);
+    }
+
+    /**
+     * 设置权限
+     *
+     * @param permissionDto 权限信息
+     */
+    @Override
+    public void setPermission(ResourcePermissionDto permissionDto) {
+        permissionResourceRepository.deleteByResource_ResourceId(permissionDto.getResourceId());
+        for (String permissionId : permissionDto.getPermissionIdList()) {
+            PermissionResource permissionResource = new PermissionResource();
+            Permission permission = new Permission();
+            permission.setPermissionId(permissionId);
+            permissionResource.setPermission(permission);
+            Resource resource = new Resource();
+            resource.setResourceId(permissionDto.getResourceId());
+            permissionResource.setResource(resource);
+
+            permissionResource.setPermissionResourceId(Snowflake.stringId());
+            permissionResourceRepository.save(permissionResource);
+        }
     }
 }

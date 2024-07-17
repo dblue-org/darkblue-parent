@@ -158,7 +158,8 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     public List<Position> findAll(String keyword) {
         PositionQuery positionQuery = this.positionRepository.createQuery()
                                                              .positionCodeLike(keyword)
-                                                             .positionNameLike(keyword);
+                                                             .positionNameLike(keyword)
+                                                             .enable();
         return positionQuery.list();
     }
 

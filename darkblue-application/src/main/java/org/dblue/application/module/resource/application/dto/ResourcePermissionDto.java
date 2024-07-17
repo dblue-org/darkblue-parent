@@ -17,40 +17,36 @@
 package org.dblue.application.module.resource.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.dblue.application.commons.enums.PlatformEnum;
-import org.dblue.common.validation.annotation.EnumValues;
+
+import java.util.List;
 
 /**
- * 资源添加
+ * 绑定权限
  *
  * @author xie jin
- * @since 1.0.0  2024-07-02 17:27:58
+ * @since 1.0.0  2024-07-17 10:05:10
  */
-@Schema(description = "资源添加")
-@EqualsAndHashCode(callSuper = true)
+@Schema(description = "绑定权限")
 @Data
-public class ResourceAddDto extends ResourceDto {
+public class ResourcePermissionDto {
+
+    /**
+     * 资源ID
+     */
+    @Schema(description = "资源ID")
+    @NotBlank(message = "资源ID不能为空")
+    private String resourceId;
 
 
     /**
-     * 资源组ID
+     * 权限ID
      */
-    @Schema(description = "资源组ID")
-    @Size(max = 64)
-    private String resourceGroupId;
-
-
-    /**
-     * 适用平台(1-PC；2-APP)
-     */
-    @Schema(description = "适用平台(1-PC；2-APP)从菜单代入")
-    @NotNull(message = "适用平台不能为空")
-    @EnumValues(message = "适用平台字段不正确", clazz = PlatformEnum.class)
-    private Integer platform;
+    @Schema(description = "权限ID")
+    @NotEmpty(message = "权限ID不能为空")
+    private List<String> permissionIdList;
 
 
 }

@@ -17,6 +17,7 @@
 package org.dblue.application.module.resource.application.service;
 
 import org.dblue.application.module.resource.application.dto.ResourcePageDto;
+import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
 import org.springframework.data.domain.Page;
@@ -53,4 +54,11 @@ public interface ResourceApplicationService {
      * @return 资源
      */
     Page<ResourcePageVo> page(ResourcePageDto pageDto);
+
+    /**
+     * 设置权限
+     *
+     * @param permissionDto 权限信息
+     */
+    void setPermission(ResourcePermissionDto permissionDto);
 }

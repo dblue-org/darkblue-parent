@@ -24,6 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.resource.application.dto.ResourceAddDto;
 import org.dblue.application.module.resource.application.dto.ResourcePageDto;
+import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
 import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
@@ -111,5 +112,17 @@ public class ResourceController {
     @GetMapping("/getResourceController")
     public ResponseBean<List<ResourceControllerVo>> getResourceController() {
         return ResponseBean.success(resourceApplicationService.getResourceController());
+    }
+
+    /**
+     * 设置权限
+     *
+     * @param permissionDto 权限信息
+     */
+    @Operation(summary = "设置权限", description = "设置权限")
+    @PostMapping("/setPermission")
+    public ResponseBean<String> setPermission(@Valid @RequestBody ResourcePermissionDto permissionDto) {
+        resourceApplicationService.setPermission(permissionDto);
+        return ResponseBean.success();
     }
 }

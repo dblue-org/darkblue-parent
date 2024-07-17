@@ -98,12 +98,6 @@ public class Resource extends AbstractAuditingEntity {
     @Column(name = "platform")
     private Integer platform;
 
-    /**
-     * 排序字段
-     */
-    @Column(name = "sort_num")
-    private Integer sortNum;
-
     @OneToMany(mappedBy = "resource")
     private List<PermissionResource> permissionResourceList;
 

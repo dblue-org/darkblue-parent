@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dblue.application.module.resource.application.dto.ResourceAddDto;
 import org.dblue.application.module.resource.application.dto.ResourcePageDto;
+import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
 import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
 import org.dblue.application.module.resource.errors.ResourceErrors;
@@ -116,5 +117,18 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
     @Override
     public Page<Resource> page(ResourcePageDto pageDto) {
         return resourceRepository.page(pageDto, pageDto.toJpaPage());
+    }
+
+    /**
+     * 设置权限
+     *
+     * @param permissionDto 权限信息
+     */
+    @Override
+    public void setPermission(ResourcePermissionDto permissionDto) {
+        Optional<Resource> optionalResource = resourceRepository.findById(permissionDto.getResourceId());
+        if (optionalResource.isEmpty()) {
+            throw new ServiceException(ResourceErrors.RESOURCE_IS_NOT_FOUND);
+        }
     }
 }

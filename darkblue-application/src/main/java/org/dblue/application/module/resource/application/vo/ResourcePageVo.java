@@ -79,6 +79,13 @@ public class ResourcePageVo {
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
+
+    /**
+     * 适用平台(1-PC；2-APP)
+     */
+    @Schema(description = "适用平台(1-PC；2-APP)从菜单代入")
+    private Integer platform;
+
     /**
      * 权限信息
      */

@@ -42,14 +42,14 @@ public class PermissionResource extends AbstractCreateAuditingEntity {
     /**
      * 权限id
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "permission_id")
     private Permission permission;
 
     /**
      * 资源id
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id")
     private Resource resource;
 

@@ -132,6 +132,7 @@ public class UserDomainServiceImpl implements UserDomainService {
         }
         optional.get().setIsDel(Boolean.TRUE);
         userRepository.save(optional.get());
+        userRoleRepository.deleteByUserId(userId);
 
         this.eventBus.fireEventAfterCommit(new UserDeleteEvent(this, optional.get()));
     }

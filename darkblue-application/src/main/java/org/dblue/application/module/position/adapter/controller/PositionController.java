@@ -71,7 +71,7 @@ public class PositionController {
      * @param updateDto 职位信息
      */
     @Operation(summary = "职位更新", description = "职位更新")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseBean<String> update(@Valid @RequestBody PositionUpdateDto updateDto) {
         positionDomainService.update(updateDto);
         return ResponseBean.success();

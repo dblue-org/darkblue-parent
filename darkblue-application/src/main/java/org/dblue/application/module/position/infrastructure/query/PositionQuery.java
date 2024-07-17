@@ -45,6 +45,8 @@ public interface PositionQuery extends BaseJpaQuery<Position> {
 
     PositionQuery positionNameLike(String positionName);
 
+    PositionQuery enable();
+
     default PositionQuery createTimeBetween(LocalDate start, LocalDate end) {
         LocalDateTime startDateTime = start != null ? start.atStartOfDay() : null;
         LocalDateTime endDateTime = end != null ? LocalDateUtils.maxOfDay(end) : null;
@@ -53,6 +55,7 @@ public interface PositionQuery extends BaseJpaQuery<Position> {
 
     PositionQuery createTimeBetween(LocalDateTime start, LocalDateTime end);
 
+    @Override
     default Map<String, String> nameMap() {
         List<Position> positionList = this.list();
         return positionList.stream().collect(Collectors.toMap(Position::getPositionId, Position::getPositionName));

@@ -96,4 +96,11 @@ public interface UserGroupDomainService {
      */
     void deleteRoleByRoleId(String roleId);
 
+    /**
+     * 用户组用户删除
+     *
+     * @param userId 用户Id
+     */
+    void deleteUserByUserId(String userId);
+
 }

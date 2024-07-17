@@ -85,7 +85,7 @@ public class UserController {
     @Operation(summary = "用户删除", description = "用户删除")
     @DeleteMapping("/delete/{userId}")
     public ResponseBean<String> delete(@PathVariable("userId") String userId) {
-        userDomainService.delete(userId);
+        userApplicationService.delete(userId);
         return ResponseBean.success();
     }
 

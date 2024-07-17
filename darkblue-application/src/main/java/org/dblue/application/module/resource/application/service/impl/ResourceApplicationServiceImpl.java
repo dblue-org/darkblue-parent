@@ -25,6 +25,7 @@ import org.dblue.application.module.permission.domain.service.PermissionDomainQu
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.resource.application.dto.ResourcePageDto;
+import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
@@ -206,5 +207,17 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    /**
+     * 设置权限
+     *
+     * @param permissionDto 权限信息
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void setPermission(ResourcePermissionDto permissionDto) {
+        resourceDomainService.setPermission(permissionDto);
+        permissionDomainService.setPermission(permissionDto);
     }
 }

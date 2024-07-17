@@ -86,6 +86,12 @@ public class PositionQueryImpl extends AbstractBaseJpaQuery<Position, String> im
     }
 
     @Override
+    public PositionQuery enable() {
+        this.queryBuilder.and(QPosition.position.isEnable.isTrue());
+        return this;
+    }
+
+    @Override
     public PositionQuery createTimeBetween(LocalDateTime start, LocalDateTime end) {
         if (start != null) {
             this.queryBuilder.and(QPosition.position.createTime.goe(start));

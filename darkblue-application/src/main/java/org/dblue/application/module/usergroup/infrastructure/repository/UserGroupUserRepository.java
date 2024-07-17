@@ -91,4 +91,13 @@ public interface UserGroupUserRepository extends BaseJpaRepository<UserGroupUser
         builder.and(QUserGroupUser.userGroupUser.userGroup.isEnable.isTrue());
         return getList(builder);
     }
+
+    /**
+     * 用户组用户删除
+     *
+     * @param userId 用户ID
+     */
+    void deleteByUserId(@NonNull String userId);
+
+
 }

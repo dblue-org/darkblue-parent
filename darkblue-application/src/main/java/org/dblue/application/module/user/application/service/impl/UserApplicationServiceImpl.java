@@ -36,17 +36,20 @@ import org.dblue.application.module.user.application.helper.UserVoHelper;
 import org.dblue.application.module.user.application.service.UserApplicationService;
 import org.dblue.application.module.user.application.vo.*;
 import org.dblue.application.module.user.domain.service.UserDomainQueryService;
+import org.dblue.application.module.user.domain.service.UserDomainService;
 import org.dblue.application.module.user.errors.UserErrors;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.dblue.application.module.user.infrastructure.entity.UserRole;
 import org.dblue.application.module.usergroup.application.vo.UserGroupVo;
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainQueryService;
+import org.dblue.application.module.usergroup.domain.service.UserGroupDomainService;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.common.assertion.ServiceAssert;
 import org.dblue.security.utils.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -70,6 +73,8 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     private final PositionDomainService positionDomainService;
     private final UserGroupDomainQueryService userGroupDomainQueryService;
     private final UserVoHelper userVoHelper;
+    private final UserDomainService userDomainService;
+    private final UserGroupDomainService userGroupDomainService;
 
 
     /**
@@ -268,5 +273,17 @@ public class UserApplicationServiceImpl implements UserApplicationService {
             userMenuVoList.add(userMenuVo);
         }
         return userMenuVoList;
+    }
+
+    /**
+     * 用户删除
+     *
+     * @param userId 用户ID
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delete(String userId) {
+        userDomainService.delete(userId);
+        userGroupDomainService.deleteUserByUserId(userId);
     }
 }
