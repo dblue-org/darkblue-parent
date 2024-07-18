@@ -6,7 +6,7 @@
 
 ### 介绍
 
-文档地址：https://dblue.org/docs
+文档地址：https://dblue.org/docs/project-docs/quick-start
 
 ### 软件架构
 
