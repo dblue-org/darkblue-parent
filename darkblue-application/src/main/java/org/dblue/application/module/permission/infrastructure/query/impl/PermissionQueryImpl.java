@@ -104,8 +104,12 @@ public class PermissionQueryImpl extends AbstractBaseJpaQuery<Permission, String
     }
 
     @Override
-    public PermissionQuery orderByCreateTimeDesc() {
-        this.orderSpecifiers.add(QPermission.permission.createTime.desc());
+    public PermissionQuery orderByCreateTime(boolean isAsc) {
+        if (isAsc) {
+            this.orderSpecifiers.add(QPermission.permission.createTime.asc());
+        } else {
+            this.orderSpecifiers.add(QPermission.permission.createTime.desc());
+        }
         return this;
     }
 }

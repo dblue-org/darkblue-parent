@@ -20,6 +20,8 @@ import com.querydsl.core.BooleanBuilder;
 import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.dblue.application.module.menu.infrastructure.entity.QMenu;
+import org.dblue.application.module.menu.infrastructure.query.MenuQuery;
+import org.dblue.application.module.menu.infrastructure.query.impl.MenuQueryImpl;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -99,5 +101,13 @@ public interface MenuRepository extends BaseJpaRepository<Menu, String> {
      */
     boolean existsByParentId(@NonNull String parentId);
 
+    /**
+     * 创建菜单查询器
+     *
+     * @return 查询器
+     */
+    default MenuQuery createQuery() {
+        return new MenuQueryImpl(this);
+    }
 
 }

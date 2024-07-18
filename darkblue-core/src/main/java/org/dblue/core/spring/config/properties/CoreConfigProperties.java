@@ -52,4 +52,9 @@ public class CoreConfigProperties {
      *
      */
     private String internalErrorPrefix = "";
+
+    /**
+     * 生产环境的Profile名称
+     */
+    private String productionProfile = "prod";
 }

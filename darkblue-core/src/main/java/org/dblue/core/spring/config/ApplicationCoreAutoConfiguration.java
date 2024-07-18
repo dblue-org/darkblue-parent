@@ -19,6 +19,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
+import org.dblue.core.spring.ProductionPredicate;
 import org.dblue.core.spring.aware.ApplicationNameAwareProcessor;
 import org.dblue.core.spring.config.properties.CoreConfigProperties;
 import org.dblue.utils.date.DatePattern;
@@ -27,6 +28,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,5 +61,12 @@ public class ApplicationCoreAutoConfiguration {
     @Bean
     public static ApplicationNameAwareProcessor applicationNameAwareProcessor(ApplicationContext applicationContext) {
         return new ApplicationNameAwareProcessor(applicationContext);
+    }
+
+    @Bean
+    public ProductionPredicate productionPredicate(
+            CoreConfigProperties coreConfigProperties,
+            Environment environment) {
+        return new ProductionPredicate(coreConfigProperties, environment);
     }
 }

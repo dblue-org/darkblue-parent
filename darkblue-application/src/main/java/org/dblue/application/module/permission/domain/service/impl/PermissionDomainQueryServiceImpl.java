@@ -72,7 +72,7 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
                 .platform(query.getPlatform())
                 .permissionCodeLike(query.getPermissionCode())
                 .permissionNameLike(query.getPermissionName())
-                .orderByCreateTimeDesc()
+                .orderByCreateTime(true)
                 .page(query.toJpaPage());
     }
 

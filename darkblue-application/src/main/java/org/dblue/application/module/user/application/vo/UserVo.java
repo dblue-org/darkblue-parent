@@ -81,11 +81,16 @@ public class UserVo extends BaseUserVo {
      */
     private List<UserGroupVo> userGroups;
 
+    /**
+     * 拥有的PC端权限
+     */
+    @Schema(description = "拥有的APP端权限")
+    private List<UserMenuWithPermissionVo> pcMenus;
 
     /**
-     * 拥有权限
+     * 拥有的APP端权限
      */
-    @Schema(description = "拥有权限")
-    private List<UserMenuVo> userMenuVoList;
+    @Schema(description = "拥有的APP端权限")
+    private List<UserMenuWithPermissionVo> appMenus;
 
 }

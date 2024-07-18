@@ -66,6 +66,7 @@ public class ResourcePageVo {
      */
     @Schema(description = "控制层方法")
     private String method;
+
     /**
      * 是否登录即可访问
      */

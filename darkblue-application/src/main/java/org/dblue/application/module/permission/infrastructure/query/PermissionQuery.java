@@ -44,5 +44,5 @@ public interface PermissionQuery extends BaseJpaQuery<Permission> {
 
     PermissionQuery permissionCodeLike(String permissionCode);
 
-    PermissionQuery orderByCreateTimeDesc();
+    PermissionQuery orderByCreateTime(boolean isAsc);
 }
