@@ -1,0 +1,672 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" id="SvgjsSvg1006" width="1508" height="1229.5" xmlns="http://www.w3.org/2000/svg"
+     version="1.1">
+    <defs id="SvgjsDefs1007">
+        <pattern patternUnits="userSpaceOnUse" id="pattern_mark_0" width="300" height="300">
+            <text x="150" y="100" fill="rgba(229,229,229,0.8)" font-size="18" transform="rotate(-45, 150, 150)"
+                  style="dominant-baseline: middle; text-anchor: middle;"></text>
+        </pattern>
+        <pattern patternUnits="userSpaceOnUse" id="pattern_mark_1" width="300" height="300">
+            <text x="150" y="200" fill="rgba(229,229,229,0.8)" font-size="18" transform="rotate(-45, 150, 150)"
+                  style="dominant-baseline: middle; text-anchor: middle;"></text>
+        </pattern>
+        <marker id="SvgjsMarker1167" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1168" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1171" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1172" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1181" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1182" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1191" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1192" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <pattern id="SvgjsPattern1195" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+            <image id="SvgjsImage1196" xlink:href="https://iconsapi.com/5ee264c6e4b0b788a93301e4.svg" width="60" height="60" preserveAspectRatio="none"
+                   crossOrigin="anonymous" x="0" y="0"></image>
+        </pattern>
+        <marker id="SvgjsMarker1199" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1200" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <pattern id="SvgjsPattern1203" x="0" y="0" width="62" height="62" patternUnits="userSpaceOnUse">
+            <image id="SvgjsImage1204" xlink:href="https://iconsapi.com/5ee27fb3e4b0b788a9350d50.svg" width="62" height="62" preserveAspectRatio="none"
+                   crossOrigin="anonymous" x="0" y="0"></image>
+        </pattern>
+        <marker id="SvgjsMarker1207" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1208" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <pattern id="SvgjsPattern1211" x="0" y="0" width="63" height="63" patternUnits="userSpaceOnUse">
+            <image id="SvgjsImage1212" xlink:href="https://iconsapi.com/60767f97e4b0250bbf525164.svg" width="63" height="63" preserveAspectRatio="none"
+                   crossOrigin="anonymous" x="0" y="0"></image>
+        </pattern>
+        <marker id="SvgjsMarker1215" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1216" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1219" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1220" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1223" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1224" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1280" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1281" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1290" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1291" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1310" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1311" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1322" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1323" d="M0,0 L14,5 L0,10 L0,0" fill="#bfbfbf" stroke="#bfbfbf" stroke-width="1"></path>
+        </marker>
+        <marker id="SvgjsMarker1326" markerWidth="14" markerHeight="10" refX="10" refY="5" viewBox="0 0 14 10" orient="auto" markerUnits="userSpaceOnUse"
+                stroke-dasharray="0,0">
+            <path id="SvgjsPath1327" d="M0,0 L14,5 L0,10 L0,0" fill="#323232" stroke="#323232" stroke-width="1"></path>
+        </marker>
+    </defs>
+    <rect id="svgbackgroundid" width="1508" height="1229.5" fill="transparent"></rect>
+    <rect id="SvgjsRect1009" width="1508" height="1229.5" fill="url(#pattern_mark_0)"></rect>
+    <rect id="SvgjsRect1010" width="1508" height="1229.5" fill="url(#pattern_mark_1)"></rect>
+    <g id="SvgjsG1011" transform="translate(25,117.5)">
+        <path id="SvgjsPath1012" d="M 0 0L 1106 0L 1106 135L 0 135Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1013">
+            <text id="SvgjsText1014" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="start" font-size="16px" width="1086px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="start" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="33.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1015" dy="20" x="10">
+                    <tspan id="SvgjsTspan1016" style="">适</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1017" dy="20" x="10">
+                    <tspan id="SvgjsTspan1018" style="">配</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1019" dy="20" x="10">
+                    <tspan id="SvgjsTspan1020" style="">层</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1021" transform="translate(25,340)">
+        <path id="SvgjsPath1022" d="M 0 0L 1106 0L 1106 135L 0 135Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1023">
+            <text id="SvgjsText1024" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="start" font-size="16px" width="1086px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="start" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="33.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1025" dy="20" x="10">
+                    <tspan id="SvgjsTspan1026" style="">应</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1027" dy="20" x="10">
+                    <tspan id="SvgjsTspan1028" style="">用</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1029" dy="20" x="10">
+                    <tspan id="SvgjsTspan1030" style="">层</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1031" transform="translate(25,562.375)">
+        <path id="SvgjsPath1032" d="M 0 0L 1106 0L 1106 195L 0 195Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1033">
+            <text id="SvgjsText1034" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="start" font-size="16px" width="1086px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="start" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="63.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1035" dy="20" x="10">
+                    <tspan id="SvgjsTspan1036" style="">领</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1037" dy="20" x="10">
+                    <tspan id="SvgjsTspan1038" style="">域</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1039" dy="20" x="10">
+                    <tspan id="SvgjsTspan1040" style="">层</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1041" transform="translate(25,844.5)">
+        <path id="SvgjsPath1042" d="M 0 0L 1106 0L 1106 204L 0 204Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1043">
+            <text id="SvgjsText1044" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="start" font-size="16px" width="1086px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="start" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="48" transform="rotate(0)">
+                <tspan id="SvgjsTspan1045" dy="20" x="10">
+                    <tspan id="SvgjsTspan1046" style="">基</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1047" dy="20" x="10">
+                    <tspan id="SvgjsTspan1048" style="">础</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1049" dy="20" x="10">
+                    <tspan id="SvgjsTspan1050" style="">设</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1051" dy="20" x="10">
+                    <tspan id="SvgjsTspan1052" style="">施</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1053" dy="20" x="10">
+                    <tspan id="SvgjsTspan1054" style="">层</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1055" transform="translate(278,948.5)">
+        <path id="SvgjsPath1056" d="M 0 0L 96 0L 96 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1057">
+            <text id="SvgjsText1058" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="76px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1059" dy="20" x="48">
+                    <tspan id="SvgjsTspan1060" style="">MyBatis</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1061" transform="translate(397,948.5)">
+        <path id="SvgjsPath1062" d="M 0 0L 167.60000000000002 0L 167.60000000000002 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1"
+              fill="#ffffff"></path>
+        <g id="SvgjsG1063">
+            <text id="SvgjsText1064" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="148px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1065" dy="20" x="84">
+                    <tspan id="SvgjsTspan1066" style="">Spring-Data-Redis</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1067" transform="translate(600.5,948.5)">
+        <path id="SvgjsPath1068" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1069">
+            <text id="SvgjsText1070" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1071" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1072" style="">MQ Producer</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1073" transform="translate(777,948.5)">
+        <path id="SvgjsPath1074" d="M 0 0L 156 0L 156 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1075">
+            <text id="SvgjsText1076" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="136px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1077" dy="20" x="78">
+                    <tspan id="SvgjsTspan1078" style="">Global Event Bus</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1079" transform="translate(86,948.5)">
+        <path id="SvgjsPath1080" d="M 0 0L 160.79999999999995 0L 160.79999999999995 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1"
+              fill="#ffffff"></path>
+        <g id="SvgjsG1081">
+            <text id="SvgjsText1082" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="141px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1083" dy="20" x="80.5">
+                    <tspan id="SvgjsTspan1084" style="">Security Context</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1085" transform="translate(431.6,161.5)">
+        <path id="SvgjsPath1086" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1087">
+            <text id="SvgjsText1088" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1089" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1090" style="">RPC Provider</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1091" transform="translate(86,161.5)">
+        <path id="SvgjsPath1092" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1093">
+            <text id="SvgjsText1094" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1095" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1096" style="">Controller</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1097" transform="translate(258.8,161.5)">
+        <path id="SvgjsPath1098" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1099">
+            <text id="SvgjsText1100" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1101" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1102" style="">Feign Controller</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1103" transform="translate(604.4000000000001,161.5)">
+        <path id="SvgjsPath1104" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1105">
+            <text id="SvgjsText1106" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1107" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1108" style="">MQ Consumer</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1109" transform="translate(777.2,161.5)">
+        <path id="SvgjsPath1110" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1111">
+            <text id="SvgjsText1112" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1113" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1114" style="">Scheduler</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1115" transform="translate(1197,157)">
+        <path id="SvgjsPath1116" d="M 0 0L 252 0L 268 16L 268 56L 0 56L 0 0Z" stroke="none" fill-opacity="1" fill="#fff7bc"></path>
+        <path id="SvgjsPath1117" d="M 252 0L 252 16L 268 16Z" stroke="none" fill-opacity="1" fill="#e4d089"></path>
+        <path id="SvgjsPath1118" d="M 0 0L 252 0L 268 16L 268 56L 0 56L 0 0Z" stroke="none" fill="none"></path>
+        <g id="SvgjsG1119">
+            <text id="SvgjsText1120" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="248px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="14" transform="rotate(0)">
+                <tspan id="SvgjsTspan1121" dy="20" x="134">
+                    <tspan id="SvgjsTspan1122" style="">防腐层（Anti-corruption layer）</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1123" transform="translate(86,688.625)">
+        <path id="SvgjsPath1124" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1125">
+            <text id="SvgjsText1126" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1127" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1128" style="">ACL Interface</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1129" transform="translate(950,161.5)">
+        <path id="SvgjsPath1130" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1131">
+            <text id="SvgjsText1132" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1133" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1134" style="">ACL Implement</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1135" transform="translate(86,384)">
+        <path id="SvgjsPath1136" d="M 0 0L 172.8 0L 172.8 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1137">
+            <text id="SvgjsText1138" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="153px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1139" dy="20" x="86.5">
+                    <tspan id="SvgjsTspan1140" style="">Application Service</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1141" transform="translate(332.8666666666667,384)">
+        <path id="SvgjsPath1142" d="M 0 0L 234 0L 234 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1143">
+            <text id="SvgjsText1144" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="214px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1145" dy="20" x="117">
+                    <tspan id="SvgjsTspan1146" style="">Local Transaction Control</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1147" transform="translate(640.9333333333334,384)">
+        <path id="SvgjsPath1148" d="M 0 0L 235 0L 235 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1149">
+            <text id="SvgjsText1150" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="215px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1151" dy="20" x="117.5">
+                    <tspan id="SvgjsTspan1152" style="fill: rgb(50, 50, 50);">Global Transaction Control</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1153" transform="translate(950,384)">
+        <path id="SvgjsPath1154" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1155">
+            <text id="SvgjsText1156" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1157" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1158" style="">AOP</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1159" transform="translate(351,866.5)">
+        <path id="SvgjsPath1160" d="M 0 4Q 0 0 4 0L 121 0Q 125 0 125 4L 125 32Q 125 36 121 36L 4 36Q 0 36 0 32Z" stroke="rgba(33,41,48,1)" stroke-width="2"
+              fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1161">
+            <text id="SvgjsText1162" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="105px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="4" transform="rotate(0)">
+                <tspan id="SvgjsTspan1163" dy="20" x="62.5">
+                    <tspan id="SvgjsTspan1164" style="">Repository</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1165">
+        <path id="SvgjsPath1166" d="M412.61486244290904 902.9653294585851L329.18649520552754 946.824813949094" stroke="#323232" stroke-width="2" fill="none"
+              marker-end="url(#SvgjsMarker1167)"></path>
+    </g>
+    <g id="SvgjsG1169">
+        <path id="SvgjsPath1170" d="M414.3255779690671 903.0642880620667L477.8279193113583 946.46856297656" stroke="#323232" stroke-width="2" fill="none"
+              marker-end="url(#SvgjsMarker1171)"></path>
+    </g>
+    <g id="SvgjsG1173" transform="translate(625,866.5)">
+        <path id="SvgjsPath1174" d="M 0 4Q 0 0 4 0L 92 0Q 96 0 96 4L 96 32Q 96 36 92 36L 4 36Q 0 36 0 32Z" stroke="rgba(33,41,48,1)" stroke-width="2"
+              fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1175">
+            <text id="SvgjsText1176" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="76px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="4" transform="rotate(0)">
+                <tspan id="SvgjsTspan1177" dy="20" x="48">
+                    <tspan id="SvgjsTspan1178" style="">Message</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1179">
+        <path id="SvgjsPath1180" d="M673 903.5L673 944.9000000000001" stroke="#323232" stroke-width="2" fill="none" marker-end="url(#SvgjsMarker1181)"></path>
+    </g>
+    <g id="SvgjsG1183" transform="translate(890.2,866.5)">
+        <path id="SvgjsPath1184"
+              d="M 0 4Q 0 0 4 0L 128.79999999999995 0Q 132.79999999999995 0 132.79999999999995 4L 132.79999999999995 32Q 132.79999999999995 36 128.79999999999995 36L 4 36Q 0 36 0 32Z"
+              stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1185">
+            <text id="SvgjsText1186" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="113px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="4" transform="rotate(0)">
+                <tspan id="SvgjsTspan1187" dy="20" x="66.5">
+                    <tspan id="SvgjsTspan1188" style="">Event Publish</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1189">
+        <path id="SvgjsPath1190" d="M955.6890203926127 902.9124513970453L858.2795265865939 947.0151749706367" stroke="#323232" stroke-width="2" fill="none"
+              marker-end="url(#SvgjsMarker1191)"></path>
+    </g>
+    <g id="SvgjsG1193" transform="translate(296,1113.5)">
+        <path id="SvgjsPath1194" d="M 0 0L 60 0L 60 60L 0 60Z" stroke="none" fill="url(#SvgjsPattern1195)" opacity="1"></path>
+    </g>
+    <g id="SvgjsG1197">
+        <path id="SvgjsPath1198" d="M326 996.5L326 1109.9" stroke="#323232" stroke-width="2" fill="none" marker-end="url(#SvgjsMarker1199)"></path>
+    </g>
+    <g id="SvgjsG1201" transform="translate(449.79999999999995,1112.5)">
+        <path id="SvgjsPath1202" d="M 0 0L 62 0L 62 62L 0 62Z" stroke="none" fill="url(#SvgjsPattern1203)" opacity="1"></path>
+    </g>
+    <g id="SvgjsG1205">
+        <path id="SvgjsPath1206" d="M480.79999999999995 996.5L480.79999999999995 1108.9" stroke="#323232" stroke-width="2" fill="none"
+              marker-end="url(#SvgjsMarker1207)"></path>
+    </g>
+    <g id="SvgjsG1209" transform="translate(641.5,1110.5)">
+        <path id="SvgjsPath1210" d="M 0 0L 63 0L 63 63L 0 63Z" stroke="none" fill="url(#SvgjsPattern1211)" opacity="1"></path>
+    </g>
+    <g id="SvgjsG1213">
+        <path id="SvgjsPath1214" d="M673 996.5L673 1106.9" stroke="#323232" stroke-width="2" fill="none" marker-end="url(#SvgjsMarker1215)"></path>
+    </g>
+    <g id="SvgjsG1217">
+        <path id="SvgjsPath1218" d="M855 996.5L855 1142L708.1 1142" stroke="#323232" stroke-width="2" fill="none" marker-end="url(#SvgjsMarker1219)"></path>
+    </g>
+    <g id="SvgjsG1221">
+        <path id="SvgjsPath1222" d="M166.39999999999998 996.5L166.39999999999998 1204.5L480.79999999999995 1204.5L480.79999999999995 1178.1" stroke="#323232"
+              stroke-width="2" fill="none" marker-end="url(#SvgjsMarker1223)"></path>
+    </g>
+    <g id="SvgjsG1225" transform="translate(548,262.75)">
+        <path id="SvgjsPath1226" d="M 19.8 0L 40.2 0L 40.2 37L 60 37L 30 67L 0 37L 19.8 37L 19.8 0Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1"
+              fill="#ffffff"></path>
+        <g id="SvgjsG1227">
+            <text id="SvgjsText1228" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="84px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="16.15" transform="rotate(0)"></text>
+        </g>
+    </g>
+    <g id="SvgjsG1229" transform="translate(86,608.625)">
+        <path id="SvgjsPath1230" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1231">
+            <text id="SvgjsText1232" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1233" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1234" style="">Aggregate Root</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1235" transform="translate(376.08333333333337,608.625)">
+        <path id="SvgjsPath1236" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1237">
+            <text id="SvgjsText1238" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1239" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1240" style="">Entity</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1241" transform="translate(666.1666666666667,608.625)">
+        <path id="SvgjsPath1242" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1243">
+            <text id="SvgjsText1244" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1245" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1246" style="">Value </tspan>
+                    <tspan id="SvgjsTspan1247" style="fill: rgb(50, 50, 50);">Object</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1248" transform="translate(956.25,608.625)">
+        <path id="SvgjsPath1249" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1250">
+            <text id="SvgjsText1251" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1252" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1253" style="">Domain Service</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1254" transform="translate(956.25,688.625)">
+        <path id="SvgjsPath1255" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1256">
+            <text id="SvgjsText1257" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1258" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1259" style="">Domain Event</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1260" transform="translate(303.5625,688.625)">
+        <path id="SvgjsPath1261" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1262">
+            <text id="SvgjsText1263" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1264" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1265" style="">Module</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1266" transform="translate(738.6875,688.625)">
+        <path id="SvgjsPath1267" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1268">
+            <text id="SvgjsText1269" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1270" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1271" style="">Factory</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1272" transform="translate(955,948.5)">
+        <path id="SvgjsPath1273" d="M 0 0L 159 0L 159 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1274">
+            <text id="SvgjsText1275" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="139px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1276" dy="20" x="79.5">
+                    <tspan id="SvgjsTspan1277" style="">Internal Event Bus</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1278">
+        <path id="SvgjsPath1279" d="M957.4610805291065 903.0084686051207L1031.4001100952162 946.6695130215653" stroke="#323232" stroke-width="2" fill="none"
+              marker-end="url(#SvgjsMarker1280)"></path>
+    </g>
+    <g id="SvgjsG1282" transform="translate(963.75,1110.5)">
+        <path id="SvgjsPath1283" d="M 0 0L 141.5 0L 141.5 54L 0 54Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1284">
+            <text id="SvgjsText1285" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="122px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="13" transform="rotate(0)">
+                <tspan id="SvgjsTspan1286" dy="20" x="71">
+                    <tspan id="SvgjsTspan1287" style="">Spring Context</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1288">
+        <path id="SvgjsPath1289" d="M1034.5 996.5L1034.5 1106.9" stroke="#323232" stroke-width="2" fill="none" marker-end="url(#SvgjsMarker1290)"></path>
+    </g>
+    <g id="SvgjsG1292" transform="translate(554,485.25)">
+        <path id="SvgjsPath1293" d="M 19.8 0L 40.2 0L 40.2 37L 60 37L 30 67L 0 37L 19.8 37L 19.8 0Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1"
+              fill="#ffffff"></path>
+        <g id="SvgjsG1294">
+            <text id="SvgjsText1295" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="84px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="16.15" transform="rotate(0)"></text>
+        </g>
+    </g>
+    <g id="SvgjsG1296" transform="translate(554,767.5)">
+        <path id="SvgjsPath1297" d="M 19.8 0L 40.2 0L 40.2 37L 60 37L 30 67L 0 37L 19.8 37L 19.8 0Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1"
+              fill="#ffffff"></path>
+        <g id="SvgjsG1298">
+            <text id="SvgjsText1299" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="84px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="16.15" transform="rotate(0)"></text>
+        </g>
+    </g>
+    <g id="SvgjsG1300" transform="translate(955.25,29.5)">
+        <path id="SvgjsPath1301" d="M 0 4Q 0 0 4 0L 130.5 0Q 134.5 0 134.5 4L 134.5 50Q 134.5 54 130.5 54L 4 54Q 0 54 0 50Z" stroke="rgba(33,41,48,1)"
+              stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1302">
+            <text id="SvgjsText1303" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="115px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="3" transform="rotate(0)">
+                <tspan id="SvgjsTspan1304" dy="20" x="67.5">
+                    <tspan id="SvgjsTspan1305" style="">Remote</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1306" dy="20" x="67.5">
+                    <tspan id="SvgjsTspan1307" style="">Service</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1308">
+        <path id="SvgjsPath1309" d="M1022.5 160.5L1022.5 87.10000000000002" stroke="#323232" stroke-width="2" fill="none"
+              marker-end="url(#SvgjsMarker1310)"></path>
+    </g>
+    <g id="SvgjsG1312" transform="translate(1202,25)">
+        <path id="SvgjsPath1313" d="M 0 0L 177 0L 193 16L 193 63L 0 63L 0 0Z" stroke="none" fill-opacity="1" fill="#fff7bc"></path>
+        <path id="SvgjsPath1314" d="M 177 0L 177 16L 193 16Z" stroke="none" fill-opacity="1" fill="#e4d089"></path>
+        <path id="SvgjsPath1315" d="M 0 0L 177 0L 193 16L 193 63L 0 63L 0 0Z" stroke="none" fill="none"></path>
+        <g id="SvgjsG1316">
+            <text id="SvgjsText1317" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="13px" width="173px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="13px" weight="400" font-style="" opacity="1" y="20.875" transform="rotate(0)">
+                <tspan id="SvgjsTspan1318" dy="16.25" x="96.5">
+                    <tspan id="SvgjsTspan1319" style="">RPC, Feign, 第三方API</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1320">
+        <path id="SvgjsPath1321" d="M1202 56.5L1093.35 56.5" stroke-dasharray="10,4" stroke="#bfbfbf" stroke-width="2" fill="none"
+              marker-end="url(#SvgjsMarker1322)"></path>
+    </g>
+    <g id="SvgjsG1324">
+        <path id="SvgjsPath1325" d="M231.36647627810635 711.1945726048824C 313 482.5 882 707.5 1021.4720758006902 211.95012635137806" stroke-dasharray="10,4"
+              stroke="#323232" stroke-width="2" fill="none" marker-end="url(#SvgjsMarker1326)"></path>
+    </g>
+    <g id="SvgjsG1328" transform="translate(521.125,688.625)">
+        <path id="SvgjsPath1329" d="M 0 0L 145 0L 145 47L 0 47Z" stroke="rgba(33,41,48,1)" stroke-width="2" fill-opacity="1" fill="#ffffff"></path>
+        <g id="SvgjsG1330">
+            <text id="SvgjsText1331" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="middle" font-size="16px" width="125px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="middle" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="16px" weight="400" font-style="" opacity="1" y="9.5" transform="rotate(0)">
+                <tspan id="SvgjsTspan1332" dy="20" x="72.5">
+                    <tspan id="SvgjsTspan1333" style="">Repository</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1334" transform="translate(1191,623.875)">
+        <path id="SvgjsPath1335" d="M 0 0L 276 0L 292 16L 292 100L 0 100L 0 0Z" stroke="none" fill-opacity="1" fill="#fff7bc"></path>
+        <path id="SvgjsPath1336" d="M 276 0L 276 16L 292 16Z" stroke="none" fill-opacity="1" fill="#e4d089"></path>
+        <path id="SvgjsPath1337" d="M 0 0L 276 0L 292 16L 292 100L 0 100L 0 0Z" stroke="none" fill="none"></path>
+        <g id="SvgjsG1338">
+            <text id="SvgjsText1339" font-family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial" text-anchor="start" font-size="13px" width="272px"
+                  fill="#323232" font-weight="400" align="middle" lineHeight="125%" anchor="start" family="&quot;Microsoft YaHei&quot;, 微软雅黑, Arial"
+                  size="13px" weight="400" font-style="" opacity="1" y="14.875" transform="rotate(0)">
+                <tspan id="SvgjsTspan1340" dy="16.25" x="10">
+                    <tspan id="SvgjsTspan1341" style="">领域层的Repository主要负责将数据库的</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1342" dy="16.25" x="10">
+                    <tspan id="SvgjsTspan1343" style="">Model转为实体。如果是用Mybatis框架，这一</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1344" dy="16.25" x="10">
+                    <tspan id="SvgjsTspan1345" style="">层是必要的。如果使用的是JPA，这一层可以省</tspan>
+                </tspan>
+                <tspan id="SvgjsTspan1346" dy="16.25" x="10">
+                    <tspan id="SvgjsTspan1347" style="">略</tspan>
+                </tspan>
+            </text>
+        </g>
+    </g>
+    <g id="SvgjsG1348"></g>
+</svg>
