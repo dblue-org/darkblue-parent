@@ -31,7 +31,7 @@ import org.dblue.common.validation.annotation.EnumValues;
 @Schema(description = "资源组添加")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ResourceGroupAddDto extends ResourceGroupDto{
+public class ResourceGroupAddDto extends ResourceGroupDto {
 
     /**
      * 适用平台(1-PC；2-APP)

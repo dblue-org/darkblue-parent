@@ -13,54 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.dblue.application.module.user.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import lombok.EqualsAndHashCode;
+import org.dblue.application.module.menu.application.vo.BaseMenuTreeNodeVo;
+import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
 
 /**
- * 用户权限
- *
- * @author xie jin
- * @since 1.0.0  2024-07-08 10:52:47
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@Schema(description = "用户权限")
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class UserPermissionVo {
-    /**
-     * 权限ID
-     */
-    @Schema(description = "权限ID")
-    private String permissionId;
+public class UserMenuWithPermissionVo extends BaseMenuTreeNodeVo {
 
     /**
-     * 菜单ID
+     * 菜单类型(1-目录;2-菜单)
      */
-    @Schema(description = "菜单ID")
-    private String menuId;
+    @Schema(description = "菜单类型(1-目录;2-菜单)")
+    private Integer menuType;
 
 
     /**
-     * 权限名称
+     * 权限
      */
-    @Schema(description = "权限名称")
-    private String permissionName;
+    @Schema(description = "权限")
+    private List<UserPermissionVo> permissions;
 
-    /**
-     * 权限标识
-     */
-    @Schema(description = "权限标识")
-    private String permissionCode;
-
-
-    public static UserPermissionVo of(Permission permission) {
-        UserPermissionVo vo = new UserPermissionVo();
-        BeanUtils.copyProperties(permission, vo);
+    public static UserMenuWithPermissionVo of(Menu menu) {
+        UserMenuWithPermissionVo vo = new UserMenuWithPermissionVo();
+        BeanUtils.copyProperties(menu, vo);
         return vo;
     }
-
 }

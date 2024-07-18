@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.user.application.dto.UserAddDto;
 import org.dblue.application.module.user.application.dto.UserEnableDto;
 import org.dblue.application.module.user.application.dto.UserPageDto;
@@ -147,6 +148,6 @@ public class UserController {
     @Operation(summary = "获取用户菜单权限")
     @GetMapping("/getUserMenu/pc")
     public ResponseBean<List<UserMenuVo>> getUserMenu() {
-        return ResponseBean.success(userApplicationService.getUserMenu());
+        return ResponseBean.success(userApplicationService.getUserMenu(PlatformEnum.PC.getValue()));
     }
 }

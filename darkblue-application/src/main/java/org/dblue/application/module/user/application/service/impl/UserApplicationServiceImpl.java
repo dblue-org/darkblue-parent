@@ -19,7 +19,8 @@ package org.dblue.application.module.user.application.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.dblue.application.commons.enums.MenuTypeEnum;
+import org.dblue.application.commons.enums.PlatformEnum;
+import org.dblue.application.commons.menu.MenuTreeUtils;
 import org.dblue.application.module.department.domain.service.DepartmentDomainQueryService;
 import org.dblue.application.module.department.infrastructure.entity.Department;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
@@ -142,33 +143,51 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     }
 
     /**
+     * 下拉列表使用
+     *
+     * @param name 用户名/姓名
+     * @return 用户信息
+     */
+    @Override
+    public List<UserSelectVo> selectByNameOrUserName(String name) {
+        List<User> userList = userDomainQueryService.selectByNameOrUserName(name);
+        if (CollectionUtils.isNotEmpty(userList)) {
+            return userList.stream().map(user -> {
+                UserSelectVo userVo = new UserSelectVo();
+                BeanUtils.copyProperties(user, userVo);
+                return userVo;
+            }).toList();
+
+        }
+        return List.of();
+    }
+
+    /**
      * 获取用户菜单权限
      *
      * @return 用户菜单权限
      */
     @Override
-    public List<UserMenuVo> getUserMenu() {
+    public List<UserMenuVo> getUserMenu(Integer platform) {
         User user = userDomainQueryService.getOne(SecurityUtils.getUserId());
         List<Menu> menuList;
         if (Boolean.TRUE.equals(user.getIsAdmin())) {
-            menuList = menuDomainQueryService.findAllMenus();
+            menuList = menuDomainQueryService.findAllUsableMenus(platform);
         } else {
             Set<String> roleIdSet = user.getRoles().stream().map(UserRole::getRoleId).collect(Collectors.toSet());
             List<UserGroupRole> groupRoles = userGroupDomainQueryService.getUserGroupRoleByUserId(SecurityUtils.getUserId());
             if (CollectionUtils.isNotEmpty(groupRoles)) {
                 roleIdSet.addAll(groupRoles.stream().map(UserGroupRole::getRoleId).collect(Collectors.toSet()));
             }
-            menuList = menuDomainQueryService.getMenuByRoleIds(roleIdSet);
+            if (CollectionUtils.isEmpty(roleIdSet)) {
+                return List.of();
+            }
+            menuList = menuDomainQueryService.findAllUsableMenusByRoleIdIn(platform, roleIdSet);
         }
 
-        Map<String, List<Menu>> childrenMap = menuList.stream()
-                .filter(menu -> !Objects.equals(menu.getLevel(), 1))
-                .collect(Collectors.groupingBy(Menu::getParentId));
-
-        List<Menu> rootMenuList = menuList.stream().filter(menu -> Objects.equals(menu.getLevel(), 1))
-                .toList();
-        return buildMenu(rootMenuList, childrenMap);
+        return MenuTreeUtils.buildTree(menuList, UserMenuVo::of);
     }
+
 
     private List<UserRoleVo> getUserRoleVo(String userId, List<UserRole> userRoleList) {
         List<UserRoleVo> userRoleVoList = new ArrayList<>();
@@ -196,83 +215,43 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         return userRoleVoList;
     }
 
-    /**
-     * 下拉列表使用
-     *
-     * @param name 用户名/姓名
-     * @return 用户信息
-     */
-    @Override
-    public List<UserSelectVo> selectByNameOrUserName(String name) {
-        List<User> userList = userDomainQueryService.selectByNameOrUserName(name);
-        if (CollectionUtils.isNotEmpty(userList)) {
-            return userList.stream().map(user -> {
-                UserSelectVo userVo = new UserSelectVo();
-                BeanUtils.copyProperties(user, userVo);
-                return userVo;
-            }).toList();
-
-        }
-        return List.of();
-    }
-
     private void setUserMenuVoList(List<UserRoleVo> userRoleVoList, UserVo userVo) {
-        if (CollectionUtils.isNotEmpty(userRoleVoList)) {
+        if (Boolean.TRUE.equals(userVo.getIsAdmin())) {
+            List<Permission> permissionList = permissionDomainQueryService.getAll();
+            List<Menu> pcMenuList = this.menuDomainQueryService.findAllMenus(PlatformEnum.PC);
+            List<Menu> appMenuList = this.menuDomainQueryService.findAllMenus(PlatformEnum.APP);
+            userVo.setPcMenus(this.buildMenuTree(pcMenuList, permissionList));
+            userVo.setAppMenus(this.buildMenuTree(appMenuList, permissionList));
+        } else if (CollectionUtils.isNotEmpty(userRoleVoList)) {
             Set<String> roleIdSet = userRoleVoList.stream().map(UserRoleVo::getRoleId)
                     .collect(Collectors.toSet());
             List<Menu> menuList = menuDomainQueryService.getMenuByRoleIds(roleIdSet);
+
+            List<Menu> pcMenuList = menuList.stream().filter(menu -> PlatformEnum.PC.equalsTo(menu.getPlatform())).toList();
+            List<Menu> appMenuList = menuList.stream().filter(menu -> PlatformEnum.APP.equalsTo(menu.getPlatform())).toList();
+
             List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(roleIdSet);
-            List<Menu> rootMenuList = menuList.stream().filter(menu -> Objects.equals(menu.getLevel(), 1))
-                    .toList();
-            Map<String, List<Menu>> childrenMap = menuList.stream()
-                    .filter(menu -> !Objects.equals(menu.getLevel(), 1))
-                    .collect(Collectors.groupingBy(Menu::getParentId));
-            Map<String, List<Permission>> permissionMap = permissionList.stream()
-                    .collect(Collectors.groupingBy(Permission::getMenuId));
 
-            userVo.setUserMenuVoList(buildMenu(rootMenuList, childrenMap, permissionMap));
+            userVo.setPcMenus(this.buildMenuTree(pcMenuList, permissionList));
+            userVo.setAppMenus(this.buildMenuTree(appMenuList, permissionList));
         }
     }
 
-    public List<UserMenuVo> buildMenu(
-            List<Menu> menuList, Map<String, List<Menu>> childrenMap) {
-        List<UserMenuVo> userMenuVoList = new ArrayList<>();
-        for (Menu menu : menuList) {
-            UserMenuVo userMenuVo = new UserMenuVo();
-            BeanUtils.copyProperties(menu, userMenuVo);
-            List<Menu> menus = childrenMap.get(menu.getMenuId());
-            if (CollectionUtils.isNotEmpty(menus)) {
-                userMenuVo.setChildren(buildMenu(menus, childrenMap));
-            }
-            userMenuVoList.add(userMenuVo);
+    private List<UserMenuWithPermissionVo> buildMenuTree(List<Menu> menuList, List<Permission> permissionList) {
+        if (CollectionUtils.isEmpty(menuList)) {
+            return List.of();
         }
-        return userMenuVoList;
-    }
+        Map<String, List<Permission>> permissionMap = permissionList.stream()
+                .collect(Collectors.groupingBy(Permission::getMenuId));
 
-    public List<UserMenuVo> buildMenu(
-            List<Menu> menuList, Map<String, List<Menu>> childrenMap, Map<String, List<Permission>> permissionMap) {
-        List<UserMenuVo> userMenuVoList = new ArrayList<>();
-        for (Menu menu : menuList) {
-            UserMenuVo userMenuVo = new UserMenuVo();
-            BeanUtils.copyProperties(menu, userMenuVo);
-            if (MenuTypeEnum.MENU.equalsTo(menu.getMenuType())) {
-                List<Permission> permissionList = permissionMap.get(menu.getMenuId());
-                if (CollectionUtils.isNotEmpty(permissionList)) {
-                    userMenuVo.setPermissions(permissionList.stream().map(permission -> {
-                        UserPermissionVo userPermissionVo = new UserPermissionVo();
-                        BeanUtils.copyProperties(permission, userPermissionVo);
-                        return userPermissionVo;
-                    }).toList());
-                }
-            } else {
-                List<Menu> menus = childrenMap.get(menu.getMenuId());
-                if (CollectionUtils.isNotEmpty(menus)) {
-                    userMenuVo.setChildren(buildMenu(menus, childrenMap, permissionMap));
-                }
+        return MenuTreeUtils.buildTree(menuList, menu -> {
+            UserMenuWithPermissionVo vo = UserMenuWithPermissionVo.of(menu);
+            List<Permission> permissions = permissionMap.get(menu.getMenuId());
+            if (CollectionUtils.isNotEmpty(permissions)) {
+                vo.setPermissions(permissions.stream().map(UserPermissionVo::of).toList());
             }
-            userMenuVoList.add(userMenuVo);
-        }
-        return userMenuVoList;
+            return vo;
+        });
     }
 
     /**

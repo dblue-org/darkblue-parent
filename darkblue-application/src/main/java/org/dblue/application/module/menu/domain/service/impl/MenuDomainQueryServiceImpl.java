@@ -24,10 +24,13 @@ import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.errors.MenuErrors;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
+import org.dblue.application.module.menu.infrastructure.query.MenuQuery;
 import org.dblue.application.module.menu.infrastructure.repository.MenuRepository;
 import org.dblue.common.exception.ServiceException;
+import org.dblue.core.spring.ProductionPredicate;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -44,6 +47,8 @@ import java.util.Set;
 public class MenuDomainQueryServiceImpl implements MenuDomainQueryService {
 
     private final MenuRepository menuRepository;
+
+    private final ProductionPredicate productionPredicate;
 
     /**
      * 获取一条菜单数据
@@ -95,8 +100,30 @@ public class MenuDomainQueryServiceImpl implements MenuDomainQueryService {
      * @return 菜单列表
      */
     @Override
-    public List<Menu> findAllMenus() {
-        return menuRepository.findByIsEnableTrueAndIsVisibleTrueAndIsProductionVisibleTrue();
+    public List<Menu> findAllUsableMenus(Integer platform) {
+        MenuQuery query = menuRepository.createQuery()
+                .enabled()
+                .visible()
+                .platform(platform)
+                .orderBySortNum(true);
+        if (productionPredicate.isProduction()) {
+            query.productionVisible();
+        }
+        return query.list();
+    }
+
+    @Override
+    public List<Menu> findAllUsableMenusByRoleIdIn(Integer platform, Collection<String> roleId) {
+        MenuQuery query = menuRepository.createQuery()
+                .enabled()
+                .visible()
+                .platform(platform)
+                .roleIdIn(roleId)
+                .orderBySortNum(true);
+        if (productionPredicate.isProduction()) {
+            query.productionVisible();
+        }
+        return query.list();
     }
 
     /**

@@ -57,9 +57,10 @@ public interface UserApplicationService {
     /**
      * 获取用户菜单权限
      *
+     * @param platform 平台
      * @return 用户菜单权限
      */
-    List<UserMenuVo> getUserMenu();
+    List<UserMenuVo> getUserMenu(Integer platform);
 
     /**
      * 用户删除

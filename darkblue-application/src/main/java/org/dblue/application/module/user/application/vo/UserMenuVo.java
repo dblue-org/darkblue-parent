@@ -18,8 +18,10 @@ package org.dblue.application.module.user.application.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.util.List;
+import lombok.EqualsAndHashCode;
+import org.dblue.application.module.menu.application.vo.BaseMenuTreeNodeVo;
+import org.dblue.application.module.menu.infrastructure.entity.Menu;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 用户拥有菜单权限
@@ -27,21 +29,10 @@ import java.util.List;
  * @author xie jin
  * @since 1.0.0  2024/7/8 上午10:47
  */
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "用户拥有菜单权限")
 @Data
-public class UserMenuVo {
-
-    /**
-     * 菜单ID
-     */
-    @Schema(description = "菜单ID")
-    private String menuId;
-
-    /**
-     * 上级菜单ID
-     */
-    @Schema(description = "上级菜单ID")
-    private String parentId;
+public class UserMenuVo extends BaseMenuTreeNodeVo {
 
 
     /**
@@ -50,21 +41,36 @@ public class UserMenuVo {
     @Schema(description = "菜单类型(1-目录;2-菜单)")
     private Integer menuType;
 
-    /**
-     * 菜单名称
-     */
-    @Schema(description = "菜单名称")
-    private String menuName;
 
     /**
-     * 子节点
+     * 菜单url
      */
-    @Schema(description = "子节点")
-    private List<UserMenuVo> children;
+    @Schema(description = "菜单url")
+    private String menuUrl;
 
     /**
-     * 权限
+     * 菜单层级
      */
-    @Schema(description = "权限")
-    private List<UserPermissionVo> permissions;
+    @Schema(description = "菜单层级")
+    private Integer level;
+
+    /**
+     * 显示顺序
+     */
+    @Schema(description = "显示顺序")
+    private Integer sortNum;
+
+    /**
+     * 菜单图标
+     */
+
+    @Schema(description = "菜单图标")
+    private String menuIcon;
+
+    public static UserMenuVo of(Menu menu) {
+        UserMenuVo userMenuVo = new UserMenuVo();
+        BeanUtils.copyProperties(menu, userMenuVo);
+        return userMenuVo;
+    }
+
 }
