@@ -27,6 +27,7 @@ import org.dblue.application.module.resource.application.dto.ResourcePageDto;
 import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
 import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
+import org.dblue.application.module.resource.application.service.SpringAnnotationService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
@@ -50,6 +51,7 @@ public class ResourceController {
 
     private final ResourceApplicationService resourceApplicationService;
     private final ResourceDomainService resourceDomainService;
+    private final SpringAnnotationService springAnnotationService;
 
     /**
      * 资源添加
@@ -111,7 +113,7 @@ public class ResourceController {
     @Operation(summary = "获取资源信息", description = "获取资源信息")
     @GetMapping("/getResourceController")
     public ResponseBean<List<ResourceControllerVo>> getResourceController() {
-        return ResponseBean.success(resourceApplicationService.getResourceController());
+        return ResponseBean.success(springAnnotationService.getResourceController());
     }
 
     /**

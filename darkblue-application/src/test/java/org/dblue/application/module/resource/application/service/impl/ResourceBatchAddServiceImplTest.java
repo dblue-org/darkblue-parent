@@ -14,33 +14,30 @@
  * limitations under the License.
  */
 
-package org.dblue.application.commons.enums;
+package org.dblue.application.module.resource.application.service.impl;
 
-import lombok.Getter;
-import org.dblue.common.enums.EnumType;
+import org.dblue.application.module.resource.application.service.ResourceBatchAddService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
 /**
- * 适用平台
+ * 测试
  *
  * @author xie jin
- * @since 1.0.0  2024/6/14 下午5:19
+ * @since 1.0.0  2024/7/18 上午10:26
  */
-@Getter
-public enum PlatformEnum implements EnumType {
-
-    /**
-     *
-     */
-    PC(1,"PC"),
-    APP(2,"APP"),
-    ;
-
-    private final int value;
-    private final String name;
+@SpringBootTest
+class ResourceBatchAddServiceImplTest {
 
 
-    PlatformEnum(Integer value, String name) {
-        this.value = value;
-        this.name = name;
+    @Autowired
+    private ResourceBatchAddService resourceBatchAddService;
+
+    @Commit
+    @Test
+    void batchAdd() {
+        resourceBatchAddService.batchAdd();
     }
 }

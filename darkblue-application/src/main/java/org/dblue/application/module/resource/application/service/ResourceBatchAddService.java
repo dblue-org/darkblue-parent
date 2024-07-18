@@ -14,33 +14,19 @@
  * limitations under the License.
  */
 
-package org.dblue.application.commons.enums;
-
-import lombok.Getter;
-import org.dblue.common.enums.EnumType;
+package org.dblue.application.module.resource.application.service;
 
 /**
- * 适用平台
+ * 资源批量添加
  *
  * @author xie jin
- * @since 1.0.0  2024/6/14 下午5:19
+ * @since 1.0.0  2024/7/18 上午10:10
  */
-@Getter
-public enum PlatformEnum implements EnumType {
+public interface ResourceBatchAddService {
+
 
     /**
-     *
+     * 批量添加，用于首次添加资源信息
      */
-    PC(1,"PC"),
-    APP(2,"APP"),
-    ;
-
-    private final int value;
-    private final String name;
-
-
-    PlatformEnum(Integer value, String name) {
-        this.value = value;
-        this.name = name;
-    }
+    void batchAdd();
 }

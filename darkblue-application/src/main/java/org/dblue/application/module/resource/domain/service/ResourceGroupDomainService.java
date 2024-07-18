@@ -34,8 +34,9 @@ public interface ResourceGroupDomainService {
      * 资源组添加
      *
      * @param addDto 添加信息
+     * @return 资源组ID
      */
-    void add(ResourceGroupAddDto addDto);
+    String add(ResourceGroupAddDto addDto);
 
 
     /**

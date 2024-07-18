@@ -17,7 +17,7 @@
 package org.dblue.application.commons.enums;
 
 import lombok.Getter;
-import org.dblue.common.enums.EnumState;
+import org.dblue.common.enums.EnumType;
 
 /**
  * 菜单类型(1-目录;2-菜单)
@@ -26,7 +26,7 @@ import org.dblue.common.enums.EnumState;
  * @since 1.0.0  2024/6/17 上午10:08
  */
 @Getter
-public enum MenuTypeEnum implements EnumState {
+public enum MenuTypeEnum implements EnumType {
 
     /**
      *

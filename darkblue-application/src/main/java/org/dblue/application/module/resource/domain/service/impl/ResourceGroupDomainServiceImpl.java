@@ -51,10 +51,11 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
      * 资源组添加
      *
      * @param addDto 添加信息
+     * @return 资源组ID
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void add(ResourceGroupAddDto addDto) {
+    public String add(ResourceGroupAddDto addDto) {
         Optional<ResourceGroup> groupOptional = resourceGroupRepository.findByGroupName(addDto.getGroupName());
         if(groupOptional.isPresent()){
             throw new ServiceException(ResourceGroupErrors.RESOURCE_GROUP_EXITS);
@@ -63,6 +64,7 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
         BeanUtils.copyProperties(addDto,resourceGroup);
         resourceGroup.setResourceGroupId(Snowflake.stringId());
         resourceGroupRepository.save(resourceGroup);
+        return resourceGroup.getResourceGroupId();
     }
 
     /**

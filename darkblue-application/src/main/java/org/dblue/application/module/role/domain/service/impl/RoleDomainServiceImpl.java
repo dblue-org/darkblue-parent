@@ -33,6 +33,7 @@ import org.dblue.application.module.role.infrastructure.repository.RolePermissio
 import org.dblue.application.module.role.infrastructure.repository.RoleRepository;
 import org.dblue.common.exception.ServiceException;
 import org.dblue.common.id.Snowflake;
+import org.dblue.security.utils.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -112,6 +113,9 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
         }
+        if (Boolean.TRUE.equals(optional.get().getIsBuiltIn())) {
+            throw new ServiceException(RoleErrors.THE_BUILT_IN_ROLE_CANNOT_BE_DELETED);
+        }
         roleRepository.deleteById(roleId);
         roleMenuRepository.deleteByRoleId(roleId);
         rolePermissionRepository.deleteByRoleId(roleId);
@@ -128,6 +132,9 @@ public class RoleDomainServiceImpl implements RoleDomainService {
         Optional<Role> optional = roleRepository.findById(permissionDto.getRoleId());
         if (optional.isEmpty()) {
             throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);
+        }
+        if (Boolean.TRUE.equals(optional.get().getIsBuiltIn()) && Boolean.FALSE.equals(SecurityUtils.isAdmin())) {
+            throw new ServiceException(RoleErrors.ONLY_THE_SUPER_ADMINISTRATOR_CAN_SET_PERMISSIONS_FOR_BUILT_IN_ROLES);
         }
 
         roleMenuRepository.deleteByRoleId(permissionDto.getRoleId());

@@ -61,4 +61,8 @@ public class SecurityUtils {
            return null;
         }
     }
+
+    public static Boolean isAdmin() {
+        return Boolean.TRUE.equals(getUser().isAdmin());
+    }
 }

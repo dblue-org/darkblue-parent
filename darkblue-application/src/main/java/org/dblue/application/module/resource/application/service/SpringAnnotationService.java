@@ -14,33 +14,24 @@
  * limitations under the License.
  */
 
-package org.dblue.application.commons.enums;
+package org.dblue.application.module.resource.application.service;
 
-import lombok.Getter;
-import org.dblue.common.enums.EnumType;
+import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
+
+import java.util.List;
 
 /**
- * 适用平台
+ * spring 注解服务
  *
  * @author xie jin
- * @since 1.0.0  2024/6/14 下午5:19
+ * @since 1.0.0  2024/7/18 上午10:15
  */
-@Getter
-public enum PlatformEnum implements EnumType {
+public interface SpringAnnotationService {
 
     /**
+     * 获取资源信息
      *
+     * @return 资源信息
      */
-    PC(1,"PC"),
-    APP(2,"APP"),
-    ;
-
-    private final int value;
-    private final String name;
-
-
-    PlatformEnum(Integer value, String name) {
-        this.value = value;
-        this.name = name;
-    }
+    List<ResourceControllerVo> getResourceController();
 }

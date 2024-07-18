@@ -34,7 +34,9 @@ public enum RoleErrors implements ErrorInfo {
     ROLE_EXITS("ROLE_0001", "角色已存在"),
     ROLE_IS_NOT_FOUND("ROLE_0002", "角色不存在"),
     ROLE_USER_IS_EXITS("ROLE_0003", "用户角色存在关联关系"),
-    ROLE_ID_IS_NOT_BLANK("ROLE_0003", "角色ID不能为空"),
+    ROLE_ID_IS_NOT_BLANK("ROLE_0004", "角色ID不能为空"),
+    THE_BUILT_IN_ROLE_CANNOT_BE_DELETED("ROLE_0005", "内置角色禁止删除"),
+    ONLY_THE_SUPER_ADMINISTRATOR_CAN_SET_PERMISSIONS_FOR_BUILT_IN_ROLES("ROLE_0006", "内置角色只能超级管理员设置权限"),
 
 
     ;
