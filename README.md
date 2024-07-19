@@ -1,8 +1,8 @@
 # darkblue-parent
 
-<div style="text-align: center">
+<p align="center">
     <img src="docs/images/logo-blue.svg" width="200">
-</div>
+</p>
 
 ### 介绍
 
