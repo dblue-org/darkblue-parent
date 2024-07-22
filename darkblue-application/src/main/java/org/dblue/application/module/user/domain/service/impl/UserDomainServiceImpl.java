@@ -36,6 +36,8 @@ import org.dblue.application.module.user.infrastructure.repository.UserRoleRepos
 import org.dblue.common.exception.ServiceException;
 import org.dblue.common.id.Snowflake;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +58,7 @@ public class UserDomainServiceImpl implements UserDomainService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final EventBus eventBus;
+    private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     /**
      * 用户添加
@@ -71,6 +74,7 @@ public class UserDomainServiceImpl implements UserDomainService {
         }
         User userSave = new User();
         BeanUtils.copyProperties(addDto, userSave);
+        userSave.setPassword(passwordEncoder.encode(addDto.getPassword()));
         userSave.setUserId(Snowflake.stringId());
         userSave.setIsDel(Boolean.FALSE);
         userSave.setIsEnable(Boolean.TRUE);

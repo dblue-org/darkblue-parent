@@ -16,7 +16,6 @@
 
 create database darkblue character set utf8mb4 collate utf8mb4_general_ci;
 
-
 create table darkblue.tb_service_file
 (
     file_service_id varchar(64)   not null comment '业务文件ID '
@@ -66,22 +65,21 @@ create table darkblue.tb_sys_dictionary
 
 create table darkblue.tb_sys_dictionary_item
 (
-    dictionary_item_id   varchar(64) default '1' not null comment '字典项目ID'
+    dictionary_item_id varchar(64) default '1' not null comment '字典项目ID'
         primary key,
-    dictionary_item_code varchar(64)             null comment '字典项识别码',
-    dictionary_id        varchar(64)             null comment '字典ID',
-    code                 int                     null comment '编码',
-    name                 varchar(500)            null comment '名称',
-    extension            varchar(500)            null comment '扩展信息',
-    parent_id            varchar(64)             null comment '上级ID',
-    order_num            int                     null comment '顺序',
-    item_level           int                     null comment '级别',
-    is_delete            tinyint(1)  default 0   null comment '是否删除',
-    is_enabled           tinyint(1)  default 1   null comment '是否启用',
-    create_time          datetime                null comment '创建时间',
-    create_user          varchar(64)             null comment '创建人',
-    update_time          datetime                null comment '更新时间',
-    update_user          varchar(100)            null comment '更新人'
+    dictionary_id      varchar(64)             null comment '字典ID',
+    code               int                     null comment '编码',
+    name               varchar(500)            null comment '名称',
+    extension          varchar(500)            null comment '扩展信息',
+    parent_id          varchar(64)             null comment '上级ID',
+    order_num          int                     null comment '顺序',
+    item_level         int                     null comment '级别',
+    is_delete          tinyint(1)  default 0   null comment '是否删除',
+    is_enable          tinyint(1)  default 1   null comment '是否启用',
+    create_time        datetime                null comment '创建时间',
+    create_user        varchar(64)             null comment '创建人',
+    update_time        datetime                null comment '更新时间',
+    update_user        varchar(100)            null comment '更新人'
 )
     comment '数据字典条目';
 
@@ -91,7 +89,7 @@ create table darkblue.tb_sys_login_log
         primary key,
     user_id        varchar(64)  null comment '用户ID',
     login_platform int          null comment '登录平台（1-PC;2-Android;3-IOS;4-小程序）',
-    login_type     int          null comment '登录平台（1-密码登录;2-微信登录;3-支付宝登录;9-其他）',
+    login_type int null comment '登录类型（1-密码登录;2-微信登录;3-支付宝登录;9-其他）',
     login_time     datetime     null comment '登录时间',
     login_ip       varchar(128) null comment '登录IP',
     user_agent     varchar(512) null comment 'request 中的user-agent',
@@ -177,6 +175,7 @@ create table darkblue.tb_sys_position
     position_name varchar(64)          null comment '职位名称',
     is_enable     tinyint(1) default 1 null comment '是否启用',
     is_built_in   tinyint(1) default 0 null comment '是否内置',
+    is_del tinyint(1) default 0 null comment '逻辑删除',
     create_time   datetime             null comment '创建时间',
     create_user   varchar(64)          null comment '创建人',
     update_time   datetime             null comment '更新时间',
@@ -214,6 +213,7 @@ create table darkblue.tb_sys_resource
     controller        varchar(500) null comment '控制层类',
     method            varchar(500) null comment '控制层方法',
     is_authed_access  tinyint(1)   null comment '是否登录即可访问',
+    platform int null comment '菜单适用平台(1-PC；2-APP)',
     sort_num          int          null comment '排序字段',
     create_time       datetime     null comment '创建时间',
     create_user       varchar(64)  null comment '创建人',
@@ -227,6 +227,8 @@ create table darkblue.tb_sys_resource_group
     resource_group_id varchar(64) not null comment '资源组ID'
         primary key,
     group_name        varchar(64) null comment '资源组名称',
+    platform int null comment '菜单适用平台(1-PC；2-APP)',
+    sort_num int null comment '显示顺序',
     create_time       datetime    null comment '创建时间',
     create_user       varchar(64) null comment '创建人',
     update_time       datetime    null comment '更新时间',
@@ -274,27 +276,63 @@ create table darkblue.tb_sys_role_permission
 
 create table darkblue.tb_sys_user
 (
-    user_id              varchar(64)  not null comment '用户ID'
+    user_id              varchar(64)          not null comment '用户ID'
         primary key,
-    username             varchar(64)  null comment '用户名',
-    password             varchar(128) null comment '密码',
-    name                 varchar(64)  null comment '姓名',
-    sex                  int          null comment '性别（1-男；2-女）',
-    dept_id              varchar(64)  null comment '所属部门',
-    position_id          varchar(64)  null comment '职务ID',
-    phone_number         varchar(20)  null comment '手机号',
-    identity_no          varchar(20)  null comment '身份证号码',
-    is_enable            tinyint(1)   null comment '是否可用',
-    last_login_time      datetime     null comment '最后登录日期',
-    password_update_time datetime     null comment '密码更新时间',
-    is_admin             tinyint(1)   null comment '是否超级管理员',
-    is_del               tinyint(1)   null comment '是否删除',
-    create_time          datetime     null comment '创建时间',
-    create_user          varchar(64)  null comment '创建人',
-    update_time          datetime     null comment '更新时间',
-    update_user          varchar(64)  null comment '更新人'
+    username             varchar(64)          null comment '用户名',
+    password             varchar(128)         null comment '密码',
+    name                 varchar(64)          null comment '姓名',
+    sex                  int                  null comment '性别（1-男；2-女）',
+    dept_id              varchar(64)          null comment '所属部门',
+    position_id          varchar(64)          null comment '职务ID',
+    phone_number         varchar(20)          null comment '手机号',
+    identity_no          varchar(20)          null comment '身份证号码',
+    is_enable            tinyint(1) default 1 null comment '是否可用',
+    last_login_time      datetime             null comment '最后登录日期',
+    password_update_time datetime             null comment '密码更新时间',
+    is_admin             tinyint(1) default 0 null comment '是否超级管理员',
+    is_del               tinyint(1) default 0 null comment '是否删除',
+    create_time          datetime             null comment '创建时间',
+    create_user          varchar(64)          null comment '创建人',
+    update_time          datetime             null comment '更新时间',
+    update_user          varchar(64)          null comment '更新人'
 )
     comment '用户';
+
+create table darkblue.tb_sys_user_group
+(
+    user_group_id   varchar(64)          not null comment '用户组ID'
+        primary key,
+    user_group_name varchar(200)         null comment '用户组名称',
+    sort_num        int                  null comment '显示顺序',
+    is_enable       tinyint(1) default 1 null comment '是否可用',
+    create_time     datetime             null comment '创建时间',
+    create_user     varchar(64)          null comment '创建人',
+    update_time     datetime             null comment '更新时间',
+    update_user     varchar(64)          null comment '更新人'
+)
+    comment '用户组';
+
+create table darkblue.tb_sys_user_group_role
+(
+    user_group_role_id varchar(64) not null comment '用户组角色ID'
+        primary key,
+    user_group_id      varchar(64) null comment '用户组ID',
+    role_id            varchar(64) null comment '角色ID',
+    create_time        datetime    null comment '创建时间',
+    create_user        varchar(64) null comment '创建人'
+)
+    comment '用户组角色';
+
+create table darkblue.tb_sys_user_group_user
+(
+    user_group_user_id varchar(64) not null comment '用户组用户ID'
+        primary key,
+    user_group_id      varchar(64) null comment '用户组ID',
+    user_id            varchar(64) null comment '用户ID',
+    create_time        datetime    null comment '创建时间',
+    create_user        varchar(64) null comment '创建人'
+)
+    comment '用户组用户';
 
 create table darkblue.tb_sys_user_role
 (
@@ -306,5 +344,6 @@ create table darkblue.tb_sys_user_role
     create_user  varchar(64) null comment '创建人'
 )
     comment '用户角色';
+
 
 

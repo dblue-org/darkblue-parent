@@ -36,6 +36,11 @@ public class PermissionResourceVo {
     @Schema(description = "资源ID")
     private String resourceId;
 
+    /**
+     * 资源组ID
+     */
+    @Schema(description = "资源组ID")
+    private String resourceGroupId;
 
     /**
      * 资源名称
