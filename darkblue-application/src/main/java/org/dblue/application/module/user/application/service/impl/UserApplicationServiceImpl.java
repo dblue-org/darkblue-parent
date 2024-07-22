@@ -19,7 +19,6 @@ package org.dblue.application.module.user.application.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.commons.menu.MenuTreeUtils;
 import org.dblue.application.module.department.domain.service.DepartmentDomainQueryService;
 import org.dblue.application.module.department.infrastructure.entity.Department;
@@ -46,6 +45,7 @@ import org.dblue.application.module.usergroup.domain.service.UserGroupDomainQuer
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainService;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.common.assertion.ServiceAssert;
+import org.dblue.core.enums.PlatformEnum;
 import org.dblue.security.utils.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;

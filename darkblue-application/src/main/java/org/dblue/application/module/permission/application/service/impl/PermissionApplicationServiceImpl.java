@@ -92,15 +92,20 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
             return Page.empty(query.toJpaPage());
         }
         List<Menu> menuList = menuDomainQueryService.getMenuByMenuIds(page.stream().map(Permission::getMenuId)
-                .collect(Collectors.toSet()));
+                                                                          .collect(Collectors.toSet()));
         Map<String, String> menuMap = menuList.stream().collect(Collectors.toMap(Menu::getMenuId, Menu::getMenuName));
-        return page.map(permission -> build(permission, menuMap));
+        Map<String, Long> resourceNumMap = permissionDomainQueryService.getResourceNumByPermissionIds(page.stream()
+                                                                                                          .map(Permission::getPermissionId)
+                                                                                                          .collect(Collectors.toSet()));
+        return page.map(permission -> build(permission, menuMap, resourceNumMap));
     }
 
-    private PermissionPageVo build(Permission permission, Map<String, String> menuMap) {
+    private PermissionPageVo build(
+            Permission permission, Map<String, String> menuMap, Map<String, Long> resourceNumMap) {
         PermissionPageVo permissionPageVo = new PermissionPageVo();
         BeanUtils.copyProperties(permission, permissionPageVo);
         permissionPageVo.setMenuName(menuMap.get(permissionPageVo.getMenuId()));
+        permissionPageVo.setResourceNum(resourceNumMap.getOrDefault(permission.getPermissionId(), 0L));
         return permissionPageVo;
     }
 
@@ -158,7 +163,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
         List<Permission> permissionList = permissionDomainQueryService.getPermissionByRoleId(Collections.singleton(checkBoxDto.getRoleId()));
         if (CollectionUtils.isNotEmpty(permissionList)) {
             checkedPermissionIdSet = permissionList.stream().map(Permission::getPermissionId)
-                    .collect(Collectors.toSet());
+                                                   .collect(Collectors.toSet());
         }
 
         List<Menu> menuList = menuDomainQueryService.getMenuByMenuIds(checkBoxDto.getMenuIdList());
@@ -167,9 +172,11 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
         }
 
         Map<String, List<Permission>> permissionMap = permissions.stream()
-                .collect(Collectors.groupingBy(Permission::getMenuId));
+                                                                 .collect(Collectors.groupingBy(Permission::getMenuId));
         List<PermissionCheckBoxVo> voList = buildPermissionCheckBoxVo(checkedPermissionIdSet, menuList, permissionMap);
-        return voList.stream().filter(permissionCheckBoxVo -> CollectionUtils.isNotEmpty(permissionCheckBoxVo.getPermissions())).toList();
+        return voList.stream()
+                     .filter(permissionCheckBoxVo -> CollectionUtils.isNotEmpty(permissionCheckBoxVo.getPermissions()))
+                     .toList();
     }
 
     private List<PermissionCheckBoxVo> buildPermissionCheckBoxVo(

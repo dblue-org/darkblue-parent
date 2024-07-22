@@ -30,23 +30,33 @@ import java.util.Optional;
  * @since 1.0.0  2024-07-02 17:27:01
  */
 public interface ResourceGroupRepository extends BaseJpaRepository<ResourceGroup, String> {
+    /**
+     * 获取资源分组分平台
+     *
+     * @param resourceGroupId 分组ID
+     * @param platform        平台
+     */
+    Optional<ResourceGroup> findByResourceGroupIdAndPlatform(
+            @NonNull String resourceGroupId, @NonNull Integer platform);
 
     /**
      * 根据资源组名称查询
      * @param groupName 资源组名称
+     * @param platform 平台
      * @return 资源组
      */
-    Optional<ResourceGroup> findByGroupName(@NonNull String groupName);
+    Optional<ResourceGroup> findByGroupNameAndPlatform(@NonNull String groupName, @NonNull Integer platform);
 
 
     /**
      * 更新查询用
      * @param groupName 资源组名称
+     * @param platform 平台
      * @param resourceGroupId 资源组ID
      * @return  资源组
      */
-    Optional<ResourceGroup> findByGroupNameAndResourceGroupIdNot(
-            @NonNull String groupName, @NonNull String resourceGroupId);
+    Optional<ResourceGroup> findByGroupNameAndPlatformAndResourceGroupIdNot(
+            @NonNull String groupName, @NonNull Integer platform, @NonNull String resourceGroupId);
 
 
     default ResourceGroupQuery createQuery() {

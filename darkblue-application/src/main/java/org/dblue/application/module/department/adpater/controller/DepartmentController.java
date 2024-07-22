@@ -28,21 +28,23 @@ import org.dblue.application.module.department.application.service.DepartmentApp
 import org.dblue.application.module.department.application.vo.DepartmentTreeVo;
 import org.dblue.application.module.department.application.vo.DepartmentVo;
 import org.dblue.application.module.department.domain.service.DepartmentDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * 部门控制层
+ * 部门管理
  *
  * @author xie jin
  * @since 1.0.0  2024/6/21 下午3:38
  */
-@Tag(name = "部门控制层", description = "部门控制层")
+@Tag(name = "部门管理", description = "部门控制层")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/department")
+@Platform
 public class DepartmentController {
 
     private final DepartmentApplicationService departmentApplicationService;

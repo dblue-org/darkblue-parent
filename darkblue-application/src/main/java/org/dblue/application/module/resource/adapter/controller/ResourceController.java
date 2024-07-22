@@ -22,15 +22,13 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.dblue.application.module.resource.application.dto.ResourceAddDto;
-import org.dblue.application.module.resource.application.dto.ResourcePageDto;
-import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
-import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
+import org.dblue.application.module.resource.application.dto.*;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
 import org.dblue.application.module.resource.application.service.SpringAnnotationService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +36,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 资源控制层
+ * 资源管理
  *
  * @author xie jin
  * @since 1.0.0  2024/7/3 上午9:45
  */
-@Tag(name = "资源控制层", description = "资源控制层")
+@Tag(name = "资源管理", description = "资源管理")
+@Platform
 @RequestMapping("/api/resource")
 @RestController
 @RequiredArgsConstructor
@@ -110,10 +109,12 @@ public class ResourceController {
      *
      * @return 资源信息
      */
+    @Parameter(name = "platform", description = "", in = ParameterIn.QUERY)
     @Operation(summary = "获取资源信息", description = "获取资源信息")
     @GetMapping("/getResourceController")
-    public ResponseBean<List<ResourceControllerVo>> getResourceController() {
-        return ResponseBean.success(springAnnotationService.getResourceController());
+    public ResponseBean<List<ResourceControllerVo>> getResourceController(
+            @RequestParam(required = false) Integer platform) {
+        return ResponseBean.success(springAnnotationService.getResourceController(platform));
     }
 
     /**
@@ -125,6 +126,39 @@ public class ResourceController {
     @PostMapping("/setPermission")
     public ResponseBean<String> setPermission(@Valid @RequestBody ResourcePermissionDto permissionDto) {
         resourceApplicationService.setPermission(permissionDto);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 批量添加或者更新
+     */
+    @Operation(summary = "批量添加或者更新", description = "批量添加或者更新")
+    @PostMapping("/batchAddOrUpDate")
+    public ResponseBean<String> batchAddOrUpDate() {
+        resourceApplicationService.batchAddOrUpDate();
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 批量添加
+     *
+     * @param batchAddDto 资源信息
+     */
+    @Operation(summary = "批量添加", description = "批量添加")
+    @PostMapping("/batchAdd")
+    public ResponseBean<String> batchAdd(ResourceBatchAddDto batchAddDto) {
+        resourceApplicationService.batchAdd(batchAddDto);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 检测资源合法性
+     */
+    @Operation(summary = "检测资源合法性", description = "检测资源合法性")
+    @PutMapping("/checkResourceValidity")
+    public ResponseBean<String> checkResourceValidity() {
+        resourceApplicationService.checkResourceValidity();
         return ResponseBean.success();
     }
 }

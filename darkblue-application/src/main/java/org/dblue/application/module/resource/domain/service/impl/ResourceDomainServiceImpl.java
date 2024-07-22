@@ -33,6 +33,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -56,7 +57,7 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(ResourceAddDto addDto) {
-        Optional<Resource> optional = resourceRepository.findByResourceNameAndControllerAndMethod(addDto.getResourceName(), addDto.getController(), addDto.getMethod());
+        Optional<Resource> optional = resourceRepository.findByResourceUrl(addDto.getResourceUrl());
         if (optional.isPresent()) {
             throw new ServiceException(ResourceErrors.RESOURCE_EXITS);
         }
@@ -64,6 +65,7 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
         Resource resource = new Resource();
         BeanUtils.copyProperties(addDto, resource);
         resource.setResourceId(Snowflake.stringId());
+        resource.setIsInvalid(Boolean.FALSE);
         resourceRepository.save(resource);
 
     }
@@ -82,12 +84,13 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
             throw new ServiceException(ResourceErrors.RESOURCE_IS_NOT_FOUND);
         }
 
-        Optional<Resource> optional = resourceRepository.findByResourceNameAndControllerAndMethodAndResourceIdNot(updateDto.getResourceName(), updateDto.getController(), updateDto.getRequestMethod(), updateDto.getResourceId());
+        Optional<Resource> optional = resourceRepository.findByResourceUrlAndResourceIdNot(updateDto.getResourceUrl(), updateDto.getResourceId());
         if (optional.isPresent()) {
             throw new ServiceException(ResourceErrors.RESOURCE_EXITS);
         }
 
         BeanUtils.copyProperties(updateDto, optionalResource.get());
+        optionalResource.get().setIsInvalid(Boolean.FALSE);
         resourceRepository.save(optionalResource.get());
     }
 
@@ -129,6 +132,44 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
         Optional<Resource> optionalResource = resourceRepository.findById(permissionDto.getResourceId());
         if (optionalResource.isEmpty()) {
             throw new ServiceException(ResourceErrors.RESOURCE_IS_NOT_FOUND);
+        }
+    }
+
+    /**
+     * 获取全部资源
+     */
+    @Override
+    public List<Resource> getAll() {
+        return resourceRepository.findAll();
+    }
+
+    /**
+     * 更新资源信息（仅作为检查资源是否违法检测时更新数据使用）
+     *
+     * @param resource 资源
+     */
+    @Override
+    public void update(Resource resource) {
+        resource.setIsInvalid(Boolean.TRUE);
+        resourceRepository.save(resource);
+    }
+
+    /**
+     * 资源添加或者更新（自动更新资源使用）
+     *
+     * @param addDto 信息
+     */
+    @Override
+    public void addOrUpdate(ResourceAddDto addDto) {
+        Optional<Resource> optional = resourceRepository.findByResourceUrl(addDto.getResourceUrl());
+        if (optional.isPresent()) {
+            BeanUtils.copyProperties(addDto, optional.get());
+            resourceRepository.save(optional.get());
+        } else {
+            Resource resource = new Resource();
+            BeanUtils.copyProperties(addDto, resource);
+            resource.setResourceId(Snowflake.stringId());
+            resourceRepository.save(resource);
         }
     }
 }

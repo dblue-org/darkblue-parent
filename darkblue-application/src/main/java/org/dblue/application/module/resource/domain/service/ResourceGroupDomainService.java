@@ -63,5 +63,23 @@ public interface ResourceGroupDomainService {
      */
     List<ResourceGroup> getAll(Integer platform);
 
+    /**
+     * 获取资源分组分平台
+     *
+     * @param resourceGroupId 分组ID
+     * @param platform        平台
+     */
+    ResourceGroup getOneByPlatform(String resourceGroupId, Integer platform);
+
+
+    /**
+     * 更新或者添加 (仅用于自动扫描添加资源组使用)
+     *
+     * @param groupAddDto 资源组信息
+     * @return 资源组ID
+     */
+    String addOrUpdate(ResourceGroupAddDto groupAddDto);
+
+
 
 }

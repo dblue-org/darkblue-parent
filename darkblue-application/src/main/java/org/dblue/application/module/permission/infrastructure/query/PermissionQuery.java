@@ -17,8 +17,8 @@ package org.dblue.application.module.permission.infrastructure.query;
 
 import org.dblue.application.commons.db.jpa.BaseJpaQuery;
 import org.dblue.application.commons.db.jpa.ConditionPredicate;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.core.enums.PlatformEnum;
 
 /**
  * @author Wang Chengwei

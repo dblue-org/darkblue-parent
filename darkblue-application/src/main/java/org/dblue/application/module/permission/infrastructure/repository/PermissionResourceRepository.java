@@ -19,6 +19,10 @@ package org.dblue.application.module.permission.infrastructure.repository;
 import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
+
+import java.util.List;
+import java.util.Set;
+
 /**
  * 权限资源
  *
@@ -31,14 +35,22 @@ public interface PermissionResourceRepository extends JpaRepository<PermissionRe
      * 根据权限删除
      * @param permissionId 权限Id
      */
-    void deleteByPermission_PermissionId(@NonNull String permissionId);
+    void deleteByPermissionId(@NonNull String permissionId);
 
 
     /**
      * 根据资源删除
      * @param resourceId 资源ID
      */
-    void deleteByResource_ResourceId(@NonNull String resourceId);
+    void deleteByResourceId(@NonNull String resourceId);
+
+    /**
+     * 根据权限ID查询资源数量
+     *
+     * @param permissionIdSet 权限Id
+     * @return 资源
+     */
+    List<PermissionResource> findAllByPermissionIdIn(Set<String> permissionIdSet);
 
 
 }

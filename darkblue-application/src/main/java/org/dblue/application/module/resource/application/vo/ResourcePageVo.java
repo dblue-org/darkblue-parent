@@ -84,8 +84,14 @@ public class ResourcePageVo {
     /**
      * 适用平台(1-PC；2-APP)
      */
-    @Schema(description = "适用平台(1-PC；2-APP)从菜单代入")
+    @Schema(description = "适用平台(1-PC；2-APP)")
     private Integer platform;
+
+    /**
+     * 是否违法
+     */
+    @Schema(description = "是否违法")
+    private Boolean isInvalid;
 
     /**
      * 权限信息

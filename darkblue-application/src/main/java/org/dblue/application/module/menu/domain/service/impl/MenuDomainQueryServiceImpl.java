@@ -20,13 +20,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.errors.MenuErrors;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.dblue.application.module.menu.infrastructure.query.MenuQuery;
 import org.dblue.application.module.menu.infrastructure.repository.MenuRepository;
 import org.dblue.common.exception.ServiceException;
+import org.dblue.core.enums.PlatformEnum;
 import org.dblue.core.spring.ProductionPredicate;
 import org.springframework.stereotype.Service;
 

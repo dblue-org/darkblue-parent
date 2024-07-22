@@ -21,7 +21,6 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.user.application.dto.UserAddDto;
 import org.dblue.application.module.user.application.dto.UserEnableDto;
 import org.dblue.application.module.user.application.dto.UserPageDto;
@@ -32,6 +31,8 @@ import org.dblue.application.module.user.application.vo.UserPageVo;
 import org.dblue.application.module.user.application.vo.UserSelectVo;
 import org.dblue.application.module.user.application.vo.UserVo;
 import org.dblue.application.module.user.domain.service.UserDomainService;
+import org.dblue.core.annotation.Platform;
+import org.dblue.core.enums.PlatformEnum;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
@@ -39,12 +40,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 用户控制层
+ * 用户管理
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@Tag(name = "用户控制层", description = "用户控制层")
+@Tag(name = "用户管理", description = "用户控制层")
+@Platform
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/user")

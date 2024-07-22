@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.commons.enums.MenuTypeEnum;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.application.service.MenuApplicationService;
 import org.dblue.application.module.menu.application.vo.MenuCheckBoxTreeVo;
 import org.dblue.application.module.menu.application.vo.MenuTreeVo;
@@ -34,6 +33,7 @@ import org.dblue.application.module.permission.domain.service.PermissionDomainQu
 import org.dblue.application.module.role.domain.service.RoleMenuDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.RoleMenu;
 import org.dblue.common.exception.ServiceException;
+import org.dblue.core.enums.PlatformEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

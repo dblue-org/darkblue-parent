@@ -22,13 +22,19 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
-import org.dblue.application.module.resource.application.dto.ResourcePageDto;
-import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
+import org.dblue.application.module.resource.application.dto.*;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
+import org.dblue.application.module.resource.application.service.SpringAnnotationService;
+import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
+import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
 import org.dblue.application.module.resource.application.vo.ResourcePermissionVo;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
+import org.dblue.application.module.resource.domain.service.ResourceGroupDomainService;
+import org.dblue.application.module.resource.errors.ResourceErrors;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
+import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
+import org.dblue.common.exception.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -50,6 +56,8 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     private final ResourceDomainService resourceDomainService;
     private final PermissionDomainService permissionDomainService;
     private final PermissionDomainQueryService permissionDomainQueryService;
+    private final SpringAnnotationService springAnnotationService;
+    private final ResourceGroupDomainService resourceGroupDomainService;
 
 
     /**
@@ -103,5 +111,78 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     public void setPermission(ResourcePermissionDto permissionDto) {
         resourceDomainService.setPermission(permissionDto);
         permissionDomainService.setPermission(permissionDto);
+    }
+
+    /**
+     * 批量添加或者更新
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    @SuppressWarnings("java:S6809")
+    public void batchAddOrUpDate() {
+        Boolean validity = this.checkResourceValidity();
+        if (Boolean.TRUE.equals(validity)) {
+            throw new ServiceException(ResourceErrors.THE_RESOURCE_CONTAINS_AN_UNMODIFIED_INVALID_RESOURCE);
+        }
+        List<ResourceControllerVo> resourceControllerVoList = springAnnotationService.getResourceController(null);
+        for (ResourceControllerVo resourceControllerVo : resourceControllerVoList) {
+            ResourceGroupAddDto resourceGroupAddDto = new ResourceGroupAddDto();
+            resourceGroupAddDto.setPlatform(resourceControllerVo.getPlatform());
+            resourceGroupAddDto.setGroupName(resourceControllerVo.getTagName());
+            resourceGroupAddDto.setSortNum(1);
+            String resourceGroupId = resourceGroupDomainService.addOrUpdate(resourceGroupAddDto);
+            List<ResourceMappingVo> mappings = resourceControllerVo.getMappings();
+            if (CollectionUtils.isNotEmpty(mappings)) {
+                for (ResourceMappingVo mapping : mappings) {
+                    ResourceAddDto resourceAddDto = new ResourceAddDto();
+                    resourceAddDto.setPlatform(resourceControllerVo.getPlatform());
+                    resourceAddDto.setResourceGroupId(resourceGroupId);
+                    resourceAddDto.setIsAuthedAccess(Boolean.FALSE);
+                    BeanUtils.copyProperties(mapping, resourceAddDto);
+                    resourceDomainService.addOrUpdate(resourceAddDto);
+                }
+            }
+        }
+    }
+
+    /**
+     * 批量添加
+     *
+     * @param batchAddDto 资源信息
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void batchAdd(ResourceBatchAddDto batchAddDto) {
+        ResourceGroup resourceGroup = resourceGroupDomainService.getOneByPlatform(batchAddDto.getResourceGroupId(), batchAddDto.getPlatform());
+        for (ResourceDto mapping : batchAddDto.getMappings()) {
+            ResourceAddDto resourceAddDto = new ResourceAddDto();
+            BeanUtils.copyProperties(resourceGroup, resourceAddDto);
+            BeanUtils.copyProperties(mapping, resourceAddDto);
+            resourceDomainService.add(resourceAddDto);
+        }
+    }
+
+    /**
+     * 检测资源合法性
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Boolean checkResourceValidity() {
+        List<ResourceControllerVo> resourceControllerVoList = springAnnotationService.getResourceController(null);
+        List<Resource> resourceList = resourceDomainService.getAll();
+        List<String> resourceUrlSet = resourceControllerVoList.stream().map(ResourceControllerVo::getMappings)
+                                                              .flatMap(List::stream)
+                                                              .map(ResourceMappingVo::getResourceUrl)
+                                                              .toList();
+        boolean isInvalid = Boolean.FALSE;
+        for (Resource resource : resourceList) {
+            if (!resourceUrlSet.contains(resource.getResourceUrl())) {
+                resourceDomainService.update(resource);
+                isInvalid = Boolean.TRUE;
+            }
+        }
+        return isInvalid;
+
+
     }
 }

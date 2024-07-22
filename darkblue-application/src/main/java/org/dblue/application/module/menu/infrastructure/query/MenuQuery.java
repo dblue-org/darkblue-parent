@@ -18,8 +18,8 @@ package org.dblue.application.module.menu.infrastructure.query;
 import org.dblue.application.commons.db.jpa.BaseJpaQuery;
 import org.dblue.application.commons.db.jpa.ConditionPredicate;
 import org.dblue.application.commons.db.jpa.Conditions;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
+import org.dblue.core.enums.PlatformEnum;
 
 import java.util.Collection;
 

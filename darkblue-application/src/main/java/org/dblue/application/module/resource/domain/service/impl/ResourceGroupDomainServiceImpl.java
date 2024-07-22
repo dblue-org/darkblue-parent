@@ -47,6 +47,7 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
 
     private final ResourceGroupRepository resourceGroupRepository;
     private final ResourceRepository resourceRepository;
+
     /**
      * 资源组添加
      *
@@ -56,12 +57,12 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
     @Transactional(rollbackFor = Exception.class)
     @Override
     public String add(ResourceGroupAddDto addDto) {
-        Optional<ResourceGroup> groupOptional = resourceGroupRepository.findByGroupName(addDto.getGroupName());
-        if(groupOptional.isPresent()){
+        Optional<ResourceGroup> groupOptional = resourceGroupRepository.findByGroupNameAndPlatform(addDto.getGroupName(), addDto.getPlatform());
+        if (groupOptional.isPresent()) {
             throw new ServiceException(ResourceGroupErrors.RESOURCE_GROUP_EXITS);
         }
-        ResourceGroup resourceGroup  =new ResourceGroup();
-        BeanUtils.copyProperties(addDto,resourceGroup);
+        ResourceGroup resourceGroup = new ResourceGroup();
+        BeanUtils.copyProperties(addDto, resourceGroup);
         resourceGroup.setResourceGroupId(Snowflake.stringId());
         resourceGroupRepository.save(resourceGroup);
         return resourceGroup.getResourceGroupId();
@@ -76,14 +77,15 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
     @Override
     public void update(ResourceGroupUpdateDto updateDto) {
         Optional<ResourceGroup> optional = resourceGroupRepository.findById(updateDto.getResourceGroupId());
-        if(optional.isEmpty()){
+        if (optional.isEmpty()) {
             throw new ServiceException(ResourceGroupErrors.RESOURCE_GROUP_IS_NOT_FOUND);
         }
-        Optional<ResourceGroup> optionalResourceGroup = resourceGroupRepository.findByGroupNameAndResourceGroupIdNot(updateDto.getGroupName(), updateDto.getResourceGroupId());
-        if(optionalResourceGroup.isPresent()){
+        Optional<ResourceGroup> optionalResourceGroup = resourceGroupRepository.findByGroupNameAndPlatformAndResourceGroupIdNot(updateDto.getGroupName(), optional.get()
+                                                                                                                                                                  .getPlatform(), updateDto.getResourceGroupId());
+        if (optionalResourceGroup.isPresent()) {
             throw new ServiceException(ResourceGroupErrors.RESOURCE_GROUP_EXITS);
         }
-        BeanUtils.copyProperties(updateDto,optional.get());
+        BeanUtils.copyProperties(updateDto, optional.get());
         resourceGroupRepository.save(optional.get());
     }
 
@@ -96,12 +98,12 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
     @Override
     public void delete(String resourceGroupId) {
         Optional<ResourceGroup> optional = resourceGroupRepository.findById(resourceGroupId);
-        if(optional.isEmpty()){
+        if (optional.isEmpty()) {
             throw new ServiceException(ResourceGroupErrors.RESOURCE_GROUP_IS_NOT_FOUND);
         }
 
         boolean exists = resourceRepository.existsByResourceGroupId(resourceGroupId);
-        if(Boolean.TRUE.equals(exists)){
+        if (Boolean.TRUE.equals(exists)) {
             throw new ServiceException(ResourceGroupErrors.RESOURCE_GROUP_HAS_RESOURCE);
         }
         resourceGroupRepository.deleteById(resourceGroupId);
@@ -115,8 +117,44 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
     @Override
     public List<ResourceGroup> getAll(Integer platform) {
         return resourceGroupRepository.createQuery()
-                .platform(platform)
-                .orderBySortNum()
-                .list();
+                                      .platform(platform)
+                                      .orderBySortNum()
+                                      .list();
+    }
+
+    /**
+     * 获取资源分组分平台
+     *
+     * @param resourceGroupId 分组ID
+     * @param platform        平台
+     */
+    @Override
+    public ResourceGroup getOneByPlatform(String resourceGroupId, Integer platform) {
+        Optional<ResourceGroup> optional = resourceGroupRepository.findByResourceGroupIdAndPlatform(resourceGroupId, platform);
+        if (optional.isEmpty()) {
+            throw new ServiceException(ResourceGroupErrors.RESOURCE_GROUP_IS_NOT_FOUND);
+        }
+        return optional.get();
+    }
+
+    /**
+     * 更新或者添加 (仅用于自动扫描添加资源组使用)
+     *
+     * @param groupAddDto 资源组信息
+     * @return 资源组ID
+     */
+    @Override
+    public String addOrUpdate(ResourceGroupAddDto groupAddDto) {
+        Optional<ResourceGroup> groupOptional = resourceGroupRepository.findByGroupNameAndPlatform(groupAddDto.getGroupName(), groupAddDto.getPlatform());
+        if (groupOptional.isPresent()) {
+            groupOptional.get().setGroupName(groupAddDto.getGroupName());
+            resourceGroupRepository.save(groupOptional.get());
+            return groupOptional.get().getResourceGroupId();
+        }
+        ResourceGroup resourceGroup = new ResourceGroup();
+        BeanUtils.copyProperties(groupAddDto, resourceGroup);
+        resourceGroup.setResourceGroupId(Snowflake.stringId());
+        resourceGroupRepository.save(resourceGroup);
+        return resourceGroup.getResourceGroupId();
     }
 }

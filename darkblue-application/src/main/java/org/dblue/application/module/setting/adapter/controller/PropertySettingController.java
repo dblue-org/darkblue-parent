@@ -24,6 +24,7 @@ import org.dblue.application.module.setting.application.dto.PropertySettingQuery
 import org.dblue.application.module.setting.application.dto.PropertySettingUpdateDto;
 import org.dblue.application.module.setting.application.service.PropertySettingApplicationService;
 import org.dblue.application.module.setting.application.vo.PropertySettingPageListVo;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 1.0.0
  */
 @Tag(name = "系统参数配置")
+@Platform
 @RestController
 @RequestMapping("/api/property-setting")
 public class PropertySettingController {

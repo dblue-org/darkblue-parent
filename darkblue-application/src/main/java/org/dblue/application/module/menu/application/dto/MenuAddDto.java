@@ -19,8 +19,8 @@ package org.dblue.application.module.menu.application.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.common.validation.annotation.EnumValues;
+import org.dblue.core.enums.PlatformEnum;
 
 /**
  * 菜单添加

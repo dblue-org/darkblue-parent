@@ -50,26 +50,22 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
     /**
      * 添加排重用
      *
-     * @param resourceName 资源名称
-     * @param controller   控制器类
-     * @param method       控制器方法
+     * @param resourceUrl 资源地址
      * @return 资源
      */
-    Optional<Resource> findByResourceNameAndControllerAndMethod(
-            @NonNull String resourceName, @NonNull String controller, @NonNull String method);
+    Optional<Resource> findByResourceUrl(
+            @NonNull String resourceUrl);
 
 
     /**
      * 更新排重用
      *
-     * @param resourceName 资源名称
-     * @param controller   控制器类
-     * @param method       控制器方法
+     * @param resourceUrl 资源地址
      * @param resourceId   资源ID
      * @return 资源
      */
-    Optional<Resource> findByResourceNameAndControllerAndMethodAndResourceIdNot(
-            @NonNull String resourceName, @NonNull String controller, @NonNull String method,
+    Optional<Resource> findByResourceUrlAndResourceIdNot(
+            @NonNull String resourceUrl,
             @NonNull String resourceId);
 
 
@@ -115,7 +111,8 @@ public interface ResourceRepository extends BaseJpaRepository<Resource, String> 
      */
     default List<Resource> getResourceByPermissionId(String permissionId) {
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(QResource.resource.permissionResourceList.any().permission.permissionId.eq(permissionId));
+        builder.and(QResource.resource.permissionResourceList.any().permissionId.eq(permissionId));
         return getList(builder);
     }
+
 }

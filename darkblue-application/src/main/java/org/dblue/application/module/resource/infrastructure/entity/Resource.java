@@ -98,7 +98,13 @@ public class Resource extends AbstractAuditingEntity {
     @Column(name = "platform")
     private Integer platform;
 
-    @OneToMany(mappedBy = "resource")
+    /**
+     * 是否违法
+     */
+    @Column(name = "is_invalid")
+    private Boolean isInvalid;
+
+    @OneToMany(mappedBy = "resourceId")
     private List<PermissionResource> permissionResourceList;
 
 

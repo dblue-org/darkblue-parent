@@ -30,8 +30,9 @@ public interface SpringAnnotationService {
 
     /**
      * 获取资源信息
+     * @param platform 平台
      *
      * @return 资源信息
      */
-    List<ResourceControllerVo> getResourceController();
+    List<ResourceControllerVo> getResourceController(Integer platform);
 }

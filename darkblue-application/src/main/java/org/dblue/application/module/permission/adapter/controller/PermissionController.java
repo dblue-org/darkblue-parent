@@ -26,6 +26,7 @@ import org.dblue.application.module.permission.application.dto.*;
 import org.dblue.application.module.permission.application.service.PermissionApplicationService;
 import org.dblue.application.module.permission.application.vo.*;
 import org.dblue.application.module.permission.domain.service.PermissionDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.data.domain.Page;
@@ -34,12 +35,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 权限控制层
+ * 权限管理
  *
  * @author xie jin
  * @since 1.0.0  2024/6/14 下午5:30
  */
-@Tag(name = "权限控制层", description = "权限控制层")
+@Tag(name = "权限管理", description = "权限控制层")
+@Platform
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/permission")

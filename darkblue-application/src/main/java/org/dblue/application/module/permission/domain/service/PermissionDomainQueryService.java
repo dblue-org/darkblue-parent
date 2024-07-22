@@ -22,6 +22,7 @@ import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -95,4 +96,12 @@ public interface PermissionDomainQueryService {
      * @return 权限
      */
     List<Permission> getAll();
+
+    /**
+     * 根据权限ID获取资源数量
+     *
+     * @param permissionIdSet 权限ID
+     * @return key:权限ID value:数量
+     */
+    Map<String, Long> getResourceNumByPermissionIds(Set<String> permissionIdSet);
 }

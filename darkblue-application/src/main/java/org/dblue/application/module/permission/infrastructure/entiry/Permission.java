@@ -73,7 +73,7 @@ public class Permission extends AbstractAuditingEntity {
     private String permissionCode;
 
 
-    @OneToMany(mappedBy = "permission")
+    @OneToMany(mappedBy = "permissionId")
     private List<PermissionResource> permissionResourceList;
 
     @OneToMany(mappedBy = "permissionId")

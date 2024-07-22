@@ -37,9 +37,28 @@ public class ResourceControllerVo {
     @Schema(description = "控制器名称")
     private String tagName;
 
+
+    /**
+     * 平台 1:-PC;2-APP
+     */
+    private Integer platform;
+
     /**
      * 资源信息
      */
     @Schema(description = "资源信息")
     private List<ResourceMappingVo> mappings;
+
+    public static ResourceControllerVo build(String group, List<ResourceMappingVo> mappings) {
+        ResourceControllerVo resourceControllerVo = new ResourceControllerVo();
+        String[] split = group.split("#");
+        resourceControllerVo.setTagName(split[0]);
+        resourceControllerVo.setTagName(split[1]);
+        resourceControllerVo.setMappings(mappings);
+        return resourceControllerVo;
+    }
+
+    public String group() {
+        return this.tagName + "#" + this.platform;
+    }
 }

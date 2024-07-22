@@ -23,6 +23,8 @@ import org.dblue.application.module.resource.application.dto.ResourceUpdateDto;
 import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * 资源领域服务
  *
@@ -66,4 +68,24 @@ public interface ResourceDomainService {
      * @param permissionDto 权限信息
      */
     void setPermission(ResourcePermissionDto permissionDto);
+
+
+    /**
+     * 获取全部资源
+     */
+    List<Resource> getAll();
+
+    /**
+     * 更新资源信息（仅作为检查资源是否违法检测时更新数据使用）
+     *
+     * @param resource 资源
+     */
+    void update(Resource resource);
+
+    /**
+     * 资源添加或者更新（自动更新资源使用）
+     *
+     * @param addDto 信息
+     */
+    void addOrUpdate(ResourceAddDto addDto);
 }

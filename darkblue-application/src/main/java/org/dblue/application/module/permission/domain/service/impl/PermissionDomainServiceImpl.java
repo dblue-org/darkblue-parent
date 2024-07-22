@@ -28,7 +28,6 @@ import org.dblue.application.module.permission.infrastructure.entiry.PermissionR
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionResourceRepository;
 import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
-import org.dblue.application.module.resource.infrastructure.entity.Resource;
 import org.dblue.common.exception.ServiceException;
 import org.dblue.common.id.Snowflake;
 import org.springframework.beans.BeanUtils;
@@ -119,15 +118,11 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
         if (optional.isEmpty()) {
             throw new ServiceException(PermissionErrors.PERMISSION_IS_NOT_FOUND);
         }
-        permissionResourceRepository.deleteByPermission_PermissionId(resourceDto.getPermissionId());
+        permissionResourceRepository.deleteByPermissionId(resourceDto.getPermissionId());
         for (String resourceId : resourceDto.getResourceIdList()) {
             PermissionResource permissionResource = new PermissionResource();
-            Permission permission = new Permission();
-            permission.setPermissionId(resourceDto.getPermissionId());
-            permissionResource.setPermission(permission);
-            Resource resource = new Resource();
-            resource.setResourceId(resourceId);
-            permissionResource.setResource(resource);
+            permissionResource.setPermissionId(resourceDto.getPermissionId());
+            permissionResource.setResourceId(resourceId);
 
             permissionResource.setPermissionResourceId(Snowflake.stringId());
             permissionResourceRepository.save(permissionResource);
@@ -144,7 +139,7 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
     @Override
     public void deletePermissionResourceByResourceId(String resourceId) {
 
-        permissionResourceRepository.deleteByResource_ResourceId(resourceId);
+        permissionResourceRepository.deleteByResourceId(resourceId);
     }
 
     /**
@@ -154,15 +149,11 @@ public class PermissionDomainServiceImpl implements PermissionDomainService {
      */
     @Override
     public void setPermission(ResourcePermissionDto permissionDto) {
-        permissionResourceRepository.deleteByResource_ResourceId(permissionDto.getResourceId());
+        permissionResourceRepository.deleteByResourceId(permissionDto.getResourceId());
         for (String permissionId : permissionDto.getPermissionIdList()) {
             PermissionResource permissionResource = new PermissionResource();
-            Permission permission = new Permission();
-            permission.setPermissionId(permissionId);
-            permissionResource.setPermission(permission);
-            Resource resource = new Resource();
-            resource.setResourceId(permissionDto.getResourceId());
-            permissionResource.setResource(resource);
+            permissionResource.setPermissionId(permissionId);
+            permissionResource.setResourceId(permissionDto.getResourceId());
 
             permissionResource.setPermissionResourceId(Snowflake.stringId());
             permissionResourceRepository.save(permissionResource);

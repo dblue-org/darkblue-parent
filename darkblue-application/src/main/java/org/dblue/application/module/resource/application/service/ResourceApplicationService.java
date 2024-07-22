@@ -16,6 +16,7 @@
 
 package org.dblue.application.module.resource.application.service;
 
+import org.dblue.application.module.resource.application.dto.ResourceBatchAddDto;
 import org.dblue.application.module.resource.application.dto.ResourcePageDto;
 import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
@@ -50,4 +51,23 @@ public interface ResourceApplicationService {
      * @param permissionDto 权限信息
      */
     void setPermission(ResourcePermissionDto permissionDto);
+
+
+    /**
+     * 批量添加或者更新
+     */
+    void batchAddOrUpDate();
+
+
+    /**
+     * 批量添加
+     *
+     * @param batchAddDto 资源信息
+     */
+    void batchAdd(ResourceBatchAddDto batchAddDto);
+
+    /**
+     * 检测资源合法性
+     */
+    Boolean checkResourceValidity();
 }

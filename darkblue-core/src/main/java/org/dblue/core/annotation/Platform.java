@@ -14,33 +14,28 @@
  * limitations under the License.
  */
 
-package org.dblue.application.commons.enums;
+package org.dblue.core.annotation;
 
-import lombok.Getter;
-import org.dblue.common.enums.EnumType;
+import org.dblue.core.enums.PlatformEnum;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * 适用平台
+ * 平台
  *
  * @author xie jin
- * @since 1.0.0  2024/6/14 下午5:19
+ * @since 1.0.0  2024/7/22 下午2:53
  */
-@Getter
-public enum PlatformEnum implements EnumType {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Platform {
 
     /**
-     *
+     * 平台信息 默认PC
+     * @return 平台编码
      */
-    PC(1,"PC"),
-    APP(2,"APP"),
-    ;
-
-    private final int value;
-    private final String name;
-
-
-    PlatformEnum(Integer value, String name) {
-        this.value = value;
-        this.name = name;
-    }
+    PlatformEnum value() default PlatformEnum.PC;
 }

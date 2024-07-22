@@ -25,6 +25,7 @@ import org.dblue.application.module.resource.application.vo.ResourceControllerVo
 import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
 import org.dblue.application.module.resource.errors.ResourceErrors;
 import org.dblue.common.exception.ServiceException;
+import org.dblue.core.annotation.Platform;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -37,6 +38,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * spring 注解服务
@@ -54,28 +57,56 @@ public class SpringAnnotationServiceImpl implements SpringAnnotationService, App
     /**
      * 获取资源信息
      *
+     * @param platform 平台
      * @return 资源信息
      */
     @Override
-    public List<ResourceControllerVo> getResourceController() {
+    public List<ResourceControllerVo> getResourceController(Integer platform) {
         if (this.resourceList != null) {
-            return this.resourceList;
+            if (Objects.nonNull(platform)) {
+                return resourceList.stream()
+                                   .filter(resourceControllerVo -> resourceControllerVo.getPlatform()
+                                                                                       .equals(platform))
+                                   .toList();
+            }
+            return resourceList;
         }
         List<ResourceControllerVo> resourceControllerVoList = new ArrayList<>();
         Map<String, Object> objectMap = applicationContext.getBeansWithAnnotation(RestController.class);
         for (Map.Entry<String, Object> entry : objectMap.entrySet()) {
-            Class<?> aClass = entry.getValue().getClass();
+            Class<?> aClass = entry.getValue()
+                                   .getClass();
             Tag tag = aClass.getAnnotation(Tag.class);
             if (tag == null) {
                 continue;
             }
+            Platform platformAnnotation = aClass.getAnnotation(Platform.class);
+            if (platformAnnotation == null) {
+                throw new ServiceException(ResourceErrors.RESOURCE_MUST_PLATFORM);
+            }
             RequestMapping requestMappingClass = aClass.getAnnotation(RequestMapping.class);
             String baseUrl = requestMappingClass.value()[0];
             ResourceControllerVo resourceControllerVo = buildController(tag, aClass, baseUrl);
+            resourceControllerVo.setPlatform(platformAnnotation.value()
+                                                               .getValue());
             resourceControllerVoList.add(resourceControllerVo);
 
         }
+        // 根据tagName+platform分组
+        Map<String, List<ResourceMappingVo>> tagNameMap = resourceControllerVoList.stream()
+                                                                                  .collect(Collectors.groupingBy(ResourceControllerVo::group, Collectors.mapping(ResourceControllerVo::getMappings, Collectors.flatMapping(List::stream, Collectors.toList()))));
+
+        resourceControllerVoList = new ArrayList<>();
+        for (Map.Entry<String, List<ResourceMappingVo>> entry : tagNameMap.entrySet()) {
+            resourceControllerVoList.add(ResourceControllerVo.build(entry.getKey(), entry.getValue()));
+        }
         this.resourceList = resourceControllerVoList;
+        if (Objects.nonNull(platform)) {
+            return resourceControllerVoList.stream()
+                                           .filter(resourceControllerVo -> resourceControllerVo.getPlatform()
+                                                                                               .equals(platform))
+                                           .toList();
+        }
         return resourceControllerVoList;
     }
 

@@ -16,8 +16,8 @@
 
 package org.dblue.application.module.menu.domain.service;
 
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
+import org.dblue.core.enums.PlatformEnum;
 
 import java.util.Collection;
 import java.util.List;

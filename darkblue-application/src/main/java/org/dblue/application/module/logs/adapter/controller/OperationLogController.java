@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.dblue.application.module.logs.application.dto.OperationLogQueryDto;
 import org.dblue.application.module.logs.application.service.OperationLogApplicationService;
 import org.dblue.application.module.logs.application.vo.OperationLogPageListVo;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1.0.0
  */
 @Tag(name = "操作日志")
+@Platform
 @RestController
 @RequestMapping("/api/operation-log")
 public class OperationLogController {

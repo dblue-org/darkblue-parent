@@ -31,6 +31,7 @@ import org.dblue.application.module.position.application.vo.PositionPageVo;
 import org.dblue.application.module.position.application.vo.PositionVo;
 import org.dblue.application.module.position.application.vo.SimplePositionVo;
 import org.dblue.application.module.position.domain.service.PositionDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +39,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 职位控制层
+ * 职位管理
  *
  * @author xie jin
  * @since 1.0.0  2024/7/9 上午10:58
  */
-@Tag(name = "职位控制层", description = "职位控制层")
+@Tag(name = "职位管理", description = "职位控制层")
+@Platform
 @RestController
 @RequestMapping("/api/position")
 @RequiredArgsConstructor

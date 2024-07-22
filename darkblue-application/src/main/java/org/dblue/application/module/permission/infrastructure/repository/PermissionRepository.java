@@ -104,7 +104,7 @@ public interface PermissionRepository extends BaseJpaRepository<Permission, Stri
      */
     default List<Permission> getPermissionByResourceId(String resourceId) {
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(QPermission.permission.permissionResourceList.any().resource.resourceId.eq(resourceId));
+        builder.and(QPermission.permission.permissionResourceList.any().resourceId.eq(resourceId));
         return getList(builder);
     }
 

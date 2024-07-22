@@ -25,14 +25,18 @@ import org.dblue.application.module.permission.application.dto.PermissionPageDto
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.errors.PermissionErrors;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.application.module.permission.infrastructure.entiry.PermissionResource;
 import org.dblue.application.module.permission.infrastructure.repository.PermissionRepository;
+import org.dblue.application.module.permission.infrastructure.repository.PermissionResourceRepository;
 import org.dblue.common.exception.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 权限领域查询服务
@@ -46,6 +50,7 @@ import java.util.Set;
 public class PermissionDomainQueryServiceImpl implements PermissionDomainQueryService {
 
     private final PermissionRepository permissionRepository;
+    private final PermissionResourceRepository permissionResourceRepository;
 
 
     /**
@@ -68,12 +73,12 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
     @Override
     public Page<Permission> findByPage(PermissionPageDto query) {
         return this.permissionRepository.createQuery()
-                .menuId(query.getMenuId(), Conditions::isNotEmpty)
-                .platform(query.getPlatform())
-                .permissionCodeLike(query.getPermissionCode())
-                .permissionNameLike(query.getPermissionName())
-                .orderByCreateTime(true)
-                .page(query.toJpaPage());
+                                        .menuId(query.getMenuId(), Conditions::isNotEmpty)
+                                        .platform(query.getPlatform())
+                                        .permissionCodeLike(query.getPermissionCode())
+                                        .permissionNameLike(query.getPermissionName())
+                                        .orderByCreateTime(true)
+                                        .page(query.toJpaPage());
     }
 
     /**
@@ -159,7 +164,26 @@ public class PermissionDomainQueryServiceImpl implements PermissionDomainQuerySe
      * @return 权限
      */
     @Override
-    public List<Permission> getAll() {
+    public List<Permission>
+    getAll() {
         return permissionRepository.findAll();
+    }
+
+    /**
+     * 根据权限ID获取资源数量
+     *
+     * @param permissionIdSet 权限ID
+     * @return key:权限ID value:数量
+     */
+    @Override
+    public Map<String, Long> getResourceNumByPermissionIds(Set<String> permissionIdSet) {
+        List<PermissionResource> permissionResourceList = permissionResourceRepository.findAllByPermissionIdIn(permissionIdSet);
+        if (CollectionUtils.isEmpty(permissionResourceList)) {
+            return Map.of();
+        }
+
+        return permissionResourceList.stream()
+                                     .collect(Collectors.groupingBy(PermissionResource::getPermissionId, Collectors.counting()));
+
     }
 }

@@ -29,6 +29,7 @@ import org.dblue.application.module.role.application.vo.RoleUserVo;
 import org.dblue.application.module.role.application.vo.RoleVo;
 import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 import org.dblue.application.module.role.domain.service.RoleDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.data.domain.Page;
@@ -37,12 +38,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 角色控制器
+ * 角色管理
  *
  * @author xie jin
  * @since 1.0.0  2024/6/18 下午4:00
  */
-@Tag(name = "角色控制器", description = "角色控制器")
+@Tag(name = "角色管理", description = "角色控制器")
+@Platform
 @RestController
 @RequestMapping("/api/role")
 @RequiredArgsConstructor

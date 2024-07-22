@@ -29,18 +29,20 @@ import org.dblue.application.module.usergroup.application.vo.UserGroupRoleVo;
 import org.dblue.application.module.usergroup.application.vo.UserGroupUserVo;
 import org.dblue.application.module.usergroup.application.vo.UserGroupVo;
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 用户组控制器
+ * 用户组管理
  *
  * @author xie jin
  * @since 1.0.0  2024/7/10 下午4:32
  */
-@Tag(name = "用户组控制器", description = "用户组控制器")
+@Tag(name = "用户组管理", description = "用户组控制器")
+@Platform
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user/group")

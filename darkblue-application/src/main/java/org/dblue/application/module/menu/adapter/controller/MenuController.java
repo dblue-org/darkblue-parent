@@ -29,18 +29,20 @@ import org.dblue.application.module.menu.application.service.MenuApplicationServ
 import org.dblue.application.module.menu.application.vo.MenuTreeVo;
 import org.dblue.application.module.menu.application.vo.RoleMenuVo;
 import org.dblue.application.module.menu.domain.service.MenuDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * 菜单控制层
+ * 菜单管理
  *
  * @author xie jin
  * @since 1.0.0  2024/6/17 下午1:49
  */
-@Tag(name = "菜单控制层", description = "菜单控制层")
+@Tag(name = "菜单管理", description = "菜单控制层")
+@Platform
 @RestController
 @RequestMapping("/api/menu")
 @RequiredArgsConstructor

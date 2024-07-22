@@ -17,11 +17,11 @@ package org.dblue.application.module.resource.infrastructure.query.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.db.jpa.AbstractBaseJpaQuery;
-import org.dblue.application.commons.enums.PlatformEnum;
 import org.dblue.application.module.resource.infrastructure.entity.QResourceGroup;
 import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
 import org.dblue.application.module.resource.infrastructure.query.ResourceGroupQuery;
 import org.dblue.application.module.resource.infrastructure.repository.ResourceGroupRepository;
+import org.dblue.core.enums.PlatformEnum;
 
 /**
  * @author Wang Chengwei

@@ -23,43 +23,49 @@ public class PermissionPageVo {
     /**
      * 权限ID
      */
-    @Schema(title = "权限ID", description = "权限ID")
+    @Schema(description = "权限ID")
     private String permissionId;
 
     /**
      * 菜单ID
      */
-    @Schema(title = "菜单ID", description = "菜单ID")
+    @Schema(description = "菜单ID")
     private String menuId;
 
     /**
      * 菜单名称
      */
-    @Schema(title = "菜单名称", description = "菜单名称")
+    @Schema(description = "菜单名称")
     private String menuName;
 
     /**
      * 适用平台(1-PC；2-APP)从菜单代入
      */
-    @Schema(title = "适用平台(1-PC；2-APP)从菜单代入", description = "适用平台(1-PC；2-APP)从菜单代入")
+    @Schema(description = "适用平台(1-PC；2-APP)从菜单代入")
     private Integer platform;
+
+    /**
+     * 资源数量
+     */
+    @Schema(description = "资源数量")
+    private Long resourceNum;
 
     /**
      * 权限名称
      */
-    @Schema(title = "权限名称", description = "权限名称")
+    @Schema(description = "权限名称")
     private String permissionName;
 
     /**
      * 权限标识
      */
-    @Schema(title = "权限标识", description = "权限标识")
+    @Schema(description = "权限标识")
     private String permissionCode;
 
     /**
      * 创建时间
      */
-    @Schema(title = "创建时间", description = "创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 }
 

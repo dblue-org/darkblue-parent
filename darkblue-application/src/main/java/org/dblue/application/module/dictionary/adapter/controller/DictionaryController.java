@@ -29,6 +29,7 @@ import org.dblue.application.module.dictionary.application.vo.DictionaryItemPage
 import org.dblue.application.module.dictionary.application.vo.DictionaryItemTreeVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryVo;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +37,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 字典控制层
+ * 字典管理
  *
  * @author xie jin
  * @since 1.0.0  2024/7/15 上午10:59
  */
-@Tag(name = "字典控制层", description = "字典控制层")
+@Tag(name = "字典管理", description = "字典控制层")
+@Platform
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/dictionary")

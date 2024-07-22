@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.dblue.application.module.logs.application.dto.LoginLogQueryDto;
 import org.dblue.application.module.logs.application.service.LoginLogApplicationService;
 import org.dblue.application.module.logs.application.vo.LoginLogPageListVo;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1.0.0
  */
 @Tag(name = "登录日志")
+@Platform
 @RestController
 @RequestMapping("/api/login-log")
 public class LoginLogController {
