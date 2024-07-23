@@ -16,6 +16,7 @@
 package org.dblue.application.module.user.application.service;
 
 import org.dblue.application.module.user.application.dto.UserPageDto;
+import org.dblue.application.module.user.application.dto.UserPasswordChangeDto;
 import org.dblue.application.module.user.application.vo.UserMenuVo;
 import org.dblue.application.module.user.application.vo.UserPageVo;
 import org.dblue.application.module.user.application.vo.UserSelectVo;
@@ -68,4 +69,18 @@ public interface UserApplicationService {
      * @param userId 用户ID
      */
     void delete(String userId);
+
+    /**
+     * 重置密码
+     *
+     * @param userId 用户ID
+     */
+    void resetPassword(String userId);
+
+    /**
+     * 修改密码
+     *
+     * @param passwordChangeDto 密码
+     */
+    void changePassword(UserPasswordChangeDto passwordChangeDto);
 }

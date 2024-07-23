@@ -123,6 +123,12 @@ public class MenuTreeVo {
     @Schema(description = "是否可见")
     private Boolean isVisible;
 
+    /**
+     * 是否可见
+     */
+    @Schema(description = "是否可见")
+    private Boolean isProductionVisible;
+
 }
 
 

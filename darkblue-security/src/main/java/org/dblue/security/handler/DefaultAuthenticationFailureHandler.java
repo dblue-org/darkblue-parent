@@ -38,7 +38,7 @@ public class DefaultAuthenticationFailureHandler extends AbstractAuthenticationH
     @Override
     public void onAuthenticationFailure(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        ResponseBean<String> responseBean = ResponseBean.failure(SecurityError.LOGIN_FAIL);
+        ResponseBean<Void> responseBean = ResponseBean.failure(SecurityError.LOGIN_FAIL);
         if (exception instanceof BadCredentialsException) {
             responseBean.setErrorCode(SecurityError.BAD_CREDENTIALS.getErrorCode());
             responseBean.setMessage(SecurityError.BAD_CREDENTIALS.getErrorMessage());

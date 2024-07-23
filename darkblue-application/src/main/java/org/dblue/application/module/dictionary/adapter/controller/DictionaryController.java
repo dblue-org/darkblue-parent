@@ -59,7 +59,7 @@ public class DictionaryController {
      */
     @Operation(summary = "字典添加", description = "字典添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@Valid @RequestBody DictionaryAddDto addDto) {
+    public ResponseBean<Void> add(@Valid @RequestBody DictionaryAddDto addDto) {
         dictionaryDomainService.add(addDto);
         return ResponseBean.success();
     }
@@ -72,7 +72,7 @@ public class DictionaryController {
      */
     @Operation(summary = "字典更新", description = "字典更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@Valid @RequestBody DictionaryUpdateDto updateDto) {
+    public ResponseBean<Void> update(@Valid @RequestBody DictionaryUpdateDto updateDto) {
         dictionaryDomainService.update(updateDto);
         return ResponseBean.success();
     }
@@ -85,7 +85,7 @@ public class DictionaryController {
     @Parameter(name = "dictionaryId", description = "字典ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "字典删除", description = "字典删除")
     @DeleteMapping("/delete/{dictionaryId}")
-    public ResponseBean<String> delete(@PathVariable("dictionaryId") String dictionaryId) {
+    public ResponseBean<Void> delete(@PathVariable("dictionaryId") String dictionaryId) {
         dictionaryDomainService.delete(dictionaryId);
         return ResponseBean.success();
     }
@@ -97,7 +97,7 @@ public class DictionaryController {
      */
     @Operation(summary = "字典添加", description = "字典添加")
     @PostMapping("/addItem")
-    public ResponseBean<String> addItem(@Valid @RequestBody DictionaryItemAddDto addDto) {
+    public ResponseBean<Void> addItem(@Valid @RequestBody DictionaryItemAddDto addDto) {
         dictionaryDomainService.addItem(addDto);
         return ResponseBean.success();
     }
@@ -109,7 +109,7 @@ public class DictionaryController {
      */
     @Operation(summary = "字典更新", description = "字典更新")
     @PutMapping("/updateItem")
-    public ResponseBean<String> updateItem(@Valid @RequestBody DictionaryItemUpdateDto updateDto) {
+    public ResponseBean<Void> updateItem(@Valid @RequestBody DictionaryItemUpdateDto updateDto) {
         dictionaryDomainService.updateItem(updateDto);
         return ResponseBean.success();
     }
@@ -123,7 +123,7 @@ public class DictionaryController {
     @Parameter(name = "dictionaryItemId", description = "字典项ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "字典项删除", description = "字典项删除")
     @DeleteMapping("/deleteItem/{dictionaryItemId}")
-    public ResponseBean<String> deleteItem(@PathVariable("dictionaryItemId") String dictionaryItemId) {
+    public ResponseBean<Void> deleteItem(@PathVariable("dictionaryItemId") String dictionaryItemId) {
         dictionaryDomainService.deleteItem(dictionaryItemId);
         return ResponseBean.success();
     }
@@ -135,7 +135,7 @@ public class DictionaryController {
      */
     @Operation(summary = "字典项启用禁用", description = "字典项启用禁用")
     @PatchMapping("/enableItem")
-    public ResponseBean<String> enableItem(@Valid @RequestBody DictionaryItemEnableDto enableDto) {
+    public ResponseBean<Void> enableItem(@Valid @RequestBody DictionaryItemEnableDto enableDto) {
         dictionaryDomainService.enableItem(enableDto);
         return ResponseBean.success();
     }

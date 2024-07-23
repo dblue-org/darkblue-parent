@@ -13,32 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.user.errors;
+package org.dblue.application.config.properties;
 
-import lombok.Getter;
-import org.dblue.common.error.ErrorInfo;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@Getter
-public enum UserErrors implements ErrorInfo {
-
+@ConfigurationProperties(prefix = "app")
+@Data
+public class ApplicationConfigProperties {
 
     /**
-     *
+     * 不允许修改用户密码的用户，值为用户名
      */
-    USER_NOT_FOUND("USER_0001", "用户不存在"),
-    USERNAME_EXISTS("USER_0002", "用户名已存在"),
-    USER_ID_IS_NOT_BLANK("USER_0003", "用户ID不能为空"),
-    NOT_ALLOW_CHANGE_PASSWORD("USER_0004", "此用户的密码不允许修改"),
-    ;
-    private final String errorCode;
-    private final String errorMessage;
-
-    UserErrors(String errorCode, String errorMessage) {
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-    }
+    private List<String> notAllowChangePasswordUsers = new ArrayList<>();
 }

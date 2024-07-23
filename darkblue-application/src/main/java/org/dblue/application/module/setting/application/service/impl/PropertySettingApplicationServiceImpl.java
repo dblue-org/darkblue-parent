@@ -17,6 +17,7 @@ package org.dblue.application.module.setting.application.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.module.setting.application.dto.PropertySettingAddDto;
 import org.dblue.application.module.setting.application.dto.PropertySettingQueryDto;
 import org.dblue.application.module.setting.application.dto.PropertySettingUpdateDto;
@@ -105,7 +106,9 @@ public class PropertySettingApplicationServiceImpl implements PropertySettingApp
             vo.setTypeName(PropertyType.getName(vo.getType()));
 
             try {
-                vo.setValueScope(this.objectMapper.readValue(entity.getValueScope(), Object.class));
+                if (StringUtils.isNotBlank(entity.getValueScope())) {
+                    vo.setValueScope(this.objectMapper.readValue(entity.getValueScope(), Object.class));
+                }
             } catch (JsonProcessingException e) {
                 throw new ServiceException(VALUE_SCOPE_RESOLVE_ERROR);
             }

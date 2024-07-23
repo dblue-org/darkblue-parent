@@ -61,8 +61,8 @@ public class GlobalExceptionHandler {
      * @param serviceException 业务异常
      */
     @ExceptionHandler(value = ServiceException.class)
-    public ResponseBean<String> serviceException(ServiceException serviceException) {
-        ResponseBean<String> result = new ResponseBean<>();
+    public ResponseBean<Void> serviceException(ServiceException serviceException) {
+        ResponseBean<Void> result = new ResponseBean<>();
         result.setErrorCode(serviceException.getErrorCode());
         result.setMessage(serviceException.getMessage());
         log.error(serviceException.getErrorCode() + "-" + serviceException.getMessage(), serviceException);
@@ -70,8 +70,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = HttpClientErrorException.class)
-    public ResponseBean<String> httpClientErrorException(HttpClientErrorException httpClientErrorException) {
-        ResponseBean<String> result = new ResponseBean<>();
+    public ResponseBean<Void> httpClientErrorException(HttpClientErrorException httpClientErrorException) {
+        ResponseBean<Void> result = new ResponseBean<>();
         result.setSuccess(false);
         result.setErrorCode(httpClientErrorException.getStatusCode().toString());
         result.setMessage(httpClientErrorException.getMessage());
@@ -86,8 +86,8 @@ public class GlobalExceptionHandler {
      * @return 错误应答数据
      */
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    public ResponseBean<String> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
-        ResponseBean<String> result = new ResponseBean<>();
+    public ResponseBean<Void> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+        ResponseBean<Void> result = new ResponseBean<>();
         result.setSuccess(false);
         result.setErrorCode(CommonError.INTERNAL_SERVER_ERROR.getErrorCode());
         String message = "Http 请求方法错误，请使用: [" + StringUtils.join(ex.getSupportedHttpMethods(), ",")
@@ -162,8 +162,8 @@ public class GlobalExceptionHandler {
      * @param exception 文件上传大小限制异常
      */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseBean<String> uploadException(MaxUploadSizeExceededException exception) {
-        ResponseBean<String> result = ResponseBean.failure(CommonError.SERVICE_ERROR);
+    public ResponseBean<Void> uploadException(MaxUploadSizeExceededException exception) {
+        ResponseBean<Void> result = ResponseBean.failure(CommonError.SERVICE_ERROR);
         result.setMessage(CommonErrorMessages.FILE_LIMIT_ERROR_MSG);
         log.error(exception.getMessage(), exception);
         return result;
@@ -176,8 +176,8 @@ public class GlobalExceptionHandler {
      * @param exception 异常
      */
     @ExceptionHandler(value = Exception.class)
-    public ResponseBean<String> otherException(Exception exception) {
-        ResponseBean<String> result = ResponseBean.failure(CommonError.INTERNAL_SERVER_ERROR);
+    public ResponseBean<Void> otherException(Exception exception) {
+        ResponseBean<Void> result = ResponseBean.failure(CommonError.INTERNAL_SERVER_ERROR);
         if (this.coreConfigProperties.getInternalErrorPrefix() != null) {
             result.setErrorCode(this.coreConfigProperties.getInternalErrorPrefix() + "_500");
         }

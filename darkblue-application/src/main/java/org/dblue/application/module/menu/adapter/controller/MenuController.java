@@ -58,7 +58,7 @@ public class MenuController {
      */
     @Operation(summary = "菜单添加", description = "菜单添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@RequestBody @Valid MenuAddDto menuAddDto) {
+    public ResponseBean<Void> add(@RequestBody @Valid MenuAddDto menuAddDto) {
         menuDomainService.add(menuAddDto);
         return ResponseBean.success();
     }
@@ -71,7 +71,7 @@ public class MenuController {
      */
     @Operation(summary = "菜单更新", description = "菜单更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@RequestBody @Valid MenuUpdateDto menuUpdateDto) {
+    public ResponseBean<Void> update(@RequestBody @Valid MenuUpdateDto menuUpdateDto) {
         menuDomainService.update(menuUpdateDto);
         return ResponseBean.success();
     }
@@ -85,7 +85,7 @@ public class MenuController {
     @Parameter(name = "menuId", description = "菜单ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "菜单删除", description = "菜单删除")
     @DeleteMapping("/delete/{id}")
-    public ResponseBean<String> delete(@PathVariable("id") String menuId) {
+    public ResponseBean<Void> delete(@PathVariable("id") String menuId) {
         menuApplicationService.delete(menuId);
         return ResponseBean.success();
     }
@@ -119,7 +119,7 @@ public class MenuController {
      */
     @Operation(summary = "菜单启用禁用", description = "菜单启用禁用")
     @PatchMapping("/enable")
-    public ResponseBean<String> enable(@Valid @RequestBody MenuEnableDto menuEnableDto) {
+    public ResponseBean<Void> enable(@Valid @RequestBody MenuEnableDto menuEnableDto) {
         menuDomainService.enable(menuEnableDto);
         return ResponseBean.success();
     }

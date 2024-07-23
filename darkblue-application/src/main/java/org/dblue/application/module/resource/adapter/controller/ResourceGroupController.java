@@ -56,7 +56,7 @@ public class ResourceGroupController {
      */
     @Operation(summary = "资源组添加", description = "资源组添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@Valid @RequestBody ResourceGroupAddDto addDto) {
+    public ResponseBean<Void> add(@Valid @RequestBody ResourceGroupAddDto addDto) {
         resourceGroupDomainService.add(addDto);
         return ResponseBean.success();
     }
@@ -69,7 +69,7 @@ public class ResourceGroupController {
      */
     @Operation(summary = "资源组更新", description = "资源组更新")
     @PostMapping("/update")
-    public ResponseBean<String> update(@Valid @RequestBody ResourceGroupUpdateDto updateDto) {
+    public ResponseBean<Void> update(@Valid @RequestBody ResourceGroupUpdateDto updateDto) {
         resourceGroupDomainService.update(updateDto);
         return ResponseBean.success();
     }
@@ -82,7 +82,7 @@ public class ResourceGroupController {
     @Parameter(name = "resourceGroupId", description = "资源组ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "资源组删除", description = "资源组删除")
     @DeleteMapping("/delete/{resourceGroupId}")
-    public ResponseBean<String> delete(@PathVariable("resourceGroupId") String resourceGroupId) {
+    public ResponseBean<Void> delete(@PathVariable("resourceGroupId") String resourceGroupId) {
         resourceGroupDomainService.delete(resourceGroupId);
         return ResponseBean.success();
     }

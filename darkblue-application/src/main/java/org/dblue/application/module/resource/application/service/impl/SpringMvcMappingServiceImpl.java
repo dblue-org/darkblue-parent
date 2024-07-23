@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dblue.application.module.resource.application.service.SpringAnnotationService;
+import org.dblue.application.module.resource.application.service.SpringMvcMappingService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
 import org.dblue.application.module.resource.errors.ResourceErrors;
@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class SpringAnnotationServiceImpl implements SpringAnnotationService, ApplicationContextAware {
+public class SpringMvcMappingServiceImpl implements SpringMvcMappingService, ApplicationContextAware {
     private ApplicationContext applicationContext;
     private List<ResourceControllerVo> resourceList = null;
 
@@ -63,19 +63,14 @@ public class SpringAnnotationServiceImpl implements SpringAnnotationService, App
     @Override
     public List<ResourceControllerVo> getResourceController(Integer platform) {
         if (this.resourceList != null) {
-            if (Objects.nonNull(platform)) {
-                return resourceList.stream()
-                                   .filter(resourceControllerVo -> resourceControllerVo.getPlatform()
-                                                                                       .equals(platform))
-                                   .toList();
-            }
-            return resourceList;
+            return resourceList.stream()
+                    .filter(resourceControllerVo -> this.platformCompare(platform, resourceControllerVo))
+                    .toList();
         }
         List<ResourceControllerVo> resourceControllerVoList = new ArrayList<>();
         Map<String, Object> objectMap = applicationContext.getBeansWithAnnotation(RestController.class);
         for (Map.Entry<String, Object> entry : objectMap.entrySet()) {
-            Class<?> aClass = entry.getValue()
-                                   .getClass();
+            Class<?> aClass = entry.getValue().getClass();
             Tag tag = aClass.getAnnotation(Tag.class);
             if (tag == null) {
                 continue;
@@ -88,27 +83,26 @@ public class SpringAnnotationServiceImpl implements SpringAnnotationService, App
             RequestMapping requestMappingClass = aClass.getAnnotation(RequestMapping.class);
             String baseUrl = requestMappingClass.value()[0];
             ResourceControllerVo resourceControllerVo = buildController(tag, aClass, baseUrl);
-            resourceControllerVo.setPlatform(platformAnnotation.value()
-                                                               .getValue());
+            resourceControllerVo.setPlatform(platformAnnotation.value().getValue());
             resourceControllerVoList.add(resourceControllerVo);
 
         }
         // 根据tagName+platform分组
         Map<String, List<ResourceMappingVo>> tagNameMap = resourceControllerVoList.stream()
-                                                                                  .collect(Collectors.groupingBy(ResourceControllerVo::group, Collectors.mapping(ResourceControllerVo::getMappings, Collectors.flatMapping(List::stream, Collectors.toList()))));
+                .collect(Collectors.groupingBy(
+                        ResourceControllerVo::group,
+                        Collectors.mapping(ResourceControllerVo::getMappings, Collectors.flatMapping(List::stream, Collectors.toList()))
+                ));
 
         resourceControllerVoList = new ArrayList<>();
         for (Map.Entry<String, List<ResourceMappingVo>> entry : tagNameMap.entrySet()) {
             resourceControllerVoList.add(ResourceControllerVo.build(entry.getKey(), entry.getValue()));
         }
+        // 缓存资源信息
         this.resourceList = resourceControllerVoList;
-        if (Objects.nonNull(platform)) {
-            return resourceControllerVoList.stream()
-                                           .filter(resourceControllerVo -> resourceControllerVo.getPlatform()
-                                                                                               .equals(platform))
-                                           .toList();
-        }
-        return resourceControllerVoList;
+        return resourceControllerVoList.stream()
+                .filter(resourceControllerVo -> this.platformCompare(platform, resourceControllerVo))
+                .toList();
     }
 
     private ResourceControllerVo buildController(Tag tag, Class<?> aClass, String baseUrl) {
@@ -171,6 +165,13 @@ public class SpringAnnotationServiceImpl implements SpringAnnotationService, App
 
         }
         throw new ServiceException(ResourceErrors.RESOURCE_METHOD_IS_NOT_SUPPORT);
+    }
+
+    private boolean platformCompare(Integer platform, ResourceControllerVo resourceControllerVo) {
+        if (Objects.isNull(platform)) {
+            return true;
+        }
+        return platform.equals(resourceControllerVo.getPlatform());
     }
 
     @SuppressWarnings("java:S5857")

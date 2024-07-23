@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.commons.bus.EventBus;
+import org.dblue.application.config.properties.ApplicationConfigProperties;
 import org.dblue.application.module.user.application.dto.UserAddDto;
 import org.dblue.application.module.user.application.dto.UserDto;
 import org.dblue.application.module.user.application.dto.UserEnableDto;
@@ -58,6 +59,7 @@ public class UserDomainServiceImpl implements UserDomainService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final EventBus eventBus;
+    private final ApplicationConfigProperties applicationConfigProperties;
     private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     /**
@@ -159,5 +161,18 @@ public class UserDomainServiceImpl implements UserDomainService {
         this.eventBus.fireEventAfterCommit(new UserUpdateEvent(this, optional.get()));
     }
 
-
+    @Override
+    public void changePassword(String userId, String password) {
+        Optional<User> optional = userRepository.findById(userId);
+        if (optional.isEmpty()) {
+            throw new ServiceException(UserErrors.USER_NOT_FOUND);
+        }
+        if (CollectionUtils.isNotEmpty(this.applicationConfigProperties.getNotAllowChangePasswordUsers()) &&
+                this.applicationConfigProperties.getNotAllowChangePasswordUsers().contains(optional.get().getUsername())) {
+            throw new ServiceException(UserErrors.NOT_ALLOW_CHANGE_PASSWORD);
+        }
+        String encodedPassword = passwordEncoder.encode(password);
+        optional.get().changePassword(encodedPassword);
+        userRepository.save(optional.get());
+    }
 }

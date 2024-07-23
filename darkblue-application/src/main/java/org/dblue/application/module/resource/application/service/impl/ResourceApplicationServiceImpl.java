@@ -24,7 +24,7 @@ import org.dblue.application.module.permission.domain.service.PermissionDomainSe
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.resource.application.dto.*;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
-import org.dblue.application.module.resource.application.service.SpringAnnotationService;
+import org.dblue.application.module.resource.application.service.SpringMvcMappingService;
 import org.dblue.application.module.resource.application.vo.*;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
 import org.dblue.application.module.resource.domain.service.ResourceGroupDomainService;
@@ -56,7 +56,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     private final ResourceDomainService resourceDomainService;
     private final PermissionDomainService permissionDomainService;
     private final PermissionDomainQueryService permissionDomainQueryService;
-    private final SpringAnnotationService springAnnotationService;
+    private final SpringMvcMappingService springMvcMappingService;
     private final ResourceGroupDomainService resourceGroupDomainService;
 
 
@@ -124,7 +124,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
         if (CollectionUtils.isNotEmpty(resourceInvalidVoList)) {
             throw new ServiceException(ResourceErrors.THE_RESOURCE_CONTAINS_AN_UNMODIFIED_INVALID_RESOURCE);
         }
-        List<ResourceControllerVo> resourceControllerVoList = springAnnotationService.getResourceController(null);
+        List<ResourceControllerVo> resourceControllerVoList = springMvcMappingService.getResourceController(null);
         for (ResourceControllerVo resourceControllerVo : resourceControllerVoList) {
             ResourceGroupAddDto resourceGroupAddDto = new ResourceGroupAddDto();
             resourceGroupAddDto.setPlatform(resourceControllerVo.getPlatform());
@@ -168,7 +168,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     @Transactional(rollbackFor = Exception.class)
     @Override
     public List<ResourceInvalidVo> checkResourceValidity() {
-        List<ResourceControllerVo> resourceControllerVoList = springAnnotationService.getResourceController(null);
+        List<ResourceControllerVo> resourceControllerVoList = springMvcMappingService.getResourceController(null);
         List<Resource> resourceList = resourceDomainService.getAll();
         List<String> resourceUrlSet = resourceControllerVoList.stream().map(ResourceControllerVo::getMappings)
                                                               .flatMap(List::stream)

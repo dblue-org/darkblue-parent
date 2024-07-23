@@ -134,4 +134,9 @@ public class User extends AbstractAuditingEntity {
     public void changeLastLoginTimeToNow() {
         this.lastLoginTime = LocalDateTime.now();
     }
+
+    public void changePassword(String encodedPassword) {
+        this.password = encodedPassword;
+        this.passwordUpdateTime = LocalDateTime.now();
+    }
 }

@@ -19,6 +19,8 @@ package org.dblue.application.module.resource.application.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * 资源控制器信息
  *
@@ -65,4 +67,10 @@ public class ResourceInvalidVo {
      */
     @Schema(description = "控制层方法")
     private String method;
+
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
 }

@@ -34,7 +34,7 @@ public class CustomerAuthenticationEntryPoint extends AbstractAuthenticationHand
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        ResponseBean<String> responseBean = ResponseBean.failure(
+        ResponseBean<Void> responseBean = ResponseBean.failure(
                 CommonError.UNAUTHORIZED
         );
         this.print(response, responseBean);

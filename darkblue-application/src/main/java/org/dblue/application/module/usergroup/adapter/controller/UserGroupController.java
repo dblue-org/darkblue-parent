@@ -59,7 +59,7 @@ public class UserGroupController {
      */
     @Operation(summary = "用户组添加", description = "用户组添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@Valid @RequestBody UserGroupAddDto addDto) {
+    public ResponseBean<Void> add(@Valid @RequestBody UserGroupAddDto addDto) {
         userGroupDomainService.add(addDto);
         return ResponseBean.success();
     }
@@ -72,7 +72,7 @@ public class UserGroupController {
      */
     @Operation(summary = "用户组更新", description = "用户组更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@Valid @RequestBody UserGroupUpdateDto updateDto) {
+    public ResponseBean<Void> update(@Valid @RequestBody UserGroupUpdateDto updateDto) {
         userGroupDomainService.update(updateDto);
         return ResponseBean.success();
     }
@@ -85,7 +85,7 @@ public class UserGroupController {
     @Parameter(name = "userGroupId", description = "用户组ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "用户组删除", description = "用户组删除")
     @DeleteMapping("/delete/{userGroupId}")
-    public ResponseBean<String> delete(@PathVariable("userGroupId") String userGroupId) {
+    public ResponseBean<Void> delete(@PathVariable("userGroupId") String userGroupId) {
         userGroupDomainService.delete(userGroupId);
         return ResponseBean.success();
     }
@@ -97,7 +97,7 @@ public class UserGroupController {
      */
     @Operation(summary = "用户组启用/禁用", description = "用户组启用/禁用")
     @PatchMapping("/toggleState")
-    public ResponseBean<String> toggleState(@Valid @RequestBody UserGroupEnableDto enableDto) {
+    public ResponseBean<Void> toggleState(@Valid @RequestBody UserGroupEnableDto enableDto) {
         userGroupDomainService.toggleState(enableDto);
         return ResponseBean.success();
     }
@@ -110,7 +110,7 @@ public class UserGroupController {
      */
     @Operation(summary = "用户组角色添加", description = "用户组角色添加")
     @PostMapping("/addRole")
-    public ResponseBean<String> addRole(@Valid @RequestBody UserGroupRoleAddDto roleAddDto) {
+    public ResponseBean<Void> addRole(@Valid @RequestBody UserGroupRoleAddDto roleAddDto) {
         userGroupDomainService.addRole(roleAddDto);
         return ResponseBean.success();
     }
@@ -126,7 +126,7 @@ public class UserGroupController {
     @Parameter(name = "userGroupId", description = "用户组Id", in = ParameterIn.PATH, required = true)
     @Parameter(name = "roleId", description = "角色Id", in = ParameterIn.PATH, required = true)
     @DeleteMapping("/deleteRoleRef/{userGroupId}/{roleId}")
-    public ResponseBean<String> deleteRole(
+    public ResponseBean<Void> deleteRole(
             @PathVariable("userGroupId") String userGroupId,
             @PathVariable("roleId") String roleId) {
         userGroupDomainService.deleteRoleRef(userGroupId, roleId);
@@ -141,7 +141,7 @@ public class UserGroupController {
      */
     @Operation(summary = "用户组用户添加", description = "用户组用户添加")
     @PostMapping("/addUser")
-    public ResponseBean<String> addUser(@Valid @RequestBody UserGroupUserAddDto userAddDto) {
+    public ResponseBean<Void> addUser(@Valid @RequestBody UserGroupUserAddDto userAddDto) {
         userGroupDomainService.addUser(userAddDto);
         return ResponseBean.success();
     }
@@ -156,7 +156,7 @@ public class UserGroupController {
     @Parameter(name = "userGroupId", description = "用户组Id", in = ParameterIn.PATH, required = true)
     @Parameter(name = "userId", description = "用户Id", in = ParameterIn.PATH, required = true)
     @DeleteMapping("/deleteUserRef/{userGroupId}/{userId}")
-    public ResponseBean<String> deleteUser(
+    public ResponseBean<Void> deleteUser(
             @PathVariable("userGroupId") String userGroupId,
             @PathVariable("userId") String userId) {
         userGroupDomainService.deleteUser(userGroupId, userId);

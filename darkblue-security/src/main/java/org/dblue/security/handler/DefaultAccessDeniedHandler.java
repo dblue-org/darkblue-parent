@@ -32,7 +32,7 @@ public class DefaultAccessDeniedHandler extends AbstractAuthenticationHandler im
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) {
-        ResponseBean<String> responseBean = ResponseBean.failure(CommonError.ACCESS_DENIED);
+        ResponseBean<Void> responseBean = ResponseBean.failure(CommonError.ACCESS_DENIED);
         this.print(response, responseBean);
     }
 }

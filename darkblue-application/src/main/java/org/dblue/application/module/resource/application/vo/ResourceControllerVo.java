@@ -53,7 +53,9 @@ public class ResourceControllerVo {
         ResourceControllerVo resourceControllerVo = new ResourceControllerVo();
         String[] split = group.split("#");
         resourceControllerVo.setTagName(split[0]);
-        resourceControllerVo.setTagName(split[1]);
+        if (split.length > 1) {
+            resourceControllerVo.setPlatform(Integer.parseInt(split[1]));
+        }
         resourceControllerVo.setMappings(mappings);
         return resourceControllerVo;
     }

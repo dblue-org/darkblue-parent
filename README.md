@@ -8,6 +8,8 @@
 
 文档地址：https://dblue.org/docs/project-docs/quick-start
 
+预览（Angular Demo）：https://angular.darkblue.dblue.org/
+
 ### 软件架构
 
 技术架构如下：

@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.resource.application.dto.*;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
-import org.dblue.application.module.resource.application.service.SpringAnnotationService;
+import org.dblue.application.module.resource.application.service.SpringMvcMappingService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.application.vo.ResourceInvalidVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
@@ -51,7 +51,7 @@ public class ResourceController {
 
     private final ResourceApplicationService resourceApplicationService;
     private final ResourceDomainService resourceDomainService;
-    private final SpringAnnotationService springAnnotationService;
+    private final SpringMvcMappingService springMvcMappingService;
 
     /**
      * 资源添加
@@ -60,7 +60,7 @@ public class ResourceController {
      */
     @Operation(summary = "资源添加", description = "资源添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@Valid @RequestBody ResourceAddDto addDto) {
+    public ResponseBean<Void> add(@Valid @RequestBody ResourceAddDto addDto) {
         resourceDomainService.add(addDto);
         return ResponseBean.success();
     }
@@ -73,7 +73,7 @@ public class ResourceController {
      */
     @Operation(summary = "资源更新", description = "资源更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@Valid @RequestBody ResourceUpdateDto updateDto) {
+    public ResponseBean<Void> update(@Valid @RequestBody ResourceUpdateDto updateDto) {
         resourceDomainService.update(updateDto);
         return ResponseBean.success();
     }
@@ -87,7 +87,7 @@ public class ResourceController {
     @Parameter(name = "resourceId", description = "资源Id", in = ParameterIn.PATH, required = true)
     @Operation(summary = "资源删除", description = "资源删除")
     @DeleteMapping("/delete/{resourceId}")
-    public ResponseBean<String> delete(@PathVariable("resourceId") String resourceId) {
+    public ResponseBean<Void> delete(@PathVariable("resourceId") String resourceId) {
         resourceApplicationService.delete(resourceId);
         return ResponseBean.success();
     }
@@ -115,7 +115,7 @@ public class ResourceController {
     @GetMapping("/getResourceController")
     public ResponseBean<List<ResourceControllerVo>> getResourceController(
             @RequestParam(required = false) Integer platform) {
-        return ResponseBean.success(springAnnotationService.getResourceController(platform));
+        return ResponseBean.success(springMvcMappingService.getResourceController(platform));
     }
 
     /**
@@ -125,7 +125,7 @@ public class ResourceController {
      */
     @Operation(summary = "设置权限", description = "设置权限")
     @PostMapping("/setPermission")
-    public ResponseBean<String> setPermission(@Valid @RequestBody ResourcePermissionDto permissionDto) {
+    public ResponseBean<Void> setPermission(@Valid @RequestBody ResourcePermissionDto permissionDto) {
         resourceApplicationService.setPermission(permissionDto);
         return ResponseBean.success();
     }
@@ -135,7 +135,7 @@ public class ResourceController {
      */
     @Operation(summary = "批量添加或者更新", description = "批量添加或者更新")
     @PostMapping("/batchAddOrUpDate")
-    public ResponseBean<String> batchAddOrUpDate() {
+    public ResponseBean<Void> batchAddOrUpDate() {
         resourceApplicationService.batchAddOrUpDate();
         return ResponseBean.success();
     }
@@ -148,7 +148,7 @@ public class ResourceController {
      */
     @Operation(summary = "批量添加", description = "批量添加")
     @PostMapping("/batchAdd")
-    public ResponseBean<String> batchAdd(ResourceBatchAddDto batchAddDto) {
+    public ResponseBean<Void> batchAdd(@RequestBody @Valid ResourceBatchAddDto batchAddDto) {
         resourceApplicationService.batchAdd(batchAddDto);
         return ResponseBean.success();
     }
@@ -159,7 +159,6 @@ public class ResourceController {
     @Operation(summary = "检测资源合法性", description = "检测资源合法性")
     @PutMapping("/checkResourceValidity")
     public ResponseBean<List<ResourceInvalidVo>> checkResourceValidity() {
-
         return ResponseBean.success(resourceApplicationService.checkResourceValidity());
     }
 }

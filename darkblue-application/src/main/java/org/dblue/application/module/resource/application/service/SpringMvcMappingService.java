@@ -26,7 +26,7 @@ import java.util.List;
  * @author xie jin
  * @since 1.0.0  2024/7/18 上午10:15
  */
-public interface SpringAnnotationService {
+public interface SpringMvcMappingService {
 
     /**
      * 获取资源信息

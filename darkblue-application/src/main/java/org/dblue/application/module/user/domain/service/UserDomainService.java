@@ -29,28 +29,37 @@ public interface UserDomainService {
 
     /**
      * 用户添加
+     *
      * @param addDto 用户信息
      */
     void add(UserAddDto addDto);
 
     /**
      * 用户更新
+     *
      * @param updateDto 用户信息
      */
     void update(UserUpdateDto updateDto);
 
     /**
      * 用户删除
+     *
      * @param userId 用户ID
      */
     void delete(String userId);
 
     /**
      * 用户启用/禁用
+     *
      * @param enableDto 启用/禁用信息
      */
-    void  enable(UserEnableDto enableDto);
+    void enable(UserEnableDto enableDto);
 
-
-
+    /**
+     * 修改密码
+     *
+     * @param userId   用户ID
+     * @param password 密码
+     */
+    void changePassword(String userId, String password);
 }

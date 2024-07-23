@@ -13,32 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.user.errors;
+package org.dblue.application.module.user.application.dto;
 
-import lombok.Getter;
-import org.dblue.common.error.ErrorInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 /**
+ * 修改密码
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@Getter
-public enum UserErrors implements ErrorInfo {
-
+@Schema(description = "修改密码")
+@Data
+public class UserPasswordChangeDto {
 
     /**
-     *
+     * 当前密码
      */
-    USER_NOT_FOUND("USER_0001", "用户不存在"),
-    USERNAME_EXISTS("USER_0002", "用户名已存在"),
-    USER_ID_IS_NOT_BLANK("USER_0003", "用户ID不能为空"),
-    NOT_ALLOW_CHANGE_PASSWORD("USER_0004", "此用户的密码不允许修改"),
-    ;
-    private final String errorCode;
-    private final String errorMessage;
+    @NotEmpty(message = "当前密码不能为空")
+    @Schema(description = "当前密码")
+    private String oldPassword;
 
-    UserErrors(String errorCode, String errorMessage) {
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-    }
+    /**
+     * 新密码
+     */
+    @NotEmpty(message = "新密码不能为空")
+    @Size(min = 6, max = 32, message = "密码长度应在6-32位之间")
+    @Schema(description = "新密码")
+    private String newPassword;
 }

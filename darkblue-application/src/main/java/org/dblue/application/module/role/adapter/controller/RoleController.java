@@ -60,7 +60,7 @@ public class RoleController {
      */
     @Operation(summary = "角色添加", description = "角色添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@RequestBody @Valid RoleAddDto roleAddDto) {
+    public ResponseBean<Void> add(@RequestBody @Valid RoleAddDto roleAddDto) {
         roleDomainService.add(roleAddDto);
         return ResponseBean.success();
     }
@@ -72,7 +72,7 @@ public class RoleController {
      */
     @Operation(summary = "角色更新", description = "角色更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@RequestBody @Valid RoleUpdateDto roleUpdateDto) {
+    public ResponseBean<Void> update(@RequestBody @Valid RoleUpdateDto roleUpdateDto) {
         roleDomainService.update(roleUpdateDto);
         return ResponseBean.success();
     }
@@ -85,7 +85,7 @@ public class RoleController {
     @Parameter(name = "roleId", description = "角色ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "角色删除", description = "角色删除")
     @DeleteMapping("/delete/{roleId}")
-    public ResponseBean<String> delete(@PathVariable("roleId") String roleId) {
+    public ResponseBean<Void> delete(@PathVariable("roleId") String roleId) {
         roleDomainService.delete(roleId);
         return ResponseBean.success();
     }
@@ -109,7 +109,7 @@ public class RoleController {
      */
     @Operation(summary = "设置权限", description = "设置权限")
     @PostMapping("/setPermission")
-    public ResponseBean<String> setPermission(@RequestBody @Valid RolePermissionDto permissionDto) {
+    public ResponseBean<Void> setPermission(@RequestBody @Valid RolePermissionDto permissionDto) {
         roleDomainService.setPermission(permissionDto);
         return ResponseBean.success();
     }
@@ -147,7 +147,7 @@ public class RoleController {
      */
     @Operation(summary = "启用禁用", description = "启用禁用")
     @PatchMapping("/enable")
-    public ResponseBean<String> enable(@RequestBody @Valid RoleEnableDto enableDto) {
+    public ResponseBean<Void> enable(@RequestBody @Valid RoleEnableDto enableDto) {
         roleDomainService.enable(enableDto);
         return ResponseBean.success();
     }

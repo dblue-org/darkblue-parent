@@ -57,7 +57,7 @@ public class PermissionController {
      */
     @Operation(summary = "权限添加", description = "权限添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@RequestBody @Valid PermissionAddDto permissionAddDto) {
+    public ResponseBean<Void> add(@RequestBody @Valid PermissionAddDto permissionAddDto) {
         permissionDomainService.add(permissionAddDto);
         return ResponseBean.success();
     }
@@ -70,7 +70,7 @@ public class PermissionController {
      */
     @Operation(summary = "权限更新", description = "权限更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@RequestBody @Valid PermissionUpdateDto permissionUpdateDto) {
+    public ResponseBean<Void> update(@RequestBody @Valid PermissionUpdateDto permissionUpdateDto) {
         permissionDomainService.update(permissionUpdateDto);
         return ResponseBean.success();
     }
@@ -84,7 +84,7 @@ public class PermissionController {
     @Parameter(name = "permissionId", description = "权限id", in = ParameterIn.PATH, required = true)
     @Operation(summary = "权限删除", description = "权限删除")
     @DeleteMapping("/delete/{permissionId}")
-    public ResponseBean<String> delete(@PathVariable("permissionId") String permissionId) {
+    public ResponseBean<Void> delete(@PathVariable("permissionId") String permissionId) {
         permissionApplicationService.delete(permissionId);
         return ResponseBean.success();
     }
@@ -109,7 +109,7 @@ public class PermissionController {
      */
     @Operation(summary = "绑定资源", description = "绑定资源")
     @PostMapping("/setResource")
-    public ResponseBean<String> setResource(@RequestBody @Valid PermissionResourceDto resourceDto) {
+    public ResponseBean<Void> setResource(@RequestBody @Valid PermissionResourceDto resourceDto) {
         permissionDomainService.setResource(resourceDto);
         return ResponseBean.success();
     }

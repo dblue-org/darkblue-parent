@@ -69,7 +69,7 @@ public class DepartmentController {
      */
     @Operation(summary = "新增", description = "新增")
     @PostMapping("/add")
-    public ResponseBean<String> add(@Valid @RequestBody DepartmentAddDto addDto) {
+    public ResponseBean<Void> add(@Valid @RequestBody DepartmentAddDto addDto) {
         departmentDomainService.add(addDto);
         return ResponseBean.success();
     }
@@ -81,7 +81,7 @@ public class DepartmentController {
      */
     @Operation(summary = "更新", description = "更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@Valid @RequestBody DepartmentUpdateDto updateDto) {
+    public ResponseBean<Void> update(@Valid @RequestBody DepartmentUpdateDto updateDto) {
         departmentDomainService.update(updateDto);
         return ResponseBean.success();
     }
@@ -94,7 +94,7 @@ public class DepartmentController {
     @Parameter(name = "deptId", description = "部门ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "删除", description = "删除")
     @DeleteMapping("/delete/{deptId}")
-    public ResponseBean<String> delete(@PathVariable("deptId") String deptId) {
+    public ResponseBean<Void> delete(@PathVariable("deptId") String deptId) {
         departmentDomainService.delete(deptId);
         return ResponseBean.success();
     }

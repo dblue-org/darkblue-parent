@@ -61,7 +61,7 @@ public class PositionController {
      */
     @Operation(summary = "职位添加", description = "职位添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@Valid @RequestBody PositionAddDto addDto) {
+    public ResponseBean<Void> add(@Valid @RequestBody PositionAddDto addDto) {
         positionDomainService.add(addDto);
         return ResponseBean.success();
     }
@@ -74,7 +74,7 @@ public class PositionController {
      */
     @Operation(summary = "职位更新", description = "职位更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@Valid @RequestBody PositionUpdateDto updateDto) {
+    public ResponseBean<Void> update(@Valid @RequestBody PositionUpdateDto updateDto) {
         positionDomainService.update(updateDto);
         return ResponseBean.success();
     }
@@ -87,7 +87,7 @@ public class PositionController {
     @Parameter(name = "positionId", description = "职位ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "职位删除", description = "职位删除")
     @DeleteMapping("/delete/{positionId}")
-    public ResponseBean<String> delete(@PathVariable("positionId") String positionId) {
+    public ResponseBean<Void> delete(@PathVariable("positionId") String positionId) {
         positionDomainService.delete(positionId);
         return ResponseBean.success();
     }
@@ -99,7 +99,7 @@ public class PositionController {
      */
     @Operation(summary = "启用禁用", description = "启用禁用")
     @PatchMapping("/enable")
-    public ResponseBean<String> enable(@Valid @RequestBody PositionEnableDto enableDto) {
+    public ResponseBean<Void> enable(@Valid @RequestBody PositionEnableDto enableDto) {
         positionDomainService.toggleState(enableDto);
         return ResponseBean.success();
     }

@@ -23,3 +23,6 @@ spring:
         pool:
           enabled: true
           max-active: 10
+app:
+  not-allow-change-password-users:
+    - subadmin

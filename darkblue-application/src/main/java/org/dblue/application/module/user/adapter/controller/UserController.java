@@ -21,10 +21,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.dblue.application.module.user.application.dto.UserAddDto;
-import org.dblue.application.module.user.application.dto.UserEnableDto;
-import org.dblue.application.module.user.application.dto.UserPageDto;
-import org.dblue.application.module.user.application.dto.UserUpdateDto;
+import org.dblue.application.module.user.application.dto.*;
 import org.dblue.application.module.user.application.service.UserApplicationService;
 import org.dblue.application.module.user.application.vo.UserMenuVo;
 import org.dblue.application.module.user.application.vo.UserPageVo;
@@ -62,7 +59,7 @@ public class UserController {
      */
     @Operation(summary = "用户添加", description = "用户添加")
     @PostMapping("/add")
-    public ResponseBean<String> add(@Valid @RequestBody UserAddDto addDto) {
+    public ResponseBean<Void> add(@Valid @RequestBody UserAddDto addDto) {
         userDomainService.add(addDto);
         return ResponseBean.success();
     }
@@ -74,7 +71,7 @@ public class UserController {
      */
     @Operation(summary = "用户更新", description = "用户更新")
     @PutMapping("/update")
-    public ResponseBean<String> update(@Valid @RequestBody UserUpdateDto updateDto) {
+    public ResponseBean<Void> update(@Valid @RequestBody UserUpdateDto updateDto) {
         userDomainService.update(updateDto);
         return ResponseBean.success();
     }
@@ -87,7 +84,7 @@ public class UserController {
     @Parameter(name = "userId", description = "用户ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "用户删除", description = "用户删除")
     @DeleteMapping("/delete/{userId}")
-    public ResponseBean<String> delete(@PathVariable("userId") String userId) {
+    public ResponseBean<Void> delete(@PathVariable("userId") String userId) {
         userApplicationService.delete(userId);
         return ResponseBean.success();
     }
@@ -99,7 +96,7 @@ public class UserController {
      */
     @Operation(summary = "用户启用/禁用", description = "用户启用/禁用")
     @PatchMapping("/enable")
-    public ResponseBean<String> enable(@Valid @RequestBody UserEnableDto enableDto) {
+    public ResponseBean<Void> enable(@Valid @RequestBody UserEnableDto enableDto) {
         userDomainService.enable(enableDto);
         return ResponseBean.success();
     }
@@ -151,5 +148,30 @@ public class UserController {
     @GetMapping("/getUserMenu/pc")
     public ResponseBean<List<UserMenuVo>> getUserMenu() {
         return ResponseBean.success(userApplicationService.getUserMenu(PlatformEnum.PC.getValue()));
+    }
+
+
+    /**
+     * 重置密码
+     *
+     * @param userId 用户ID
+     */
+    @Operation(summary = "重置密码")
+    @PatchMapping("/resetPassword/{userId}")
+    public ResponseBean<Void> resetPassword(@PathVariable String userId) {
+        this.userApplicationService.resetPassword(userId);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param passwordChangeDto 密码
+     */
+    @Operation(summary = "修改密码")
+    @PatchMapping("/changePassword")
+    public ResponseBean<Void> changePassword(@RequestBody @Valid UserPasswordChangeDto passwordChangeDto) {
+        this.userApplicationService.changePassword(passwordChangeDto);
+        return ResponseBean.success();
     }
 }

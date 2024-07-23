@@ -31,7 +31,9 @@ import org.dblue.application.module.position.infrastructure.entity.Position;
 import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
+import org.dblue.application.module.setting.domain.cache.PropertySettingCacheService;
 import org.dblue.application.module.user.application.dto.UserPageDto;
+import org.dblue.application.module.user.application.dto.UserPasswordChangeDto;
 import org.dblue.application.module.user.application.helper.UserVoHelper;
 import org.dblue.application.module.user.application.service.UserApplicationService;
 import org.dblue.application.module.user.application.vo.*;
@@ -45,10 +47,13 @@ import org.dblue.application.module.usergroup.domain.service.UserGroupDomainQuer
 import org.dblue.application.module.usergroup.domain.service.UserGroupDomainService;
 import org.dblue.application.module.usergroup.infrastructure.entity.UserGroupRole;
 import org.dblue.common.assertion.ServiceAssert;
+import org.dblue.common.exception.ServiceException;
 import org.dblue.core.enums.PlatformEnum;
 import org.dblue.security.utils.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,6 +81,8 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     private final UserVoHelper userVoHelper;
     private final UserDomainService userDomainService;
     private final UserGroupDomainService userGroupDomainService;
+    private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    private final PropertySettingCacheService propertySettingCacheService;
 
 
     /**
@@ -264,5 +271,20 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     public void delete(String userId) {
         userDomainService.delete(userId);
         userGroupDomainService.deleteUserByUserId(userId);
+    }
+
+    @Override
+    public void resetPassword(String userId) {
+        String defaultPassword = this.propertySettingCacheService.getValue("user.defaultPassword");
+        this.userDomainService.changePassword(userId, defaultPassword);
+    }
+
+    @Override
+    public void changePassword(UserPasswordChangeDto passwordChangeDto) {
+        User user = this.userDomainQueryService.getOne(SecurityUtils.getUserId());
+        if (!this.passwordEncoder.matches(passwordChangeDto.getOldPassword(), user.getPassword())) {
+            throw new ServiceException("原密码不正确");
+        }
+        this.userDomainService.changePassword(user.getUserId(), passwordChangeDto.getNewPassword());
     }
 }
