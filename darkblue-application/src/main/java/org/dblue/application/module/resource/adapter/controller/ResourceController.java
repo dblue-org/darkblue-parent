@@ -26,6 +26,7 @@ import org.dblue.application.module.resource.application.dto.*;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
 import org.dblue.application.module.resource.application.service.SpringAnnotationService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
+import org.dblue.application.module.resource.application.vo.ResourceInvalidVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
 import org.dblue.core.annotation.Platform;
@@ -109,7 +110,7 @@ public class ResourceController {
      *
      * @return 资源信息
      */
-    @Parameter(name = "platform", description = "", in = ParameterIn.QUERY)
+    @Parameter(name = "platform", in = ParameterIn.QUERY)
     @Operation(summary = "获取资源信息", description = "获取资源信息")
     @GetMapping("/getResourceController")
     public ResponseBean<List<ResourceControllerVo>> getResourceController(
@@ -157,8 +158,8 @@ public class ResourceController {
      */
     @Operation(summary = "检测资源合法性", description = "检测资源合法性")
     @PutMapping("/checkResourceValidity")
-    public ResponseBean<String> checkResourceValidity() {
-        resourceApplicationService.checkResourceValidity();
-        return ResponseBean.success();
+    public ResponseBean<List<ResourceInvalidVo>> checkResourceValidity() {
+
+        return ResponseBean.success(resourceApplicationService.checkResourceValidity());
     }
 }

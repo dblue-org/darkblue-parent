@@ -25,10 +25,7 @@ import org.dblue.application.module.permission.infrastructure.entiry.Permission;
 import org.dblue.application.module.resource.application.dto.*;
 import org.dblue.application.module.resource.application.service.ResourceApplicationService;
 import org.dblue.application.module.resource.application.service.SpringAnnotationService;
-import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
-import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
-import org.dblue.application.module.resource.application.vo.ResourcePageVo;
-import org.dblue.application.module.resource.application.vo.ResourcePermissionVo;
+import org.dblue.application.module.resource.application.vo.*;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
 import org.dblue.application.module.resource.domain.service.ResourceGroupDomainService;
 import org.dblue.application.module.resource.errors.ResourceErrors;
@@ -40,7 +37,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 资源应用服务
@@ -120,8 +120,8 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     @Override
     @SuppressWarnings("java:S6809")
     public void batchAddOrUpDate() {
-        Boolean validity = this.checkResourceValidity();
-        if (Boolean.TRUE.equals(validity)) {
+        List<ResourceInvalidVo> resourceInvalidVoList = this.checkResourceValidity();
+        if (CollectionUtils.isNotEmpty(resourceInvalidVoList)) {
             throw new ServiceException(ResourceErrors.THE_RESOURCE_CONTAINS_AN_UNMODIFIED_INVALID_RESOURCE);
         }
         List<ResourceControllerVo> resourceControllerVoList = springAnnotationService.getResourceController(null);
@@ -167,21 +167,28 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Boolean checkResourceValidity() {
+    public List<ResourceInvalidVo> checkResourceValidity() {
         List<ResourceControllerVo> resourceControllerVoList = springAnnotationService.getResourceController(null);
         List<Resource> resourceList = resourceDomainService.getAll();
         List<String> resourceUrlSet = resourceControllerVoList.stream().map(ResourceControllerVo::getMappings)
                                                               .flatMap(List::stream)
                                                               .map(ResourceMappingVo::getResourceUrl)
                                                               .toList();
-        boolean isInvalid = Boolean.FALSE;
+
+        List<ResourceInvalidVo> resourceInvalidVoList = new ArrayList<>();
+        List<ResourceGroup> resourceGroupList = resourceGroupDomainService.getAll(null);
+        Map<String, String> groupMap = resourceGroupList.stream()
+                                                        .collect(Collectors.toMap(ResourceGroup::getResourceGroupId, ResourceGroup::getGroupName));
         for (Resource resource : resourceList) {
             if (!resourceUrlSet.contains(resource.getResourceUrl())) {
                 resourceDomainService.update(resource);
-                isInvalid = Boolean.TRUE;
+                ResourceInvalidVo resourceInvalidVo = new ResourceInvalidVo();
+                resourceInvalidVo.setResourceGroupName(groupMap.get(resource.getResourceGroupId()));
+                BeanUtils.copyProperties(resource, resourceInvalidVo);
+                resourceInvalidVoList.add(resourceInvalidVo);
             }
         }
-        return isInvalid;
+        return resourceInvalidVoList;
 
 
     }

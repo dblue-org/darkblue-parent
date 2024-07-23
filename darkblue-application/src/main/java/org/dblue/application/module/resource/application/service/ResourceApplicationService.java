@@ -19,8 +19,11 @@ package org.dblue.application.module.resource.application.service;
 import org.dblue.application.module.resource.application.dto.ResourceBatchAddDto;
 import org.dblue.application.module.resource.application.dto.ResourcePageDto;
 import org.dblue.application.module.resource.application.dto.ResourcePermissionDto;
+import org.dblue.application.module.resource.application.vo.ResourceInvalidVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * 资源应用服务
@@ -68,6 +71,7 @@ public interface ResourceApplicationService {
 
     /**
      * 检测资源合法性
+     * @return 非法资源
      */
-    Boolean checkResourceValidity();
+    List<ResourceInvalidVo> checkResourceValidity();
 }
