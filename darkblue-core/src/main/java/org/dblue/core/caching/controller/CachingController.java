@@ -18,6 +18,7 @@ package org.dblue.core.caching.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.caching.CachingInitService;
 import org.dblue.core.caching.vo.CachingVo;
 import org.dblue.core.web.result.ResponseBean;
@@ -36,6 +37,7 @@ import java.util.List;
  */
 @Slf4j
 @Tag(name = "缓存处理")
+@Platform
 @RequestMapping("/api/ops/caching")
 @RestController
 public class CachingController {

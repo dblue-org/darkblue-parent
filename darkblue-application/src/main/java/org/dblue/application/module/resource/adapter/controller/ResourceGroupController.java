@@ -27,18 +27,20 @@ import org.dblue.application.module.resource.application.dto.ResourceGroupUpdate
 import org.dblue.application.module.resource.application.service.ResourceGroupApplicationService;
 import org.dblue.application.module.resource.application.vo.ResourceGroupVo;
 import org.dblue.application.module.resource.domain.service.ResourceGroupDomainService;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * 资源组控制层
+ * 资源组管理
  *
  * @author xie jin
  * @since 1.0.0  2024/7/2 下午4:58
  */
-@Tag(name = "资源组控制层", description = "资源组控制层")
+@Tag(name = "资源组管理", description = "资源组控制层")
+@Platform
 @RequestMapping("/api/resource/group")
 @RestController
 @RequiredArgsConstructor

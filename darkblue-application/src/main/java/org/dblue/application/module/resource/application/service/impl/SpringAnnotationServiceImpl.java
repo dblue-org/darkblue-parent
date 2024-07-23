@@ -82,6 +82,7 @@ public class SpringAnnotationServiceImpl implements SpringAnnotationService, App
             }
             Platform platformAnnotation = aClass.getAnnotation(Platform.class);
             if (platformAnnotation == null) {
+                log.error("资源必有平台类型:{}", aClass.getName());
                 throw new ServiceException(ResourceErrors.RESOURCE_MUST_PLATFORM);
             }
             RequestMapping requestMappingClass = aClass.getAnnotation(RequestMapping.class);
