@@ -23,6 +23,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableAspectJAutoProxy(proxyTargetClass = true)
@@ -40,6 +41,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 @EnableJpaRepositories(basePackages = "org.dblue.application.module.*.infrastructure.repository", repositoryImplementationPostfix = "Impl")
 @EnableJpaAuditing
+@EnableMethodSecurity
 public class DarkblueApplication {
 
     public static void main(String[] args) {

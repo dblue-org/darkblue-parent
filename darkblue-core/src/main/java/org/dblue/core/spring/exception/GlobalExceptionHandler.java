@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
         ResponseBean<Void> result = new ResponseBean<>();
         result.setErrorCode(serviceException.getErrorCode());
         result.setMessage(serviceException.getMessage());
-        log.error(serviceException.getErrorCode() + "-" + serviceException.getMessage(), serviceException);
+        log.error("{}-{}", serviceException.getErrorCode(), serviceException.getMessage(), serviceException);
         return result;
     }
 

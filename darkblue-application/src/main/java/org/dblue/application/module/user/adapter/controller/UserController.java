@@ -32,6 +32,7 @@ import org.dblue.core.annotation.Platform;
 import org.dblue.core.enums.PlatformEnum;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -105,9 +106,12 @@ public class UserController {
     /**
      * 分页查询
      *
+     * <p>这个方法上的 {@code @PreAuthorize} 是对 Spring Security 方法权限控制的一个 Demo 请勿删除。</p>
+     *
      * @param pageDto 查询参数
      * @return 用户信息
      */
+    @PreAuthorize("hasAuthority('USER_QUERY')")
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
     public PageResponseBean<UserPageVo> page(@Valid UserPageDto pageDto) {

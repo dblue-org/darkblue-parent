@@ -15,6 +15,8 @@
  */
 package org.dblue.security.configuration;
 
+import org.dblue.security.authorization.DatabaseAuthorizationManager;
+import org.dblue.security.authorization.NoopDatabaseAuthorizationManager;
 import org.dblue.security.converter.AccessTokenAuthenticationConverter;
 import org.dblue.security.converter.AccessTokenFinder;
 import org.dblue.security.converter.CompositeAccessTokenFinder;
@@ -87,6 +89,8 @@ public class SecurityAutoConfiguration implements ApplicationContextAware {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        DatabaseAuthorizationManager authorizationManager = applicationContext.getBean(DatabaseAuthorizationManager.class);
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/api/login").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
@@ -97,7 +101,7 @@ public class SecurityAutoConfiguration implements ApplicationContextAware {
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/v2/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().access(authorizationManager)
                 )
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(accessTokenTtlRefreshFilter(), HeaderWriterFilter.class)
@@ -121,6 +125,12 @@ public class SecurityAutoConfiguration implements ApplicationContextAware {
                 )
         ;
         return http.build();
+    }
+
+    @ConditionalOnMissingBean(DatabaseAuthorizationManager.class)
+    @Bean
+    public NoopDatabaseAuthorizationManager databaseAuthorizationManager() {
+        return new NoopDatabaseAuthorizationManager();
     }
 
     public AccessTokenTtlRefreshFilter accessTokenTtlRefreshFilter() {
