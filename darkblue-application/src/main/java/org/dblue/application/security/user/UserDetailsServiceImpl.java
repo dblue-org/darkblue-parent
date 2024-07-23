@@ -63,6 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         SecurityUser securityUser = new SecurityUser();
         BeanUtils.copyProperties(user, securityUser);
+        securityUser.setAdmin(Boolean.TRUE.equals(user.getIsAdmin()));
 
         if (CollectionUtils.isEmpty(user.getRoles())) {
             securityUser.setAuthorities(Collections.emptyList());
@@ -84,10 +85,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             }
 
             Set<String> permissionIdSet = roleList.stream()
-                                                  .filter(o -> CollectionUtils.isNotEmpty(o.getPermissions()))
-                                                  .flatMap(o -> o.getPermissions().stream())
-                                                  .map(RolePermission::getPermissionId)
-                                                  .collect(Collectors.toSet());
+                    .filter(o -> CollectionUtils.isNotEmpty(o.getPermissions()))
+                    .flatMap(o -> o.getPermissions().stream())
+                    .map(RolePermission::getPermissionId)
+                    .collect(Collectors.toSet());
             permissionList = this.permissionDomainQueryService.getPermissionByPermissionIds(permissionIdSet);
         }
 
