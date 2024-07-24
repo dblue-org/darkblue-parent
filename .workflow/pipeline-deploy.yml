@@ -53,7 +53,7 @@ stages:
           - '# 功能：部署脚本会在部署主机组的每台机器上执行'
           - /sbin/service darkblue-application stop
           - rm -f /opt/spring-boot/artifact/*
-          - tar -zxvf /opt/spring-boot/deploy/darkblue/darkblue-application.tar.gz -c /opt/spring-boot/artifact/
+          - tar -zxvf /opt/spring-boot/deploy/darkblue/darkblue-application.tar.gz -C /opt/spring-boot/artifact/
           - rm -f /opt/spring-boot/darkblue/darkblue-application.jar
           - cp -f /opt/spring-boot/artifact/darkblue-application.jar /opt/spring-boot/darkblue/
           - /sbin/service darkblue-application start
