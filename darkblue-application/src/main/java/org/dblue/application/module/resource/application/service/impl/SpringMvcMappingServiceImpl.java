@@ -26,20 +26,23 @@ import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
 import org.dblue.application.module.resource.errors.ResourceErrors;
 import org.dblue.common.exception.ServiceException;
 import org.dblue.core.annotation.Platform;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.http.HttpMethod;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.annotation.MergedAnnotation;
+import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 /**
  * spring 注解服务
@@ -51,8 +54,14 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class SpringMvcMappingServiceImpl implements SpringMvcMappingService, ApplicationContextAware {
+
     private ApplicationContext applicationContext;
     private List<ResourceControllerVo> resourceList = null;
+
+    @Override
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
     /**
      * 获取资源信息
@@ -67,104 +76,109 @@ public class SpringMvcMappingServiceImpl implements SpringMvcMappingService, App
                     .filter(resourceControllerVo -> this.platformCompare(platform, resourceControllerVo))
                     .toList();
         }
-        List<ResourceControllerVo> resourceControllerVoList = new ArrayList<>();
-        Map<String, Object> objectMap = applicationContext.getBeansWithAnnotation(RestController.class);
-        for (Map.Entry<String, Object> entry : objectMap.entrySet()) {
-            Class<?> aClass = entry.getValue().getClass();
-            Tag tag = aClass.getAnnotation(Tag.class);
+        List<ResourceControllerVo> unGroupResourceControllerVoList = new ArrayList<>();
+        Map<String, Object> controllerBeanMap = applicationContext.getBeansWithAnnotation(RestController.class);
+        for (Map.Entry<String, Object> entry : controllerBeanMap.entrySet()) {
+
+            Class<?> controllerClass = this.getControllerClass(entry.getValue());
+            Tag tag = controllerClass.getAnnotation(Tag.class);
             if (tag == null) {
                 continue;
             }
-            Platform platformAnnotation = aClass.getAnnotation(Platform.class);
+
+            Platform platformAnnotation = controllerClass.getAnnotation(Platform.class);
             if (platformAnnotation == null) {
-                log.error("资源必有平台类型:{}", aClass.getName());
+                log.error("资源必有平台类型:{}", controllerClass.getName());
                 throw new ServiceException(ResourceErrors.RESOURCE_MUST_PLATFORM);
             }
-            RequestMapping requestMappingClass = aClass.getAnnotation(RequestMapping.class);
-            String baseUrl = requestMappingClass.value()[0];
-            ResourceControllerVo resourceControllerVo = buildController(tag, aClass, baseUrl);
+
+            RequestMapping requestMappingClass = controllerClass.getAnnotation(RequestMapping.class);
+            String baseUrl = "";
+            if (requestMappingClass != null && requestMappingClass.value().length > 0) {
+                baseUrl = requestMappingClass.value()[0];
+            }
+
+            ResourceControllerVo resourceControllerVo = buildController(tag, controllerClass, baseUrl);
             resourceControllerVo.setPlatform(platformAnnotation.value().getValue());
-            resourceControllerVoList.add(resourceControllerVo);
+            unGroupResourceControllerVoList.add(resourceControllerVo);
 
         }
-        // 根据tagName+platform分组
-        Map<String, List<ResourceMappingVo>> tagNameMap = resourceControllerVoList.stream()
-                .collect(Collectors.groupingBy(
-                        ResourceControllerVo::group,
-                        Collectors.mapping(ResourceControllerVo::getMappings, Collectors.flatMapping(List::stream, Collectors.toList()))
-                ));
 
-        resourceControllerVoList = new ArrayList<>();
-        for (Map.Entry<String, List<ResourceMappingVo>> entry : tagNameMap.entrySet()) {
-            resourceControllerVoList.add(ResourceControllerVo.build(entry.getKey(), entry.getValue()));
+        // 对控制层接口进行分组及合并
+        Map<String, ResourceControllerVo> resourceControllerVoMap = new HashMap<>();
+        for (ResourceControllerVo resourceControllerVo : unGroupResourceControllerVoList) {
+            if (resourceControllerVoMap.containsKey(resourceControllerVo.group())) {
+                ResourceControllerVo existResourceControllerVo = resourceControllerVoMap.get(resourceControllerVo.group());
+                existResourceControllerVo.merge(resourceControllerVo);
+            } else {
+                resourceControllerVoMap.put(resourceControllerVo.group(), resourceControllerVo);
+            }
         }
+
         // 缓存资源信息
-        this.resourceList = resourceControllerVoList;
-        return resourceControllerVoList.stream()
+        this.resourceList = new ArrayList<>(resourceControllerVoMap.values());
+
+        return this.resourceList.stream()
                 .filter(resourceControllerVo -> this.platformCompare(platform, resourceControllerVo))
                 .toList();
     }
 
-    private ResourceControllerVo buildController(Tag tag, Class<?> aClass, String baseUrl) {
+    /**
+     * 如果控制层类中有SpringSecurity的方法权限控制相关的注解，会导致控制层类实际被GCLib代理，从而导致无法获取到类上注解及类中方法的情况， 所以需要获取到原始的类
+     */
+    private Class<?> getControllerClass(Object controller) {
+        boolean isProxy = AopUtils.isCglibProxy(controller);
+        Class<?> controllerClass = controller.getClass();
+        if (isProxy) {
+            controllerClass = AopUtils.getTargetClass(controller);
+        }
+        return controllerClass;
+    }
+
+    private ResourceControllerVo buildController(Tag tag, Class<?> controllerClass, String baseUrl) {
         ResourceControllerVo resourceControllerVo = new ResourceControllerVo();
         resourceControllerVo.setTagName(tag.name());
-        List<ResourceMappingVo> resourceMappingVoList = buildMapping(aClass, baseUrl);
+        List<ResourceMappingVo> resourceMappingVoList = buildMapping(controllerClass, baseUrl);
         resourceControllerVo.setMappings(resourceMappingVoList);
         return resourceControllerVo;
     }
 
-    private List<ResourceMappingVo> buildMapping(Class<?> aClass, String baseUrl) {
+    private List<ResourceMappingVo> buildMapping(Class<?> controllerClass, String baseUrl) {
+
         List<ResourceMappingVo> resourceMappingVoList = new ArrayList<>();
-        for (Method declaredMethod : aClass.getDeclaredMethods()) {
-            ResourceMappingVo resourceMappingVo = setRequestMapping(declaredMethod, baseUrl);
-            Operation operation = declaredMethod.getAnnotation(Operation.class);
+        for (Method declaredMethod : controllerClass.getDeclaredMethods()) {
+            if (declaredMethod.getModifiers() != Modifier.PUBLIC) {
+                continue;
+            }
+            ResourceMappingVo resourceMappingVo = doBuildRequestMapping(declaredMethod, baseUrl);
+            if (resourceMappingVo != null) {
+                resourceMappingVoList.add(resourceMappingVo);
+            }
+        }
+        return resourceMappingVoList;
+    }
+
+    private ResourceMappingVo doBuildRequestMapping(Method declaredMethod, String baseUrl) {
+
+        MergedAnnotation<RequestMapping> mergedAnnotation = MergedAnnotations
+                .from(declaredMethod, MergedAnnotations.SearchStrategy.TYPE_HIERARCHY).get(RequestMapping.class);
+        if (mergedAnnotation.isPresent()) {
+            ResourceMappingVo resourceMappingVo = new ResourceMappingVo();
+            resourceMappingVo.setRequestMethod(mergedAnnotation.synthesize().method()[0].name());
+            String annotationPathValue = mergedAnnotation.getStringArray("path")[0];
+            resourceMappingVo.setResourceUrl(baseUrl + annotationPathValue);
+            resourceMappingVo.setMethod(declaredMethod.getName());
+            resourceMappingVo.setController(declaredMethod.getDeclaringClass().getName());
+
+            Operation operation = this.getAnnotation(declaredMethod, Operation.class);
             if (operation == null) {
                 log.warn("方法 {} 上没有添加Operation注解，资源地址：{}", declaredMethod.getName(), baseUrl);
                 throw new ServiceException("请在方法上添加Operation注解");
             }
             resourceMappingVo.setResourceName(operation.summary());
-            resourceMappingVo.setController(aClass.getName());
-            resourceMappingVo.setMethod(declaredMethod.getName());
-            resourceMappingVoList.add(resourceMappingVo);
-
-        }
-        return resourceMappingVoList;
-    }
-
-    private ResourceMappingVo setRequestMapping(Method declaredMethod, String baseUrl) {
-        ResourceMappingVo resourceMappingVo = new ResourceMappingVo();
-        PostMapping postMapping = declaredMethod.getDeclaredAnnotation(PostMapping.class);
-        if (postMapping != null) {
-            resourceMappingVo.setRequestMethod(HttpMethod.POST.name());
-            resourceMappingVo.setResourceUrl(baseUrl + postMapping.value()[0]);
             return resourceMappingVo;
         }
-        GetMapping getMapping = declaredMethod.getDeclaredAnnotation(GetMapping.class);
-        if (getMapping != null) {
-            resourceMappingVo.setRequestMethod(HttpMethod.GET.name());
-            resourceMappingVo.setResourceUrl(baseUrl + replaceAll(getMapping.value()[0]));
-            return resourceMappingVo;
-        }
-        PutMapping putMapping = declaredMethod.getDeclaredAnnotation(PutMapping.class);
-        if (putMapping != null) {
-            resourceMappingVo.setRequestMethod(HttpMethod.PUT.name());
-            resourceMappingVo.setResourceUrl(baseUrl + putMapping.value()[0]);
-            return resourceMappingVo;
-        }
-        PatchMapping patchMapping = declaredMethod.getDeclaredAnnotation(PatchMapping.class);
-        if (patchMapping != null) {
-            resourceMappingVo.setRequestMethod(HttpMethod.PATCH.name());
-            resourceMappingVo.setResourceUrl(baseUrl + patchMapping.value()[0]);
-            return resourceMappingVo;
-        }
-        DeleteMapping deleteMapping = declaredMethod.getDeclaredAnnotation(DeleteMapping.class);
-        if (deleteMapping != null) {
-            resourceMappingVo.setRequestMethod(HttpMethod.DELETE.name());
-            resourceMappingVo.setResourceUrl(baseUrl + replaceAll(deleteMapping.value()[0]));
-            return resourceMappingVo;
-
-        }
-        throw new ServiceException(ResourceErrors.RESOURCE_METHOD_IS_NOT_SUPPORT);
+        return null;
     }
 
     private boolean platformCompare(Integer platform, ResourceControllerVo resourceControllerVo) {
@@ -180,9 +194,20 @@ public class SpringMvcMappingServiceImpl implements SpringMvcMappingService, App
     }
 
 
-    @Override
-    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    private <T extends Annotation> T getAnnotation(AnnotatedElement element, Class<T> annotationClass) {
+        T annotation = AnnotationUtils.findAnnotation(element, annotationClass);
+        if (annotation != null) {
+            return annotation;
+        }
+
+        MergedAnnotation<T> mergedAnnotation =
+                MergedAnnotations.from(element, MergedAnnotations.SearchStrategy.TYPE_HIERARCHY).get(annotationClass);
+        if (mergedAnnotation.isPresent()) {
+            return mergedAnnotation.synthesize();
+        }
+
+        return null;
     }
+
 
 }

@@ -49,6 +49,10 @@ public class ResourceControllerVo {
     @Schema(description = "资源信息")
     private List<ResourceMappingVo> mappings;
 
+    public void merge(ResourceControllerVo resourceControllerVo) {
+        this.mappings.addAll(resourceControllerVo.getMappings());
+    }
+
     public static ResourceControllerVo build(String group, List<ResourceMappingVo> mappings) {
         ResourceControllerVo resourceControllerVo = new ResourceControllerVo();
         String[] split = group.split("#");
