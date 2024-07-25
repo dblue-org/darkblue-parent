@@ -27,6 +27,7 @@ import org.springframework.security.web.access.expression.WebSecurityExpressionR
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.util.CollectionUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -62,7 +63,13 @@ public abstract class AbstractDatabaseAuthorizationManager implements DatabaseAu
             AntPathRequestMatcher requestMatcher = new AntPathRequestMatcher(
                     resourcePermissionMapping.getResourceUrl(), resourcePermissionMapping.getHttpMethod());
 
-            requestMatcherMap.put(requestMatcher, new AnyDecision(resourcePermissionMapping.getAuthorities()));
+            Decision decision;
+            if (CollectionUtils.isEmpty(resourcePermissionMapping.getAuthorities()) || resourcePermissionMapping.isAuthenticatedAccess()) {
+                decision = new AuthenticatedDecision();
+            } else {
+                decision = new AnyDecision(resourcePermissionMapping.getAuthorities());
+            }
+            requestMatcherMap.put(requestMatcher, decision);
         });
         requestMatcherMap.put(
                 new AntPathRequestMatcher("/**"),
