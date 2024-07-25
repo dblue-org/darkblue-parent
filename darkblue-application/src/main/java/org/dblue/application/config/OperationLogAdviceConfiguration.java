@@ -18,12 +18,14 @@ package org.dblue.application.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aopalliance.aop.Advice;
 import org.dblue.application.module.logs.adapter.aspect.ServiceOperationAdvice;
+import org.dblue.application.module.logs.adapter.aspect.ignore.AnnotatedIgnoreStrategy;
 import org.dblue.application.module.logs.domain.service.OperationLogDomainService;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * 操作AOP监控
@@ -43,8 +45,13 @@ public class OperationLogAdviceConfiguration {
 
     @Bean
     public Advice serviceOperationAdvice(
-            OperationLogDomainService operationLogDomainService,
-            ObjectMapper objectMapper) {
-        return new ServiceOperationAdvice(operationLogDomainService, objectMapper);
+            OperationLogDomainService operationLogDomainService, ObjectMapper objectMapper,
+            PlatformTransactionManager transactionManager) {
+
+        ServiceOperationAdvice serviceOperationAdvice = new ServiceOperationAdvice(
+                operationLogDomainService, objectMapper, transactionManager
+        );
+        serviceOperationAdvice.setIgnoreStrategy(new AnnotatedIgnoreStrategy());
+        return serviceOperationAdvice;
     }
 }

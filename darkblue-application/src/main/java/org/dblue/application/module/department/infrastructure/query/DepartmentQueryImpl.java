@@ -40,6 +40,12 @@ public class DepartmentQueryImpl extends AbstractBaseJpaQuery<Department, String
     }
 
     @Override
+    public DepartmentQuery deptIdNot(String deptId) {
+        this.queryBuilder.and(QDepartment.department.deptId.ne(deptId));
+        return this;
+    }
+
+    @Override
     public DepartmentQuery deptIdIn(Collection<String> deptIds) {
         this.queryBuilder.and(QDepartment.department.deptId.in(deptIds));
         return this;

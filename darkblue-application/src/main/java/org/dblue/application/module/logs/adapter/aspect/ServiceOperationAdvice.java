@@ -16,124 +16,100 @@
 package org.dblue.application.module.logs.adapter.aspect;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.dblue.application.module.logs.domain.builder.OperationLogBuilder;
+import org.dblue.application.module.logs.adapter.aspect.ignore.IgnoreStrategy;
+import org.dblue.application.module.logs.adapter.aspect.ignore.NoopIgnoreStrategy;
+import org.dblue.application.module.logs.adapter.aspect.name.DefaultOperationNameGetter;
+import org.dblue.application.module.logs.adapter.aspect.name.OperationNameGetter;
 import org.dblue.application.module.logs.domain.service.OperationLogDomainService;
 import org.dblue.application.module.logs.infrastructure.entity.OperationLog;
-import org.dblue.core.aspect.ServiceOperation;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.ThrowsAdvice;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
 @Slf4j
-public class ServiceOperationAdvice implements AfterReturningAdvice, ThrowsAdvice, MethodBeforeAdvice {
+public class ServiceOperationAdvice extends AbstractOperationRecorder implements AfterReturningAdvice, ThrowsAdvice, MethodBeforeAdvice {
 
     private final OperationLogDomainService operationLogDomainService;
 
-    private final ObjectMapper objectMapper;
+    private final TransactionTemplate transactionTemplate;
+    @Setter
+    private IgnoreStrategy ignoreStrategy = new NoopIgnoreStrategy();
+    @Setter
+    private OperationNameGetter operationNameGetter = new DefaultOperationNameGetter();
+
+    public ServiceOperationAdvice(
+            OperationLogDomainService operationLogDomainService, ObjectMapper objectMapper, PlatformTransactionManager transactionManager) {
+        super(objectMapper);
+        this.operationLogDomainService = operationLogDomainService;
+        this.transactionTemplate = new TransactionTemplate(
+                transactionManager, new DefaultTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRES_NEW)
+        );
+    }
+
+    @Override
+    public void before(@NonNull Method method, @NonNull Object[] args, Object target) {
+        if (this.ignoreStrategy.isIgnore(method, target)) {
+            return;
+        }
+        this.start(method);
+    }
+
+    @Override
+    public void afterReturning(Object returnValue, @NonNull Method method, @NonNull Object[] args, Object target) {
+        if (this.ignoreStrategy.isIgnore(method, target)) {
+            return;
+        }
+
+        boolean isMe = this.getContext().isMe(method);
+
+        // 嵌套处理
+        if (isMe) {
+            String operationName = this.operationNameGetter.getName(method, target);
+
+            OperationLog operationLog = this.createBuilder(operationName, method, args)
+                    .isError(false)
+                    .result(this.buildResult(returnValue))
+                    .build();
+            this.transactionTemplate.executeWithoutResult(status -> operationLogDomainService.save(operationLog));
+            this.clear();
+        }
+    }
 
     /**
-     * 用于记录耗时
+     * 此方法会被 IDEA 提醒 unused 但是实际是会被调用的。Spring 的 {@link ThrowsAdvice} 接口没有任何方法，Spring在处理此接口时是通过一些规范来识别的，具体见文档：
+     * <a href="https://docs.spring.io/spring-framework/reference/core/aop-api/advice.html#aop-api-advice-throws">...</a>
      */
-    private final ThreadLocal<Long> timeConsumingThreadLocal = new ThreadLocal<>();
-
-    public ServiceOperationAdvice(OperationLogDomainService operationLogDomainService, ObjectMapper objectMapper) {
-        this.operationLogDomainService = operationLogDomainService;
-        this.objectMapper = objectMapper;
-    }
-
-    @Override
-    public void before(Method method, Object[] args, Object target) throws Throwable {
-        // record start time
-        this.timeConsumingThreadLocal.remove();
-        this.timeConsumingThreadLocal.set(System.currentTimeMillis());
-    }
-
-    @Override
-    public void afterReturning(Object returnValue, @NonNull Method method, @NonNull Object[] args, Object target) throws Throwable {
-        ServiceOperation serviceOperation = AnnotationUtils.getAnnotation(method, ServiceOperation.class);
-        if (serviceOperation == null) {
-            return;
-        }
-
-        OperationLog operationLog = this.createOperationLog(serviceOperation, method, args, target)
-                .isError(false)
-                .result(this.buildResult(returnValue))
-                .build();
-        this.operationLogDomainService.save(operationLog);
-
-    }
-
-    private OperationLogBuilder createOperationLog(ServiceOperation serviceOperation, Method method, Object[] args, Object target) {
-        long start = this.timeConsumingThreadLocal.get();
-        int timeConsuming = (int) (System.currentTimeMillis() - start);
-
-        String operationName = serviceOperation.value();
-        return OperationLogBuilder.newInstance()
-                .operationName(operationName)
-                .serviceClass(target != null ? target.getClass().getName() : null)
-                .serviceMethod(method.getName())
-                .methodParams(this.buildMethodParams(method, args))
-                .timeConsuming(timeConsuming);
-    }
-
-    private String buildResult(Object result) {
-        if (result == null) {
-            return null;
-        }
-        try {
-            return objectMapper.writeValueAsString(result);
-        } catch (Exception e) {
-            log.warn(e.getMessage(), e);
-        }
-        return null;
-    }
-
-    private String buildMethodParams(Method method, Object[] args) {
-        Map<String, Object> params = new LinkedHashMap<>();
-        for (int i = 0; i < method.getParameters().length; i++) {
-            Parameter parameter = method.getParameters()[i];
-            Object value = args[i];
-            if (value instanceof ServletRequest || value instanceof ServletResponse || value instanceof MultipartFile) {
-                params.put(parameter.getName(), value.getClass().getName());
-            } else {
-                params.put(parameter.getName(), args[i]);
-            }
-        }
-        try {
-            return objectMapper.writeValueAsString(params);
-        } catch (Exception e) {
-            log.warn(e.getMessage(), e);
-        }
-        return null;
-    }
-
+    @SuppressWarnings("unused")
     public void afterThrowing(Method method, Object[] args, Object target, Exception ex) {
-        // Do something with all arguments
-        ServiceOperation serviceOperation = AnnotationUtils.getAnnotation(method, ServiceOperation.class);
-        if (serviceOperation == null) {
+        if (this.ignoreStrategy.isIgnore(method, target)) {
             return;
         }
 
-        OperationLog operationLog = this.createOperationLog(serviceOperation, method, args, target)
-                .isError(true)
-                .errorDetails(ex)
-                .build();
-        this.operationLogDomainService.save(operationLog);
+        boolean isMe = this.getContext().isMe(method);
+
+        if (isMe) {
+            String operationName = this.operationNameGetter.getName(method, target);
+
+            OperationLog operationLog = this.createBuilder(operationName, method, args)
+                    .isError(true)
+                    .errorDetails(ex)
+                    .build();
+            this.transactionTemplate.executeWithoutResult(status -> operationLogDomainService.save(operationLog));
+        }
 
     }
+
 }

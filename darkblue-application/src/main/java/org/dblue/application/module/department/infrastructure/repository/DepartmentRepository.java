@@ -68,7 +68,7 @@ public interface DepartmentRepository extends BaseJpaRepository<Department, Stri
             builder.and(QDepartment.department.parentId.eq(parentId));
         }
         builder.and(QDepartment.department.deptName.eq(deptName));
-        builder.and(QDepartment.department.deptId.eq(deptId));
+        builder.and(QDepartment.department.deptId.ne(deptId));
         builder.and(QDepartment.department.isDel.isFalse());
         return getOne(builder);
     }

@@ -18,6 +18,7 @@ package org.dblue.application.module.department.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dblue.application.commons.db.jpa.Conditions;
 import org.dblue.application.module.department.application.dto.DepartmentAddDto;
 import org.dblue.application.module.department.application.dto.DepartmentUpdateDto;
 import org.dblue.application.module.department.domain.service.DepartmentDomainService;
@@ -79,7 +80,11 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
         if (optionalDepartment.isEmpty()) {
             throw new ServiceException(DepartmentErrors.DEPARTMENT_IS_NOT_FOUND);
         }
-        Optional<Department> optional = departmentRepository.findByParentIdAndDeptNameAndDeptIdNotAndIsDelFalse(updateDto.getParentId(), updateDto.getDeptName(), updateDto.getDeptId());
+        Optional<Department> optional = this.departmentRepository.createQuery()
+                .parentId(updateDto.getParentId(), Conditions::isNotEmpty)
+                .deptName(updateDto.getDeptName())
+                .deptIdNot(updateDto.getDeptId())
+                .single();
         if (optional.isPresent()) {
             throw new ServiceException(DepartmentErrors.DEPARTMENT_EXITS);
         }

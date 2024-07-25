@@ -33,6 +33,8 @@ public interface DepartmentQuery extends BaseJpaQuery<Department> {
 
     DepartmentQuery deptId(String deptId);
 
+    DepartmentQuery deptIdNot(String deptId);
+
     DepartmentQuery deptIdIn(Collection<String> deptIds);
 
     default DepartmentQuery deptName(String deptName) {
