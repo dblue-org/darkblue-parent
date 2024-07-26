@@ -91,7 +91,7 @@ public class DepartmentApplicationServiceImpl implements DepartmentApplicationSe
      * @return 组织信息
      */
     @Override
-    public DepartmentVo getOne(String deptId) {
+    public DepartmentVo getDetails(String deptId) {
         Department department = departmentDomainQueryService.getOne(deptId);
         DepartmentVo departmentVo = new DepartmentVo();
         if (Objects.nonNull(department)) {

@@ -23,6 +23,7 @@ import org.dblue.application.module.resource.application.dto.ResourceGroupUpdate
 import org.dblue.application.module.resource.domain.service.ResourceGroupDomainService;
 import org.dblue.application.module.resource.errors.ResourceGroupErrors;
 import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
+import org.dblue.application.module.resource.infrastructure.query.ResourceGroupQuery;
 import org.dblue.application.module.resource.infrastructure.repository.ResourceGroupRepository;
 import org.dblue.application.module.resource.infrastructure.repository.ResourceRepository;
 import org.dblue.common.exception.ServiceException;
@@ -156,5 +157,10 @@ public class ResourceGroupDomainServiceImpl implements ResourceGroupDomainServic
         resourceGroup.setResourceGroupId(Snowflake.stringId());
         resourceGroupRepository.save(resourceGroup);
         return resourceGroup.getResourceGroupId();
+    }
+
+    @Override
+    public ResourceGroupQuery createQuery() {
+        return this.resourceGroupRepository.createQuery();
     }
 }

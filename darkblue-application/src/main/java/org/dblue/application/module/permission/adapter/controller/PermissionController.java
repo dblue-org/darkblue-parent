@@ -107,7 +107,7 @@ public class PermissionController {
      *
      * @param resourceDto 信息
      */
-    @Operation(summary = "绑定资源", description = "绑定资源")
+    @Operation(summary = "为权限绑定资源", description = "绑定资源")
     @PostMapping("/setResource")
     public ResponseBean<Void> setResource(@RequestBody @Valid PermissionResourceDto resourceDto) {
         permissionDomainService.setResource(resourceDto);

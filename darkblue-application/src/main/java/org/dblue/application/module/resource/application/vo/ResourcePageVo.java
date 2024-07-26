@@ -44,6 +44,18 @@ public class ResourcePageVo {
     private String resourceName;
 
     /**
+     * 资源信息是否发生变更
+     */
+    @Schema(description = "资源名称是否已经更新")
+    private Boolean isAnythingChanged;
+
+    /**
+     * 资源信息
+     */
+    @Schema(description = "资源信息")
+    private ResourceMappingVo resourceMapping;
+
+    /**
      * 资源地址
      */
     @Schema(description = "资源地址")

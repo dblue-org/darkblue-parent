@@ -164,13 +164,13 @@ public class UserGroupController {
     }
 
     /**
-     * 获取单独一个
+     * 获取用户组详情
      *
      * @param userGroupId 用户组ID
      * @return 用户组信息
      */
     @Parameter(name = "userGroupId", description = "用户组ID", in = ParameterIn.PATH, required = true)
-    @Operation(summary = "获取单独一个", description = "获取单独一个")
+    @Operation(summary = "获取用户组详情", description = "获取用户组详情")
     @GetMapping("/getOne/{userGroupId}")
     public ResponseBean<UserGroupVo> getOne(@PathVariable("userGroupId") String userGroupId) {
         return ResponseBean.success(userGroupApplicationService.getOne(userGroupId));
@@ -182,7 +182,7 @@ public class UserGroupController {
      * @param pageDto 查询信息
      * @return 分组
      */
-    @Operation(summary = "分页", description = "分页")
+    @Operation(summary = "分页查询用户组", description = "分页")
     @GetMapping("/page")
     public PageResponseBean<UserGroupPageVo> page(UserGroupPageDto pageDto) {
         return PageResponseBean.success(userGroupApplicationService.page(pageDto));

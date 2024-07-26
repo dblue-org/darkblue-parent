@@ -27,6 +27,7 @@ import org.dblue.application.module.resource.application.service.ResourceApplica
 import org.dblue.application.module.resource.application.service.SpringMvcMappingService;
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
 import org.dblue.application.module.resource.application.vo.ResourceInvalidVo;
+import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
 import org.dblue.application.module.resource.application.vo.ResourcePageVo;
 import org.dblue.application.module.resource.domain.service.ResourceDomainService;
 import org.dblue.core.annotation.Platform;
@@ -99,10 +100,10 @@ public class ResourceController {
      * @param pageDto 查询参数
      * @return 资源
      */
-    @Operation(summary = "分页查询", description = "分页查询")
-    @GetMapping("/page")
-    public PageResponseBean<ResourcePageVo> page(ResourcePageDto pageDto) {
-        return PageResponseBean.success(resourceApplicationService.page(pageDto));
+    @Operation(summary = "分页查询资源", description = "分页查询")
+    @GetMapping("/findByPage")
+    public PageResponseBean<ResourcePageVo> findByPage(ResourcePageDto pageDto) {
+        return PageResponseBean.success(resourceApplicationService.findByPage(pageDto));
     }
 
     /**
@@ -123,7 +124,7 @@ public class ResourceController {
      *
      * @param permissionDto 权限信息
      */
-    @Operation(summary = "设置权限", description = "设置权限")
+    @Operation(summary = "为资源设置访问权限", description = "设置权限")
     @PostMapping("/setPermission")
     public ResponseBean<Void> setPermission(@Valid @RequestBody ResourcePermissionDto permissionDto) {
         resourceApplicationService.setPermission(permissionDto);
@@ -133,10 +134,10 @@ public class ResourceController {
     /**
      * 批量添加或者更新
      */
-    @Operation(summary = "批量添加或者更新", description = "批量添加或者更新")
-    @PostMapping("/batchAddOrUpDate")
-    public ResponseBean<Void> batchAddOrUpDate() {
-        resourceApplicationService.batchAddOrUpDate();
+    @Operation(summary = "批量添加或者更新资源", description = "批量添加或者更新")
+    @PostMapping("/batchAddOrUpdate")
+    public ResponseBean<Void> batchAddOrUpdate() {
+        resourceApplicationService.batchAddOrUpdate();
         return ResponseBean.success();
     }
 
@@ -146,7 +147,7 @@ public class ResourceController {
      *
      * @param batchAddDto 资源信息
      */
-    @Operation(summary = "批量添加", description = "批量添加")
+    @Operation(summary = "批量添加资源", description = "批量添加")
     @PostMapping("/batchAdd")
     public ResponseBean<Void> batchAdd(@RequestBody @Valid ResourceBatchAddDto batchAddDto) {
         resourceApplicationService.batchAdd(batchAddDto);
@@ -160,5 +161,20 @@ public class ResourceController {
     @PutMapping("/checkResourceValidity")
     public ResponseBean<List<ResourceInvalidVo>> checkResourceValidity() {
         return ResponseBean.success(resourceApplicationService.checkResourceValidity());
+    }
+
+    /**
+     * 根据资源地址获取资源信息
+     *
+     * @param getDto 资源查询参数
+     * @return 资源信息
+     */
+    @Operation(summary = "根据资源地址获取资源信息", description = "此接口获取的是Spring MVC中的资源信息，并不是数据库中的资源信息，目的是为了在更新时直接同步部分信息")
+    @GetMapping("/getMapping")
+    public ResponseBean<ResourceMappingVo> getMapping(MappingGetDto getDto) {
+        ResourceMappingVo mappingVo = this.springMvcMappingService.getMapping(
+                getDto.getRequestMethod(), getDto.getResourceUrl()
+        );
+        return ResponseBean.success(mappingVo);
     }
 }

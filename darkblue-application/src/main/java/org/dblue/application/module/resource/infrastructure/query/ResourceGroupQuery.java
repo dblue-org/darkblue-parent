@@ -15,9 +15,15 @@
  */
 package org.dblue.application.module.resource.infrastructure.query;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.commons.db.jpa.BaseJpaQuery;
 import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
 import org.dblue.core.enums.PlatformEnum;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Wang Chengwei
@@ -31,9 +37,34 @@ public interface ResourceGroupQuery extends BaseJpaQuery<ResourceGroup> {
 
     ResourceGroupQuery resourceGroupId(String resourceGroupId);
 
+    ResourceGroupQuery resourceGroupIdIn(Collection<String> resourceGroupId);
+
     ResourceGroupQuery groupName(String groupName);
 
     ResourceGroupQuery groupNameLike(String groupName);
 
     ResourceGroupQuery orderBySortNum();
+
+
+    @Override
+    default Map<String, String> nameMap() {
+        List<ResourceGroup> resourceGroupList = this.list();
+        if (CollectionUtils.isEmpty(resourceGroupList)) {
+            return Map.of();
+        }
+        return resourceGroupList.stream().collect(Collectors.toMap(
+                ResourceGroup::getResourceGroupId, ResourceGroup::getGroupName
+        ));
+    }
+
+    @Override
+    default Map<String, ResourceGroup> toMap() {
+        List<ResourceGroup> resourceGroupList = this.list();
+        if (CollectionUtils.isEmpty(resourceGroupList)) {
+            return Map.of();
+        }
+        return resourceGroupList.stream().collect(Collectors.toMap(
+                ResourceGroup::getResourceGroupId, o -> o
+        ));
+    }
 }

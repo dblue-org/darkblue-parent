@@ -107,7 +107,7 @@ public class RoleController {
      *
      * @param permissionDto 权限信息
      */
-    @Operation(summary = "设置权限", description = "设置权限")
+    @Operation(summary = "为角色设置权限", description = "设置权限")
     @PostMapping("/setPermission")
     public ResponseBean<Void> setPermission(@RequestBody @Valid RolePermissionDto permissionDto) {
         roleDomainService.setPermission(permissionDto);
@@ -121,7 +121,7 @@ public class RoleController {
      * @return 角色
      */
     @Parameter(name = "roleId", description = "角色ID", in = ParameterIn.PATH, required = true)
-    @Operation(summary = "获取单个角色信息", description = "获取单个角色信息")
+    @Operation(summary = "获取角色详情", description = "获取单个角色信息")
     @GetMapping("/getOne/{roleId}")
     public ResponseBean<RoleVo> getOne(@PathVariable("roleId") String roleId) {
         return ResponseBean.success(roleApplicationService.getOne(roleId));
@@ -145,7 +145,7 @@ public class RoleController {
      *
      * @param enableDto 启用禁用信息
      */
-    @Operation(summary = "启用禁用", description = "启用禁用")
+    @Operation(summary = "角色状态修改（启用禁用）", description = "启用禁用")
     @PatchMapping("/enable")
     public ResponseBean<Void> enable(@RequestBody @Valid RoleEnableDto enableDto) {
         roleDomainService.enable(enableDto);

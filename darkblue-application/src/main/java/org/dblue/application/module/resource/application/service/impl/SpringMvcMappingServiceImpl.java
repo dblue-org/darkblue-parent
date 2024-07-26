@@ -35,6 +35,8 @@ import org.springframework.core.annotation.MergedAnnotation;
 import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,6 +78,31 @@ public class SpringMvcMappingServiceImpl implements SpringMvcMappingService, App
                     .filter(resourceControllerVo -> this.platformCompare(platform, resourceControllerVo))
                     .toList();
         }
+
+        this.cacheResourceMappings();
+
+        return this.resourceList.stream()
+                .filter(resourceControllerVo -> this.platformCompare(platform, resourceControllerVo))
+                .toList();
+    }
+
+    @Override
+    public ResourceMappingVo getMapping(String method, String resourceUrl) {
+        if (CollectionUtils.isEmpty(this.resourceList)) {
+            this.cacheResourceMappings();
+        }
+
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+
+        Optional<ResourceMappingVo> mappingOptional = this.resourceList.stream()
+                .flatMap(vo -> vo.getMappings().stream())
+                .filter(mapping -> pathMatcher.match(resourceUrl, mapping.getResourceUrl()) && Objects.equals(mapping.getRequestMethod(), method))
+                .findAny();
+
+        return mappingOptional.orElse(null);
+    }
+
+    private void cacheResourceMappings() {
         List<ResourceControllerVo> unGroupResourceControllerVoList = new ArrayList<>();
         Map<String, Object> controllerBeanMap = applicationContext.getBeansWithAnnotation(RestController.class);
         for (Map.Entry<String, Object> entry : controllerBeanMap.entrySet()) {
@@ -117,10 +144,6 @@ public class SpringMvcMappingServiceImpl implements SpringMvcMappingService, App
 
         // 缓存资源信息
         this.resourceList = new ArrayList<>(resourceControllerVoMap.values());
-
-        return this.resourceList.stream()
-                .filter(resourceControllerVo -> this.platformCompare(platform, resourceControllerVo))
-                .toList();
     }
 
     /**

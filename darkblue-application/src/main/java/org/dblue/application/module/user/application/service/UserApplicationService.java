@@ -46,7 +46,7 @@ public interface UserApplicationService {
      * @param userId 用户ID
      * @return 单个信息
      */
-    UserVo getOne(String userId);
+    UserVo getDetails(String userId);
 
     /**
      * 下拉列表使用

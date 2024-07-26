@@ -150,12 +150,16 @@ public class UserDomainServiceImpl implements UserDomainService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void enable(UserEnableDto enableDto) {
+    public void toggleState(UserEnableDto enableDto) {
         Optional<User> optional = userRepository.findByUserIdAndIsDelFalse(enableDto.getUserId());
         if (optional.isEmpty()) {
             throw new ServiceException(UserErrors.USER_NOT_FOUND);
         }
-        optional.get().setIsEnable(enableDto.getEnable());
+        if (Boolean.TRUE.equals(enableDto.getEnable())) {
+            optional.get().enable();
+        } else {
+            optional.get().disable();
+        }
         userRepository.save(optional.get());
 
         this.eventBus.fireEventAfterCommit(new UserUpdateEvent(this, optional.get()));

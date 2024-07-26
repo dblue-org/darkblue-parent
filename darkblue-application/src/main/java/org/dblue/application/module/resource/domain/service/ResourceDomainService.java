@@ -76,13 +76,6 @@ public interface ResourceDomainService {
     List<Resource> getAll();
 
     /**
-     * 更新资源信息（仅作为检查资源是否违法检测时更新数据使用）
-     *
-     * @param resource 资源
-     */
-    void update(Resource resource);
-
-    /**
      * 资源添加或者更新（自动更新资源使用）
      *
      * @param addDto 信息

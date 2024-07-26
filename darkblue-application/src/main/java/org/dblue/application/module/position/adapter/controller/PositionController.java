@@ -97,7 +97,7 @@ public class PositionController {
      *
      * @param enableDto 启用禁用信息
      */
-    @Operation(summary = "启用禁用", description = "启用禁用")
+    @Operation(summary = "职位启用禁用", description = "启用禁用")
     @PatchMapping("/enable")
     public ResponseBean<Void> enable(@Valid @RequestBody PositionEnableDto enableDto) {
         positionDomainService.toggleState(enableDto);
@@ -124,7 +124,7 @@ public class PositionController {
      * @param pageDto 查询信息
      * @return 职位信息
      */
-    @Operation(summary = "分页", description = "分页")
+    @Operation(summary = "职位分页查询", description = "分页")
     @GetMapping("/page")
     public PageResponseBean<PositionPageVo> page(PositionPageDto pageDto) {
         return PageResponseBean.success(positionApplicationService.page(pageDto));

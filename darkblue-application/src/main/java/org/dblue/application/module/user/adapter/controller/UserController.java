@@ -96,9 +96,9 @@ public class UserController {
      * @param enableDto 启用/禁用信息
      */
     @Operation(summary = "用户启用/禁用", description = "用户启用/禁用")
-    @PatchMapping("/enable")
-    public ResponseBean<Void> enable(@Valid @RequestBody UserEnableDto enableDto) {
-        userDomainService.enable(enableDto);
+    @PatchMapping("/toggleState")
+    public ResponseBean<Void> toggleState(@Valid @RequestBody UserEnableDto enableDto) {
+        userDomainService.toggleState(enableDto);
         return ResponseBean.success();
     }
 
@@ -112,9 +112,9 @@ public class UserController {
      * @return 用户信息
      */
     @PreAuthorize("hasAuthority('USER_QUERY')")
-    @Operation(summary = "分页查询", description = "分页查询")
-    @GetMapping("/page")
-    public PageResponseBean<UserPageVo> page(@Valid UserPageDto pageDto) {
+    @Operation(summary = "用户分页查询", description = "分页查询")
+    @GetMapping("/findByPage")
+    public PageResponseBean<UserPageVo> findByPage(@Valid UserPageDto pageDto) {
         return PageResponseBean.success(userApplicationService.page(pageDto));
     }
 
@@ -125,10 +125,10 @@ public class UserController {
      * @return 单个信息
      */
     @Parameter(name = "userId", description = "用户ID", in = ParameterIn.PATH, required = true)
-    @Operation(summary = "单个信息获取", description = "单个信息获取")
-    @GetMapping("/getOne/{userId}")
-    public ResponseBean<UserVo> getOne(@PathVariable("userId") String userId) {
-        return ResponseBean.success(userApplicationService.getOne(userId));
+    @Operation(summary = "获取用户详情", description = "单个信息获取")
+    @GetMapping("/getDetails/{userId}")
+    public ResponseBean<UserVo> getDetails(@PathVariable("userId") String userId) {
+        return ResponseBean.success(userApplicationService.getDetails(userId));
     }
 
     /**
@@ -160,7 +160,7 @@ public class UserController {
      *
      * @param userId 用户ID
      */
-    @Operation(summary = "重置密码")
+    @Operation(summary = "重置用户密码")
     @PatchMapping("/resetPassword/{userId}")
     public ResponseBean<Void> resetPassword(@PathVariable String userId) {
         this.userApplicationService.resetPassword(userId);
@@ -172,7 +172,7 @@ public class UserController {
      *
      * @param passwordChangeDto 密码
      */
-    @Operation(summary = "修改密码")
+    @Operation(summary = "修改用户密码")
     @PatchMapping("/changePassword")
     public ResponseBean<Void> changePassword(@RequestBody @Valid UserPasswordChangeDto passwordChangeDto) {
         this.userApplicationService.changePassword(passwordChangeDto);

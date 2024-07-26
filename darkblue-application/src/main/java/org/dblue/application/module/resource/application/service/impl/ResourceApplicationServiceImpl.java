@@ -37,9 +37,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -79,7 +77,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
      * @return 资源
      */
     @Override
-    public Page<ResourcePageVo> page(ResourcePageDto pageDto) {
+    public Page<ResourcePageVo> findByPage(ResourcePageDto pageDto) {
         Page<Resource> page = resourceDomainService.page(pageDto);
         if (page.isEmpty()) {
             return Page.empty();
@@ -88,6 +86,15 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
             ResourcePageVo resourcePageVo = new ResourcePageVo();
             BeanUtils.copyProperties(resource, resourcePageVo);
             List<Permission> permissionList = permissionDomainQueryService.getPermissionByResourceId(resourcePageVo.getResourceId());
+            ResourceMappingVo mappingVo = springMvcMappingService.getMapping(resourcePageVo.getRequestMethod(), resourcePageVo.getResourceUrl());
+
+            if (mappingVo != null) {
+                resourcePageVo.setIsInvalid(false);
+                resourcePageVo.setIsAnythingChanged(this.isAnythingChange(resourcePageVo, mappingVo));
+                resourcePageVo.setResourceMapping(mappingVo);
+            } else {
+                resourcePageVo.setIsInvalid(true);
+            }
 
             if (CollectionUtils.isNotEmpty(permissionList)) {
                 resourcePageVo.setPermissions(permissionList.stream().map(permission -> {
@@ -99,6 +106,12 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
             return resourcePageVo;
 
         });
+    }
+
+    private boolean isAnythingChange(ResourcePageVo resourceVo, ResourceMappingVo mappingVo) {
+        return !(Objects.equals(resourceVo.getResourceName(), mappingVo.getResourceName())
+                && Objects.equals(resourceVo.getController(), mappingVo.getController())
+                && Objects.equals(resourceVo.getMethod(), mappingVo.getMethod()));
     }
 
     /**
@@ -119,7 +132,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     @Transactional(rollbackFor = Exception.class)
     @Override
     @SuppressWarnings("java:S6809")
-    public void batchAddOrUpDate() {
+    public void batchAddOrUpdate() {
         List<ResourceInvalidVo> resourceInvalidVoList = this.checkResourceValidity();
         if (CollectionUtils.isNotEmpty(resourceInvalidVoList)) {
             throw new ServiceException(ResourceErrors.THE_RESOURCE_CONTAINS_AN_UNMODIFIED_INVALID_RESOURCE);
@@ -165,31 +178,33 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
     /**
      * 检测资源合法性
      */
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(readOnly = true)
     @Override
     public List<ResourceInvalidVo> checkResourceValidity() {
-        List<ResourceControllerVo> resourceControllerVoList = springMvcMappingService.getResourceController(null);
         List<Resource> resourceList = resourceDomainService.getAll();
-        List<String> resourceUrlSet = resourceControllerVoList.stream().map(ResourceControllerVo::getMappings)
-                                                              .flatMap(List::stream)
-                                                              .map(ResourceMappingVo::getResourceUrl)
-                                                              .toList();
 
         List<ResourceInvalidVo> resourceInvalidVoList = new ArrayList<>();
-        List<ResourceGroup> resourceGroupList = resourceGroupDomainService.getAll(null);
-        Map<String, String> groupMap = resourceGroupList.stream()
-                                                        .collect(Collectors.toMap(ResourceGroup::getResourceGroupId, ResourceGroup::getGroupName));
+
         for (Resource resource : resourceList) {
-            if (!resourceUrlSet.contains(resource.getResourceUrl())) {
-                resourceDomainService.update(resource);
+            ResourceMappingVo mappingVo = springMvcMappingService.getMapping(resource.getRequestMethod(), resource.getResourceUrl());
+            if (mappingVo == null) {
                 ResourceInvalidVo resourceInvalidVo = new ResourceInvalidVo();
-                resourceInvalidVo.setResourceGroupName(groupMap.get(resource.getResourceGroupId()));
                 BeanUtils.copyProperties(resource, resourceInvalidVo);
                 resourceInvalidVoList.add(resourceInvalidVo);
             }
         }
+
+        if (CollectionUtils.isEmpty(resourceInvalidVoList)) {
+            return resourceInvalidVoList;
+        }
+
+        Set<String> resourceGroupIdSet = resourceInvalidVoList.stream().map(ResourceInvalidVo::getResourceGroupId).collect(Collectors.toSet());
+        Map<String, String> groupNameMap = this.resourceGroupDomainService.createQuery()
+                .resourceGroupIdIn(resourceGroupIdSet)
+                .nameMap();
+
+        resourceInvalidVoList.forEach(resource -> resource.setResourceGroupName(groupNameMap.get(resource.getResourceGroupId())));
+
         return resourceInvalidVoList;
-
-
     }
 }

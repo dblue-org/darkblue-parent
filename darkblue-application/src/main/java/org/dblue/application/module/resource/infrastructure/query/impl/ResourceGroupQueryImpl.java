@@ -23,6 +23,8 @@ import org.dblue.application.module.resource.infrastructure.query.ResourceGroupQ
 import org.dblue.application.module.resource.infrastructure.repository.ResourceGroupRepository;
 import org.dblue.core.enums.PlatformEnum;
 
+import java.util.Collection;
+
 /**
  * @author Wang Chengwei
  * @since 1.0.0
@@ -52,6 +54,12 @@ public class ResourceGroupQueryImpl extends AbstractBaseJpaQuery<ResourceGroup, 
     @Override
     public ResourceGroupQuery resourceGroupId(String resourceGroupId) {
         this.queryBuilder.and(QResourceGroup.resourceGroup.resourceGroupId.eq(resourceGroupId));
+        return this;
+    }
+
+    @Override
+    public ResourceGroupQuery resourceGroupIdIn(Collection<String> resourceGroupId) {
+        this.queryBuilder.and(QResourceGroup.resourceGroup.resourceGroupId.in(resourceGroupId));
         return this;
     }
 

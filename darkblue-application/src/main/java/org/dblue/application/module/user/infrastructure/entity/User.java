@@ -139,4 +139,12 @@ public class User extends AbstractAuditingEntity {
         this.password = encodedPassword;
         this.passwordUpdateTime = LocalDateTime.now();
     }
+
+    public void enable() {
+        this.isEnable = true;
+    }
+
+    public void disable() {
+        this.isEnable = false;
+    }
 }

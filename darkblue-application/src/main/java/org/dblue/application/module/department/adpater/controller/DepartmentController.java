@@ -67,7 +67,7 @@ public class DepartmentController {
      *
      * @param addDto 新增信息
      */
-    @Operation(summary = "新增", description = "新增")
+    @Operation(summary = "部门新增", description = "新增")
     @PostMapping("/add")
     public ResponseBean<Void> add(@Valid @RequestBody DepartmentAddDto addDto) {
         departmentDomainService.add(addDto);
@@ -79,7 +79,7 @@ public class DepartmentController {
      *
      * @param updateDto 更新信息
      */
-    @Operation(summary = "更新", description = "更新")
+    @Operation(summary = "部门更新", description = "更新")
     @PutMapping("/update")
     public ResponseBean<Void> update(@Valid @RequestBody DepartmentUpdateDto updateDto) {
         departmentDomainService.update(updateDto);
@@ -92,7 +92,7 @@ public class DepartmentController {
      * @param deptId 部门ID
      */
     @Parameter(name = "deptId", description = "部门ID", in = ParameterIn.PATH, required = true)
-    @Operation(summary = "删除", description = "删除")
+    @Operation(summary = "部门删除", description = "删除")
     @DeleteMapping("/delete/{deptId}")
     public ResponseBean<Void> delete(@PathVariable("deptId") String deptId) {
         departmentDomainService.delete(deptId);
@@ -106,9 +106,9 @@ public class DepartmentController {
      * @return 组织信息
      */
     @Parameter(name = "deptId", description = "部门ID", in = ParameterIn.PATH, required = true)
-    @Operation(summary = "单个获取", description = "单个获取")
-    @GetMapping("/getOne/{deptId}")
-    public ResponseBean<DepartmentVo> getOne(@PathVariable("deptId") String deptId) {
-        return ResponseBean.success(departmentApplicationService.getOne(deptId));
+    @Operation(summary = "获取部门详情", description = "获取部门详情")
+    @GetMapping("/getDetails/{deptId}")
+    public ResponseBean<DepartmentVo> getDetails(@PathVariable("deptId") String deptId) {
+        return ResponseBean.success(departmentApplicationService.getDetails(deptId));
     }
 }

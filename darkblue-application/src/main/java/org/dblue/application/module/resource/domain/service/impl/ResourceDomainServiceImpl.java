@@ -143,16 +143,6 @@ public class ResourceDomainServiceImpl implements ResourceDomainService {
         return resourceRepository.findAll();
     }
 
-    /**
-     * 更新资源信息（仅作为检查资源是否违法检测时更新数据使用）
-     *
-     * @param resource 资源
-     */
-    @Override
-    public void update(Resource resource) {
-        resource.setIsInvalid(Boolean.TRUE);
-        resourceRepository.save(resource);
-    }
 
     /**
      * 资源添加或者更新（自动更新资源使用）

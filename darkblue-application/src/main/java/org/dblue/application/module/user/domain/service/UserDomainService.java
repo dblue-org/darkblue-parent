@@ -54,7 +54,7 @@ public interface UserDomainService {
      *
      * @param enableDto 启用/禁用信息
      */
-    void enable(UserEnableDto enableDto);
+    void toggleState(UserEnableDto enableDto);
 
     /**
      * 修改密码

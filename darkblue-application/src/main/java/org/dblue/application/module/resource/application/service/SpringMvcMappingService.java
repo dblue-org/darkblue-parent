@@ -17,6 +17,7 @@
 package org.dblue.application.module.resource.application.service;
 
 import org.dblue.application.module.resource.application.vo.ResourceControllerVo;
+import org.dblue.application.module.resource.application.vo.ResourceMappingVo;
 
 import java.util.List;
 
@@ -35,4 +36,13 @@ public interface SpringMvcMappingService {
      * @return 资源信息
      */
     List<ResourceControllerVo> getResourceController(Integer platform);
+
+    /**
+     * 根据资源地址获取资源信息
+     *
+     * @param method      请求方法
+     * @param resourceUrl 资源地址
+     * @return 资源信息
+     */
+    ResourceMappingVo getMapping(String method, String resourceUrl);
 }

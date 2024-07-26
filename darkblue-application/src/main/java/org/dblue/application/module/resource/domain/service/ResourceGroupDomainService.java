@@ -19,6 +19,7 @@ package org.dblue.application.module.resource.domain.service;
 import org.dblue.application.module.resource.application.dto.ResourceGroupAddDto;
 import org.dblue.application.module.resource.application.dto.ResourceGroupUpdateDto;
 import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
+import org.dblue.application.module.resource.infrastructure.query.ResourceGroupQuery;
 
 import java.util.List;
 
@@ -80,6 +81,11 @@ public interface ResourceGroupDomainService {
      */
     String addOrUpdate(ResourceGroupAddDto groupAddDto);
 
-
+    /**
+     * 创建资源分组查询器
+     *
+     * @return 资源分组查询器
+     */
+    ResourceGroupQuery createQuery();
 
 }

@@ -46,7 +46,7 @@ public interface ResourceApplicationService {
      * @param pageDto 查询参数
      * @return 资源
      */
-    Page<ResourcePageVo> page(ResourcePageDto pageDto);
+    Page<ResourcePageVo> findByPage(ResourcePageDto pageDto);
 
     /**
      * 设置权限
@@ -59,7 +59,7 @@ public interface ResourceApplicationService {
     /**
      * 批量添加或者更新
      */
-    void batchAddOrUpDate();
+    void batchAddOrUpdate();
 
 
     /**

@@ -31,6 +31,11 @@ import java.time.LocalDateTime;
 @Data
 public class ResourceInvalidVo {
 
+    /**
+     * 资源组ID
+     */
+    @Schema(description = "资源组ID")
+    private String resourceGroupId;
 
     /**
      * 资源组名称

@@ -107,5 +107,8 @@ public class Resource extends AbstractAuditingEntity {
     @OneToMany(mappedBy = "resourceId")
     private List<PermissionResource> permissionResourceList;
 
+    public void markInvalid() {
+        this.isInvalid = true;
+    }
 
 }

@@ -13,32 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.resource.application.dto;
 
-package org.dblue.application.module.department.application.service;
-
-import org.dblue.application.module.department.application.vo.DepartmentTreeVo;
-import org.dblue.application.module.department.application.vo.DepartmentVo;
-
-import java.util.List;
+import io.swagger.v3.oas.annotations.Parameter;
+import lombok.Data;
+import org.springdoc.core.annotations.ParameterObject;
 
 /**
- * 部门应用服务层
- *
- * @author xie jin
- * @since 1.0.0  2024/6/21 下午1:40
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-public interface DepartmentApplicationService {
+@ParameterObject
+@Data
+public class MappingGetDto {
 
     /**
-     * 获取部门树
-     * @return 部门树
+     * 请求方式
      */
-    List<DepartmentTreeVo> getAll();
+    @Parameter(description = "请求方式")
+    private String requestMethod;
 
     /**
-     * 单个获取
-     * @param deptId 部门ID
-     * @return 组织信息
+     * 资源地址
      */
-    DepartmentVo getDetails(String deptId);
+    @Parameter(description = "资源地址")
+    private String resourceUrl;
 }

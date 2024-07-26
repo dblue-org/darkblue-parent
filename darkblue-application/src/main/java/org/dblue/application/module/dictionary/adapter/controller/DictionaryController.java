@@ -95,7 +95,7 @@ public class DictionaryController {
      *
      * @param addDto 字典信息
      */
-    @Operation(summary = "字典添加", description = "字典添加")
+    @Operation(summary = "字典项添加", description = "字典添加")
     @PostMapping("/addItem")
     public ResponseBean<Void> addItem(@Valid @RequestBody DictionaryItemAddDto addDto) {
         dictionaryDomainService.addItem(addDto);
@@ -107,11 +107,22 @@ public class DictionaryController {
      *
      * @param updateDto 字典信息
      */
-    @Operation(summary = "字典更新", description = "字典更新")
+    @Operation(summary = "字典项更新", description = "字典更新")
     @PutMapping("/updateItem")
     public ResponseBean<Void> updateItem(@Valid @RequestBody DictionaryItemUpdateDto updateDto) {
         dictionaryDomainService.updateItem(updateDto);
         return ResponseBean.success();
+    }
+
+    /**
+     * 获取全部字典信息
+     *
+     * @return 字典信息
+     */
+    @Operation(summary = "获取全部字典信息", description = "获取全部字典信息")
+    @GetMapping("/getAll")
+    public ResponseBean<List<DictionaryVo>> getAll() {
+        return ResponseBean.success(dictionaryApplicationService.getAll());
     }
 
 
@@ -138,17 +149,6 @@ public class DictionaryController {
     public ResponseBean<Void> enableItem(@Valid @RequestBody DictionaryItemEnableDto enableDto) {
         dictionaryDomainService.enableItem(enableDto);
         return ResponseBean.success();
-    }
-
-    /**
-     * 获取全部字典信息
-     *
-     * @return 字典信息
-     */
-    @Operation(summary = "获取全部字典信息", description = "获取全部字典信息")
-    @GetMapping("/getAll")
-    public ResponseBean<List<DictionaryVo>> getAll() {
-        return ResponseBean.success(dictionaryApplicationService.getAll());
     }
 
 

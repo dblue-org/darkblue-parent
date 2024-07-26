@@ -128,7 +128,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
      * @return 单个信息
      */
     @Override
-    public UserVo getOne(String userId) {
+    public UserVo getDetails(String userId) {
         User user = userDomainQueryService.getOne(userId);
         ServiceAssert.notNull(user, UserErrors.USER_NOT_FOUND);
         UserVo userVo = new UserVo();
