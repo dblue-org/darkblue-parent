@@ -33,6 +33,8 @@ public enum UserErrors implements ErrorInfo {
     USERNAME_EXISTS("USER_0002", "用户名已存在"),
     USER_ID_IS_NOT_BLANK("USER_0003", "用户ID不能为空"),
     NOT_ALLOW_CHANGE_PASSWORD("USER_0004", "此用户的密码不允许修改"),
+    NOT_ALLOW_RESET_ADMIN_PASSWORD("USER_0005", "不允许重置超级管理员密码"),
+    PASSWORD_ERROR("USER_0006", "密码错误"),
     ;
     private final String errorCode;
     private final String errorMessage;

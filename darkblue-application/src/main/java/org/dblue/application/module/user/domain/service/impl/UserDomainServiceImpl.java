@@ -162,17 +162,14 @@ public class UserDomainServiceImpl implements UserDomainService {
     }
 
     @Override
-    public void changePassword(String userId, String password) {
-        Optional<User> optional = userRepository.findById(userId);
-        if (optional.isEmpty()) {
-            throw new ServiceException(UserErrors.USER_NOT_FOUND);
-        }
+    public void changePassword(User user, String password) {
+
         if (CollectionUtils.isNotEmpty(this.applicationConfigProperties.getNotAllowChangePasswordUsers()) &&
-                this.applicationConfigProperties.getNotAllowChangePasswordUsers().contains(optional.get().getUsername())) {
+                this.applicationConfigProperties.getNotAllowChangePasswordUsers().contains(user.getUsername())) {
             throw new ServiceException(UserErrors.NOT_ALLOW_CHANGE_PASSWORD);
         }
         String encodedPassword = passwordEncoder.encode(password);
-        optional.get().changePassword(encodedPassword);
-        userRepository.save(optional.get());
+        user.changePassword(encodedPassword);
+        userRepository.save(user);
     }
 }

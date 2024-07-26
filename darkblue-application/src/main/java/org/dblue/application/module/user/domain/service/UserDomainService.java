@@ -18,6 +18,7 @@ package org.dblue.application.module.user.domain.service;
 import org.dblue.application.module.user.application.dto.UserAddDto;
 import org.dblue.application.module.user.application.dto.UserEnableDto;
 import org.dblue.application.module.user.application.dto.UserUpdateDto;
+import org.dblue.application.module.user.infrastructure.entity.User;
 
 /**
  * 用户领域服务
@@ -58,8 +59,8 @@ public interface UserDomainService {
     /**
      * 修改密码
      *
-     * @param userId   用户ID
+     * @param user   用户
      * @param password 密码
      */
-    void changePassword(String userId, String password);
+    void changePassword(User user, String password);
 }

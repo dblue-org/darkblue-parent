@@ -275,16 +275,20 @@ public class UserApplicationServiceImpl implements UserApplicationService {
 
     @Override
     public void resetPassword(String userId) {
+        User user = this.userDomainQueryService.getOne(userId);
+        if (Boolean.TRUE.equals(user.getIsAdmin())) {
+            throw new ServiceException(UserErrors.NOT_ALLOW_RESET_ADMIN_PASSWORD);
+        }
         String defaultPassword = this.propertySettingCacheService.getValue("user.defaultPassword");
-        this.userDomainService.changePassword(userId, defaultPassword);
+        this.userDomainService.changePassword(user, defaultPassword);
     }
 
     @Override
     public void changePassword(UserPasswordChangeDto passwordChangeDto) {
         User user = this.userDomainQueryService.getOne(SecurityUtils.getUserId());
         if (!this.passwordEncoder.matches(passwordChangeDto.getOldPassword(), user.getPassword())) {
-            throw new ServiceException("原密码不正确");
+            throw new ServiceException(UserErrors.PASSWORD_ERROR);
         }
-        this.userDomainService.changePassword(user.getUserId(), passwordChangeDto.getNewPassword());
+        this.userDomainService.changePassword(user, passwordChangeDto.getNewPassword());
     }
 }

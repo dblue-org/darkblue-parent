@@ -4,6 +4,9 @@
     <img src="docs/images/logo-blue.svg" width="200">
 </p>
 
+[![License](https://img.shields.io/badge/License-Apache%202-blue)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue)](https://gitee.com/d-blue/darkblue-parent/releases)
+
 ### 介绍
 
 文档地址：https://dblue.org/docs/project-docs/quick-start
@@ -22,15 +25,8 @@
 
 ### 安装教程
 
-1. 初始化数据库脚本，数据库脚本在 `darkblue-parent/darkblue-application/src/main/resources/init.sql`。
+1. 初始化数据库脚本，数据库脚本在 `darkblue-parent/darkblue-application/src/main/resources/sql/`目录下，`init_ddl.sql`为数据库表结构，`init_data.sql` 为数据初始化脚本。
 2. 由于使用了 QueryDSL，在启动项目之前需要先编译代码 `mvn compile`
 3. 修改数据库配置，配置文件在：`application-dev.yaml`
 4. 启动项目
-
-### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
 
