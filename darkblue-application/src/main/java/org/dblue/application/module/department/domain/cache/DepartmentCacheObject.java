@@ -13,44 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.department.domain.cache;
 
-package org.dblue.application.module.department.application.dto;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.dblue.application.module.department.infrastructure.entity.Department;
 
 /**
- * 组织架构
- * @author xie jin
+ * 部门缓存
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@Schema(description = "组织架构")
 @Data
-public class DepartmentDto {
+public class DepartmentCacheObject {
 
+    /**
+     * 部门ID
+     */
+    private String deptId;
 
     /**
      * 部门名称
      */
-    @Schema(description = "部门名称")
-    @Size(max = 200)
-    @NotBlank(message = "部门名称不能为空")
     private String deptName;
 
     /**
      * 上级ID
      */
-    @Schema(description = "上级ID")
-    @Size(max = 64)
     private String parentId;
 
     /**
      * 部门主管
      */
-    @Schema(description = "部门主管")
-    @Size(max = 64)
     private String masterUserId;
 
+    /**
+     * 是否启用
+     */
+    private Boolean isEnable;
 
+    public static DepartmentCacheObject of(Department department) {
+        DepartmentCacheObject cacheObject = new DepartmentCacheObject();
+        cacheObject.setDeptId(department.getDeptId());
+        cacheObject.setDeptName(department.getDeptName());
+        cacheObject.setParentId(department.getParentId());
+        cacheObject.setMasterUserId(department.getMasterUserId());
+        cacheObject.setIsEnable(department.getIsEnable());
+        return cacheObject;
+    }
 }

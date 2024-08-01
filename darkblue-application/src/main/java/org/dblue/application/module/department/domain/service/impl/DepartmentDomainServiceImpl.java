@@ -18,9 +18,13 @@ package org.dblue.application.module.department.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dblue.application.commons.bus.EventBus;
 import org.dblue.application.commons.db.jpa.Conditions;
 import org.dblue.application.module.department.application.dto.DepartmentAddDto;
 import org.dblue.application.module.department.application.dto.DepartmentUpdateDto;
+import org.dblue.application.module.department.domain.event.DepartmentAddEvent;
+import org.dblue.application.module.department.domain.event.DepartmentDeleteEvent;
+import org.dblue.application.module.department.domain.event.DepartmentUpdateEvent;
 import org.dblue.application.module.department.domain.service.DepartmentDomainService;
 import org.dblue.application.module.department.errors.DepartmentErrors;
 import org.dblue.application.module.department.infrastructure.entity.Department;
@@ -46,6 +50,7 @@ import java.util.Optional;
 public class DepartmentDomainServiceImpl implements DepartmentDomainService {
 
     private final DepartmentRepository departmentRepository;
+    private final EventBus eventBus;
 
     /**
      * 新增
@@ -55,7 +60,7 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
     @ServiceOperation("新增部门")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void add(DepartmentAddDto addDto) {
+    public void add(DepartmentAddDto addDto, boolean fireAddEvent) {
         Optional<Department> optional = departmentRepository.findByParentIdAndDeptNameAndIsDelIsFalse(addDto.getParentId(), addDto.getDeptName());
         if (optional.isPresent()) {
             throw new ServiceException(DepartmentErrors.DEPARTMENT_EXITS);
@@ -64,6 +69,10 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
         department.setDeptId(Snowflake.stringId());
         BeanUtils.copyProperties(addDto, department);
         departmentRepository.save(department);
+
+        if (fireAddEvent) {
+            this.eventBus.fireEventAfterCommit(new DepartmentAddEvent(this, department));
+        }
     }
 
     /**
@@ -74,7 +83,7 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
     @ServiceOperation("更新部门")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void update(DepartmentUpdateDto updateDto) {
+    public void update(DepartmentUpdateDto updateDto, boolean fireUpdateEvent) {
 
         Optional<Department> optionalDepartment = departmentRepository.findByDeptIdAndIsDelFalse(updateDto.getDeptId());
         if (optionalDepartment.isEmpty()) {
@@ -88,8 +97,13 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
         if (optional.isPresent()) {
             throw new ServiceException(DepartmentErrors.DEPARTMENT_EXITS);
         }
-        BeanUtils.copyProperties(updateDto, optionalDepartment.get());
-        departmentRepository.save(optionalDepartment.get());
+        Department department = optionalDepartment.get();
+        BeanUtils.copyProperties(updateDto, department);
+        departmentRepository.save(department);
+
+        if (fireUpdateEvent) {
+            this.eventBus.fireEventAfterCommit(new DepartmentUpdateEvent(this, department));
+        }
     }
 
     /**
@@ -100,13 +114,17 @@ public class DepartmentDomainServiceImpl implements DepartmentDomainService {
     @ServiceOperation("删除部门")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void delete(String departmentId) {
+    public void delete(String departmentId, boolean fireDeleteEvent) {
         Optional<Department> optionalDepartment = departmentRepository.findByDeptIdAndIsDelFalse(departmentId);
         if (optionalDepartment.isEmpty()) {
             throw new ServiceException(DepartmentErrors.DEPARTMENT_IS_NOT_FOUND);
         }
         optionalDepartment.get().setIsDel(Boolean.TRUE);
         departmentRepository.save(optionalDepartment.get());
+
+        if (fireDeleteEvent) {
+            this.eventBus.fireEventAfterCommit(new DepartmentDeleteEvent(this, optionalDepartment.get()));
+        }
 
     }
 }

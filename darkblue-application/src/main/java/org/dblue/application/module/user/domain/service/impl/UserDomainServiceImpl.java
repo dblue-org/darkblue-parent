@@ -87,18 +87,6 @@ public class UserDomainServiceImpl implements UserDomainService {
         this.eventBus.fireEventAfterCommit(new UserAddEvent(this, userSave));
     }
 
-    private void saveUserRole(UserDto addDto, User userSave) {
-        if (CollectionUtils.isNotEmpty(addDto.getRoles())) {
-            for (String roleId : addDto.getRoles()) {
-                UserRole userRole = new UserRole();
-                userRole.setUserRoleId(Snowflake.stringId());
-                userRole.setUserId(userSave.getUserId());
-                userRole.setRoleId(roleId);
-                userRoleRepository.save(userRole);
-            }
-        }
-    }
-
     /**
      * 用户更新
      *
@@ -176,4 +164,17 @@ public class UserDomainServiceImpl implements UserDomainService {
         user.changePassword(encodedPassword);
         userRepository.save(user);
     }
+
+    private void saveUserRole(UserDto addDto, User userSave) {
+        if (CollectionUtils.isNotEmpty(addDto.getRoles())) {
+            for (String roleId : addDto.getRoles()) {
+                UserRole userRole = new UserRole();
+                userRole.setUserRoleId(Snowflake.stringId());
+                userRole.setUserId(userSave.getUserId());
+                userRole.setRoleId(roleId);
+                userRoleRepository.save(userRole);
+            }
+        }
+    }
+
 }

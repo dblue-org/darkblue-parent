@@ -29,19 +29,52 @@ public interface DepartmentDomainService {
 
     /**
      * 新增
+     *
      * @param addDto 新增信息
      */
-    void add(DepartmentAddDto addDto);
+    default void add(DepartmentAddDto addDto) {
+        this.add(addDto, true);
+    }
+
+    /**
+     * 新增
+     *
+     * @param addDto       新增信息
+     * @param fireAddEvent 是否触发新增事件
+     */
+    void add(DepartmentAddDto addDto, boolean fireAddEvent);
 
     /**
      * 更新
+     *
      * @param updateDto 更新信息
      */
-    void update(DepartmentUpdateDto updateDto);
+    default void update(DepartmentUpdateDto updateDto) {
+        this.update(updateDto, true);
+    }
+
+    /**
+     * 更新
+     *
+     * @param updateDto 更新信息
+     * @param fireUpdateEvent 是否触发更新事件
+     */
+    void update(DepartmentUpdateDto updateDto, boolean fireUpdateEvent);
 
     /**
      * 删除
+     *
      * @param departmentId 部门ID
      */
-    void delete(String departmentId);
+    default void delete(String departmentId) {
+        this.delete(departmentId, true);
+    }
+
+    /**
+     * 删除
+     *
+     * @param departmentId    部门ID
+     * @param fireDeleteEvent 是否触发删除事件
+     */
+    void delete(String departmentId, boolean fireDeleteEvent);
 }
