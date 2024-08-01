@@ -19,10 +19,14 @@ package org.dblue.application.module.position.domain.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.commons.bus.EventBus;
 import org.dblue.application.module.position.application.dto.PositionAddDto;
 import org.dblue.application.module.position.application.dto.PositionEnableDto;
 import org.dblue.application.module.position.application.dto.PositionPageDto;
 import org.dblue.application.module.position.application.dto.PositionUpdateDto;
+import org.dblue.application.module.position.domain.event.PositionAddEvent;
+import org.dblue.application.module.position.domain.event.PositionDeleteEvent;
+import org.dblue.application.module.position.domain.event.PositionUpdateEvent;
 import org.dblue.application.module.position.domain.service.PositionDomainService;
 import org.dblue.application.module.position.errors.PositionErrors;
 import org.dblue.application.module.position.infrastructure.entity.Position;
@@ -50,6 +54,8 @@ public class PositionDomainServiceImpl implements PositionDomainService {
 
     private final PositionRepository positionRepository;
 
+    private final EventBus eventBus;
+
     /**
      * 职位添加
      *
@@ -64,8 +70,10 @@ public class PositionDomainServiceImpl implements PositionDomainService {
         }
         Position position = new Position();
         BeanUtils.copyProperties(addDto, position);
-        position.init();
+        position.setDefaults();
         positionRepository.save(position);
+
+        this.eventBus.fireEventAfterCommit(new PositionAddEvent(this, position));
     }
 
     /**
@@ -77,16 +85,26 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Override
     public void update(PositionUpdateDto updateDto) {
 
-        Optional<Position> optional = positionRepository.findByPositionIdAndIsDelFalse(updateDto.getPositionId());
-        if (optional.isEmpty()) {
+        Optional<Position> positionOptional = positionRepository.findByPositionIdAndIsDelFalse(updateDto.getPositionId());
+        if (positionOptional.isEmpty()) {
             throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
         }
-        Optional<Position> optionalPosition = positionRepository.findByPositionCodeOrPositionNameAndPositionIdNotAndIsDelFalse(updateDto.getPositionCode(), updateDto.getPositionName(), updateDto.getPositionId());
-        if (optionalPosition.isPresent()) {
+
+        if (Boolean.TRUE.equals(positionOptional.get().getIsBuiltIn())) {
+            throw new ServiceException(PositionErrors.CANNOT_UPDATE_BUILT_IN_POSITION);
+        }
+
+        Optional<Position> existPostionOptional = positionRepository.findByPositionCodeOrPositionNameAndPositionIdNotAndIsDelFalse(
+                updateDto.getPositionCode(), updateDto.getPositionName(), updateDto.getPositionId());
+        if (existPostionOptional.isPresent()) {
             throw new ServiceException(PositionErrors.POSITION_EXITS);
         }
-        BeanUtils.copyProperties(updateDto, optional.get());
-        positionRepository.save(optional.get());
+
+        Position position = positionOptional.get();
+        BeanUtils.copyProperties(updateDto, position);
+        positionRepository.save(position);
+
+        this.eventBus.fireEventAfterCommit(new PositionUpdateEvent(this, position));
     }
 
     /**
@@ -97,12 +115,20 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String positionId) {
-        Optional<Position> optional = positionRepository.findById(positionId);
-        if (optional.isEmpty()) {
+        Optional<Position> positionOptional = positionRepository.findById(positionId);
+        if (positionOptional.isEmpty()) {
             throw new ServiceException(PositionErrors.POSITION_IS_NOT_FOUND);
         }
-        optional.get().delete();
-        positionRepository.save(optional.get());
+
+        if (Boolean.TRUE.equals(positionOptional.get().getIsBuiltIn())) {
+            throw new ServiceException(PositionErrors.CANNOT_DELETE_BUILT_IN_POSITION);
+        }
+
+        Position position = positionOptional.get();
+        position.delete();
+        positionRepository.save(position);
+
+        this.eventBus.fireEventAfterCommit(new PositionDeleteEvent(this, position));
     }
 
     /**
@@ -157,9 +183,9 @@ public class PositionDomainServiceImpl implements PositionDomainService {
     @Override
     public List<Position> findAll(String keyword) {
         PositionQuery positionQuery = this.positionRepository.createQuery()
-                                                             .positionCodeLike(keyword)
-                                                             .positionNameLike(keyword)
-                                                             .enable();
+                .positionCodeLike(keyword)
+                .positionNameLike(keyword)
+                .enable();
         return positionQuery.list();
     }
 

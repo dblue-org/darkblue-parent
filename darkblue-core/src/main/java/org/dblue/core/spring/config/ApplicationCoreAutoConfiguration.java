@@ -25,7 +25,6 @@ import org.dblue.core.spring.config.properties.CoreConfigProperties;
 import org.dblue.utils.date.DatePattern;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -59,8 +58,8 @@ public class ApplicationCoreAutoConfiguration {
     }
 
     @Bean
-    public static ApplicationNameAwareProcessor applicationNameAwareProcessor(ApplicationContext applicationContext) {
-        return new ApplicationNameAwareProcessor(applicationContext);
+    public static ApplicationNameAwareProcessor applicationNameAwareProcessor() {
+        return new ApplicationNameAwareProcessor();
     }
 
     @Bean

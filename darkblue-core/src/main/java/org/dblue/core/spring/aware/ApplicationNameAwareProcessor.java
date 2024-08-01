@@ -18,6 +18,7 @@ package org.dblue.core.spring.aware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.NonNull;
 
 /**
@@ -31,8 +32,8 @@ import org.springframework.lang.NonNull;
  * &#064;Configuration
  * public class ApplicationConfiguration {
  *     &#064;Bean
- *     public ApplicationNameAwareProcessor applicationNameAwareProcessor(ApplicationContext applicationContext) {
- *         return new ApplicationNameAwareProcessor(applicationContext);
+ *     public static ApplicationNameAwareProcessor applicationNameAwareProcessor() {
+ *         return new ApplicationNameAwareProcessor();
  *     }
  * }
  * </pre></blockquote>
@@ -41,22 +42,28 @@ import org.springframework.lang.NonNull;
  * @see ApplicationNameAware
  * @since 1.0.0
  */
-public class ApplicationNameAwareProcessor implements BeanPostProcessor {
+public class ApplicationNameAwareProcessor implements BeanPostProcessor, ApplicationContextAware {
 
-    private String applicationName;
+    private ApplicationContext applicationContext;
 
-    public ApplicationNameAwareProcessor(ApplicationContext applicationContext) {
-        this.applicationName = applicationContext.getEnvironment().getProperty("spring.application.name");
-        if (this.applicationName == null) {
-            this.applicationName = applicationContext.getApplicationName();
-        }
+    @Override
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
     @Override
     public Object postProcessBeforeInitialization(@NonNull Object bean, @NonNull String beanName) throws BeansException {
         if (bean instanceof ApplicationNameAware applicationNameAware) {
-            applicationNameAware.setApplicationName(this.applicationName);
+            applicationNameAware.setApplicationName(this.getApplicationName());
         }
         return bean;
+    }
+
+    private String getApplicationName() {
+        String applicationName = applicationContext.getEnvironment().getProperty("spring.application.name");
+        if (applicationName == null) {
+            applicationName = applicationContext.getApplicationName();
+        }
+        return applicationName;
     }
 }

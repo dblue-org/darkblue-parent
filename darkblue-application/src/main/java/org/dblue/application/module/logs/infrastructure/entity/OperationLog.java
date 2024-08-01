@@ -16,6 +16,8 @@
 
 package org.dblue.application.module.logs.infrastructure.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -39,6 +41,7 @@ public class OperationLog {
     @Id
     @Size(max = 64)
     @Column(name = "operation_log_id", nullable = false, length = 64)
+    @TableId(value = "operation_log_id", type = IdType.INPUT)
     private String operationLogId;
 
     /**

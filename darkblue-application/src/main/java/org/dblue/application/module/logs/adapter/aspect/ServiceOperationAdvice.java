@@ -16,7 +16,6 @@
 package org.dblue.application.module.logs.adapter.aspect;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.dblue.application.module.logs.adapter.aspect.ignore.IgnoreStrategy;
@@ -28,6 +27,10 @@ import org.dblue.application.module.logs.infrastructure.entity.OperationLog;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.ThrowsAdvice;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
@@ -40,23 +43,20 @@ import java.lang.reflect.Method;
  * @since 1.0.0
  */
 @Slf4j
-public class ServiceOperationAdvice extends AbstractOperationRecorder implements AfterReturningAdvice, ThrowsAdvice, MethodBeforeAdvice {
+public class ServiceOperationAdvice extends AbstractOperationRecorder implements AfterReturningAdvice, ThrowsAdvice, MethodBeforeAdvice, ApplicationContextAware {
 
-    private final OperationLogDomainService operationLogDomainService;
+    private ApplicationContext applicationContext;
 
-    private final TransactionTemplate transactionTemplate;
+    private TransactionTemplate transactionTemplate;
+
     @Setter
     private IgnoreStrategy ignoreStrategy = new NoopIgnoreStrategy();
     @Setter
     private OperationNameGetter operationNameGetter = new DefaultOperationNameGetter();
 
-    public ServiceOperationAdvice(
-            OperationLogDomainService operationLogDomainService, ObjectMapper objectMapper, PlatformTransactionManager transactionManager) {
-        super(objectMapper);
-        this.operationLogDomainService = operationLogDomainService;
-        this.transactionTemplate = new TransactionTemplate(
-                transactionManager, new DefaultTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRES_NEW)
-        );
+    @Override
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
     @Override
@@ -83,9 +83,13 @@ public class ServiceOperationAdvice extends AbstractOperationRecorder implements
                     .isError(false)
                     .result(this.buildResult(returnValue))
                     .build();
-            this.transactionTemplate.executeWithoutResult(status -> operationLogDomainService.save(operationLog));
+            this.transactionTemplate.executeWithoutResult(status -> this.getOperationLogDomainService().save(operationLog));
             this.clear();
         }
+    }
+
+    protected OperationLogDomainService getOperationLogDomainService() {
+        return this.applicationContext.getBean(OperationLogDomainService.class);
     }
 
     /**
@@ -107,9 +111,24 @@ public class ServiceOperationAdvice extends AbstractOperationRecorder implements
                     .isError(true)
                     .errorDetails(ex)
                     .build();
-            this.transactionTemplate.executeWithoutResult(status -> operationLogDomainService.save(operationLog));
+            this.getTransactionTemplate().executeWithoutResult(status -> this.getOperationLogDomainService().save(operationLog));
         }
 
+    }
+
+    public synchronized TransactionTemplate getTransactionTemplate() {
+        if (this.transactionTemplate == null) {
+            PlatformTransactionManager transactionManager = this.applicationContext.getBean(PlatformTransactionManager.class);
+            this.transactionTemplate = new TransactionTemplate(
+                    transactionManager, new DefaultTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRES_NEW)
+            );
+        }
+        return this.transactionTemplate;
+    }
+
+    @Override
+    protected ObjectMapper getObjectMapper() {
+        return this.applicationContext.getBean(ObjectMapper.class);
     }
 
 }

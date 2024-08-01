@@ -34,9 +34,8 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Slf4j
-public class AbstractOperationRecorder {
+public abstract class AbstractOperationRecorder {
 
-    protected final ObjectMapper objectMapper;
 
     /**
      * 用于记录耗时
@@ -45,9 +44,6 @@ public class AbstractOperationRecorder {
 
     private final ThreadLocal<Context> contextThreadLocal = new ThreadLocal<>();
 
-    public AbstractOperationRecorder(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     /**
      * 开始记录
@@ -100,19 +96,21 @@ public class AbstractOperationRecorder {
             }
         }
         try {
-            return objectMapper.writeValueAsString(params);
+            return this.getObjectMapper().writeValueAsString(params);
         } catch (Exception e) {
             log.warn(e.getMessage(), e);
         }
         return null;
     }
 
+    protected abstract ObjectMapper getObjectMapper();
+
     protected String buildResult(Object result) {
         if (result == null) {
             return null;
         }
         try {
-            return objectMapper.writeValueAsString(result);
+            return this.getObjectMapper().writeValueAsString(result);
         } catch (Exception e) {
             log.warn(e.getMessage(), e);
         }

@@ -15,17 +15,14 @@
  */
 package org.dblue.application.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aopalliance.aop.Advice;
 import org.dblue.application.module.logs.adapter.aspect.ServiceOperationAdvice;
 import org.dblue.application.module.logs.adapter.aspect.ignore.AnnotatedIgnoreStrategy;
-import org.dblue.application.module.logs.domain.service.OperationLogDomainService;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * 操作AOP监控
@@ -33,24 +30,26 @@ import org.springframework.transaction.PlatformTransactionManager;
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@SuppressWarnings("java:S1118")
 @Configuration
 public class OperationLogAdviceConfiguration {
 
+    /**
+     * 此项配置会导致项目在启动时报一个警告：Bean 'serviceOperationAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed
+     * by all BeanPostProcessors... 此警告不用处理。具体见：
+     * <a href="https://docs.spring.io/spring-framework/reference/core/beans/factory-extension.html#beans-factory-extension-bpp">BeanPostProcessor instances
+     * and AOP auto-proxying</a>
+     */
     @Bean
-    public Advisor serviceOperationAdvisor(Advice serviceOperationAdvice) {
+    public static Advisor serviceOperationAdvisor() {
         var pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression("@annotation(org.dblue.core.aspect.ServiceOperation)");
-        return new DefaultPointcutAdvisor(pointcut, serviceOperationAdvice);
+        return new DefaultPointcutAdvisor(pointcut, serviceOperationAdvice());
     }
 
     @Bean
-    public Advice serviceOperationAdvice(
-            OperationLogDomainService operationLogDomainService, ObjectMapper objectMapper,
-            PlatformTransactionManager transactionManager) {
-
-        ServiceOperationAdvice serviceOperationAdvice = new ServiceOperationAdvice(
-                operationLogDomainService, objectMapper, transactionManager
-        );
+    public static Advice serviceOperationAdvice() {
+        ServiceOperationAdvice serviceOperationAdvice = new ServiceOperationAdvice();
         serviceOperationAdvice.setIgnoreStrategy(new AnnotatedIgnoreStrategy());
         return serviceOperationAdvice;
     }
