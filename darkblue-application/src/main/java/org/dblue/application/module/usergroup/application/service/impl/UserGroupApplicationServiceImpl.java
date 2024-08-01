@@ -71,7 +71,7 @@ public class UserGroupApplicationServiceImpl implements UserGroupApplicationServ
      * @return 用户组信息
      */
     @Override
-    public UserGroupVo getOne(String userGroupId) {
+    public UserGroupVo getDetails(String userGroupId) {
         UserGroup userGroup = userGroupDomainQueryService.getOne(userGroupId);
         ServiceAssert.notNull(userGroup, UserGroupErrors.USER_GROUP_IS_NOT_FOUND);
         return UserGroupVo.of(userGroup);

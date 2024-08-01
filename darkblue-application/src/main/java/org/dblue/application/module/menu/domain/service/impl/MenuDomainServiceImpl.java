@@ -130,7 +130,7 @@ public class MenuDomainServiceImpl implements MenuDomainService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void enable(MenuEnableDto menuEnableDto) {
+    public void toggleState(MenuEnableDto menuEnableDto) {
         Optional<Menu> optional = menuRepository.findById(menuEnableDto.getMenuId());
         if (optional.isEmpty()) {
             throw new ServiceException(MenuErrors.MENU_IS_NOT_FOUND);

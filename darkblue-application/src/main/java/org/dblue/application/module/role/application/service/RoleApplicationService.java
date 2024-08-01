@@ -54,7 +54,7 @@ public interface RoleApplicationService {
      * @param roleId 角色ID
      * @return 角色
      */
-    RoleVo getOne(String roleId);
+    RoleVo getDetails(String roleId);
 
 
     /**

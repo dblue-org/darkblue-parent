@@ -38,7 +38,7 @@ public interface PositionApplicationService {
      * @param positionId 职位ID
      * @return 职位信息
      */
-    PositionVo getOne(String positionId);
+    PositionVo getDetails(String positionId);
 
     /**
      * 分页

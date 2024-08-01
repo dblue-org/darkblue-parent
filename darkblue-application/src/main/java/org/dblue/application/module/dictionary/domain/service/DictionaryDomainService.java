@@ -79,5 +79,5 @@ public interface DictionaryDomainService {
      *
      * @param enableDto 启用禁用信息
      */
-    void enableItem(DictionaryItemEnableDto enableDto);
+    void toggleItemState(DictionaryItemEnableDto enableDto);
 }

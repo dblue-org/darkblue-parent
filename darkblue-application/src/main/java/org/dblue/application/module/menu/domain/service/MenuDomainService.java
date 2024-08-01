@@ -55,7 +55,7 @@ public interface MenuDomainService {
      * 菜单启用禁用
      * @param menuEnableDto 菜单信息
      */
-    void enable(MenuEnableDto menuEnableDto);
+    void toggleState(MenuEnableDto menuEnableDto);
 
 
 }

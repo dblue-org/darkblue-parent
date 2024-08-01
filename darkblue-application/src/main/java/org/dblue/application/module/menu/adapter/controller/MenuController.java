@@ -118,9 +118,9 @@ public class MenuController {
      * @param menuEnableDto 菜单信息
      */
     @Operation(summary = "菜单启用禁用", description = "菜单启用禁用")
-    @PatchMapping("/enable")
-    public ResponseBean<Void> enable(@Valid @RequestBody MenuEnableDto menuEnableDto) {
-        menuDomainService.enable(menuEnableDto);
+    @PatchMapping("/toggleState")
+    public ResponseBean<Void> toggleState(@Valid @RequestBody MenuEnableDto menuEnableDto) {
+        menuDomainService.toggleState(menuEnableDto);
         return ResponseBean.success();
     }
 

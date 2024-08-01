@@ -116,7 +116,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
      * @return 权限信息
      */
     @Override
-    public PermissionVo getOne(String permissionId) {
+    public PermissionVo getDetails(String permissionId) {
         Permission permission = permissionDomainQueryService.getOne(permissionId);
         PermissionVo permissionVo = new PermissionVo();
         if (Objects.nonNull(permission)) {

@@ -171,9 +171,9 @@ public class UserGroupController {
      */
     @Parameter(name = "userGroupId", description = "用户组ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "获取用户组详情", description = "获取用户组详情")
-    @GetMapping("/getOne/{userGroupId}")
-    public ResponseBean<UserGroupVo> getOne(@PathVariable("userGroupId") String userGroupId) {
-        return ResponseBean.success(userGroupApplicationService.getOne(userGroupId));
+    @GetMapping("/getDetails/{userGroupId}")
+    public ResponseBean<UserGroupVo> getDetails(@PathVariable("userGroupId") String userGroupId) {
+        return ResponseBean.success(userGroupApplicationService.getDetails(userGroupId));
     }
 
     /**

@@ -55,7 +55,7 @@ public interface DictionaryApplicationService {
      * @param itemPageDto 查询参数
      * @return 字典项
      */
-    Page<DictionaryItemPageVo> page(DictionaryItemPageDto itemPageDto);
+    Page<DictionaryItemPageVo> findItemByPage(DictionaryItemPageDto itemPageDto);
 
     /**
      * 获取字典数据（用于Select、SelectTree组件）

@@ -35,7 +35,7 @@ public interface SpringMvcMappingService {
      *
      * @return 资源信息
      */
-    List<ResourceControllerVo> getResourceController(Integer platform);
+    List<ResourceControllerVo> getResourceMappings(Integer platform);
 
     /**
      * 根据资源地址获取资源信息

@@ -122,9 +122,9 @@ public class PermissionController {
      */
     @Parameter(name = "permissionId", description = "权限ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "权限信息", description = "权限信息")
-    @GetMapping("/getOne/{permissionId}")
-    public ResponseBean<PermissionVo> getOne(@PathVariable("permissionId") String permissionId) {
-        return ResponseBean.success(permissionApplicationService.getOne(permissionId));
+    @GetMapping("/getDetails/{permissionId}")
+    public ResponseBean<PermissionVo> getDetails(@PathVariable("permissionId") String permissionId) {
+        return ResponseBean.success(permissionApplicationService.getDetails(permissionId));
     }
 
     /**

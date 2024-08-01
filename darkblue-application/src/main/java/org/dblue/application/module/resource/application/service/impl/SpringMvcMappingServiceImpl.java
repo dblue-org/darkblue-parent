@@ -72,7 +72,7 @@ public class SpringMvcMappingServiceImpl implements SpringMvcMappingService, App
      * @return 资源信息
      */
     @Override
-    public List<ResourceControllerVo> getResourceController(Integer platform) {
+    public List<ResourceControllerVo> getResourceMappings(Integer platform) {
         if (this.resourceList != null) {
             return resourceList.stream()
                     .filter(resourceControllerVo -> this.platformCompare(platform, resourceControllerVo))

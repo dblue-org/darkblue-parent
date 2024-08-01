@@ -113,10 +113,10 @@ public class ResourceController {
      */
     @Parameter(name = "platform", in = ParameterIn.QUERY)
     @Operation(summary = "获取资源信息", description = "获取资源信息")
-    @GetMapping("/getResourceController")
-    public ResponseBean<List<ResourceControllerVo>> getResourceController(
+    @GetMapping("/getResourceMappings")
+    public ResponseBean<List<ResourceControllerVo>> getResourceMappings(
             @RequestParam(required = false) Integer platform) {
-        return ResponseBean.success(springMvcMappingService.getResourceController(platform));
+        return ResponseBean.success(springMvcMappingService.getResourceMappings(platform));
     }
 
     /**

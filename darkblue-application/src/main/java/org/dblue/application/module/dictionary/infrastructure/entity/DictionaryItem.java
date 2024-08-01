@@ -109,21 +109,14 @@ public class DictionaryItem extends AbstractAuditingEntity {
 
     public void initItemLevel() {
         this.itemLevel = 1;
-
     }
 
-    public void initItemLevel(Integer level) {
-        this.itemLevel = level + 1;
+    public void enable() {
+        this.isEnable = true;
     }
 
-
-    public void addOrderNum() {
-        this.orderNum = 1;
-
-    }
-
-    public void addOrderNum(Integer num) {
-        this.orderNum = num + 1;
+    public void disable() {
+        this.isEnable = false;
     }
 
 }

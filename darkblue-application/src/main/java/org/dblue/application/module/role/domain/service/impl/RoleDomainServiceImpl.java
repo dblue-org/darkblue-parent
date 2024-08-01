@@ -175,7 +175,7 @@ public class RoleDomainServiceImpl implements RoleDomainService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void enable(RoleEnableDto enableDto) {
+    public void toggleState(RoleEnableDto enableDto) {
         Optional<Role> optional = roleRepository.findById(enableDto.getRoleId());
         if (optional.isEmpty()) {
             throw new ServiceException(RoleErrors.ROLE_IS_NOT_FOUND);

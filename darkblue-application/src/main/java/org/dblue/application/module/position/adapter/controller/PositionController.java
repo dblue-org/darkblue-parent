@@ -98,8 +98,8 @@ public class PositionController {
      * @param enableDto 启用禁用信息
      */
     @Operation(summary = "职位启用禁用", description = "启用禁用")
-    @PatchMapping("/enable")
-    public ResponseBean<Void> enable(@Valid @RequestBody PositionEnableDto enableDto) {
+    @PatchMapping("/toggleState")
+    public ResponseBean<Void> toggleState(@Valid @RequestBody PositionEnableDto enableDto) {
         positionDomainService.toggleState(enableDto);
         return ResponseBean.success();
     }
@@ -113,9 +113,9 @@ public class PositionController {
      */
     @Parameter(name = "positionId", description = "职位ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "职位单个查询", description = "职位单个查询")
-    @GetMapping("/getOne/{positionId}")
-    public ResponseBean<PositionVo> getOne(@PathVariable("positionId") String positionId) {
-        return ResponseBean.success(positionApplicationService.getOne(positionId));
+    @GetMapping("/getDetails/{positionId}")
+    public ResponseBean<PositionVo> getDetails(@PathVariable("positionId") String positionId) {
+        return ResponseBean.success(positionApplicationService.getDetails(positionId));
     }
 
     /**

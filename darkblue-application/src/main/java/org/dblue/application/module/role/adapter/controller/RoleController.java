@@ -122,9 +122,9 @@ public class RoleController {
      */
     @Parameter(name = "roleId", description = "角色ID", in = ParameterIn.PATH, required = true)
     @Operation(summary = "获取角色详情", description = "获取单个角色信息")
-    @GetMapping("/getOne/{roleId}")
-    public ResponseBean<RoleVo> getOne(@PathVariable("roleId") String roleId) {
-        return ResponseBean.success(roleApplicationService.getOne(roleId));
+    @GetMapping("/getDetails/{roleId}")
+    public ResponseBean<RoleVo> getDetails(@PathVariable("roleId") String roleId) {
+        return ResponseBean.success(roleApplicationService.getDetails(roleId));
     }
 
     /**
@@ -146,9 +146,9 @@ public class RoleController {
      * @param enableDto 启用禁用信息
      */
     @Operation(summary = "角色状态修改（启用禁用）", description = "启用禁用")
-    @PatchMapping("/enable")
-    public ResponseBean<Void> enable(@RequestBody @Valid RoleEnableDto enableDto) {
-        roleDomainService.enable(enableDto);
+    @PatchMapping("/toggleState")
+    public ResponseBean<Void> toggleState(@RequestBody @Valid RoleEnableDto enableDto) {
+        roleDomainService.toggleState(enableDto);
         return ResponseBean.success();
     }
 

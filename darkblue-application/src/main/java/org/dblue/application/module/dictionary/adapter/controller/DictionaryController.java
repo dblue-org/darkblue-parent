@@ -22,15 +22,13 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.dblue.application.module.dictionary.application.dto.*;
+import org.dblue.application.module.dictionary.application.dto.DictionaryAddDto;
+import org.dblue.application.module.dictionary.application.dto.DictionaryUpdateDto;
 import org.dblue.application.module.dictionary.application.service.DictionaryApplicationService;
 import org.dblue.application.module.dictionary.application.vo.DictionaryForSelectVo;
-import org.dblue.application.module.dictionary.application.vo.DictionaryItemPageVo;
-import org.dblue.application.module.dictionary.application.vo.DictionaryItemTreeVo;
 import org.dblue.application.module.dictionary.application.vo.DictionaryVo;
 import org.dblue.application.module.dictionary.domain.service.DictionaryDomainService;
 import org.dblue.core.annotation.Platform;
-import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
 
@@ -90,29 +88,6 @@ public class DictionaryController {
         return ResponseBean.success();
     }
 
-    /**
-     * 字典项添加
-     *
-     * @param addDto 字典信息
-     */
-    @Operation(summary = "字典项添加", description = "字典添加")
-    @PostMapping("/addItem")
-    public ResponseBean<Void> addItem(@Valid @RequestBody DictionaryItemAddDto addDto) {
-        dictionaryDomainService.addItem(addDto);
-        return ResponseBean.success();
-    }
-
-    /**
-     * 字典项更新
-     *
-     * @param updateDto 字典信息
-     */
-    @Operation(summary = "字典项更新", description = "字典更新")
-    @PutMapping("/updateItem")
-    public ResponseBean<Void> updateItem(@Valid @RequestBody DictionaryItemUpdateDto updateDto) {
-        dictionaryDomainService.updateItem(updateDto);
-        return ResponseBean.success();
-    }
 
     /**
      * 获取全部字典信息
@@ -123,58 +98,6 @@ public class DictionaryController {
     @GetMapping("/getAll")
     public ResponseBean<List<DictionaryVo>> getAll() {
         return ResponseBean.success(dictionaryApplicationService.getAll());
-    }
-
-
-    /**
-     * 字典项删除
-     *
-     * @param dictionaryItemId 字典项ID
-     */
-    @Parameter(name = "dictionaryItemId", description = "字典项ID", in = ParameterIn.PATH, required = true)
-    @Operation(summary = "字典项删除", description = "字典项删除")
-    @DeleteMapping("/deleteItem/{dictionaryItemId}")
-    public ResponseBean<Void> deleteItem(@PathVariable("dictionaryItemId") String dictionaryItemId) {
-        dictionaryDomainService.deleteItem(dictionaryItemId);
-        return ResponseBean.success();
-    }
-
-    /**
-     * 字典项启用禁用
-     *
-     * @param enableDto 启用禁用信息
-     */
-    @Operation(summary = "字典项启用禁用", description = "字典项启用禁用")
-    @PatchMapping("/enableItem")
-    public ResponseBean<Void> enableItem(@Valid @RequestBody DictionaryItemEnableDto enableDto) {
-        dictionaryDomainService.enableItem(enableDto);
-        return ResponseBean.success();
-    }
-
-
-    /**
-     * 获取树形字典项
-     *
-     * @param dictionaryId 字典ID
-     * @return 字典
-     */
-    @Parameter(name = "dictionaryId", description = "字典ID", in = ParameterIn.PATH, required = true)
-    @Operation(summary = "获取树形字典项", description = "获取树形字典项")
-    @GetMapping("/getItemTree/{dictionaryId}")
-    public ResponseBean<List<DictionaryItemTreeVo>> getItemTree(@PathVariable("dictionaryId") String dictionaryId) {
-        return ResponseBean.success(dictionaryApplicationService.getItemTree(dictionaryId));
-    }
-
-    /**
-     * 字典项分页
-     *
-     * @param itemPageDto 查询参数
-     * @return 字典项
-     */
-    @Operation(summary = "字典项分页", description = "字典项分页")
-    @GetMapping("/page")
-    public PageResponseBean<DictionaryItemPageVo> page(DictionaryItemPageDto itemPageDto) {
-        return PageResponseBean.success(dictionaryApplicationService.page(itemPageDto));
     }
 
     /**

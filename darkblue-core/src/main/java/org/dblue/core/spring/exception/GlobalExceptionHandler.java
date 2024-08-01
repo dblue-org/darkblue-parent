@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -169,6 +170,14 @@ public class GlobalExceptionHandler {
         return result;
     }
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseBean<Void> noResourceFoundException(NoResourceFoundException exception) {
+        ResponseBean<Void> result = ResponseBean.failure(CommonError.SERVICE_ERROR);
+        result.setMessage("请求资源[" + exception.getResourcePath() + "]不存在");
+        result.setErrorCode("404");
+        log.error(exception.getMessage(), exception);
+        return result;
+    }
 
     /**
      * 所有异常拦截

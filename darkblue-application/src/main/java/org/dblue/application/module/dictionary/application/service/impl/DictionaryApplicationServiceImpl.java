@@ -88,7 +88,7 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
      * @return 字典项
      */
     @Override
-    public Page<DictionaryItemPageVo> page(DictionaryItemPageDto itemPageDto) {
+    public Page<DictionaryItemPageVo> findItemByPage(DictionaryItemPageDto itemPageDto) {
         Page<DictionaryItem> page = dictionaryDomainQueryService.page(itemPageDto);
         if (page.isEmpty()) {
             return Page.empty();

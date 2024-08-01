@@ -51,7 +51,7 @@ public interface PermissionApplicationService {
      * @param permissionId 权限ID
      * @return 权限信息
      */
-    PermissionVo getOne(String permissionId);
+    PermissionVo getDetails(String permissionId);
 
     /**
      * 获取权限资源信息

@@ -137,7 +137,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
         if (CollectionUtils.isNotEmpty(resourceInvalidVoList)) {
             throw new ServiceException(ResourceErrors.THE_RESOURCE_CONTAINS_AN_UNMODIFIED_INVALID_RESOURCE);
         }
-        List<ResourceControllerVo> resourceControllerVoList = springMvcMappingService.getResourceController(null);
+        List<ResourceControllerVo> resourceControllerVoList = springMvcMappingService.getResourceMappings(null);
         for (ResourceControllerVo resourceControllerVo : resourceControllerVoList) {
             ResourceGroupAddDto resourceGroupAddDto = new ResourceGroupAddDto();
             resourceGroupAddDto.setPlatform(resourceControllerVo.getPlatform());

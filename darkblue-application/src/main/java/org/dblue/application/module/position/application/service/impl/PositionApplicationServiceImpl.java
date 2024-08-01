@@ -56,7 +56,7 @@ public class PositionApplicationServiceImpl implements PositionApplicationServic
      * @return 职位信息
      */
     @Override
-    public PositionVo getOne(String positionId) {
+    public PositionVo getDetails(String positionId) {
         Position position = positionDomainService.getOne(positionId);
         if (Objects.isNull(position)) {
             return PositionVo.of();

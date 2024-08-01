@@ -60,5 +60,5 @@ public interface RoleDomainService {
      *
      * @param enableDto 启用禁用信息
      */
-    void enable(RoleEnableDto enableDto);
+    void toggleState(RoleEnableDto enableDto);
 }

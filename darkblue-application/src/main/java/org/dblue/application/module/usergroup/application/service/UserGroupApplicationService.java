@@ -38,7 +38,7 @@ public interface UserGroupApplicationService {
      * @param userGroupId 用户组ID
      * @return 用户组信息
      */
-    UserGroupVo getOne(String userGroupId);
+    UserGroupVo getDetails(String userGroupId);
 
     /**
      * 分页

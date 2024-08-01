@@ -210,12 +210,17 @@ public class DictionaryDomainServiceImpl implements DictionaryDomainService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void enableItem(DictionaryItemEnableDto enableDto) {
+    public void toggleItemState(DictionaryItemEnableDto enableDto) {
         Optional<DictionaryItem> optional = dictionaryItemRepository.findById(enableDto.getDictionaryItemId());
         if (optional.isEmpty()) {
             throw new ServiceException(DictionaryItemErrors.DICTIONARY_ITEM_IS_NOT_FOUND);
         }
-        optional.get().setIsEnable(enableDto.getEnable());
-        dictionaryItemRepository.save(optional.get());
+        DictionaryItem dictionaryItem = optional.get();
+        if (Boolean.TRUE.equals(enableDto.getEnable())) {
+            dictionaryItem.enable();
+        } else {
+            dictionaryItem.disable();
+        }
+        dictionaryItemRepository.save(dictionaryItem);
     }
 }

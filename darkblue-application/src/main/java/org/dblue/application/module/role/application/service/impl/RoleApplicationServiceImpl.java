@@ -120,7 +120,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
      * @return 角色
      */
     @Override
-    public RoleVo getOne(String roleId) {
+    public RoleVo getDetails(String roleId) {
         Role role = roleDomainQueryService.getOne(roleId);
         RoleVo roleVo = new RoleVo();
         BeanUtils.copyProperties(role, roleVo);
