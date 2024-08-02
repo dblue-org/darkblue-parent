@@ -34,6 +34,7 @@ import org.dblue.application.module.role.infrastructure.entiry.Role;
 import org.dblue.application.module.setting.domain.cache.PropertySettingCacheService;
 import org.dblue.application.module.user.application.dto.UserPageDto;
 import org.dblue.application.module.user.application.dto.UserPasswordChangeDto;
+import org.dblue.application.module.user.application.dto.UserSelfUpdateDto;
 import org.dblue.application.module.user.application.helper.UserVoHelper;
 import org.dblue.application.module.user.application.service.UserApplicationService;
 import org.dblue.application.module.user.application.vo.*;
@@ -273,6 +274,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         userGroupDomainService.deleteUserByUserId(userId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void resetPassword(String userId) {
         User user = this.userDomainQueryService.getOne(userId);
@@ -283,6 +285,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         this.userDomainService.changePassword(user, defaultPassword);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void changePassword(UserPasswordChangeDto passwordChangeDto) {
         User user = this.userDomainQueryService.getOne(SecurityUtils.getUserId());
@@ -290,5 +293,22 @@ public class UserApplicationServiceImpl implements UserApplicationService {
             throw new ServiceException(UserErrors.PASSWORD_ERROR);
         }
         this.userDomainService.changePassword(user, passwordChangeDto.getNewPassword());
+    }
+
+    @Override
+    public SimpleUserVo getMyselfInfo() {
+        User user = userDomainQueryService.getOne(SecurityUtils.getUserId());
+        SimpleUserVo userVo = new SimpleUserVo();
+        BeanUtils.copyProperties(user, userVo);
+        this.userVoHelper.setExternalNames(userVo);
+        return userVo;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateMyselfInfo(UserSelfUpdateDto updateDto) {
+        User user = userDomainQueryService.getOne(SecurityUtils.getUserId());
+        BeanUtils.copyProperties(updateDto, user);
+        this.userDomainService.update(user);
     }
 }

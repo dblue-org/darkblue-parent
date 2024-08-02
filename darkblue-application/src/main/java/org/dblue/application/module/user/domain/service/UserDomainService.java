@@ -43,6 +43,13 @@ public interface UserDomainService {
     void update(UserUpdateDto updateDto);
 
     /**
+     * 更新用户信息
+     *
+     * @param user 用户信息
+     */
+    void update(User user);
+
+    /**
      * 用户删除
      *
      * @param userId 用户ID

@@ -23,10 +23,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.user.application.dto.*;
 import org.dblue.application.module.user.application.service.UserApplicationService;
-import org.dblue.application.module.user.application.vo.UserMenuVo;
-import org.dblue.application.module.user.application.vo.UserPageVo;
-import org.dblue.application.module.user.application.vo.UserSelectVo;
-import org.dblue.application.module.user.application.vo.UserVo;
+import org.dblue.application.module.user.application.vo.*;
 import org.dblue.application.module.user.domain.service.UserDomainService;
 import org.dblue.core.annotation.Platform;
 import org.dblue.core.enums.PlatformEnum;
@@ -47,7 +44,7 @@ import java.util.List;
 @Platform
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserDomainService userDomainService;
@@ -176,6 +173,31 @@ public class UserController {
     @PatchMapping("/changePassword")
     public ResponseBean<Void> changePassword(@RequestBody @Valid UserPasswordChangeDto passwordChangeDto) {
         this.userApplicationService.changePassword(passwordChangeDto);
+        return ResponseBean.success();
+    }
+
+
+    /**
+     * 获取自身的信息
+     *
+     * @return 用户信息
+     */
+    @Operation(summary = "获取自身的信息")
+    @GetMapping("/getMyselfInfo")
+    public ResponseBean<SimpleUserVo> getMyselfInfo() {
+        SimpleUserVo userVo = this.userApplicationService.getMyselfInfo();
+        return ResponseBean.success(userVo);
+    }
+
+    /**
+     * 更新自身信息
+     *
+     * @param updateDto 更新内容
+     */
+    @Operation(summary = "更新自身信息")
+    @PatchMapping("/updateMyselfInfo")
+    public ResponseBean<Void> updateMyselfInfo(@RequestBody @Valid UserSelfUpdateDto updateDto) {
+        this.userApplicationService.updateMyselfInfo(updateDto);
         return ResponseBean.success();
     }
 }

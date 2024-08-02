@@ -17,10 +17,8 @@ package org.dblue.application.module.user.application.service;
 
 import org.dblue.application.module.user.application.dto.UserPageDto;
 import org.dblue.application.module.user.application.dto.UserPasswordChangeDto;
-import org.dblue.application.module.user.application.vo.UserMenuVo;
-import org.dblue.application.module.user.application.vo.UserPageVo;
-import org.dblue.application.module.user.application.vo.UserSelectVo;
-import org.dblue.application.module.user.application.vo.UserVo;
+import org.dblue.application.module.user.application.dto.UserSelfUpdateDto;
+import org.dblue.application.module.user.application.vo.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -83,4 +81,18 @@ public interface UserApplicationService {
      * @param passwordChangeDto 密码
      */
     void changePassword(UserPasswordChangeDto passwordChangeDto);
+
+    /**
+     * 获取自身的信息
+     *
+     * @return 用户信息
+     */
+    SimpleUserVo getMyselfInfo();
+
+    /**
+     * 更新自身信息
+     *
+     * @param updateDto 更新内容
+     */
+    void updateMyselfInfo(UserSelfUpdateDto updateDto);
 }

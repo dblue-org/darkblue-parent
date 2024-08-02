@@ -109,8 +109,14 @@ public class UserDomainServiceImpl implements UserDomainService {
         saveUserRole(updateDto, optional.get());
 
         this.eventBus.fireEventAfterCommit(new UserUpdateEvent(this, optional.get()));
-
     }
+
+    @Override
+    public void update(User user) {
+        this.userRepository.save(user);
+        this.eventBus.fireEventAfterCommit(new UserUpdateEvent(this, user));
+    }
+
 
     /**
      * 用户删除
