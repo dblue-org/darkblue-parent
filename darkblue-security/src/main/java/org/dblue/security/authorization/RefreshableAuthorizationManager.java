@@ -16,10 +16,15 @@
 package org.dblue.security.authorization;
 
 /**
+ * 允许刷新当前系统中的资源权限关系
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
 public interface RefreshableAuthorizationManager {
 
+    /**
+     * 刷新资源权限关系
+     */
     void refresh();
 }

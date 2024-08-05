@@ -23,6 +23,8 @@ import org.dblue.security.user.SecurityUser;
 import org.springframework.context.ApplicationEvent;
 
 /**
+ * 用户登录成功后发布的事件
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */

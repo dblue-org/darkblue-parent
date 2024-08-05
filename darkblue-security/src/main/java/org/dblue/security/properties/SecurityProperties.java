@@ -21,6 +21,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 安全相关配置
  * @author Wang Chengwei
  * @since 1.0.0
  */

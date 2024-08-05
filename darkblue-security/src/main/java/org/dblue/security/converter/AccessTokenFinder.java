@@ -27,8 +27,14 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public interface AccessTokenFinder {
 
+    /**
+     * Token 的 Header 名称
+     */
     String DEFAULT_AUTHORIZATION_HEADER_NAME = "Authorization";
 
+    /**
+     * Token 前缀
+     */
     String DEFAULT_AUTHORIZATION_SCHEME_BASIC = "Bearer";
 
     /**

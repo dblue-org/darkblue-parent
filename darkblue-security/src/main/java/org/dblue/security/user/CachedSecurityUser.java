@@ -23,7 +23,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 缓存用户信息，为了避免权限信息转换错误，统一采用String类型来存储权限编码
@@ -63,6 +62,12 @@ public class CachedSecurityUser {
 
     private String accessToken;
 
+    /**
+     * 创建缓存用户对象
+     *
+     * @param user 用户信息
+     * @return 缓存用户对象
+     */
     public static CachedSecurityUser create(SecurityUser user) {
         CachedSecurityUser securityUser = new CachedSecurityUser();
         securityUser.setUserId(user.getUserId());
@@ -74,11 +79,16 @@ public class CachedSecurityUser {
         securityUser.setDeptId(user.getDeptId());
 
         List<String> authorities = user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+                .map(GrantedAuthority::getAuthority).toList();
         securityUser.setAuthorities(authorities);
         return securityUser;
     }
 
+    /**
+     * 将缓存的用户对象转为用户对象
+     *
+     * @return 用户对象
+     */
     public SecurityUser toSecurityUser() {
         SecurityUser securityUser = new SecurityUser();
         securityUser.setUserId(this.userId);

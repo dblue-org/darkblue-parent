@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 空实现，不从数据库中获取任何资源权限数据
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */

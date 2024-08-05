@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
+ * 权限不足时抛出的异常的处理
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
@@ -34,6 +36,7 @@ public class AccessDeniedExceptionHandler {
      * 数据异常返回
      *
      * @param serviceException 业务异常
+     * @return 应答信息
      */
     @ExceptionHandler(value = AccessDeniedException.class)
     public ResponseBean<Void> serviceException(AccessDeniedException serviceException) {

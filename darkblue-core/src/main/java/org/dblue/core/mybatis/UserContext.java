@@ -16,6 +16,8 @@
 package org.dblue.core.mybatis;
 
 /**
+ * 用户上下文信息
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */

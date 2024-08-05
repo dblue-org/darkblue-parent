@@ -33,6 +33,12 @@ import java.io.PrintWriter;
  */
 public abstract class AbstractAuthenticationHandler {
 
+    /**
+     * 输出应答数据到前端
+     *
+     * @param response     HttpServletResponse
+     * @param responseBean 应答数据
+     */
     protected void print(HttpServletResponse response, ResponseBean<?> responseBean) {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");

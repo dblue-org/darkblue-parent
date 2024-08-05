@@ -19,6 +19,8 @@ import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
 /**
+ * 数据库管理资源权限的接口
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */

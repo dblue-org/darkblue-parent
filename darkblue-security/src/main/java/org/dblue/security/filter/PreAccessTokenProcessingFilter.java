@@ -29,12 +29,16 @@ import org.dblue.security.user.SecurityUser;
 import org.dblue.security.user.UserStoreService;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 /**
+ * 每次请求都会通过这个过滤器来判断用户是否登录。根据前端传入的Token信息从缓存中获取对应的用户信息，如果没有Token或未获取到用户，说明用户未登录或Token已过期；
+ * 如果有则将用户信息放到 {@link SecurityContext} 中
+ *
  * @author Wang Chengwei
  * @since 1.0.0 [2022/12/15 11:30]
  */

@@ -44,10 +44,20 @@ public class CachingController {
 
     private final List<CachingInitService> cachingServiceList;
 
+    /**
+     * 注入索引缓存处理服务
+     *
+     * @param cachingInitServiceList 实现缓存初始化接口的缓存服务
+     */
     public CachingController(@Autowired(required = false) List<CachingInitService> cachingInitServiceList) {
         this.cachingServiceList = cachingInitServiceList;
     }
 
+    /**
+     * 获取缓存列表
+     *
+     * @return 缓存列表
+     */
     @Operation(summary = "获取缓存列表")
     @GetMapping("/getCacheList")
     public ResponseBean<CachingVo[]> getCacheList() {
@@ -58,6 +68,12 @@ public class CachingController {
         return ResponseBean.success(cachingVos);
     }
 
+    /**
+     * 刷新缓存
+     *
+     * @param cacheCode 缓存编码
+     * @return 处理结果
+     */
     @Operation(summary = "刷新缓存")
     @GetMapping("/refreshCache")
     public ResponseBean<Void> refreshCache(String cacheCode) {

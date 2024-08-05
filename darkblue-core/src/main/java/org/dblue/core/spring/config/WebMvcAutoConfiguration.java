@@ -31,6 +31,8 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * Spring MVC 扩展配置
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */

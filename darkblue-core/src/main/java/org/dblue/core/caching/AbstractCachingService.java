@@ -26,6 +26,8 @@ import java.util.Set;
  *
  * @author Wang Chengwei
  * @since 1.0.0
+ * @param <T> 实体类型
+ * @param <C> 缓存对象类型
  */
 public abstract class AbstractCachingService<T, C> extends AbstractCachingInitService<T, C> implements CachingService<T, C> {
 

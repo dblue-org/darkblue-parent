@@ -29,6 +29,9 @@ import java.util.List;
  */
 public class CompositeAccessTokenFinder implements AccessTokenFinder {
 
+    /**
+     * AccessToken 获取策略默认实例
+     */
     public static final CompositeAccessTokenFinder DEFAULT_INSTANCE;
 
     static {
@@ -40,16 +43,31 @@ public class CompositeAccessTokenFinder implements AccessTokenFinder {
         );
     }
 
+    /**
+     * AccessToken 获取策略集合
+     */
     private final List<AccessTokenFinder> finderList = new ArrayList<>();
 
+    /**
+     * 创建一个Access Token 获取策略实例
+     */
     public CompositeAccessTokenFinder() {
 
     }
 
+    /**
+     * 创建一个Access Token 获取策略实例
+     *
+     * @param finderList AccessToken 获取策略集合
+     */
     public CompositeAccessTokenFinder(List<AccessTokenFinder> finderList) {
         this.finderList.addAll(finderList);
     }
 
+    /**
+     * 添加一个 AccessToken 获取策略
+     * @param accessTokenFinder AccessToken 获取策略
+     */
     public void registerAccessTokenFinder(AccessTokenFinder accessTokenFinder) {
         finderList.add(accessTokenFinder);
     }

@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
+ * 此类抽象了部分从数据库组装资源权限关系的功能，用于扩展从数据库读取资源权限的功能。
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
@@ -78,6 +80,11 @@ public abstract class AbstractDatabaseAuthorizationManager implements DatabaseAu
 
     }
 
+    /**
+     * 获取数据库中所有的资源权限对应信息
+     *
+     * @return 资源权限列表
+     */
     protected abstract List<ResourcePermissionMapping> loadAllResources();
 
     @Override
@@ -96,6 +103,13 @@ public abstract class AbstractDatabaseAuthorizationManager implements DatabaseAu
         return Decision.DENY;
     }
 
+    /**
+     * 通过给定的认证信息和上下文信息，创建一个 {@link SecurityExpressionRoot}
+     *
+     * @param authentication 认证信息
+     * @param context        上下文信息
+     * @return SecurityExpressionRoot
+     */
     protected SecurityExpressionRoot createSecurityExpressionRoot(Supplier<Authentication> authentication, RequestAuthorizationContext context) {
         WebSecurityExpressionRoot securityExpressionRoot = new WebSecurityExpressionRoot(authentication, context.getRequest());
         securityExpressionRoot.setDefaultRolePrefix(this.defaultRolePrefix);

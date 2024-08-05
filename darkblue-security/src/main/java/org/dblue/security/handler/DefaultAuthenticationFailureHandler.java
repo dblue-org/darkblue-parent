@@ -29,6 +29,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import java.io.IOException;
 
 /**
+ * 登录失败的处理
+ *
  * @author Wang Chengwei
  * @since 1.0.0 [2022/12/15 14:19]
  */

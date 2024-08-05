@@ -25,6 +25,7 @@ import org.dblue.common.error.ErrorInfo;
  *
  * @author Wang Chengwei
  * @since 1.0.0
+ * @param <T> 扩展数据类型
  */
 @Schema(name = "应答信息")
 @NoArgsConstructor
@@ -62,14 +63,30 @@ public class BaseResponseBean<T> {
     private Object errorDetails;
 
 
+    /**
+     * 创建一个应答数据对象
+     *
+     * @param success 应答结果
+     */
     protected BaseResponseBean(boolean success) {
         this.success = success;
     }
 
+    /**
+     * 创建一个失败的应答数据对象
+     *
+     * @param errorInfo 错误信息
+     */
     protected BaseResponseBean(ErrorInfo errorInfo) {
         this(errorInfo.getErrorCode(), errorInfo.getErrorMessage());
     }
 
+    /**
+     * 创建一个失败的应答数据对象
+     *
+     * @param errorCode 错误编码
+     * @param message   错误信息
+     */
     protected BaseResponseBean(String errorCode, String message) {
         this.errorCode = errorCode;
         this.message = message;

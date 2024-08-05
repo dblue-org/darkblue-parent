@@ -26,7 +26,6 @@ import lombok.Getter;
 @Getter
 public enum EmptyState implements EnumState {
 
-    A(1, "哈哈")
     ;
     private final int value;
     private final String name;

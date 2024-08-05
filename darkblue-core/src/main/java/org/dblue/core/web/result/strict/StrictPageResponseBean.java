@@ -30,6 +30,8 @@ import java.util.List;
  *
  * @author Wang Chengwei
  * @since 1.0.0
+ * @param <T> 应答数据类型
+ * @param <E> 扩展数据类型
  */
 @Schema(title = "分页应答数据")
 @EqualsAndHashCode(callSuper = true)

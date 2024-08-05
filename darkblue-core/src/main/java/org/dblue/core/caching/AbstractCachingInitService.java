@@ -26,12 +26,19 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * 抽象缓存初始化部分逻辑
+ *
+ * @param <T> 实体类型
+ * @param <C> 缓存对象类型
  * @author Wang Chengwei
  * @since 1.0.0
  */
 @Slf4j
 public abstract class AbstractCachingInitService<T, C> implements CachingInitService {
 
+    /**
+     * Redis 客户端操作对象
+     */
     @Resource(name = "redisTemplate")
     protected ValueOperations<String, C> valueOperations;
 
@@ -75,17 +82,38 @@ public abstract class AbstractCachingInitService<T, C> implements CachingInitSer
         return this.getCachePrefix().endsWith(":") ? this.getCachePrefix() + "*" : this.getCachePrefix() + ":*";
     }
 
+    /**
+     * 获取所有要缓存的数据
+     *
+     * @return 原始数据列表
+     */
     protected abstract List<T> getAllEntities();
 
+    /**
+     * 获取缓存 Key
+     *
+     * @param t 实体对象
+     * @return 缓存Key
+     */
     protected String getCacheKey(T t) {
         String id = getId(t);
         return this.getCacheKey(id);
     }
 
-    protected abstract C toCacheObject(T t);
-
+    /**
+     * 获取实体数据的ID，此ID作为缓存Key生成的基础
+     *
+     * @param t 实体对象
+     * @return 缓存Key
+     */
     protected abstract String getId(T t);
 
+    /**
+     * 获取缓存 Key
+     *
+     * @param id 实体数据的ID
+     * @return 缓存 Key
+     */
     protected String getCacheKey(String id) {
         String prefix = this.getCachePrefix();
         if (prefix.endsWith(":")) {
@@ -94,4 +122,12 @@ public abstract class AbstractCachingInitService<T, C> implements CachingInitSer
             return prefix + ":" + id;
         }
     }
+
+    /**
+     * 将实体对象转为缓存对象
+     *
+     * @param t 实体对象
+     * @return 缓存对象
+     */
+    protected abstract C toCacheObject(T t);
 }

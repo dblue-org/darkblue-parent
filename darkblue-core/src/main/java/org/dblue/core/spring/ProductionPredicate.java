@@ -22,6 +22,8 @@ import org.springframework.core.env.Environment;
 import java.util.Set;
 
 /**
+ * 用于判断当前环境是否为生产环境
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
