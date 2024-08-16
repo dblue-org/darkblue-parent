@@ -35,6 +35,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import java.io.IOException;
 
 /**
+ * 登录成功的处理
+ *
  * @author Wang Chengwei
  * @since 1.0.0 [2022/12/15 14:21]
  */
@@ -44,6 +46,7 @@ public class DefaultAuthenticationSuccessHandler extends AbstractAuthenticationH
     private final TokenManager tokenManager;
     private final UserStoreService userStoreService;
     private ApplicationEventPublisher applicationEventPublisher;
+
 
     public DefaultAuthenticationSuccessHandler(TokenManager tokenManager, UserStoreService userStoreService) {
         this.tokenManager = tokenManager;

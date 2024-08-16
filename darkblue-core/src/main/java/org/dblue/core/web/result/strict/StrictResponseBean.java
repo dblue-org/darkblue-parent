@@ -27,6 +27,8 @@ import org.dblue.core.web.result.BaseResponseBean;
  *
  * @author Wang Chengwei
  * @since 1.0.0
+ * @param <T> 应答数据类型
+ * @param <E> 扩展数据类型
  */
 @Schema(title = "应答数据")
 @NoArgsConstructor

@@ -13,6 +13,7 @@
     <description>深蓝业务系统模块</description>
     <properties>
         <java.version>21</java.version>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>

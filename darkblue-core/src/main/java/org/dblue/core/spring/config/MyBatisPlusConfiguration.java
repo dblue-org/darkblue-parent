@@ -31,6 +31,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * MyBatis 配置信息
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */

@@ -34,6 +34,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
+ * 应用配置信息
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
@@ -41,10 +43,6 @@ import java.time.format.DateTimeFormatter;
 @EnableConfigurationProperties({CoreConfigProperties.class})
 @Slf4j
 public class ApplicationCoreAutoConfiguration {
-
-    public ApplicationCoreAutoConfiguration() {
-        log.info("开始初始化项目基础配置");
-    }
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {

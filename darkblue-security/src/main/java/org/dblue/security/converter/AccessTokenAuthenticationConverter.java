@@ -37,10 +37,21 @@ public class AccessTokenAuthenticationConverter implements AuthenticationConvert
 
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource;
 
+    /**
+     * 创建一个认证信息转换器
+     *
+     * @param accessTokenFinder Access Token 获取策略
+     */
     public AccessTokenAuthenticationConverter(AccessTokenFinder accessTokenFinder) {
         this(accessTokenFinder, new WebAuthenticationDetailsSource());
     }
 
+    /**
+     * 创建一个认证信息转换器
+     *
+     * @param accessTokenFinder           Access Token 获取策略
+     * @param authenticationDetailsSource Web Request
+     */
     public AccessTokenAuthenticationConverter(
             AccessTokenFinder accessTokenFinder, AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource) {
         this.accessTokenFinder = accessTokenFinder;

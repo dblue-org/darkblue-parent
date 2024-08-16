@@ -21,13 +21,23 @@ import org.springframework.security.authorization.AuthorizationDecision;
 import java.util.Collection;
 
 /**
+ * 如果资源对应了多个权限，只需要用户有其中一个权限即可访问
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
 public class AnyDecision implements Decision {
 
+    /**
+     * 资源对应的权限
+     */
     private final Collection<String> authorities;
 
+    /**
+     * 权限推断
+     *
+     * @param authorities 需要的权限
+     */
     public AnyDecision(Collection<String> authorities) {
         this.authorities = authorities;
     }

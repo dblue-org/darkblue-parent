@@ -23,10 +23,18 @@ package org.dblue.common.id;
  */
 public class SnowflakeException extends RuntimeException {
 
+    /**
+     * 创建雪花算法异常
+     */
     public SnowflakeException() {
         super();
     }
 
+    /**
+     * 创建雪花算法异常
+     *
+     * @param message 异常消息
+     */
     public SnowflakeException(String message) {
         super(message);
     }

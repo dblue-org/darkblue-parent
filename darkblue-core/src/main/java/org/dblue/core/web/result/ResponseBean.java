@@ -29,6 +29,7 @@ import org.dblue.core.web.result.strict.StrictResponseBean;
  *
  * @author Wang Chengwei
  * @since 1.0.0
+ * @param <T> 应答数据类型
  */
 @Schema(description = "应答数据")
 @NoArgsConstructor

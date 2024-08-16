@@ -21,6 +21,8 @@ import org.dblue.common.enums.EnumType;
 import java.util.Objects;
 
 /**
+ * 登录类型
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */

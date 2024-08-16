@@ -9,8 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Objects;
 
 /**
+ * 认证相关工具类，用户获取当前登录的用户信息
+ *
  * @author Wang Chengwei
- * @since 1.0.0 [2022/12/15 10:31]
+ * @since 1.0.0
  */
 public class SecurityUtils {
 
@@ -22,6 +24,12 @@ public class SecurityUtils {
         return authentication != null && authentication.isAuthenticated() && !isAnonymousUser(authentication);
     }
 
+    /**
+     * 用于判断当前用户是否为匿名用户
+     *
+     * @param authentication 认证信息
+     * @return true-匿名用户
+     */
     private static boolean isAnonymousUser(Authentication authentication) {
         return Objects.equals("anonymousUser", authentication.getPrincipal());
     }

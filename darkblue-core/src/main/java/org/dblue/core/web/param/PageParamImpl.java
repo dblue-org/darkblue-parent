@@ -30,6 +30,7 @@ import org.springframework.data.domain.Pageable;
  *
  * @author Wang Chengwei
  * @since 1.0.0
+ * @param <T> 查询返回的数据类型
  */
 @Data
 public class PageParamImpl<T> implements PageParam {

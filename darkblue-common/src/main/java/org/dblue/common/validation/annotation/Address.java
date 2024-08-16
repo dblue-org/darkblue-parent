@@ -32,6 +32,7 @@ import java.lang.annotation.*;
 @Documented
 @Constraint(validatedBy = AddressValidator.class)
 public @interface Address {
+
     String message() default "{org.dblue.common.validation.Address.message}";
 
     Class<?>[] groups() default {};

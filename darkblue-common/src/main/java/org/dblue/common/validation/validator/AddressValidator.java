@@ -30,7 +30,9 @@ import java.util.regex.Pattern;
  */
 public class AddressValidator implements ConstraintValidator<Address, String> {
 
-
+    /**
+     * 正则表达式
+     */
     public static final String REGEX = "^[0-9a-zA-Z-\u4e00-\u9fa5]*$";
 
     @Override

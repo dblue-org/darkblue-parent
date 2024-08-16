@@ -47,6 +47,12 @@ public class CachingVo {
      */
     private Long keyNum = 0L;
 
+    /**
+     * 从缓存服务中获取缓存信息
+     *
+     * @param cachingInitService 缓存服务
+     * @return 缓存信息
+     */
     public static CachingVo toCachingVo(CachingInitService cachingInitService) {
         CachingVo cachingVo = new CachingVo();
         cachingVo.setCacheCode(cachingInitService.getCacheCode());

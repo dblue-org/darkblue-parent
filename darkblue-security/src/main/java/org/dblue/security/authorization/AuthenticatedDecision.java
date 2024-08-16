@@ -19,6 +19,8 @@ import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.authorization.AuthorizationDecision;
 
 /**
+ * 只需要认证即可访问
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */

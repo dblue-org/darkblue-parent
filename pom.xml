@@ -16,6 +16,39 @@
     <packaging>pom</packaging>
 
     <name>Darkblue Parent</name>
+    <url>https://dblue.org</url>
+    <description>
+        此项目是一个后台管理系统的脚手架项目，内提供了组织架构、用户管理、菜单管理、权限管理、日志查看、缓存管理等可以直接使用的模块。用于帮助开发者快速开始项目。
+    </description>
+    <issueManagement>
+        <system>Gitee Issus</system>
+        <url>https://gitee.com/d-blue/darkblue-parent/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <name>jaune162</name>
+            <email>jaune162@126.com</email>
+        </developer>
+        <developer>
+            <name>hunter119</name>
+            <email>654216938@qq.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://gitee.com/d-blue/darkblue-parent.git</connection>
+        <developerConnection>scm:git:https://gitee.com/d-blue/darkblue-parent.git</developerConnection>
+        <url>https://gitee.com/d-blue/darkblue-parent</url>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <modules>
         <module>darkblue-common</module>
@@ -209,6 +242,29 @@
                 <version>2.5.3</version>
             </plugin>
             <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.1</version>
@@ -223,6 +279,31 @@
                 <configuration>
                     <attach>true</attach>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <!-- 忽略生成文档中的错误，如果想看下控制台中关于生成doc错误的去掉这个参数 -->
+                    <!--<additionalparam>-Xdoclint:none</additionalparam>-->
+                    <additionalJOptions>
+                        <!--<additionalJOption>-Xdoclint:none</additionalJOption>-->
+                        <additionalJOption>-J-Duser.language=en</additionalJOption>
+                    </additionalJOptions>
+                    <aggregate>true</aggregate>
+                    <charset>UTF-8</charset><!-- utf-8读取文件 -->
+                    <encoding>UTF-8</encoding><!-- utf-8进行编码代码 -->
+                    <docencoding>UTF-8</docencoding><!-- utf-8进行编码文档 -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

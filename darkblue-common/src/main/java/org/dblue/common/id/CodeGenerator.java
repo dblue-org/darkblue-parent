@@ -43,6 +43,12 @@ public class CodeGenerator {
         return prefix + get(length);
     }
 
+    /**
+     * 生成一个随机的数字编码
+     *
+     * @param length 编码长度
+     * @return 编码
+     */
     public static String get(int length) {
         StringBuilder sb = new StringBuilder();
         IntStream intStream = RANDOM.ints(length, 0, 9);

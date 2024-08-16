@@ -23,6 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
+ * {@link UserDetails} 的一个实现，从系统中获取出来的用户信息需要转换成 {@link SecurityUser}
+ *
  * @author Wang Chengwei
  * @since 1.0.0 [2022/12/15 13:14]
  */

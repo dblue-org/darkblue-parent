@@ -25,6 +25,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 
 /**
+ * 默认的权限不足的处理器
+ *
  * @author Wang Chengwei
  * @since 1.0.0 [2022/12/15 14:59]
  */

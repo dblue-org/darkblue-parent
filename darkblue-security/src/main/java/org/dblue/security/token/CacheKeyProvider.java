@@ -17,19 +17,36 @@
 package org.dblue.security.token;
 
 /**
+ * 用于生成Token及用户相关缓存的key
+ *
  * @author Wang Chengwei
- * @since 1.0.0 [2022/12/15 11:34]
+ * @since 1.0.0
  */
 public class CacheKeyProvider {
     private static final String COMMON_CACHE_NS = "Security:";
 
+    /**
+     * 创建一个缓存Key生成器
+     */
     private CacheKeyProvider() {
     }
 
+    /**
+     * 获取 Access Token 缓存key
+     *
+     * @param accessToken Access Token
+     * @return 缓存key
+     */
     public static String getAccessTokenCacheKey(String accessToken) {
         return COMMON_CACHE_NS + "AccessToken:" + accessToken;
     }
 
+    /**
+     * 获取 用户 缓存key
+     *
+     * @param userId 用户ID
+     * @return 缓存key
+     */
     public static String getUserCacheKey(String userId) {
         return COMMON_CACHE_NS + "User:" + userId;
     }

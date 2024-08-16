@@ -19,8 +19,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * 缓存服务接口
+ *
  * @author Wang Chengwei
  * @since 1.0.0
+ * @param <E> 实体类型
+ * @param <C> 缓存对象类型
  */
 public interface CachingService<E, C> {
 

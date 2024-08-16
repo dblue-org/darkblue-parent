@@ -32,6 +32,13 @@ public class EnumNameUtils {
     private EnumNameUtils() {
     }
 
+    /**
+     * 获取名称
+     *
+     * @param enumClass 枚举类
+     * @param value     枚举值
+     * @return 枚举名称
+     */
     public static String getName(Class<? extends Enum<?>> enumClass, Integer value) {
         Map<Integer, String> valueMap = VALUES_MAP.computeIfAbsent(enumClass, key -> {
             Map<Integer, String> map = new HashMap<>();

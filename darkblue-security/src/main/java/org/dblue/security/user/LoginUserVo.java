@@ -25,8 +25,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * 登录成功后返回到前端的用户信息
+ *
  * @author Wang Chengwei
- * @since 1.0.0 2022/3/17 12:23
+ * @since 1.0.0
  */
 @Data
 public class LoginUserVo {

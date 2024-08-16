@@ -23,12 +23,22 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import java.util.List;
 
 /**
+ * MyBatis 查询对象基类
+ *
  * @author Wang Chengwei
  * @since 1.0.0
+ * @param <T> 实体类型
  */
 public abstract class AbstractBaseQuery<T> implements BaseQuery<T> {
 
+    /**
+     * 查询条件
+     */
     protected final LambdaQueryWrapper<T> queryWrapper = new LambdaQueryWrapper<>();
+
+    /**
+     * 查询 Mapper
+     */
     private final BaseMapper<T> mapper;
 
     protected AbstractBaseQuery(BaseMapper<T> mapper) {

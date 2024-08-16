@@ -19,12 +19,26 @@ import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.authorization.AuthorizationDecision;
 
 /**
+ * 用于判断用户是否有资源的访问权限
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
 public interface Decision {
+    /**
+     * 拒绝访问
+     */
     AuthorizationDecision DENY = new AuthorizationDecision(false);
+    /**
+     * 允许访问
+     */
     AuthorizationDecision ALLOW = new AuthorizationDecision(true);
 
+    /**
+     * 判断用户是否有访问权限
+     *
+     * @param expressionRoot 用户的上下文
+     * @return 判断结果
+     */
     AuthorizationDecision decide(SecurityExpressionRoot expressionRoot);
 }
