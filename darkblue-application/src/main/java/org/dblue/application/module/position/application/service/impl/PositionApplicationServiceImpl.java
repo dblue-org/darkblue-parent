@@ -31,6 +31,7 @@ import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,6 +56,7 @@ public class PositionApplicationServiceImpl implements PositionApplicationServic
      * @param positionId 职位ID
      * @return 职位信息
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public PositionVo getDetails(String positionId) {
         Position position = positionDomainService.getOne(positionId);
@@ -76,6 +78,7 @@ public class PositionApplicationServiceImpl implements PositionApplicationServic
      * @param pageDto 查询信息
      * @return 职位信息
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Page<PositionPageVo> page(PositionPageDto pageDto) {
         Page<Position> page = positionDomainService.page(pageDto);
@@ -101,6 +104,7 @@ public class PositionApplicationServiceImpl implements PositionApplicationServic
         });
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<SimplePositionVo> findAll(String keyword) {
         List<Position> positions = this.positionDomainService.findAll(keyword);

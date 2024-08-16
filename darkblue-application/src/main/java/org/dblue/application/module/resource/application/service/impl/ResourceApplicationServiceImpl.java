@@ -76,6 +76,7 @@ public class ResourceApplicationServiceImpl implements ResourceApplicationServic
      * @param pageDto 查询参数
      * @return 资源
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Page<ResourcePageVo> findByPage(ResourcePageDto pageDto) {
         Page<Resource> page = resourceDomainService.page(pageDto);

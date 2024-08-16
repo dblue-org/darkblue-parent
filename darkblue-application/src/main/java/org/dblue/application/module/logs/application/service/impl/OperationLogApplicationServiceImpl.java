@@ -25,6 +25,7 @@ import org.dblue.application.module.logs.infrastructure.repository.OperationLogR
 import org.dblue.application.module.user.domain.cache.UserCacheObject;
 import org.dblue.application.module.user.domain.cache.UserCacheService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Optional;
@@ -47,6 +48,7 @@ public class OperationLogApplicationServiceImpl implements OperationLogApplicati
         this.userCacheService = userCacheService;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public IPage<OperationLogPageListVo> findByPage(OperationLogQueryDto queryDto) {
         OperationLogQuery operationLogQuery = this.operationLogRepository.createQuery()
@@ -71,6 +73,7 @@ public class OperationLogApplicationServiceImpl implements OperationLogApplicati
         });
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String getErrorDetails(String operationLogId) {
         Optional<OperationLog> operationLogOptional = this.operationLogRepository.findById(operationLogId);

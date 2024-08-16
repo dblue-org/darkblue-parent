@@ -29,6 +29,7 @@ import org.dblue.application.module.user.domain.service.UserDomainQueryService;
 import org.dblue.application.module.user.infrastructure.entity.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,7 @@ public class DepartmentApplicationServiceImpl implements DepartmentApplicationSe
      *
      * @return 部门树
      */
+    @Transactional(readOnly = true)
     @Override
     public List<DepartmentTreeVo> getAll() {
         List<Department> departmentList = departmentDomainQueryService.getAll();
@@ -90,6 +92,7 @@ public class DepartmentApplicationServiceImpl implements DepartmentApplicationSe
      * @param deptId 部门ID
      * @return 组织信息
      */
+    @Transactional(readOnly = true)
     @Override
     public DepartmentVo getDetails(String deptId) {
         Department department = departmentDomainQueryService.getOne(deptId);

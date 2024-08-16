@@ -25,6 +25,7 @@ import org.dblue.application.module.resource.domain.service.ResourceGroupDomainS
 import org.dblue.application.module.resource.infrastructure.entity.ResourceGroup;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class ResourceGroupApplicationServiceImpl implements ResourceGroupApplica
      *
      * @return 资源组信息
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<ResourceGroupVo> getAll(Integer platform) {
         List<ResourceGroup> resourceGroupList = resourceGroupDomainService.getAll(platform);

@@ -30,6 +30,7 @@ import org.dblue.application.module.dictionary.infrastructure.entity.DictionaryI
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,6 +53,7 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
      *
      * @return 字典信息
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<DictionaryVo> getAll() {
 
@@ -72,6 +74,7 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
      * @param dictionaryId 字典ID
      * @return 字典
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<DictionaryItemTreeVo> getItemTree(String dictionaryId) {
         List<DictionaryItem> itemList = dictionaryDomainQueryService.getItems(dictionaryId);
@@ -87,6 +90,7 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
      * @param itemPageDto 查询参数
      * @return 字典项
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Page<DictionaryItemPageVo> findItemByPage(DictionaryItemPageDto itemPageDto) {
         Page<DictionaryItem> page = dictionaryDomainQueryService.page(itemPageDto);
@@ -101,6 +105,7 @@ public class DictionaryApplicationServiceImpl implements DictionaryApplicationSe
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public DictionaryForSelectVo getDictionaryForSelect(String dictionaryCode) {
         Dictionary dictionary = this.dictionaryDomainQueryService.findByDictionaryCode(dictionaryCode);

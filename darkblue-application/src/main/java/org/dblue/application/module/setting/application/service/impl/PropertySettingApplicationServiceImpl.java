@@ -33,6 +33,7 @@ import org.dblue.core.jpa.JpaPageConverter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.dblue.application.module.setting.errors.PropertySettingError.VALUE_SCOPE_RESOLVE_ERROR;
 
@@ -61,6 +62,7 @@ public class PropertySettingApplicationServiceImpl implements PropertySettingApp
         this.objectMapper = objectMapper;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(PropertySettingAddDto addDto) {
         PropertySetting propertySetting = new PropertySetting();
@@ -77,6 +79,7 @@ public class PropertySettingApplicationServiceImpl implements PropertySettingApp
         this.propertySettingDomainService.add(propertySetting, true);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void update(PropertySettingUpdateDto updateDto) {
         PropertySetting propertySetting = this.propertySettingDomainService.get(updateDto.getPropertyId());
@@ -84,16 +87,19 @@ public class PropertySettingApplicationServiceImpl implements PropertySettingApp
         this.propertySettingDomainService.update(propertySetting, true);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String propertyId) {
         this.propertySettingDomainService.delete(propertyId, true);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void changeValue(String propertyId, String value) {
         this.propertySettingDomainService.changeValue(propertyId, value, true);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<PropertySettingPageListVo> findByPage(PropertySettingQueryDto queryDto) {
         Page<PropertySetting> entityPage = this.propertySettingRepository.findByPage(

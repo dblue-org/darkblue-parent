@@ -92,6 +92,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
      * @param pageDto 查询参数
      * @return 用户信息
      */
+    @Transactional(readOnly = true)
     @Override
     public Page<UserPageVo> page(UserPageDto pageDto) {
         Page<User> page = userDomainQueryService.page(pageDto);
@@ -128,6 +129,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
      * @param userId 用户ID
      * @return 单个信息
      */
+    @Transactional(readOnly = true)
     @Override
     public UserVo getDetails(String userId) {
         User user = userDomainQueryService.getOne(userId);
@@ -156,6 +158,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
      * @param name 用户名/姓名
      * @return 用户信息
      */
+    @Transactional(readOnly = true)
     @Override
     public List<UserSelectVo> selectByNameOrUserName(String name) {
         List<User> userList = userDomainQueryService.selectByNameOrUserName(name);
@@ -175,6 +178,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
      *
      * @return 用户菜单权限
      */
+    @Transactional(readOnly = true)
     @Override
     public List<UserMenuVo> getUserMenu(Integer platform) {
         User user = userDomainQueryService.getOne(SecurityUtils.getUserId());
@@ -295,6 +299,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         this.userDomainService.changePassword(user, passwordChangeDto.getNewPassword());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public SimpleUserVo getMyselfInfo() {
         User user = userDomainQueryService.getOne(SecurityUtils.getUserId());

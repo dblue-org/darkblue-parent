@@ -25,6 +25,7 @@ import org.dblue.application.module.logs.infrastructure.repository.LoginLogRepos
 import org.dblue.application.module.user.domain.cache.UserCacheObject;
 import org.dblue.application.module.user.domain.cache.UserCacheService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Set;
@@ -48,6 +49,7 @@ public class LoginLogApplicationServiceImpl implements LoginLogApplicationServic
         this.userCacheService = userCacheService;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public IPage<LoginLogPageListVo> findByPage(LoginLogQueryDto queryDto) {
         LoginLogQuery loginLogQuery = this.loginLogRepository.createQuery();

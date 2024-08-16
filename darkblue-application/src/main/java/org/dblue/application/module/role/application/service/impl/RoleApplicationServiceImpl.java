@@ -95,6 +95,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
      * @param query 查询条件
      * @return 角色列表
      */
+    @Transactional(readOnly = true)
     @Override
     public Page<RolePageVo> findByPage(RolePageDto query) {
         Page<Role> page = roleRepository.findByRoleCodeLikeAndRoleNameLike(query.getRoleCode(), query.getRoleName(), query.toJpaPage());
@@ -119,6 +120,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
      * @param roleId 角色ID
      * @return 角色
      */
+    @Transactional(readOnly = true)
     @Override
     public RoleVo getDetails(String roleId) {
         Role role = roleDomainQueryService.getOne(roleId);
@@ -156,6 +158,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
         return roleMenuVo;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<RoleUserVo> findRefUsers(RoleUserQueryDto queryDto) {
         Page<User> userList = userDomainQueryService.getUserByRoleId(queryDto.getRoleId(), queryDto.toJpaPage());
@@ -173,6 +176,7 @@ public class RoleApplicationServiceImpl implements RoleApplicationService {
      *
      * @return 角色信息
      */
+    @Transactional(readOnly = true)
     @Override
     public List<SimpleRoleVo> getAllForSelect() {
         List<Role> roleList = roleDomainQueryService.getAll();

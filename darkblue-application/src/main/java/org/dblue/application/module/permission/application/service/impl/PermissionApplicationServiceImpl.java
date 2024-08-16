@@ -84,6 +84,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
      * @param query 查询条件
      * @return 权限列表
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Page<PermissionPageVo> findByPage(PermissionPageDto query) {
         Page<Permission> page = permissionDomainQueryService.findByPage(query);
@@ -115,6 +116,8 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
      * @param permissionId 权限ID
      * @return 权限信息
      */
+    @SuppressWarnings("java:S6809")
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public PermissionVo getDetails(String permissionId) {
         Permission permission = permissionDomainQueryService.getOne(permissionId);
@@ -126,6 +129,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
         return permissionVo;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<PermissionResourceVo> findPermissionResource(String permissionId) {
         List<Resource> resourceList = resourceDomainQueryService.getResourceByPermissionId(permissionId);
@@ -139,6 +143,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
         }).toList();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Page<PermissionRoleVo> findPermissionRoles(PermissionRoleQueryDto queryDto) {
         Page<Role> roleList = roleDomainQueryService.getRoleByPermissionId(queryDto.getPermissionId(), queryDto.toJpaPage());
@@ -151,6 +156,7 @@ public class PermissionApplicationServiceImpl implements PermissionApplicationSe
      * @param checkBoxDto 查询信息
      * @return 权限信息
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<PermissionCheckBoxVo> getPermissionCheckBox(PermissionCheckBoxDto checkBoxDto) {
 

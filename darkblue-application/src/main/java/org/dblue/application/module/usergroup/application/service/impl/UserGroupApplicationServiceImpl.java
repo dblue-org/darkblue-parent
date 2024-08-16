@@ -41,6 +41,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,7 @@ public class UserGroupApplicationServiceImpl implements UserGroupApplicationServ
      * @param userGroupId 用户组ID
      * @return 用户组信息
      */
+    @Transactional(readOnly = true)
     @Override
     public UserGroupVo getDetails(String userGroupId) {
         UserGroup userGroup = userGroupDomainQueryService.getOne(userGroupId);
@@ -83,6 +85,7 @@ public class UserGroupApplicationServiceImpl implements UserGroupApplicationServ
      * @param pageDto 查询信息
      * @return 分组
      */
+    @Transactional(readOnly = true)
     @Override
     public Page<UserGroupPageVo> page(UserGroupPageDto pageDto) {
         Page<UserGroup> page = userGroupDomainQueryService.page(pageDto);
@@ -101,6 +104,7 @@ public class UserGroupApplicationServiceImpl implements UserGroupApplicationServ
         });
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<UserGroupRoleVo> findUserGroupRoles(UserGroupRefQueryDto queryDto) {
         Pageable pageable = queryDto.toJpaPage();
@@ -120,6 +124,7 @@ public class UserGroupApplicationServiceImpl implements UserGroupApplicationServ
         return new PageImpl<>(list, pageable, userGroupRolePage.getTotalElements());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<UserGroupUserVo> findUserGroupUsers(UserGroupRefQueryDto queryDto) {
         Pageable pageable = queryDto.toJpaPage();

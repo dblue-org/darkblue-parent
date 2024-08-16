@@ -80,6 +80,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
      *
      * @return 菜单列表
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<MenuTreeVo> findAllPcMenus() {
         List<Menu> menuList = menuDomainQueryService.findAllMenus(PlatformEnum.PC);
@@ -94,6 +95,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
      *
      * @return 菜单列表
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<MenuTreeVo> findAllAppMenus() {
         List<Menu> menuList = menuDomainQueryService.findAllMenus(PlatformEnum.APP);
@@ -109,6 +111,7 @@ public class MenuApplicationServiceImpl implements MenuApplicationService {
      * @param roleId 角色ID
      * @return 菜单多选框树
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public RoleMenuVo getMenuCheckBoxTree(String roleId) {
 
