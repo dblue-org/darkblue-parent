@@ -280,7 +280,7 @@
                     <attach>true</attach>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.8.0</version>
@@ -289,9 +289,9 @@
                         <additionalJOption>-Xdoclint:none</additionalJOption>
                         <additionalJOption>-J-Duser.language=en</additionalJOption>
                     </additionalJOptions>
-                    <charset>UTF-8</charset><!-- utf-8读取文件 -->
-                    <encoding>UTF-8</encoding><!-- utf-8进行编码代码 -->
-                    <docencoding>UTF-8</docencoding><!-- utf-8进行编码文档 -->
+                    <charset>UTF-8</charset>&lt;!&ndash; utf-8读取文件 &ndash;&gt;
+                    <encoding>UTF-8</encoding>&lt;!&ndash; utf-8进行编码代码 &ndash;&gt;
+                    <docencoding>UTF-8</docencoding>&lt;!&ndash; utf-8进行编码文档 &ndash;&gt;
                 </configuration>
                 <executions>
                     <execution>
@@ -301,7 +301,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
