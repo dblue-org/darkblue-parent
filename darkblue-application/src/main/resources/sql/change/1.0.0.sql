@@ -14,7 +14,5 @@
  * limitations under the License.
  */
 
-# 1.0.0
-
 alter table tb_sys_resource
     add column is_invalid tinyint(1) default 0 comment '资源是否失效' after platform;
