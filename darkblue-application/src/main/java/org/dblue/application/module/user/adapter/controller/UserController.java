@@ -108,7 +108,6 @@ public class UserController {
      * @param pageDto 查询参数
      * @return 用户信息
      */
-    @PreAuthorize("hasAuthority('USER_QUERY')")
     @Operation(summary = "用户分页查询", description = "分页查询")
     @GetMapping("/findByPage")
     public PageResponseBean<UserPageVo> findByPage(@Valid UserPageDto pageDto) {
