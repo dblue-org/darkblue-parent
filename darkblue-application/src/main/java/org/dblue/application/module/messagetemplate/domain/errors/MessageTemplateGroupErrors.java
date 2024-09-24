@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.messagetemplate.domain.errors;
 
-package org.dblue.application.module.menu.application.dto;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import org.dblue.common.error.ErrorInfo;
 
 /**
- * 菜单更新
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@EqualsAndHashCode(callSuper = true)
-@Schema(description = "菜单")
-@Data
-public class MenuUpdateDto extends MenuDto {
-    /**
-     * 菜单ID
-     */
-    @NotBlank(message = "菜单ID不能为空")
-    private String menuId;
+@Getter
+public enum MessageTemplateGroupErrors implements ErrorInfo {
 
+    NAME_EXIST("MSG_TPL_GROUP_001", "消息模板分组名称已存在"),
+    NOT_EXIST("MSG_TPL_GROUP_002", "消息模板分组不存在"),
+
+    ;
+    private final String errorCode;
+    private final String errorMessage;
+
+    MessageTemplateGroupErrors(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
 }

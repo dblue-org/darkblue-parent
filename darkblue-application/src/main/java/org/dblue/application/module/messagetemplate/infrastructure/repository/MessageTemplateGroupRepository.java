@@ -14,24 +14,10 @@
  * limitations under the License.
  */
 
-package org.dblue.application.module.menu.application.dto;
+package org.dblue.application.module.messagetemplate.infrastructure.repository;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.dblue.application.jpa.BaseJpaRepository;
+import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateGroup;
 
-/**
- * 菜单更新
- */
-@EqualsAndHashCode(callSuper = true)
-@Schema(description = "菜单")
-@Data
-public class MenuUpdateDto extends MenuDto {
-    /**
-     * 菜单ID
-     */
-    @NotBlank(message = "菜单ID不能为空")
-    private String menuId;
-
+public interface MessageTemplateGroupRepository extends BaseJpaRepository<MessageTemplateGroup, String> {
 }

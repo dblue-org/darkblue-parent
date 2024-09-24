@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.dblue.application.module.menu.application.dto;
+package org.dblue.application.module.messagetemplate.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
- * 菜单更新
+ * 添加消息模板组
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
  */
-@EqualsAndHashCode(callSuper = true)
-@Schema(description = "菜单")
+@Schema(description = "TODO")
 @Data
-public class MenuUpdateDto extends MenuDto {
-    /**
-     * 菜单ID
-     */
-    @NotBlank(message = "菜单ID不能为空")
-    private String menuId;
+public class MessageTemplateGroupAddDto {
 
+    /**
+     * 消息模板组名称
+     */
+    @Schema(description = "消息模板组名称")
+    @NotEmpty(message = "消息模板组名称不能为空")
+    private String messageTemplateGroupName;
 }
