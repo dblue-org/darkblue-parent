@@ -13,13 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.messagetemplate.application;
+package org.dblue.application.module.messagetemplate.application.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 
 /**
- * TODO
+ * 添加消息模板组
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface MessageTemplateGroupApplicationService {
+@Schema(description = "TODO")
+@Data
+public class MessageTemplateGroupAddDto {
+
+    /**
+     * 消息模板组名称
+     */
+    @Schema(description = "消息模板组名称")
+    @NotEmpty(message = "消息模板组名称不能为空")
+    private String messageTemplateGroupName;
 }

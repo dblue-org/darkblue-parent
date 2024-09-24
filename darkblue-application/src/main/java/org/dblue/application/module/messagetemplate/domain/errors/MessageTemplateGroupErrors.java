@@ -25,7 +25,10 @@ import org.dblue.common.error.ErrorInfo;
 @Getter
 public enum MessageTemplateGroupErrors implements ErrorInfo {
 
-    NAME_EXIST("MSG_TPL_GROUP_001", "消息模板分组名称已存在");
+    NAME_EXIST("MSG_TPL_GROUP_001", "消息模板分组名称已存在"),
+    NOT_EXIST("MSG_TPL_GROUP_002", "消息模板分组不存在"),
+
+    ;
     private final String errorCode;
     private final String errorMessage;
 

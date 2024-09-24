@@ -16,11 +16,13 @@
 package org.dblue.application.module.messagetemplate.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.dblue.application.module.messagetemplate.domain.errors.MessageTemplateGroupErrors;
 import org.dblue.application.module.messagetemplate.domain.service.MessageTemplateGroupDomainService;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateGroup;
 import org.dblue.application.module.messagetemplate.infrastructure.query.MessageTemplateGroupQuery;
 import org.dblue.application.module.messagetemplate.infrastructure.query.impl.MessageTemplateGroupQueryImpl;
 import org.dblue.application.module.messagetemplate.infrastructure.repository.MessageTemplateGroupRepository;
+import org.dblue.common.exception.ServiceException;
 import org.dblue.common.id.Snowflake;
 import org.springframework.stereotype.Service;
 
@@ -52,8 +54,43 @@ public class MessageTemplateGroupDomainServiceImpl implements MessageTemplateGro
     }
 
     @Override
-    public void save(MessageTemplateGroup messageTemplateGroup) {
+    public void add(MessageTemplateGroup messageTemplateGroup) {
+        long existCount = this.createQuery()
+                .messageTemplateGroupName(messageTemplateGroup.getMessageTemplateGroupName())
+                .count();
+        if (existCount > 0) {
+            throw new ServiceException(MessageTemplateGroupErrors.NAME_EXIST);
+        }
         this.messageTemplateGroupRepository.save(messageTemplateGroup);
+    }
+
+    @Override
+    public void update(MessageTemplateGroup messageTemplateGroup) {
+        Optional<MessageTemplateGroup> messageTemplateGroupOptional = this.get(messageTemplateGroup.getMessageTemplateGroupId());
+        if (messageTemplateGroupOptional.isEmpty()) {
+            throw new ServiceException(MessageTemplateGroupErrors.NOT_EXIST);
+        }
+
+        long existCount = this.createQuery()
+                .messageTemplateGroupName(messageTemplateGroup.getMessageTemplateGroupName())
+                .messageTemplateGroupIdNot(messageTemplateGroup.getMessageTemplateGroupId())
+                .count();
+        if (existCount > 0) {
+            throw new ServiceException(MessageTemplateGroupErrors.NAME_EXIST);
+        }
+
+        MessageTemplateGroup dbMessageTemplateGroup = messageTemplateGroupOptional.get();
+        dbMessageTemplateGroup.setMessageTemplateGroupName(messageTemplateGroup.getMessageTemplateGroupName());
+        this.messageTemplateGroupRepository.save(dbMessageTemplateGroup);
+    }
+
+    @Override
+    public void delete(String messageTemplateGroupId) {
+        Optional<MessageTemplateGroup> messageTemplateGroupOptional = this.get(messageTemplateGroupId);
+        if (messageTemplateGroupOptional.isEmpty()) {
+            throw new ServiceException(MessageTemplateGroupErrors.NOT_EXIST);
+        }
+        this.messageTemplateGroupRepository.deleteById(messageTemplateGroupId);
     }
 
     @Override

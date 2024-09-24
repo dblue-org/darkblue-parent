@@ -33,10 +33,15 @@ import java.util.stream.Collectors;
 public interface MessageTemplateGroupQuery extends BaseJpaQuery<MessageTemplateGroup> {
 
 
+    MessageTemplateGroupQuery messageTemplateGroupName(String messageTemplateGroupName);
+
     MessageTemplateGroupQuery messageTemplateGroupNameLike(String messageTemplateGroupName);
 
-
     MessageTemplateGroupQuery messageTemplateGroupIdIn(Collection<String> messageTemplateGroupIdList);
+
+    MessageTemplateGroupQuery messageTemplateGroupIdNot(String messageTemplateGroupId);
+
+
 
     @Override
     default Map<String, String> nameMap() {

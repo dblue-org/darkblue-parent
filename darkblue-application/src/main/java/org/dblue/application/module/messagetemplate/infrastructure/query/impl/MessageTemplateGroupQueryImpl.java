@@ -16,6 +16,7 @@
 package org.dblue.application.module.messagetemplate.infrastructure.query.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.db.jpa.AbstractBaseJpaQuery;
 import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateGroup;
@@ -36,9 +37,9 @@ public class MessageTemplateGroupQueryImpl extends AbstractBaseJpaQuery<MessageT
     }
 
     @Override
-    public MessageTemplateGroupQuery messageTemplateGroupNameLike(String messageTemplateGroupName) {
+    public MessageTemplateGroupQuery messageTemplateGroupName(String messageTemplateGroupName) {
         if (messageTemplateGroupName != null) {
-            this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupName.like(messageTemplateGroupName));
+            this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupName.eq(messageTemplateGroupName));
         }
         return this;
     }
@@ -47,6 +48,22 @@ public class MessageTemplateGroupQueryImpl extends AbstractBaseJpaQuery<MessageT
     public MessageTemplateGroupQuery messageTemplateGroupIdIn(Collection<String> messageTemplateGroupIdList) {
         if (CollectionUtils.isNotEmpty(messageTemplateGroupIdList)) {
             this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupId.in(messageTemplateGroupIdList));
+        }
+        return this;
+    }
+
+    @Override
+    public MessageTemplateGroupQuery messageTemplateGroupNameLike(String messageTemplateGroupName) {
+        if (messageTemplateGroupName != null) {
+            this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupName.contains(messageTemplateGroupName));
+        }
+        return this;
+    }
+
+    @Override
+    public MessageTemplateGroupQuery messageTemplateGroupIdNot(String messageTemplateGroupId) {
+        if (StringUtils.isNotBlank(messageTemplateGroupId)) {
+            this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupId.ne(messageTemplateGroupId));
         }
         return this;
     }

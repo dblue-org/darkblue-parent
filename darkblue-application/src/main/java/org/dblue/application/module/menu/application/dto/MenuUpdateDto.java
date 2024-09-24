@@ -18,7 +18,6 @@ package org.dblue.application.module.menu.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,18 +27,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "菜单")
 @Data
-public class MenuUpdateDto extends MenuDto{
+public class MenuUpdateDto extends MenuDto {
     /**
      * 菜单ID
      */
     @NotBlank(message = "菜单ID不能为空")
     private String menuId;
-
-    /**
-     * 是否可用
-     */
-    @Schema(description = "是否可用")
-    @NotNull(message = "是否可用不能为空")
-    private Boolean isEnable;
 
 }

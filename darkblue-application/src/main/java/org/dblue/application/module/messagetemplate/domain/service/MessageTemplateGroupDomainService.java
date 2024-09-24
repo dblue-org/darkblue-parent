@@ -42,12 +42,27 @@ public interface MessageTemplateGroupDomainService {
      */
     Optional<MessageTemplateGroup> get(String messageTemplateGroupId);
 
+
     /**
-     * 保存消息模板分组
+     * 添加消息模板分组
      *
      * @param messageTemplateGroup 消息模板分组
      */
-    void save(MessageTemplateGroup messageTemplateGroup);
+    void add(MessageTemplateGroup messageTemplateGroup);
+
+    /**
+     * 更新消息模板分组
+     *
+     * @param messageTemplateGroup 消息模板分组
+     */
+    void update(MessageTemplateGroup messageTemplateGroup);
+
+    /**
+     * 删除消息模板分组
+     *
+     * @param messageTemplateGroupId 消息模板分组
+     */
+    void delete(String messageTemplateGroupId);
 
     /**
      * 创检查询
