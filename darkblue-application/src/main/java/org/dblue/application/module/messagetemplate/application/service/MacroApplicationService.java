@@ -13,8 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.messagetemplate.application.service;
 
-package org.dblue.application.macro;
+import org.dblue.application.module.messagetemplate.application.vo.MacroVo;
 
-public class MacroOperation {
+import java.util.List;
+
+/**
+ * 宏处理
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+public interface MacroApplicationService {
+
+    /**
+     * 获取系统中所有的宏
+     *
+     * @return 宏列表
+     */
+    List<MacroVo> findAll();
 }

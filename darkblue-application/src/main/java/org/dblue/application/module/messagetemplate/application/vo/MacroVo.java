@@ -13,13 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.messagetemplate.application.vo;
 
-package org.dblue.application.macro;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-public interface MacroOperationHandler {
+/**
+ * 宏信息
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+@Schema(description = "宏信息")
+@Data
+public class MacroVo {
 
+    /**
+     * 宏编码
+     */
+    @Schema(description = "宏编码")
+    private String macroCode;
 
-    boolean isSupported(int todoType, String serviceMark);
+    /**
+     * 宏名称
+     */
+    @Schema(description = "宏名称")
+    private String macroName;
 
-    void handle(TodoInfo todoInfo, MacroParams macroParams);
+    /**
+     * 宏对应的类
+     */
+    @Schema(description = "宏对应的类")
+    private String macroClass;
 }

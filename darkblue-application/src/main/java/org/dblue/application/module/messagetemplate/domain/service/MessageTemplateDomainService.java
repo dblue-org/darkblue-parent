@@ -13,8 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.messagetemplate.domain.service;
 
-package org.dblue.application.macro;
+/**
+ * 消息模板管理
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+public interface MessageTemplateDomainService {
 
-public class TodoInfo {
+
 }

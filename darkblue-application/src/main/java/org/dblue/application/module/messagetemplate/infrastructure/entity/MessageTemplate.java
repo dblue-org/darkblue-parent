@@ -29,39 +29,63 @@ import org.dblue.application.jpa.AbstractAuditingEntity;
 @Table(name = "tb_sys_message_template")
 public class MessageTemplate extends AbstractAuditingEntity {
 
+    /**
+     * 消息模板ID
+     */
     @Id
     @Size(max = 32)
     @Column(name = "message_template_id", nullable = false, length = 32)
     private String messageTemplateId;
 
+    /**
+     * 消息模板组ID
+     */
     @Size(max = 32)
     @NotNull
     @Column(name = "message_template_group_id", nullable = false, length = 32)
     private String messageTemplateGroupId;
 
+    /**
+     * 消息模板编码
+     */
     @Size(max = 64)
     @NotNull
     @Column(name = "message_template_code", nullable = false, length = 64)
     private String messageTemplateCode;
 
+    /**
+     * 消息模板名称
+     */
     @Size(max = 256)
     @NotNull
     @Column(name = "message_template_name", nullable = false, length = 256)
     private String messageTemplateName;
 
+    /**
+     * 消息模板类型（1-通知；2-待办）
+     */
     @NotNull
     @Column(name = "message_template_type", nullable = false)
     private Integer messageTemplateType;
 
+    /**
+     * 业务编码配置
+     */
     @Size(max = 256)
     @Column(name = "service_code_tpl", length = 256)
     private String serviceCodeTpl;
 
+    /**
+     * 消息标题配置
+     */
     @Size(max = 256)
     @NotNull
     @Column(name = "message_title_tpl", nullable = false, length = 256)
     private String messageTitleTpl;
 
+    /**
+     * 消息内容配置
+     */
     @NotNull
     @Lob
     @Column(name = "message_content_tpl", nullable = false)
