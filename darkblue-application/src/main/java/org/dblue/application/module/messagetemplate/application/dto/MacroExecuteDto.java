@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.messagetemplate.application.vo;
+package org.dblue.application.module.messagetemplate.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.dblue.application.macro.Macro;
+
+import java.util.Map;
 
 /**
- * 宏信息
- *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@Schema(description = "宏信息")
+@Schema(description = "")
 @Data
-public class MacroVo {
+public class MacroExecuteDto {
 
     /**
      * 宏编码
@@ -36,22 +35,14 @@ public class MacroVo {
     private String macroCode;
 
     /**
-     * 宏名称
+     * 待办ID
      */
-    @Schema(description = "宏名称")
-    private String macroName;
+    @Schema(description = "待办ID")
+    private String todoId;
 
     /**
-     * 宏对应的类
+     * 宏参数
      */
-    @Schema(description = "宏对应的类")
-    private String macroClass;
-
-    public static MacroVo of(Macro macro) {
-        MacroVo macroVo = new MacroVo();
-        macroVo.setMacroCode(macro.getMacroCode());
-        macroVo.setMacroName(macro.getMacroName());
-        macroVo.setMacroClass(macro.getClass().getName());
-        return macroVo;
-    }
+    @Schema(description = "宏参数")
+    private Map<String, Object> macroParamValues;
 }

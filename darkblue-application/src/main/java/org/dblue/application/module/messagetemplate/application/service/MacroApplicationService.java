@@ -15,9 +15,12 @@
  */
 package org.dblue.application.module.messagetemplate.application.service;
 
+import org.dblue.application.macro.Macro;
+import org.dblue.application.macro.MacroParameter;
 import org.dblue.application.module.messagetemplate.application.vo.MacroVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 宏处理
@@ -33,4 +36,21 @@ public interface MacroApplicationService {
      * @return 宏列表
      */
     List<MacroVo> findAll();
+
+    /**
+     * 执行宏操作，{@link Macro#execute(String, Map)}
+     *
+     * @param macroCode        宏编码. {@link Macro#getMacroCode()}
+     * @param todoId           待办消息ID.
+     * @param macroParamValues 由前端提交的宏参数
+     */
+    void executeMacro(String macroCode, String todoId, Map<String, Object> macroParamValues);
+
+    /**
+     * 根据宏编码获取宏参数列表
+     *
+     * @param macroCode 宏编码
+     * @return 宏参数列表
+     */
+    List<MacroParameter> getMacroParameters(String macroCode);
 }

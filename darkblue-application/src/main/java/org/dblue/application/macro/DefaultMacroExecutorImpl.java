@@ -13,43 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.messagetemplate.application.service.impl;
+package org.dblue.application.macro;
 
 import lombok.RequiredArgsConstructor;
-import org.dblue.application.macro.Macro;
-import org.dblue.application.macro.MacroExecutor;
-import org.dblue.application.macro.MacroParameter;
-import org.dblue.application.module.messagetemplate.application.service.MacroApplicationService;
-import org.dblue.application.module.messagetemplate.application.vo.MacroVo;
-import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+import org.dblue.utils.json.JacksonUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@Slf4j
 @RequiredArgsConstructor
-@Service
-public class MacroApplicationServiceImpl implements MacroApplicationService {
+@Component
+public class DefaultMacroExecutorImpl implements MacroExecutor {
 
     private final List<Macro> macros;
 
-    private final MacroExecutor macroExecutor;
-
-    @Override
-    public List<MacroVo> findAll() {
-        return macros.stream().map(MacroVo::of).toList();
-    }
-
     @Override
     public void executeMacro(String macroCode, String todoId, Map<String, Object> macroParamValues) {
-        this.macroExecutor.executeMacro(macroCode, todoId, macroParamValues);
+        log.info("宏编码：{}，待办ID：{}，宏参数：{}", macroCode, todoId, JacksonUtils.toJsonString(macroParamValues));
+        for (Macro macro : macros) {
+            if (Objects.equals(macroCode, macro.getMacroName())) {
+                log.info("匹配到宏：{}，开始执行宏。", macro.getClass().getName());
+                macro.execute(todoId, macroParamValues);
+                return;
+            }
+        }
     }
 
     @Override
     public List<MacroParameter> getMacroParameters(String macroCode) {
-        return macroExecutor.getMacroParameters(macroCode);
+        log.info("获取宏参数，宏编码：{}", macroCode);
+        for (Macro macro : macros) {
+            if (Objects.equals(macroCode, macro.getMacroName())) {
+                return macro.getMacroParameters();
+            }
+        }
+        return List.of();
     }
 }

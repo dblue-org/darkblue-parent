@@ -19,8 +19,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.commons.EnumValue;
-import org.dblue.application.module.messagetemplate.application.service.MacroApplicationService;
-import org.dblue.application.module.messagetemplate.application.vo.MacroVo;
 import org.dblue.application.module.messagetemplate.domain.enums.RouterTypes;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +39,6 @@ import java.util.List;
 @RestController
 public class MessageTemplateController {
 
-    private final MacroApplicationService macroApplicationService;
 
     /**
      * 获取所有路由类型
@@ -54,16 +51,5 @@ public class MessageTemplateController {
         return ResponseBean.success(RouterTypes.all());
     }
 
-    /**
-     * 获取系统中所有的宏
-     *
-     * @return 宏列表
-     */
-    @Operation(summary = "获取系统中所有的宏")
-    @GetMapping("/findAll")
-    public ResponseBean<List<MacroVo>> findAll() {
-        List<MacroVo> voList = this.macroApplicationService.findAll();
-        return ResponseBean.success(voList);
-    }
 
 }
