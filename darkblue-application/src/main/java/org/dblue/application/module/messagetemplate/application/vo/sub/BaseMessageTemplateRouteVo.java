@@ -13,32 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.messagetemplate.application.dto;
+package org.dblue.application.module.messagetemplate.application.vo.sub;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplate;
 
 /**
+ * 路由配置信息
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@Schema(description = "")
-@EqualsAndHashCode(callSuper = true)
+@Schema(description = "路由配置信息")
 @Data
-public class MessageTemplateUpdateDto extends BaseMessageTemplateDto {
+public class BaseMessageTemplateRouteVo {
 
     /**
-     * 消息模板ID
+     * 路由类型(1-PC;2-Android;3-IOS;4-小程序;5-H5)
      */
-    @Schema(description = "消息模板ID")
-    private String messageTemplateId;
+    @Schema(description = "路由类型(1-PC;2-Android;3-IOS;4-小程序;5-H5)")
+    private Integer routerType;
 
-
-    public MessageTemplate merge(MessageTemplate messageTemplate) {
-        this.setBaseInfo(messageTemplate);
-        this.setRelationship(messageTemplate);
-        return messageTemplate;
-    }
+    /**
+     * 路由地址
+     */
+    @Schema(description = "路由地址")
+    private String routerLink;
 }

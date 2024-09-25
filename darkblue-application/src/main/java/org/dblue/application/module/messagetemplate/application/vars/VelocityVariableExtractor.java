@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.messagetemplate.application.vars;
 
-package org.dblue.application.module.messagetemplate.infrastructure.repository;
-
-import org.dblue.application.jpa.BaseJpaRepository;
-import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplate;
-
-public interface MessageTemplateRepository extends BaseJpaRepository<MessageTemplate, String> {
+/**
+ * TODO
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+public class VelocityVariableExtractor {
 }

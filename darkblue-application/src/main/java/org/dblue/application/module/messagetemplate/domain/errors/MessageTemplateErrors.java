@@ -13,24 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.messagetemplate.application.dto;
+package org.dblue.application.module.messagetemplate.domain.errors;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateDirectRoute;
+import lombok.Getter;
+import org.dblue.common.error.ErrorInfo;
 
 /**
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
-public class MessageTemplateDirectRouteDto extends BaseMessageTemplateRouteDto {
+@Getter
+public enum MessageTemplateErrors implements ErrorInfo {
 
-    public MessageTemplateDirectRoute asEntity() {
-        MessageTemplateDirectRoute messageTemplateDirectRoute = new MessageTemplateDirectRoute();
-        messageTemplateDirectRoute.setRouterType(this.getRouterType());
-        messageTemplateDirectRoute.setRouterLink(this.getRouterLink());
-        return messageTemplateDirectRoute;
+    CODE_EXIST("MSG_TPL_001", "消息模板编码已存在"),
+    NOT_EXIST("MSG_TPL_002", "消息模板不存在"),
+    ACTION_ROUTE_NOT_EMPTY("MSG_TPL_003", "操作中必须配置跳转路由"),
+
+    ;
+    private final String errorCode;
+    private final String errorMessage;
+
+    MessageTemplateErrors(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
     }
 }

@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.messagetemplate.application.dto;
+package org.dblue.application.module.messagetemplate.application.vo.sub;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.dblue.application.module.messagetemplate.domain.enums.ActionTypes;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateAction;
-import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateActionRoute;
+import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,8 +29,18 @@ import java.util.List;
  */
 @Schema(description = "")
 @Data
-public class MessageTemplateActionDto {
+public class MessageTemplateActionVo {
+    /**
+     * 按钮ID
+     */
+    @Schema(description = "按钮ID")
+    private String messageTemplateActionId;
 
+    /**
+     * 模板ID
+     */
+    @Schema(description = "模板ID")
+    private String messageTemplateId;
     /**
      * 操作名称
      */
@@ -72,23 +81,17 @@ public class MessageTemplateActionDto {
      * 操作跳转链接配置
      */
     @Schema(description = "操作跳转链接配置")
-    private List<MessageTemplateActionRouteDto> routers;
+    private List<MessageTemplateActionRouteVo> routers;
 
-    public MessageTemplateAction asEntity() {
-        MessageTemplateAction messageTemplateAction = new MessageTemplateAction();
-        messageTemplateAction.setActionName(this.getActionName());
-        messageTemplateAction.setActionMark(this.getActionMark());
-        messageTemplateAction.setActionType(this.getActionType());
-        messageTemplateAction.setMatchState(this.getMatchState());
-        messageTemplateAction.setShowConditional(this.getShowConditional());
-        messageTemplateAction.setMacroCode(this.getMacroCode());
-        if (ActionTypes.LINK.equalsTo(this.getActionType())) {
-            List<MessageTemplateActionRoute> routes = new ArrayList<>();
-            for (MessageTemplateActionRouteDto router : routers) {
-                routes.add(router.asEntity());
-            }
-            messageTemplateAction.setRoutes(routes);
+    public static MessageTemplateActionVo of(MessageTemplateAction messageTemplateAction) {
+        MessageTemplateActionVo messageTemplateActionVo = new MessageTemplateActionVo();
+        BeanUtils.copyProperties(messageTemplateAction, messageTemplateActionVo);
+        if (ActionTypes.LINK.equalsTo(messageTemplateActionVo.getActionType())) {
+            messageTemplateActionVo.setRouters(
+                    messageTemplateAction.getRoutes().stream().map(MessageTemplateActionRouteVo::of).toList()
+            );
         }
-        return messageTemplateAction;
+        return messageTemplateActionVo;
     }
+
 }

@@ -17,6 +17,8 @@ package org.dblue.application.module.messagetemplate.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.apache.commons.collections4.CollectionUtils;
+import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplate;
 
 import java.util.List;
 
@@ -77,4 +79,32 @@ public class BaseMessageTemplateDto {
      */
     @Schema(description = "操作配置")
     private List<MessageTemplateActionDto> actions;
+
+    protected void setBaseInfo(MessageTemplate messageTemplate) {
+        messageTemplate.setMessageTemplateCode(this.getMessageTemplateCode());
+        messageTemplate.setMessageTemplateName(this.getMessageTemplateName());
+        messageTemplate.setServiceCodeTpl(this.getServiceCodeTpl());
+        messageTemplate.setMessageTitleTpl(this.getMessageTitleTpl());
+        messageTemplate.setMessageContentTpl(this.getMessageContentTpl());
+    }
+
+    protected void setRelationship(MessageTemplate messageTemplate) {
+        if (CollectionUtils.isNotEmpty(this.getDirectRouters())) {
+            messageTemplate.setRoutes(
+                    this.getDirectRouters().stream().map(MessageTemplateDirectRouteDto::asEntity).toList()
+            );
+        }
+
+        if (CollectionUtils.isNotEmpty(this.getTags())) {
+            messageTemplate.setTags(
+                    this.getTags().stream().map(MessageTemplateTagDto::asEntity).toList()
+            );
+        }
+
+        if (CollectionUtils.isNotEmpty(this.getActions())) {
+            messageTemplate.setActions(
+                    this.getActions().stream().map(MessageTemplateActionDto::asEntity).toList()
+            );
+        }
+    }
 }

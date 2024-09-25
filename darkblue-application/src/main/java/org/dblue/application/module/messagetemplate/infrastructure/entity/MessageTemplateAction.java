@@ -16,15 +16,14 @@
 
 package org.dblue.application.module.messagetemplate.infrastructure.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.dblue.application.jpa.AbstractCreateAuditingEntity;
+
+import java.util.List;
 
 /**
  * 模板操作配置
@@ -39,8 +38,8 @@ public class MessageTemplateAction extends AbstractCreateAuditingEntity {
      */
     @Id
     @Size(max = 32)
-    @Column(name = "message_template_button_id", nullable = false, length = 32)
-    private String messageTemplateButtonId;
+    @Column(name = "message_template_action_id", nullable = false, length = 32)
+    private String messageTemplateActionId;
 
     /**
      * 模板ID
@@ -100,4 +99,6 @@ public class MessageTemplateAction extends AbstractCreateAuditingEntity {
     @Column(name = "macro_code", length = 256)
     private String macroCode;
 
+    @OneToMany(mappedBy = "messageTemplateActionId")
+    private List<MessageTemplateActionRoute> routes;
 }

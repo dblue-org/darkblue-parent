@@ -17,6 +17,7 @@ package org.dblue.application.module.messagetemplate.application.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateActionRoute;
 
 /**
  * @author Wang Chengwei
@@ -26,5 +27,11 @@ import lombok.EqualsAndHashCode;
 @Data
 public class MessageTemplateActionRouteDto extends BaseMessageTemplateRouteDto {
 
+    public MessageTemplateActionRoute asEntity() {
+        MessageTemplateActionRoute messageTemplateActionRoute = new MessageTemplateActionRoute();
+        messageTemplateActionRoute.setRouterType(this.getRouterType());
+        messageTemplateActionRoute.setRouterLink(this.getRouterLink());
+        return messageTemplateActionRoute;
+    }
 
 }

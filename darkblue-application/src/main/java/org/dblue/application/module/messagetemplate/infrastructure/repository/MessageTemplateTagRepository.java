@@ -19,5 +19,31 @@ package org.dblue.application.module.messagetemplate.infrastructure.repository;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
+import java.util.List;
+
 public interface MessageTemplateTagRepository extends JpaRepository<MessageTemplateTag, String> {
+
+    /**
+     * 根据消息模板ID获取标签
+     *
+     * @param messageTemplateId 消息模板ID
+     * @return 标签列表
+     */
+    List<MessageTemplateTag> findByMessageTemplateId(String messageTemplateId);
+
+    /**
+     * 根据消息模板ID列表获取标签
+     *
+     * @param messageTemplateIdSet 消息模板ID列表
+     * @return 标签列表
+     */
+    List<MessageTemplateTag> findByMessageTemplateIdIn(Collection<String> messageTemplateIdSet);
+
+    /**
+     * 删除消息模板对应的标签
+     *
+     * @param messageTemplateId 消息模板ID
+     */
+    void deleteByMessageTemplateId(String messageTemplateId);
 }

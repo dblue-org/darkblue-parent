@@ -61,6 +61,12 @@ public class MessageTemplateGroupQueryImpl extends AbstractBaseJpaQuery<MessageT
     }
 
     @Override
+    public MessageTemplateGroupQuery messageTemplateGroupId(String messageTemplateGroupId) {
+        this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupId.eq(messageTemplateGroupId));
+        return this;
+    }
+
+    @Override
     public MessageTemplateGroupQuery messageTemplateGroupIdNot(String messageTemplateGroupId) {
         if (StringUtils.isNotBlank(messageTemplateGroupId)) {
             this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupId.ne(messageTemplateGroupId));

@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.messagetemplate.application.dto;
+package org.dblue.application.module.messagetemplate.application.vo.sub;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateTag;
+import org.springframework.beans.BeanUtils;
 
 /**
  * 标签配置
@@ -27,7 +28,19 @@ import org.dblue.application.module.messagetemplate.infrastructure.entity.Messag
  */
 @Schema(description = "标签配置")
 @Data
-public class MessageTemplateTagDto {
+public class MessageTemplateTagVo {
+
+    /**
+     * 标签ID
+     */
+    @Schema(description = "标签ID")
+    private String messageTemplateTagId;
+
+    /**
+     * 模板ID
+     */
+    @Schema(description = "模板ID")
+    private String messageTemplateId;
 
     /**
      * 标签名称
@@ -41,10 +54,10 @@ public class MessageTemplateTagDto {
     @Schema(description = "显示条件")
     private String showConditional;
 
-    public MessageTemplateTag asEntity() {
-        MessageTemplateTag messageTemplateTag = new MessageTemplateTag();
-        messageTemplateTag.setTagName(this.getTagName());
-        messageTemplateTag.setShowConditional(this.getShowConditional());
-        return messageTemplateTag;
+    public static MessageTemplateTagVo of(MessageTemplateTag messageTemplateTag) {
+        MessageTemplateTagVo messageTemplateTagVo = new MessageTemplateTagVo();
+        BeanUtils.copyProperties(messageTemplateTag, messageTemplateTagVo);
+        return messageTemplateTagVo;
     }
+
 }

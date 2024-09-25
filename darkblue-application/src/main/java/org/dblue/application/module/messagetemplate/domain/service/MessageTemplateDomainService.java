@@ -15,6 +15,9 @@
  */
 package org.dblue.application.module.messagetemplate.domain.service;
 
+import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplate;
+import org.dblue.application.module.messagetemplate.infrastructure.query.MessageTemplateQuery;
+
 /**
  * 消息模板管理
  *
@@ -23,5 +26,34 @@ package org.dblue.application.module.messagetemplate.domain.service;
  */
 public interface MessageTemplateDomainService {
 
+    /**
+     * 添加消息模板
+     *
+     * @param messageTemplate 消息模板
+     * @return 消息模板
+     */
+    MessageTemplate add(MessageTemplate messageTemplate);
+
+    /**
+     * 更新消息模板
+     *
+     * @param messageTemplate 消息模板
+     * @return 消息模板
+     */
+    MessageTemplate update(MessageTemplate messageTemplate);
+
+    /**
+     * 删除消息模板
+     *
+     * @param messageTemplateId 消息模板ID
+     */
+    void delete(String messageTemplateId);
+
+    /**
+     * 创建查询器
+     *
+     * @return 查询器
+     */
+    MessageTemplateQuery createQuery();
 
 }

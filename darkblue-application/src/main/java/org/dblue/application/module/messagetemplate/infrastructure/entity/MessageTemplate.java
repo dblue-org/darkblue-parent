@@ -23,6 +23,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.dblue.application.jpa.AbstractAuditingEntity;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -90,4 +92,22 @@ public class MessageTemplate extends AbstractAuditingEntity {
     @Lob
     @Column(name = "message_content_tpl", nullable = false)
     private String messageContentTpl;
+
+    /**
+     * 路由列表
+     */
+    @OneToMany(mappedBy = "messageTemplateId")
+    private List<MessageTemplateDirectRoute> routes;
+
+    /**
+     * 路由列表
+     */
+    @OneToMany(mappedBy = "messageTemplateId")
+    private List<MessageTemplateTag> tags;
+
+    /**
+     * 路由列表
+     */
+    @OneToMany(mappedBy = "messageTemplateId")
+    private List<MessageTemplateAction> actions;
 }

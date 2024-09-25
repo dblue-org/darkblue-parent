@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.messagetemplate.application.dto;
+package org.dblue.application.module.messagetemplate.application.vo.sub;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplate;
+import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateDirectRoute;
+import org.springframework.beans.BeanUtils;
 
 /**
  * @author Wang Chengwei
@@ -27,18 +28,23 @@ import org.dblue.application.module.messagetemplate.infrastructure.entity.Messag
 @Schema(description = "")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class MessageTemplateUpdateDto extends BaseMessageTemplateDto {
+public class MessageTemplateDirectRouteVo extends BaseMessageTemplateRouteVo {
 
     /**
-     * 消息模板ID
+     * 路由ID
      */
-    @Schema(description = "消息模板ID")
+    @Schema(description = "路由ID")
+    private String messageTemplateDirectRouteId;
+
+    /**
+     * 模板ID
+     */
+    @Schema(description = "模板ID")
     private String messageTemplateId;
 
-
-    public MessageTemplate merge(MessageTemplate messageTemplate) {
-        this.setBaseInfo(messageTemplate);
-        this.setRelationship(messageTemplate);
-        return messageTemplate;
+    public static MessageTemplateDirectRouteVo of(MessageTemplateDirectRoute messageTemplateDirectRoute) {
+        MessageTemplateDirectRouteVo messageTemplateDirectRouteVo = new MessageTemplateDirectRouteVo();
+        BeanUtils.copyProperties(messageTemplateDirectRoute, messageTemplateDirectRouteVo);
+        return messageTemplateDirectRouteVo;
     }
 }

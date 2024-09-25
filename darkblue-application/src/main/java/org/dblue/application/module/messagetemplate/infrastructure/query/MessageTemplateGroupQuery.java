@@ -37,6 +37,8 @@ public interface MessageTemplateGroupQuery extends BaseJpaQuery<MessageTemplateG
 
     MessageTemplateGroupQuery messageTemplateGroupNameLike(String messageTemplateGroupName);
 
+    MessageTemplateGroupQuery messageTemplateGroupId(String messageTemplateGroupId);
+
     MessageTemplateGroupQuery messageTemplateGroupIdIn(Collection<String> messageTemplateGroupIdList);
 
     MessageTemplateGroupQuery messageTemplateGroupIdNot(String messageTemplateGroupId);

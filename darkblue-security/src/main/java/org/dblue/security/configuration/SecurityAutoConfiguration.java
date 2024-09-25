@@ -92,6 +92,7 @@ public class SecurityAutoConfiguration implements ApplicationContextAware {
 
         DatabaseAuthorizationManager authorizationManager = applicationContext.getBean(DatabaseAuthorizationManager.class);
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers("/**").permitAll()
                         .requestMatchers("/api/login").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/favicon.ico").permitAll()

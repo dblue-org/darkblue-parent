@@ -15,39 +15,45 @@
  */
 package org.dblue.application.module.messagetemplate.application.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplate;
+import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateListVo;
+import org.dblue.core.web.param.PageParamImpl;
+import org.springdoc.core.annotations.ParameterObject;
 
 /**
+ * 消息模板基础DTO
+ *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-@Schema(description = "")
 @EqualsAndHashCode(callSuper = true)
+@ParameterObject
 @Data
-public class MessageTemplateAddDto extends BaseMessageTemplateDto {
+public class MessageTemplateQueryDto extends PageParamImpl<MessageTemplateListVo> {
+
+    /**
+     * 消息模板编码
+     */
+    @Parameter(description = "消息模板编码")
+    private String messageTemplateCode;
+
+    /**
+     * 消息模板名称
+     */
+    @Parameter(description = "消息模板名称")
+    private String messageTemplateName;
 
     /**
      * 消息模板组ID
      */
-    @Schema(description = "消息模板组ID")
+    @Parameter(description = "消息模板组ID")
     private String messageTemplateGroupId;
 
     /**
      * 消息模板类型（1-通知；2-待办）
      */
-    @Schema(description = "消息模板类型（1-通知；2-待办）")
+    @Parameter(description = "消息模板类型（1-通知；2-待办）")
     private Integer messageTemplateType;
-
-
-    public MessageTemplate asEntity() {
-        MessageTemplate messageTemplate = new MessageTemplate();
-        messageTemplate.setMessageTemplateGroupId(this.getMessageTemplateGroupId());
-        messageTemplate.setMessageTemplateType(this.getMessageTemplateType());
-        this.setBaseInfo(messageTemplate);
-        this.setRelationship(messageTemplate);
-        return messageTemplate;
-    }
 }
