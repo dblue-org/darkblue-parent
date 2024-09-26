@@ -17,9 +17,9 @@ package org.dblue.application.module.messagetemplate.application.helper;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.messagetemplate.application.vars.SpringExpressionVariableExtractor;
+import org.dblue.application.module.messagetemplate.application.vars.VarNode;
 import org.dblue.application.module.messagetemplate.application.vars.VelocityVariableExtractor;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateDetailsVo;
-import org.dblue.application.module.messagetemplate.application.vo.VarNode;
 import org.dblue.application.module.messagetemplate.domain.enums.ActionTypes;
 
 import java.util.ArrayList;

@@ -21,9 +21,10 @@ import org.dblue.application.module.messagetemplate.application.dto.MessageTempl
 import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateUpdateDto;
 import org.dblue.application.module.messagetemplate.application.helper.VariableExtractorHelper;
 import org.dblue.application.module.messagetemplate.application.service.MessageTemplateApplicationService;
+import org.dblue.application.module.messagetemplate.application.vars.VarNode;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateDetailsVo;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateListVo;
-import org.dblue.application.module.messagetemplate.application.vo.VarNode;
+import org.dblue.application.module.messagetemplate.application.vo.VarTreeNodeVo;
 import org.dblue.application.module.messagetemplate.domain.errors.MessageTemplateErrors;
 import org.dblue.application.module.messagetemplate.domain.service.MessageTemplateDomainService;
 import org.dblue.application.module.messagetemplate.domain.service.MessageTemplateGroupDomainService;
@@ -125,7 +126,9 @@ public class MessageTemplateApplicationServiceImpl implements MessageTemplateApp
 
         if (withVars) {
             List<VarNode> nodes = VariableExtractorHelper.extract(messageTemplateDetailsVo);
-            messageTemplateDetailsVo.setVariables(nodes);
+            messageTemplateDetailsVo.setVariables(
+                    nodes.stream().map(VarTreeNodeVo::of).toList()
+            );
         }
 
         return messageTemplateDetailsVo;

@@ -16,7 +16,7 @@
 package org.dblue.application.module.messagetemplate.application.helper;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.dblue.application.module.messagetemplate.application.vo.VarNode;
+import org.dblue.application.module.messagetemplate.application.vars.VarNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;

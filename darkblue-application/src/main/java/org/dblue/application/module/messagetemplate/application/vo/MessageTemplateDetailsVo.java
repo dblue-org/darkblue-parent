@@ -70,7 +70,7 @@ public class MessageTemplateDetailsVo extends MessageTemplateListVo {
      * 变量信息
      */
     @Schema(description = "变量信息")
-    private List<VarNode> variables;
+    private List<VarTreeNodeVo> variables;
 
 
     public static MessageTemplateDetailsVo of(MessageTemplate messageTemplate) {
