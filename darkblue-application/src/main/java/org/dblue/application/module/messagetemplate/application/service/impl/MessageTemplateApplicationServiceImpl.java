@@ -19,9 +19,11 @@ import lombok.RequiredArgsConstructor;
 import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateAddDto;
 import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateQueryDto;
 import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateUpdateDto;
+import org.dblue.application.module.messagetemplate.application.helper.VariableExtractorHelper;
 import org.dblue.application.module.messagetemplate.application.service.MessageTemplateApplicationService;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateDetailsVo;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateListVo;
+import org.dblue.application.module.messagetemplate.application.vo.VarNode;
 import org.dblue.application.module.messagetemplate.domain.errors.MessageTemplateErrors;
 import org.dblue.application.module.messagetemplate.domain.service.MessageTemplateDomainService;
 import org.dblue.application.module.messagetemplate.domain.service.MessageTemplateGroupDomainService;
@@ -31,6 +33,7 @@ import org.dblue.common.exception.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -100,7 +103,7 @@ public class MessageTemplateApplicationServiceImpl implements MessageTemplateApp
     }
 
     @Override
-    public MessageTemplateDetailsVo getDetails(String messageTemplateId) {
+    public MessageTemplateDetailsVo getDetails(String messageTemplateId, boolean withVars) {
         Optional<MessageTemplate> messageTemplateOptional = this.messageTemplateDomainService
                 .createQuery()
                 .messageTemplateId(messageTemplateId)
@@ -119,6 +122,12 @@ public class MessageTemplateApplicationServiceImpl implements MessageTemplateApp
         messageTemplateGroupOptional.ifPresent(
                 messageTemplateGroup -> messageTemplateDetailsVo.setMessageTemplateGroupName(messageTemplateGroup.getMessageTemplateGroupName())
         );
+
+        if (withVars) {
+            List<VarNode> nodes = VariableExtractorHelper.extract(messageTemplateDetailsVo);
+            messageTemplateDetailsVo.setVariables(nodes);
+        }
+
         return messageTemplateDetailsVo;
     }
 }

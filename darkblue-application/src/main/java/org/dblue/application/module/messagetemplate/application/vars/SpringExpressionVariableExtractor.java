@@ -42,7 +42,7 @@ public class SpringExpressionVariableExtractor {
     private SpringExpressionVariableExtractor() {
     }
 
-    public static Set<String> findVars(String templateStr) {
+    public static Set<String> extractVariables(String templateStr) {
         Expression expression = PARSER.parseExpression(templateStr, PARSER_CONTEXT);
         List<VarDef> varSet = new ArrayList<>();
         findOutVarByExpression(expression, varSet);

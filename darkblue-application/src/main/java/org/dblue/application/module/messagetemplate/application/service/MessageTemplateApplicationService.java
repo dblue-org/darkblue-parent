@@ -63,7 +63,8 @@ public interface MessageTemplateApplicationService {
      * 获取消息模板详情
      *
      * @param messageTemplateId 消息模板ID
+     * @param withVars          是否包含变量信息
      * @return 消息模板详情
      */
-    MessageTemplateDetailsVo getDetails(String messageTemplateId);
+    MessageTemplateDetailsVo getDetails(String messageTemplateId, boolean withVars);
 }

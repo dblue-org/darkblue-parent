@@ -66,6 +66,12 @@ public class MessageTemplateDetailsVo extends MessageTemplateListVo {
     @Schema(description = "操作配置")
     private List<MessageTemplateActionVo> actions;
 
+    /**
+     * 变量信息
+     */
+    @Schema(description = "变量信息")
+    private List<VarNode> variables;
+
 
     public static MessageTemplateDetailsVo of(MessageTemplate messageTemplate) {
         MessageTemplateDetailsVo messageTemplateDetailsVo = new MessageTemplateDetailsVo();
