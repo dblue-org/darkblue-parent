@@ -36,14 +36,17 @@ import java.util.stream.Collectors;
  */
 public class SpringExpressionVariableExtractor {
 
-    private static final ExpressionParser PARSER = new SpelExpressionParser();
+    private static final ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
     private static final TemplateParserContext PARSER_CONTEXT = new TemplateParserContext("${", "}");
 
     private SpringExpressionVariableExtractor() {
     }
 
     public static Set<String> extractVariables(String templateStr) {
-        Expression expression = PARSER.parseExpression(templateStr, PARSER_CONTEXT);
+        if (templateStr == null) {
+            return Collections.emptySet();
+        }
+        Expression expression = EXPRESSION_PARSER.parseExpression(templateStr, PARSER_CONTEXT);
         List<VarDef> varSet = new ArrayList<>();
         findOutVarByExpression(expression, varSet);
         return mergeVars(varSet);

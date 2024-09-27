@@ -63,13 +63,13 @@ public class MessageTemplateDomainServiceImpl implements MessageTemplateDomainSe
             throw new ServiceException(MessageTemplateErrors.CODE_EXIST);
         }
 
-        if (StringUtils.isNotBlank(messageTemplate.getMessageTemplateId())) {
+        if (StringUtils.isBlank(messageTemplate.getMessageTemplateId())) {
             messageTemplate.setMessageTemplateId(Snowflake.stringId());
         }
         this.messageTemplateRepository.save(messageTemplate);
-        this.saveRoutes(messageTemplate.getMessageTemplateId(), messageTemplate.getRoutes(), false);
+        /*this.saveRoutes(messageTemplate.getMessageTemplateId(), messageTemplate.getRoutes(), false);
         this.saveTags(messageTemplate.getMessageTemplateId(), messageTemplate.getTags(), false);
-        this.saveActions(messageTemplate.getMessageTemplateId(), messageTemplate.getActions(), false);
+        this.saveActions(messageTemplate.getMessageTemplateId(), messageTemplate.getActions(), false);*/
         return messageTemplate;
     }
 
@@ -82,11 +82,17 @@ public class MessageTemplateDomainServiceImpl implements MessageTemplateDomainSe
         if (count > 0) {
             throw new ServiceException(MessageTemplateErrors.CODE_EXIST);
         }
+
         this.messageTemplateRepository.save(messageTemplate);
-        this.saveRoutes(messageTemplate.getMessageTemplateId(), messageTemplate.getRoutes(), true);
-        this.saveTags(messageTemplate.getMessageTemplateId(), messageTemplate.getTags(), true);
-        this.saveActions(messageTemplate.getMessageTemplateId(), messageTemplate.getActions(), true);
         return messageTemplate;
+    }
+
+    @Override
+    public void clearAffiliatedData(String messageTemplateId) {
+        this.messageTemplateDirectRouteRepository.deleteByMessageTemplateId(messageTemplateId);
+        this.messageTemplateTagRepository.deleteByMessageTemplateId(messageTemplateId);
+        this.messageTemplateActionRepository.deleteByMessageTemplateId(messageTemplateId);
+        this.messageTemplateActionRouteRepository.deleteByMessageTemplateId(messageTemplateId);
     }
 
     @Override
@@ -96,10 +102,10 @@ public class MessageTemplateDomainServiceImpl implements MessageTemplateDomainSe
             throw new ServiceException(MessageTemplateErrors.NOT_EXIST);
         }
         this.messageTemplateRepository.deleteById(messageTemplateId);
-        this.messageTemplateDirectRouteRepository.deleteByMessageTemplateId(messageTemplateId);
+        /*this.messageTemplateDirectRouteRepository.deleteByMessageTemplateId(messageTemplateId);
         this.messageTemplateTagRepository.deleteByMessageTemplateId(messageTemplateId);
         this.messageTemplateActionRepository.deleteByMessageTemplateId(messageTemplateId);
-        this.messageTemplateActionRouteRepository.deleteByMessageTemplateId(messageTemplateId);
+        this.messageTemplateActionRouteRepository.deleteByMessageTemplateId(messageTemplateId);*/
     }
 
     @Override

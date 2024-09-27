@@ -88,8 +88,7 @@ public class MessageTemplateAction extends AbstractCreateAuditingEntity {
      * 按钮条件
      */
     @Size(max = 512)
-    @NotNull
-    @Column(name = "show_conditional", nullable = false, length = 512)
+    @Column(name = "show_conditional", length = 512)
     private String showConditional;
 
     /**
@@ -99,6 +98,10 @@ public class MessageTemplateAction extends AbstractCreateAuditingEntity {
     @Column(name = "macro_code", length = 256)
     private String macroCode;
 
-    @OneToMany(mappedBy = "messageTemplateActionId")
+    /**
+     * 操作对应的路由
+     */
+    @JoinColumn(name = "message_template_action_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<MessageTemplateActionRoute> routes;
 }

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Wang Chengwei
@@ -49,12 +50,22 @@ public class DefaultMacroExecutorImpl implements MacroExecutor {
 
     @Override
     public List<MacroParameter> getMacroParameters(String macroCode) {
+        Optional<Macro> macroOptional = this.getMacro(macroCode);
+        if (macroOptional.isPresent()) {
+            return macroOptional.get().getMacroParameters();
+        } else {
+            return List.of();
+        }
+    }
+
+    @Override
+    public Optional<Macro> getMacro(String macroCode) {
         log.info("获取宏参数，宏编码：{}", macroCode);
         for (Macro macro : macros) {
-            if (Objects.equals(macroCode, macro.getMacroName())) {
-                return macro.getMacroParameters();
+            if (Objects.equals(macroCode, macro.getMacroCode())) {
+                return Optional.of(macro);
             }
         }
-        return List.of();
+        return Optional.empty();
     }
 }

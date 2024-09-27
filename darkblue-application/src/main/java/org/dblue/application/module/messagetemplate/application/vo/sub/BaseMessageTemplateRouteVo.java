@@ -35,6 +35,12 @@ public class BaseMessageTemplateRouteVo {
     private Integer routerType;
 
     /**
+     * 路由类型名称
+     */
+    @Schema(description = "路由类型名称")
+    private String routerTypeName;
+
+    /**
      * 路由地址
      */
     @Schema(description = "路由地址")

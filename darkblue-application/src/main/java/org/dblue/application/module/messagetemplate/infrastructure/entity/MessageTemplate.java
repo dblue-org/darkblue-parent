@@ -22,7 +22,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.dblue.application.jpa.AbstractAuditingEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -96,18 +99,63 @@ public class MessageTemplate extends AbstractAuditingEntity {
     /**
      * 路由列表
      */
-    @OneToMany(mappedBy = "messageTemplateId")
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "message_template_id")
     private List<MessageTemplateDirectRoute> routes;
 
     /**
      * 路由列表
      */
-    @OneToMany(mappedBy = "messageTemplateId")
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "message_template_id")
     private List<MessageTemplateTag> tags;
 
     /**
      * 路由列表
      */
-    @OneToMany(mappedBy = "messageTemplateId")
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "message_template_id")
     private List<MessageTemplateAction> actions;
+
+    public void removeAllRouters() {
+        if (routes != null) {
+            this.routes.clear();
+        }
+    }
+
+    public void removeAllTags() {
+        if (tags != null) {
+            this.tags.clear();
+        }
+    }
+
+    public void removeAllActions() {
+        if (actions != null) {
+            this.actions.clear();
+        }
+    }
+
+    public void addRouters(List<MessageTemplateDirectRoute> routes) {
+        if (this.routes == null) {
+            this.routes = new ArrayList<>();
+        }
+        this.routes.addAll(routes);
+    }
+
+    public void addTags(List<MessageTemplateTag> tags) {
+        if (this.tags == null) {
+            this.tags = new ArrayList<>();
+        }
+        this.tags.addAll(tags);
+    }
+
+    public void addActions(List<MessageTemplateAction> actions) {
+        if (this.actions == null) {
+            this.actions = new ArrayList<>();
+        }
+        this.actions.addAll(actions);
+    }
 }

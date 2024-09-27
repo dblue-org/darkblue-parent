@@ -46,7 +46,7 @@ public class SecurityUtils {
 
     public static SecurityUser getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && isAuthenticated()) {
             return (SecurityUser) authentication.getPrincipal();
         } else {
             throw new ServiceException(CommonError.UNAUTHORIZED);

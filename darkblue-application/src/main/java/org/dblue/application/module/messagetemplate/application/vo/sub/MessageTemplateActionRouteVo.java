@@ -18,6 +18,7 @@ package org.dblue.application.module.messagetemplate.application.vo.sub;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dblue.application.module.messagetemplate.domain.enums.RouterTypes;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateActionRoute;
 import org.springframework.beans.BeanUtils;
 
@@ -51,6 +52,7 @@ public class MessageTemplateActionRouteVo extends BaseMessageTemplateRouteVo {
     public static MessageTemplateActionRouteVo of(MessageTemplateActionRoute messageTemplateActionRoute) {
         MessageTemplateActionRouteVo vo = new MessageTemplateActionRouteVo();
         BeanUtils.copyProperties(messageTemplateActionRoute, vo);
+        vo.setRouterTypeName(RouterTypes.getName(vo.getRouterType()));
         return vo;
     }
 

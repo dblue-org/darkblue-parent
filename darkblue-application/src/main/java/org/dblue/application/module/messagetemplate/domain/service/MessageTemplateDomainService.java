@@ -43,6 +43,13 @@ public interface MessageTemplateDomainService {
     MessageTemplate update(MessageTemplate messageTemplate);
 
     /**
+     * 清除消息模板的附属信息
+     *
+     * @param messageTemplateId 消息模板ID
+     */
+    void clearAffiliatedData(String messageTemplateId);
+
+    /**
      * 删除消息模板
      *
      * @param messageTemplateId 消息模板ID

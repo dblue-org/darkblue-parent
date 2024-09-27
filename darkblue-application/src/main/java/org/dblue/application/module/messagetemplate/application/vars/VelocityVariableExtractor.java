@@ -37,16 +37,19 @@ import java.util.Set;
 @Slf4j
 public class VelocityVariableExtractor {
 
-    private static final RuntimeInstance RI = new RuntimeInstance();
+    private static final RuntimeInstance RUNTIME_INSTANCE = new RuntimeInstance();
 
     private VelocityVariableExtractor() {
     }
 
     public static Set<String> extractVariables(String templateContent) {
+        if (templateContent == null) {
+            return Collections.emptySet();
+        }
         try {
             Template template = new Template();
             StringReader reader = new StringReader(templateContent);
-            SimpleNode node = RI.parse(reader, template);
+            SimpleNode node = RUNTIME_INSTANCE.parse(reader, template);
             VariableExtractingVisitor visitor = new VariableExtractingVisitor();
             node.jjtAccept(visitor, null);
             return visitor.getVariables();

@@ -16,6 +16,7 @@
 package org.dblue.application.module.messagetemplate.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplate;
@@ -32,11 +33,15 @@ public class MessageTemplateUpdateDto extends BaseMessageTemplateDto {
     /**
      * 消息模板ID
      */
+    @NotBlank(message = "消息模板ID不能为空")
     @Schema(description = "消息模板ID")
     private String messageTemplateId;
 
 
     public MessageTemplate merge(MessageTemplate messageTemplate) {
+        messageTemplate.removeAllRouters();
+        messageTemplate.removeAllTags();
+        messageTemplate.removeAllActions();
         this.setBaseInfo(messageTemplate);
         this.setRelationship(messageTemplate);
         return messageTemplate;

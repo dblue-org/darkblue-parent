@@ -18,6 +18,7 @@ package org.dblue.application.macro;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface MacroExecutor {
 
@@ -37,4 +38,12 @@ public interface MacroExecutor {
      * @return 宏参数列表
      */
     List<MacroParameter> getMacroParameters(String macroCode);
+
+    /**
+     * 获取宏信息
+     *
+     * @param macroCode 宏编码
+     * @return 宏
+     */
+    Optional<Macro> getMacro(String macroCode);
 }

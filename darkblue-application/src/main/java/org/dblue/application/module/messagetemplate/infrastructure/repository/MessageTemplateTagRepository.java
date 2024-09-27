@@ -18,6 +18,8 @@ package org.dblue.application.module.messagetemplate.infrastructure.repository;
 
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateTag;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 import java.util.List;
@@ -45,5 +47,7 @@ public interface MessageTemplateTagRepository extends JpaRepository<MessageTempl
      *
      * @param messageTemplateId 消息模板ID
      */
+    @Modifying
+    @Query("delete from MessageTemplateTag mtt where mtt.messageTemplateId = ?1")
     void deleteByMessageTemplateId(String messageTemplateId);
 }

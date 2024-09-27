@@ -18,6 +18,7 @@ package org.dblue.application.module.messagetemplate.application.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateDirectRoute;
+import org.dblue.common.id.Snowflake;
 
 /**
  * @author Wang Chengwei
@@ -27,8 +28,12 @@ import org.dblue.application.module.messagetemplate.infrastructure.entity.Messag
 @Data
 public class MessageTemplateDirectRouteDto extends BaseMessageTemplateRouteDto {
 
-    public MessageTemplateDirectRoute asEntity() {
+    private String messageTemplateId;
+
+    public MessageTemplateDirectRoute asEntity(String messageTemplateId) {
         MessageTemplateDirectRoute messageTemplateDirectRoute = new MessageTemplateDirectRoute();
+        messageTemplateDirectRoute.setMessageTemplateDirectRouteId(Snowflake.stringId());
+        messageTemplateDirectRoute.setMessageTemplateId(messageTemplateId);
         messageTemplateDirectRoute.setRouterType(this.getRouterType());
         messageTemplateDirectRoute.setRouterLink(this.getRouterLink());
         return messageTemplateDirectRoute;

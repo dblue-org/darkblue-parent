@@ -16,12 +16,17 @@
 package org.dblue.application.module.messagetemplate.application.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.dblue.application.macro.Macro;
+import org.dblue.application.macro.MacroExecutor;
 import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateAddDto;
 import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateQueryDto;
 import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateUpdateDto;
 import org.dblue.application.module.messagetemplate.application.helper.VariableExtractorHelper;
 import org.dblue.application.module.messagetemplate.application.service.MessageTemplateApplicationService;
 import org.dblue.application.module.messagetemplate.application.vars.VarNode;
+import org.dblue.application.module.messagetemplate.application.vo.MacroVo;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateDetailsVo;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateListVo;
 import org.dblue.application.module.messagetemplate.application.vo.VarTreeNodeVo;
@@ -33,6 +38,7 @@ import org.dblue.application.module.messagetemplate.infrastructure.entity.Messag
 import org.dblue.common.exception.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -52,14 +58,19 @@ public class MessageTemplateApplicationServiceImpl implements MessageTemplateApp
 
     private final MessageTemplateGroupDomainService messageTemplateGroupDomainService;
 
+    private final MacroExecutor macroExecutor;
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(MessageTemplateAddDto addDto) {
         MessageTemplate messageTemplate = addDto.asEntity();
         this.messageTemplateDomainService.add(messageTemplate);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void update(MessageTemplateUpdateDto updateDto) {
+        this.messageTemplateDomainService.clearAffiliatedData(updateDto.getMessageTemplateId());
         Optional<MessageTemplate> messageTemplateOptional = this.messageTemplateDomainService
                 .createQuery()
                 .messageTemplateId(updateDto.getMessageTemplateId())
@@ -68,15 +79,18 @@ public class MessageTemplateApplicationServiceImpl implements MessageTemplateApp
             throw new ServiceException(MessageTemplateErrors.NOT_EXIST);
         }
 
+        MessageTemplate messageTemplate = messageTemplateOptional.get();
         updateDto.merge(messageTemplateOptional.get());
-        this.messageTemplateDomainService.update(messageTemplateOptional.get());
+        this.messageTemplateDomainService.update(messageTemplate);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String messageTemplateId) {
         this.messageTemplateDomainService.delete(messageTemplateId);
     }
 
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     @Override
     public Page<MessageTemplateListVo> findByPage(MessageTemplateQueryDto queryDto) {
         Page<MessageTemplate> messageTemplatePage = this.messageTemplateDomainService.createQuery()
@@ -103,6 +117,7 @@ public class MessageTemplateApplicationServiceImpl implements MessageTemplateApp
         return voPage;
     }
 
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     @Override
     public MessageTemplateDetailsVo getDetails(String messageTemplateId, boolean withVars) {
         Optional<MessageTemplate> messageTemplateOptional = this.messageTemplateDomainService
@@ -123,6 +138,15 @@ public class MessageTemplateApplicationServiceImpl implements MessageTemplateApp
         messageTemplateGroupOptional.ifPresent(
                 messageTemplateGroup -> messageTemplateDetailsVo.setMessageTemplateGroupName(messageTemplateGroup.getMessageTemplateGroupName())
         );
+
+        if (CollectionUtils.isNotEmpty(messageTemplateDetailsVo.getActions())) {
+            messageTemplateDetailsVo.getActions().forEach(action -> {
+                if (StringUtils.isNotBlank(action.getMacroCode())) {
+                    Optional<Macro> macroOptional = this.macroExecutor.getMacro(action.getMacroCode());
+                    macroOptional.ifPresent(macro -> action.setMacro(MacroVo.of(macro)));
+                }
+            });
+        }
 
         if (withVars) {
             List<VarNode> nodes = VariableExtractorHelper.extract(messageTemplateDetailsVo);

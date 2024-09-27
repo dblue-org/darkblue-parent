@@ -16,9 +16,12 @@
 package org.dblue.application.module.messagetemplate.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplate;
+import org.dblue.common.id.Snowflake;
 
 /**
  * @author Wang Chengwei
@@ -32,18 +35,21 @@ public class MessageTemplateAddDto extends BaseMessageTemplateDto {
     /**
      * 消息模板组ID
      */
+    @NotBlank(message = "消息模板组ID不能为空")
     @Schema(description = "消息模板组ID")
     private String messageTemplateGroupId;
 
     /**
      * 消息模板类型（1-通知；2-待办）
      */
+    @NotNull(message = "消息模板类型不能为空")
     @Schema(description = "消息模板类型（1-通知；2-待办）")
     private Integer messageTemplateType;
 
 
     public MessageTemplate asEntity() {
         MessageTemplate messageTemplate = new MessageTemplate();
+        messageTemplate.setMessageTemplateId(Snowflake.stringId());
         messageTemplate.setMessageTemplateGroupId(this.getMessageTemplateGroupId());
         messageTemplate.setMessageTemplateType(this.getMessageTemplateType());
         this.setBaseInfo(messageTemplate);

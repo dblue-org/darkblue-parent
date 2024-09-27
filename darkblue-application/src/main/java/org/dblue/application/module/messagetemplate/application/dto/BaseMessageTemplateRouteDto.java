@@ -16,6 +16,8 @@
 package org.dblue.application.module.messagetemplate.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -31,12 +33,14 @@ public class BaseMessageTemplateRouteDto {
     /**
      * 路由类型(1-PC;2-Android;3-IOS;4-小程序;5-H5)
      */
+    @NotNull(message = "路由类型不能为空")
     @Schema(description = "路由类型(1-PC;2-Android;3-IOS;4-小程序;5-H5)")
     private Integer routerType;
 
     /**
      * 路由地址
      */
+    @NotBlank(message = "路由地址不能为空")
     @Schema(description = "路由地址")
     private String routerLink;
 }

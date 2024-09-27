@@ -16,8 +16,10 @@
 package org.dblue.application.module.messagetemplate.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateTag;
+import org.dblue.common.id.Snowflake;
 
 /**
  * 标签配置
@@ -32,17 +34,22 @@ public class MessageTemplateTagDto {
     /**
      * 标签名称
      */
+    @NotBlank(message = "标签名称不能为空")
     @Schema(description = "标签名称")
     private String tagName;
 
     /**
      * 显示条件
      */
+    @NotBlank(message = "显示条件不能为空")
     @Schema(description = "显示条件")
     private String showConditional;
+    private String messageTemplateId;
 
-    public MessageTemplateTag asEntity() {
+    public MessageTemplateTag asEntity(String messageTemplateId) {
         MessageTemplateTag messageTemplateTag = new MessageTemplateTag();
+        messageTemplateTag.setMessageTemplateTagId(Snowflake.stringId());
+        messageTemplateTag.setMessageTemplateId(messageTemplateId);
         messageTemplateTag.setTagName(this.getTagName());
         messageTemplateTag.setShowConditional(this.getShowConditional());
         return messageTemplateTag;

@@ -17,6 +17,7 @@ package org.dblue.application.module.messagetemplate.application.vo.sub;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.dblue.application.module.messagetemplate.application.vo.MacroVo;
 import org.dblue.application.module.messagetemplate.domain.enums.ActionTypes;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.MessageTemplateAction;
 import org.springframework.beans.BeanUtils;
@@ -82,6 +83,12 @@ public class MessageTemplateActionVo {
      */
     @Schema(description = "操作跳转链接配置")
     private List<MessageTemplateActionRouteVo> routers;
+
+    /**
+     * 宏信息
+     */
+    @Schema(description = "宏信息")
+    private MacroVo macro;
 
     public static MessageTemplateActionVo of(MessageTemplateAction messageTemplateAction) {
         MessageTemplateActionVo messageTemplateActionVo = new MessageTemplateActionVo();

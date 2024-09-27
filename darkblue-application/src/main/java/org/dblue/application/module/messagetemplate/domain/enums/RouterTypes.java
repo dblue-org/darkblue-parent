@@ -21,6 +21,7 @@ import org.dblue.common.enums.EnumType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 路由类型(1-PC;2-Android;3-IOS;4-小程序;5-H5)
@@ -43,6 +44,15 @@ public enum RouterTypes implements EnumType {
     RouterTypes(int value, String name) {
         this.value = value;
         this.name = name;
+    }
+
+    public static String getName(Integer value) {
+        for (RouterTypes type : RouterTypes.values()) {
+            if (Objects.equals(type.getValue(), value)) {
+                return type.getName();
+            }
+        }
+        return null;
     }
 
     public static List<EnumValue> all() {

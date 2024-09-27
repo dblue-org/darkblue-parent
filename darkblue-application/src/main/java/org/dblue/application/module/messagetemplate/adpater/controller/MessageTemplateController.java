@@ -17,13 +17,20 @@ package org.dblue.application.module.messagetemplate.adpater.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dblue.application.commons.EnumValue;
+import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateAddDto;
+import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateQueryDto;
+import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateUpdateDto;
+import org.dblue.application.module.messagetemplate.application.service.MessageTemplateApplicationService;
+import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateDetailsVo;
+import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateListVo;
 import org.dblue.application.module.messagetemplate.domain.enums.RouterTypes;
+import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +46,8 @@ import java.util.List;
 @RestController
 public class MessageTemplateController {
 
+    private final MessageTemplateApplicationService messageTemplateApplicationService;
+
 
     /**
      * 获取所有路由类型
@@ -51,5 +60,70 @@ public class MessageTemplateController {
         return ResponseBean.success(RouterTypes.all());
     }
 
+
+    /**
+     * 添加消息模板
+     *
+     * @param addDto 消息模板数据
+     */
+    @Operation(summary = "添加消息模板")
+    @PostMapping("/add")
+    public ResponseBean<Void> add(@RequestBody @Valid MessageTemplateAddDto addDto) {
+        this.messageTemplateApplicationService.add(addDto);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 更新消息模板
+     *
+     * @param updateDto 消息模板数据
+     */
+    @Operation(summary = "更新消息模板")
+    @PutMapping("/update")
+    public ResponseBean<Void> update(@RequestBody @Valid MessageTemplateUpdateDto updateDto) {
+        this.messageTemplateApplicationService.update(updateDto);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 删除消息模板
+     *
+     * @param messageTemplateId 消息模板ID
+     */
+    @Operation(summary = "删除消息模板")
+    @DeleteMapping("/delete/{messageTemplateId}")
+    public ResponseBean<Void> delete(@PathVariable String messageTemplateId) {
+        this.messageTemplateApplicationService.delete(messageTemplateId);
+        return ResponseBean.success();
+    }
+
+    /**
+     * 分页查询消息模板
+     *
+     * @param queryDto 消息模板查询条件
+     * @return 消息模板列表
+     */
+    @Operation(summary = "分页查询消息模板")
+    @GetMapping("/findByPage")
+    public PageResponseBean<MessageTemplateListVo> findByPage(MessageTemplateQueryDto queryDto) {
+        Page<MessageTemplateListVo> voPage = this.messageTemplateApplicationService.findByPage(queryDto);
+        return PageResponseBean.success(voPage);
+    }
+
+    /**
+     * 获取消息模板详情
+     *
+     * @param messageTemplateId 消息模板ID
+     * @param withVars          是否包含变量信息
+     * @return 消息模板详情
+     */
+    @Operation(summary = "获取消息模板详情")
+    @GetMapping("/getDetails/{messageTemplateId}")
+    public ResponseBean<MessageTemplateDetailsVo> getDetails(
+            @PathVariable String messageTemplateId,
+            @RequestParam(required = false, defaultValue = "false") boolean withVars) {
+        MessageTemplateDetailsVo vo = this.messageTemplateApplicationService.getDetails(messageTemplateId, withVars);
+        return ResponseBean.success(vo);
+    }
 
 }

@@ -24,10 +24,7 @@ import org.dblue.application.module.messagetemplate.infrastructure.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -186,9 +183,15 @@ public class MessageTemplateQueryImpl extends AbstractBaseJpaQuery<MessageTempla
             actionMap = this.getActions(messageTemplateIdSet);
         }
         for (MessageTemplate messageTemplate : messageTemplates) {
-            messageTemplate.setRoutes(routeMap.get(messageTemplate.getMessageTemplateId()));
-            messageTemplate.setTags(tagMap.get(messageTemplate.getMessageTemplateId()));
-            messageTemplate.setActions(actionMap.get(messageTemplate.getMessageTemplateId()));
+            if (routeMap.get(messageTemplate.getMessageTemplateId()) != null) {
+                messageTemplate.setRoutes(new ArrayList<>(routeMap.get(messageTemplate.getMessageTemplateId())));
+            }
+            if (tagMap.get(messageTemplate.getMessageTemplateId()) != null) {
+                messageTemplate.setTags(new ArrayList<>(tagMap.get(messageTemplate.getMessageTemplateId())));
+            }
+            if (actionMap.get(messageTemplate.getMessageTemplateId()) != null) {
+                messageTemplate.setActions(new ArrayList<>(actionMap.get(messageTemplate.getMessageTemplateId())));
+            }
         }
     }
 
