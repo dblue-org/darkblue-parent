@@ -13,11 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.notification.domain;
 
-package org.dblue.application.module.notification.infrastructure.repository;
-
-import org.dblue.application.jpa.BaseJpaRepository;
 import org.dblue.application.module.notification.infrastructure.entity.Notification;
+import org.dblue.application.module.notification.infrastructure.query.NotificationQuery;
 
-public interface NotificationRepository extends BaseJpaRepository<Notification, String> {
+/**
+ * 通知业务
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+public interface NotificationService {
+
+    /**
+     * 保存通知信息
+     *
+     * @param notification 通知信息
+     */
+    void addNotification(Notification notification);
+
+    /**
+     * 标记为已读
+     *
+     * @param notificationId 通知ID
+     */
+    void markRead(String notificationId);
+
+    /**
+     * 查询
+     *
+     * @return 创建查询
+     */
+    NotificationQuery createQuery();
 }

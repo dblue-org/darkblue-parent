@@ -38,7 +38,7 @@ public class MessageTemplateGroupQueryImpl extends AbstractBaseJpaQuery<MessageT
 
     @Override
     public MessageTemplateGroupQuery messageTemplateGroupName(String messageTemplateGroupName) {
-        if (messageTemplateGroupName != null) {
+        if (StringUtils.isNotBlank(messageTemplateGroupName)) {
             this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupName.eq(messageTemplateGroupName));
         }
         return this;
@@ -54,7 +54,7 @@ public class MessageTemplateGroupQueryImpl extends AbstractBaseJpaQuery<MessageT
 
     @Override
     public MessageTemplateGroupQuery messageTemplateGroupNameLike(String messageTemplateGroupName) {
-        if (messageTemplateGroupName != null) {
+        if (StringUtils.isNotBlank(messageTemplateGroupName)) {
             this.queryBuilder.and(QMessageTemplateGroup.messageTemplateGroup.messageTemplateGroupName.contains(messageTemplateGroupName));
         }
         return this;

@@ -21,11 +21,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.dblue.application.jpa.AbstractAuditingEntity;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +37,7 @@ import java.util.Map;
 @Setter
 @Entity
 @Table(name = "tb_sys_notification")
-public class Notification {
+public class Notification extends AbstractAuditingEntity {
     /**
      * 通知消息ID
      */
@@ -136,29 +138,9 @@ public class Notification {
     private Map<String, Object> serviceData;
 
     /**
-     * 创建时间
+     * 路由
      */
-    @Column(name = "create_time")
-    private Instant createTime;
-
-    /**
-     * 创建人
-     */
-    @Size(max = 32)
-    @Column(name = "create_user", length = 32)
-    private String createUser;
-
-    /**
-     * 更新时间
-     */
-    @Column(name = "update_time")
-    private Instant updateTime;
-
-    /**
-     * 更新人
-     */
-    @Size(max = 32)
-    @Column(name = "update_user", length = 32)
-    private String updateUser;
-
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "notification_id")
+    private List<NotificationRoute> routers;
 }

@@ -13,11 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.dblue.application.module.notification.domain.impl;
 
-package org.dblue.application.module.notification.infrastructure.repository;
-
-import org.dblue.application.jpa.BaseJpaRepository;
+import org.dblue.application.module.notification.domain.NotificationService;
 import org.dblue.application.module.notification.infrastructure.entity.Notification;
+import org.dblue.application.module.notification.infrastructure.query.NotificationQuery;
 
-public interface NotificationRepository extends BaseJpaRepository<Notification, String> {
+/**
+ * TODO
+ *
+ * @author Wang Chengwei
+ * @since 1.0.0
+ */
+public class NotificationServiceImpl implements NotificationService {
+    @Override
+    public void addNotification(Notification notification) {
+
+    }
+
+    @Override
+    public void markRead(String notificationId) {
+
+    }
+
+    @Override
+    public NotificationQuery createQuery() {
+        return null;
+    }
 }

@@ -16,6 +16,7 @@
 package org.dblue.application.module.messagetemplate.infrastructure.query.impl;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dblue.application.commons.db.jpa.AbstractBaseJpaQuery;
 import org.dblue.application.module.messagetemplate.domain.enums.ActionTypes;
 import org.dblue.application.module.messagetemplate.infrastructure.entity.*;
@@ -54,9 +55,7 @@ public class MessageTemplateQueryImpl extends AbstractBaseJpaQuery<MessageTempla
 
     @Override
     public MessageTemplateQuery messageTemplateId(String messageTemplateId) {
-        if (messageTemplateId != null) {
-            this.queryBuilder.and(QMessageTemplate.messageTemplate.messageTemplateId.eq(messageTemplateId));
-        }
+        this.queryBuilder.and(QMessageTemplate.messageTemplate.messageTemplateId.eq(messageTemplateId));
         return this;
     }
 
@@ -70,7 +69,7 @@ public class MessageTemplateQueryImpl extends AbstractBaseJpaQuery<MessageTempla
 
     @Override
     public MessageTemplateQuery messageTemplateGroupId(String messageTemplateGroupId) {
-        if (messageTemplateGroupId != null) {
+        if (StringUtils.isNotBlank(messageTemplateGroupId)) {
             this.queryBuilder.and(QMessageTemplate.messageTemplate.messageTemplateGroupId.eq(messageTemplateGroupId));
         }
         return this;
@@ -78,7 +77,7 @@ public class MessageTemplateQueryImpl extends AbstractBaseJpaQuery<MessageTempla
 
     @Override
     public MessageTemplateQuery messageTemplateCodeLike(String messageTemplateCode) {
-        if (messageTemplateCode != null) {
+        if (StringUtils.isNotBlank(messageTemplateCode)) {
             this.queryBuilder.and(QMessageTemplate.messageTemplate.messageTemplateCode.contains(messageTemplateCode));
         }
         return this;
@@ -86,7 +85,7 @@ public class MessageTemplateQueryImpl extends AbstractBaseJpaQuery<MessageTempla
 
     @Override
     public MessageTemplateQuery messageTemplateCode(String messageTemplateCode) {
-        if (messageTemplateCode != null) {
+        if (StringUtils.isNotBlank(messageTemplateCode)) {
             this.queryBuilder.and(QMessageTemplate.messageTemplate.messageTemplateCode.eq(messageTemplateCode));
         }
         return this;
@@ -94,7 +93,7 @@ public class MessageTemplateQueryImpl extends AbstractBaseJpaQuery<MessageTempla
 
     @Override
     public MessageTemplateQuery messageTemplateNameLike(String messageTemplateName) {
-        if (messageTemplateName != null) {
+        if (StringUtils.isNotBlank(messageTemplateName)) {
             this.queryBuilder.and(QMessageTemplate.messageTemplate.messageTemplateName.contains(messageTemplateName));
         }
         return this;
@@ -102,7 +101,7 @@ public class MessageTemplateQueryImpl extends AbstractBaseJpaQuery<MessageTempla
 
     @Override
     public MessageTemplateQuery messageTemplateName(String messageTemplateName) {
-        if (messageTemplateName != null) {
+        if (StringUtils.isNotBlank(messageTemplateName)) {
             this.queryBuilder.and(QMessageTemplate.messageTemplate.messageTemplateName.eq(messageTemplateName));
         }
         return this;
