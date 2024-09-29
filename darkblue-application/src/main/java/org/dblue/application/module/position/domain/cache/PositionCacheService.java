@@ -18,9 +18,8 @@ package org.dblue.application.module.position.domain.cache;
 import org.dblue.application.module.position.infrastructure.entity.Position;
 import org.dblue.core.caching.CachingService;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 职位缓存处理业务
@@ -47,4 +46,17 @@ public interface PositionCacheService extends CachingService<Position, PositionC
      */
     @SuppressWarnings("unused")
     List<PositionCacheObject> getByPositionCode(Collection<String> positionCodes);
+
+    default Map<String, String> nameMap(Set<String> positionIdSet) {
+        List<PositionCacheObject> positions = this.getAllById(positionIdSet);
+        return positions.stream().collect(Collectors.toMap(PositionCacheObject::getPositionId, PositionCacheObject::getPositionName));
+    }
+
+    /**
+     * 批量获取职位信息
+     *
+     * @param ids 职位ID列表
+     * @return 职位列表
+     */
+    List<PositionCacheObject> getAllById(Collection<String> ids);
 }

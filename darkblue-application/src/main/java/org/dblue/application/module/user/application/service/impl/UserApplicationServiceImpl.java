@@ -20,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.commons.menu.MenuTreeUtils;
+import org.dblue.application.module.department.domain.cache.DepartmentCacheService;
 import org.dblue.application.module.department.domain.service.DepartmentDomainQueryService;
-import org.dblue.application.module.department.infrastructure.entity.Department;
 import org.dblue.application.module.menu.domain.service.MenuDomainQueryService;
 import org.dblue.application.module.menu.infrastructure.entity.Menu;
 import org.dblue.application.module.permission.domain.service.PermissionDomainQueryService;
 import org.dblue.application.module.permission.infrastructure.entiry.Permission;
+import org.dblue.application.module.position.domain.cache.PositionCacheService;
 import org.dblue.application.module.position.domain.service.PositionDomainService;
-import org.dblue.application.module.position.infrastructure.entity.Position;
 import org.dblue.application.module.role.application.vo.SimpleRoleVo;
 import org.dblue.application.module.role.domain.service.RoleDomainQueryService;
 import org.dblue.application.module.role.infrastructure.entiry.Role;
@@ -84,6 +84,8 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     private final UserGroupDomainService userGroupDomainService;
     private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     private final PropertySettingCacheService propertySettingCacheService;
+    private final DepartmentCacheService departmentCacheService;
+    private final PositionCacheService positionCacheService;
 
 
     /**
@@ -99,17 +101,18 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         if (page.isEmpty()) {
             return Page.empty();
         }
+
+        Set<String> deptIdSet = page.stream().map(User::getDeptId).collect(Collectors.toSet());
+        Set<String> positionIdSet = page.stream().map(User::getPositionId).filter(Objects::nonNull).collect(Collectors.toSet());
+        Map<String, String> deptMap = this.departmentCacheService.nameMap(deptIdSet);
+        Map<String, String> positionMap = this.positionCacheService.nameMap(positionIdSet);
+
         return page.map(user -> {
             UserPageVo userPageVo = new UserPageVo();
             BeanUtils.copyProperties(user, userPageVo);
-            Department department = departmentDomainQueryService.getOne(user.getDeptId());
-            if (Objects.nonNull(department)) {
-                userPageVo.setDeptName(department.getDeptName());
-            }
-            Position position = this.positionDomainService.getOne(user.getPositionId());
-            if (Objects.nonNull(position)) {
-                userPageVo.setPositionName(position.getPositionName());
-            }
+            userPageVo.setDeptName(deptMap.get(user.getDeptId()));
+            userPageVo.setPositionName(positionMap.get(user.getPositionId()));
+
             List<UserRole> userRoleList = user.getRoles();
             if (CollectionUtils.isNotEmpty(userRoleList)) {
                 List<Role> roleList = roleDomainQueryService.getMoreByIds(userRoleList.stream()

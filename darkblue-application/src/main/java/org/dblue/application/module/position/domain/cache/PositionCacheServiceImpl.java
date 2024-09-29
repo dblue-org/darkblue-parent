@@ -16,15 +16,14 @@
 package org.dblue.application.module.position.domain.cache;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.position.infrastructure.entity.Position;
 import org.dblue.application.module.position.infrastructure.repository.PositionRepository;
 import org.dblue.core.caching.AbstractCachingService;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 职位缓存服务
@@ -46,6 +45,15 @@ public class PositionCacheServiceImpl extends AbstractCachingService<Position, P
     @Override
     public List<PositionCacheObject> getByPositionCode(Collection<String> positionCodes) {
         return this.getAll().stream().filter(p -> positionCodes.contains(p.getPositionCode())).toList();
+    }
+
+    @Override
+    public List<PositionCacheObject> getAllById(Collection<String> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return List.of();
+        }
+        Set<String> cacheKeys = ids.stream().map(this::getCacheKey).collect(Collectors.toSet());
+        return this.valueOperations.multiGet(cacheKeys);
     }
 
     @Override
