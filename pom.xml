@@ -202,6 +202,13 @@
         </profile>
 
         <profile>
+            <id>vue</id>
+            <properties>
+                <spring.profile>vue</spring.profile>
+            </properties>
+        </profile>
+
+        <profile>
             <id>local</id>
             <properties>
                 <spring.profile>local</spring.profile>
