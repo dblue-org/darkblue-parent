@@ -67,9 +67,6 @@ public class MessageTemplateDomainServiceImpl implements MessageTemplateDomainSe
             messageTemplate.setMessageTemplateId(Snowflake.stringId());
         }
         this.messageTemplateRepository.save(messageTemplate);
-        /*this.saveRoutes(messageTemplate.getMessageTemplateId(), messageTemplate.getRoutes(), false);
-        this.saveTags(messageTemplate.getMessageTemplateId(), messageTemplate.getTags(), false);
-        this.saveActions(messageTemplate.getMessageTemplateId(), messageTemplate.getActions(), false);*/
         return messageTemplate;
     }
 

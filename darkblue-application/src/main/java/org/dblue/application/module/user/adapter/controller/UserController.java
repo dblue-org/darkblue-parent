@@ -29,7 +29,6 @@ import org.dblue.core.annotation.Platform;
 import org.dblue.core.enums.PlatformEnum;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -109,8 +108,8 @@ public class UserController {
      * @return 用户信息
      */
     @Operation(summary = "用户分页查询", description = "分页查询")
-    @GetMapping("/findByPage")
-    public PageResponseBean<UserPageVo> findByPage(@Validated UserPageDto pageDto) {
+    @PostMapping("/findByPage")
+    public PageResponseBean<UserPageVo> findByPage(@Valid UserPageDto pageDto) {
         return PageResponseBean.success(userApplicationService.page(pageDto));
     }
 

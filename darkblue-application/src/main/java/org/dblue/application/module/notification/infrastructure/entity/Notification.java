@@ -27,6 +27,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -127,7 +128,7 @@ public class Notification extends AbstractAuditingEntity {
      * 读消息时间
      */
     @Column(name = "read_time")
-    private Instant readTime;
+    private LocalDateTime readTime;
 
     /**
      * 业务数据

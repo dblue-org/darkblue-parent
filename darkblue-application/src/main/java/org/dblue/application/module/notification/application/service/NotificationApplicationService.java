@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.notification.domain;
+package org.dblue.application.module.notification.application.service;
 
-import org.dblue.application.module.notification.infrastructure.entity.Notification;
-import org.dblue.application.module.notification.infrastructure.query.NotificationQuery;
+import org.dblue.application.module.notification.application.dto.NotificationQueryDto;
+import org.dblue.application.module.notification.application.vo.NotificationListVo;
+import org.springframework.data.domain.Page;
 
 /**
- * 通知业务
+ * 通知管理
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public interface NotificationService {
+public interface NotificationApplicationService {
 
     /**
-     * 保存通知信息
+     * 分页查询通知消息
      *
-     * @param notification 通知信息
+     * @param queryDto 查询条件
+     * @return 通知消息列表
      */
-    void addNotification(Notification notification);
+    Page<NotificationListVo> findByPage(NotificationQueryDto queryDto);
 
     /**
      * 标记为已读
@@ -41,9 +43,9 @@ public interface NotificationService {
     void markRead(String notificationId);
 
     /**
-     * 查询
+     * 删除通知消息
      *
-     * @return 创建查询
+     * @param notificationId 通知消息ID
      */
-    NotificationQuery createQuery();
+    void deleteById(String notificationId);
 }

@@ -13,31 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.dblue.application.module.notification.domain.impl;
+package org.dblue.application.module.notification.domain;
 
-import org.dblue.application.module.notification.domain.NotificationService;
 import org.dblue.application.module.notification.infrastructure.entity.Notification;
 import org.dblue.application.module.notification.infrastructure.query.NotificationQuery;
 
 /**
- * TODO
+ * 通知业务
  *
  * @author Wang Chengwei
  * @since 1.0.0
  */
-public class NotificationServiceImpl implements NotificationService {
-    @Override
-    public void addNotification(Notification notification) {
+public interface NotificationDomainService {
 
-    }
+    /**
+     * 保存通知信息
+     *
+     * @param notification 通知信息
+     */
+    void addNotification(Notification notification);
 
-    @Override
-    public void markRead(String notificationId) {
+    /**
+     * 标记为已读
+     *
+     * @param notificationId 通知ID
+     */
+    void markRead(String notificationId);
 
-    }
-
-    @Override
-    public NotificationQuery createQuery() {
-        return null;
-    }
+    /**
+     * 查询
+     *
+     * @return 创建查询
+     */
+    NotificationQuery createQuery();
 }
