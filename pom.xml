@@ -107,6 +107,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-bom</artifactId>
+                <type>pom</type>
                 <version>6.3.0</version>
                 <scope>import</scope>
             </dependency>
@@ -224,6 +225,13 @@
             </activation>
             <properties>
                 <spring.profile>dev</spring.profile>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>vue</id>
+            <properties>
+                <spring.profile>vue</spring.profile>
             </properties>
         </profile>
 
