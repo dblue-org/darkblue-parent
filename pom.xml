@@ -76,6 +76,20 @@
         <easyexcel.version>3.3.4</easyexcel.version>
     </properties>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>2523882-snapshot-zyGfMS</id>
+            <name>aliyun-snapshot</name>
+            <url>https://packages.aliyun.com/67ce9e30b10c4deb4e8d2be8/maven/2523882-snapshot-zygfms</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -253,7 +267,7 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
                 <version>0.5.0</version>
@@ -275,7 +289,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
