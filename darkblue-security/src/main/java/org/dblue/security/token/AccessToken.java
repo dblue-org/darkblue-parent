@@ -17,9 +17,8 @@
 package org.dblue.security.token;
 
 import lombok.Data;
+import org.dblue.common.id.RandomUtils;
 
-import java.util.Random;
-import java.util.UUID;
 
 /**
  * 访问Token
@@ -30,7 +29,6 @@ import java.util.UUID;
 @Data
 public class AccessToken {
 
-    private static final Random RANDOM = new Random();
 
     /**
      * Token的值
@@ -55,7 +53,7 @@ public class AccessToken {
      */
     public static AccessToken create(Long ttl) {
         AccessToken accessToken = new AccessToken();
-        accessToken.setTokenValue(UUID.randomUUID().toString().replace("-", ""));
+        accessToken.setTokenValue(RandomUtils.nextLong().toString());
         accessToken.setCreateTime(System.currentTimeMillis());
         accessToken.setExpireTime(accessToken.getCreateTime() + ttl);
         return accessToken;

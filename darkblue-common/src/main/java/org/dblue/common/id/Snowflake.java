@@ -15,10 +15,6 @@
  */
 package org.dblue.common.id;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Random;
-
 /**
  * 雪花ID生成算法
  *
@@ -111,19 +107,12 @@ public class Snowflake {
         long id = nextId();
         return Long.toHexString(id);
     }
-
     private static class DemandHolder {
-        private static final Random RANDOM = new Random();
-
         private static final Snowflake SNOWFLAKE = new Snowflake(randomWorkerId());
-
         private static int randomWorkerId() {
-            try {
-                SecureRandom rand = SecureRandom.getInstance("NativePRNGNonBlocking");
-                return rand.nextInt(MAX_MACHINE_ID - 2) + 1;
-            } catch (NoSuchAlgorithmException e) {
-                return RANDOM.nextInt(MAX_MACHINE_ID - 2);
-            }
+            long workerId = RandomUtils.nextLong();
+            return (int) (workerId % MAX_MACHINE_ID);
+
         }
     }
 }

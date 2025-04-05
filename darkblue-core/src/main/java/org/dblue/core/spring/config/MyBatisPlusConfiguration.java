@@ -53,6 +53,9 @@ public class MyBatisPlusConfiguration {
         if (coreConfigProperties.isAutoSetCreateUpdateInfo()) {
             interceptor.addInnerInterceptor(new AutoSetCreateUpdateInfoInnerInterceptor(userContext));
         }
+        if (coreConfigProperties.isShowMyBatisPlusLogging()) {
+            interceptor.addInnerInterceptor(new MybatisPlusAllSqlLog());
+        }
         return interceptor;
     }
 

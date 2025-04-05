@@ -48,6 +48,8 @@ public class CoreConfigProperties {
      */
     private boolean enableWebConfig = true;
 
+    private boolean showMyBatisPlusLogging = true;
+
     /**
      *
      */
