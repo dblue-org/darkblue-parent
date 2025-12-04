@@ -1,0 +1,62 @@
+version: '1.0'
+name: pipeline-20240724
+displayName: 部署到生产环境
+triggers:
+  trigger: manual
+  push:
+    branches:
+      precise:
+        - master
+stages:
+  - name: stage-08545013
+    displayName: 编译
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@maven
+        name: build_maven
+        displayName: Maven 构建
+        jdkVersion: '21'
+        mavenVersion: 3.9.6
+        commands:
+          - mvn clean package -Pprod -Dmaven.test.skip=true -U -e -X -B
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - ./darkblue-application/target/darkblue-application.jar
+        settings: []
+        caches:
+          - ~/.m2
+        notify: []
+        strategy:
+          retry: '0'
+  - name: stage-f4d8954f
+    displayName: 部署
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: deploy@agent
+        name: deploy_agent
+        displayName: 主机部署
+        hostGroupID:
+          ID: 62.234.145.197
+          hostID:
+            - 75a5d186-7c7b-494c-940a-68bfb18504b7
+        deployArtifact:
+          - source: build
+            name: darkblue-application
+            target: /opt/spring-boot/deploy/darkblue
+            dependArtifact: BUILD_ARTIFACT
+        script:
+          - '# 功能：部署脚本会在部署主机组的每台机器上执行'
+          - /sbin/service darkblue-application stop
+          - rm -f /opt/spring-boot/artifact/*
+          - tar -zxvf /opt/spring-boot/deploy/darkblue/darkblue-application.tar.gz -C /opt/spring-boot/artifact/
+          - rm -f /opt/spring-boot/darkblue/darkblue-application.jar
+          - cp -f /opt/spring-boot/artifact/darkblue-application.jar /opt/spring-boot/darkblue/
+          - /sbin/service darkblue-application start
+        notify: []
+        strategy:
+          retry: '0'
