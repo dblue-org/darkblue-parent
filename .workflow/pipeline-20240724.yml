@@ -6,7 +6,7 @@ triggers:
   push:
     branches:
       precise:
-        - master
+        - feature/2.0.0
 stages:
   - name: stage-08545013
     displayName: 编译
