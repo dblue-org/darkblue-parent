@@ -19,10 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.dblue.application.module.department.infrastructure.entity.Department;
 import org.dblue.core.caching.CachingService;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +31,7 @@ public interface DepartmentCacheService extends CachingService<Department, Depar
 
     default Map<String, String> nameMap(Collection<String> ids) {
         List<DepartmentCacheObject> departmentCacheObjects = this.getAllById(ids);
+        departmentCacheObjects = departmentCacheObjects.stream().filter(Objects::nonNull).toList();
         if (CollectionUtils.isEmpty(departmentCacheObjects)) {
             return Collections.emptyMap();
         }
