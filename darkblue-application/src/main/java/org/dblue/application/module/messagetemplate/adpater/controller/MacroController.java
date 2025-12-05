@@ -24,6 +24,7 @@ import org.dblue.application.macro.MacroParameter;
 import org.dblue.application.module.messagetemplate.application.dto.MacroExecuteDto;
 import org.dblue.application.module.messagetemplate.application.service.MacroApplicationService;
 import org.dblue.application.module.messagetemplate.application.vo.MacroVo;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ import java.util.Map;
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@Platform
 @RequiredArgsConstructor
 @Tag(name = "消息模板-宏处理")
 @RequestMapping("/api/message-template/macro")

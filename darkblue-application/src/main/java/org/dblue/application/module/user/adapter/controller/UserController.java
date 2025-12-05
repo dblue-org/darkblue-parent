@@ -108,7 +108,7 @@ public class UserController {
      * @return 用户信息
      */
     @Operation(summary = "用户分页查询", description = "分页查询")
-    @PostMapping("/findByPage")
+    @GetMapping("/findByPage")
     public PageResponseBean<UserPageVo> findByPage(@Valid UserPageDto pageDto) {
         return PageResponseBean.success(userApplicationService.page(pageDto));
     }

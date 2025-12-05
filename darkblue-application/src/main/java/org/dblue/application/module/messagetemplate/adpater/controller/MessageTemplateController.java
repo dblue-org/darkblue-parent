@@ -27,6 +27,7 @@ import org.dblue.application.module.messagetemplate.application.service.MessageT
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateDetailsVo;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateListVo;
 import org.dblue.application.module.messagetemplate.domain.enums.RouterTypes;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.PageResponseBean;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,7 @@ import java.util.List;
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@Platform
 @RequiredArgsConstructor
 @Tag(name = "消息模板")
 @RequestMapping("/api/message-template")

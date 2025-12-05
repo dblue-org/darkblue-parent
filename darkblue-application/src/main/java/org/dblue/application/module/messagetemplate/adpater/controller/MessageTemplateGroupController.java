@@ -23,6 +23,7 @@ import org.dblue.application.module.messagetemplate.application.dto.MessageTempl
 import org.dblue.application.module.messagetemplate.application.dto.MessageTemplateGroupUpdateDto;
 import org.dblue.application.module.messagetemplate.application.service.MessageTemplateGroupApplicationService;
 import org.dblue.application.module.messagetemplate.application.vo.MessageTemplateGroupVo;
+import org.dblue.core.annotation.Platform;
 import org.dblue.core.web.result.ResponseBean;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,7 @@ import java.util.List;
  * @author Wang Chengwei
  * @since 1.0.0
  */
+@Platform
 @RequiredArgsConstructor
 @Tag(name = "消息模板组")
 @RequestMapping("/api/message-template-group")
