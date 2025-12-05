@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://192.168.7.133:3306/darkblue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-    username: root
-    password: 123456
+    url: jdbc:mysql://rm-2zehb0t8iyrwg4y25oo.mysql.rds.aliyuncs.com:3306/darkblue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: darkblue
+    password: DarkBlue@20241204
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -16,9 +16,9 @@ spring:
 
   data:
     redis:
-      host: 192.168.7.133
+      host: r-2zev2togtiv1qm37u8pd.redis.rds.aliyuncs.com
       port: 6379
-      password: 123456
+      password: King@785615
       database: 15
       lettuce:
         pool:
